@@ -35,7 +35,7 @@ public class TestGame extends Scene{
         MapInformation.getInstance().setMapInfo(this.background);
         tracker = new Tracker((cameraWidth-MAP_UNIT)/2, (cameraHeight-MAP_UNIT)/2, 8);
         // speed 必須是camera 長寬的公因數
-        tracker_movement = TRACKER_MOVEMENT.DOWN_ROLLING;
+        tracker_movement = TRACKER_MOVEMENT.TOUCH_CAMERA;
 
         camera = new Camera.Builder(cameraWidth,cameraHeight)
                 .setChaseObj(tracker)
