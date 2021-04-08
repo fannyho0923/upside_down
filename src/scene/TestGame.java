@@ -14,7 +14,7 @@ import utils.Global;
 
 public class TestGame extends Scene{
     private Background background;
-    private ActorV actor;
+    private Actor actor;
     private ArrayList<GameObject> gameObjects;
 
     private Camera camera;
@@ -28,7 +28,7 @@ public class TestGame extends Scene{
     public void sceneBegin() {
         gameObjects = new ArrayList<>();
         mapInit(gameObjects); // load map information
-        actor = new ActorV(160,320);
+        actor = new Actor(160,300);
         background = new Background();
 
         int cameraWidth = 640;
@@ -62,18 +62,12 @@ public class TestGame extends Scene{
             public void keyPressed(int commandCode, long trigTime) {
                 switch(commandCode){
                     case Global.VK_LEFT:
-                        actor.walkLeft();
+                        //actor.velocity().setX(-actor.WALK_SPEED);
+                        actor.leftSpeedUp(true);
                         break;
                     case Global.VK_RIGHT:
-                        actor.walkRight();
-                        break;
-                    case 4:
-//                        if (actor.isReverse()){
-//                            actor.fall();
-//                            actor.setReverse(false);
-//                        }
-//                        actor.fallReverse();
-//                        actor.setReverse(true);
+                        //actor.velocity().setX(actor.WALK_SPEED);
+                        actor.rightSpeedUp(true);
                         break;
                 }
             }
@@ -82,17 +76,18 @@ public class TestGame extends Scene{
             public void keyReleased(int commandCode, long trigTime) {
                 switch (commandCode){
                     case Global.VK_LEFT:
-                        actor.walkStop();
+                        actor.leftSpeedUp(false);
+                        actor.velocity().stopX();
                         break;
                     case Global.VK_RIGHT:
-                        actor.walkStop();
+                        actor.rightSpeedUp(false);
+                        actor.velocity().stopX();
                         break;
-
                     case Global.VK_SPACE:
-                        actor.reverse();
-
+                        actor.velocity().gravityReverse();
                 }
             }
+
             @Override
             public void keyTyped(char c, long trigTime) {
             }
@@ -116,9 +111,8 @@ public class TestGame extends Scene{
             this.actor.paint(g);
         }
 
-        gameObjects.forEach(a->
-        {
-            if(camera.isCollision(a)){
+        gameObjects.forEach(a-> {
+            if(camera.isCollision(a)) {
                 a.paint(g);
             }
         });
@@ -135,18 +129,18 @@ public class TestGame extends Scene{
             GameObject obj = gameObjects.get(i);
             if(actor.isCollision(obj)) {
                 actor.preMove();
-                actor.fall();
+
+                actor.moveY();
                 if(actor.isCollision(obj)){
-                    if(actor.dy() < 0){
+                    if(actor.velocity().y() < 0){
                         actor.setY(obj.collider().bottom() +1);
-                        actor.zeroDy();
+                        actor.velocity().stopY();
                     }
-                    else if (actor.dy() > 0){
-//                        actor.resetJumpState();
-                        actor.setY(obj.collider().top() - actor.painter().height()-1);
-                        actor.zeroDy();
+                    else if (actor.velocity().y() > 0){
+                        actor.setY(obj.collider().top() - actor.painter().height() -1);
+                        actor.velocity().stopY();
                     }
-                    actor.walk();
+                    actor.moveX();
                 }
             }
         }
