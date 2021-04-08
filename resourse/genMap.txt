@@ -1,0 +1,6 @@
+Tile_02,-3342337,/Users/liyidiao/IdeaProjects/map_test/resources/B/1 Tiles/Tile_02.png,1,1
+Tile_12,-3355393,/Users/liyidiao/IdeaProjects/map_test/resources/B/1 Tiles/Tile_12.png,1,1
+Tile_01,-13057,/Users/liyidiao/IdeaProjects/map_test/resources/B/1 Tiles/Tile_01.png,1,1
+Tile_03,-52,/Users/liyidiao/IdeaProjects/map_test/resources/B/1 Tiles/Tile_03.png,1,1
+Tree_01,-6684775,/Users/liyidiao/IdeaProjects/map_test/resources/B/3 Objects/Trees/1.png,1,2
+Test_01,-16711732,/Users/liyidiao/IdeaProjects/B/tileset1-2.png,1,1
