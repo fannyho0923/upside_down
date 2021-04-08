@@ -117,7 +117,6 @@ public abstract class GameObject implements GameKernel.UpdateInterface, GameKern
         return this.collider.bottom() >= MapInformation.getInstance().bottom();
     }
 
-
     public static class Rect {
         private final int width;
         private final int height;

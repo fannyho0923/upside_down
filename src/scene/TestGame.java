@@ -10,6 +10,8 @@ import java.awt.*;
 import java.io.IOException;
 import java.util.ArrayList;
 
+import utils.Global;
+
 public class TestGame extends Scene{
     private Background background;
     private Actor actor;
@@ -35,7 +37,7 @@ public class TestGame extends Scene{
         MapInformation.getInstance().setMapInfo(this.background);
         tracker = new Tracker((cameraWidth-MAP_UNIT)/2, (cameraHeight-MAP_UNIT)/2, 8);
         // speed 必須是camera 長寬的公因數
-        tracker_movement = TRACKER_MOVEMENT.DOWN_ROLLING;
+        tracker_movement = TRACKER_MOVEMENT.TOUCH_CAMERA;
 
         camera = new Camera.Builder(cameraWidth,cameraHeight)
                 .setChaseObj(tracker)
@@ -59,10 +61,10 @@ public class TestGame extends Scene{
             @Override
             public void keyPressed(int commandCode, long trigTime) {
                 switch(commandCode){
-                    case 2:
+                    case Global.VK_LEFT:
                         actor.walkLeft();
                         break;
-                    case 3:
+                    case Global.VK_RIGHT:
                         actor.walkRight();
                         break;
                 }
@@ -71,13 +73,13 @@ public class TestGame extends Scene{
             @Override
             public void keyReleased(int commandCode, long trigTime) {
                 switch (commandCode){
-                    case 2: // left
+                    case Global.VK_LEFT:
                         actor.walkStop();
                         break;
-                    case 3: //right
+                    case Global.VK_RIGHT:
                         actor.walkStop();
                         break;
-                    case 4:
+                    case Global.VK_SPACE:
                         actor.jump();
                         break;
                 }
