@@ -12,7 +12,7 @@ import java.util.ArrayList;
 
 public class TestGame extends Scene{
     private Background background;
-    private Actor actor;
+    private ActorV actor;
     private ArrayList<GameObject> gameObjects;
 
     private Camera camera;
@@ -26,14 +26,14 @@ public class TestGame extends Scene{
     public void sceneBegin() {
         gameObjects = new ArrayList<>();
         mapInit(gameObjects); // load map information
-        actor = new Actor(160,320);
+        actor = new ActorV(160,320);
         background = new Background();
 
         int cameraWidth = 640;
         int cameraHeight = 640;
 
         MapInformation.getInstance().setMapInfo(this.background);
-        tracker = new Tracker((cameraWidth-MAP_UNIT)/2, (cameraHeight-MAP_UNIT)/2, 8);
+        tracker = new Tracker((cameraWidth-MAP_UNIT)/2, (cameraHeight-MAP_UNIT)/2, 64);
         // speed 必須是camera 長寬的公因數
         tracker_movement = TRACKER_MOVEMENT.TOUCH_CAMERA;
 
@@ -65,6 +65,14 @@ public class TestGame extends Scene{
                     case 3:
                         actor.walkRight();
                         break;
+                    case 4:
+//                        if (actor.isReverse()){
+//                            actor.fall();
+//                            actor.setReverse(false);
+//                        }
+//                        actor.fallReverse();
+//                        actor.setReverse(true);
+                        break;
                 }
             }
 
@@ -78,8 +86,7 @@ public class TestGame extends Scene{
                         actor.walkStop();
                         break;
                     case 4:
-                        actor.jump();
-                        break;
+                        actor.reverse();
                 }
             }
             @Override
@@ -127,11 +134,11 @@ public class TestGame extends Scene{
                 actor.fall();
                 if(actor.isCollision(obj)){
                     if(actor.dy() < 0){
-                        actor.setY(obj.collider().bottom());
+                        actor.setY(obj.collider().bottom() +1);
                         actor.zeroDy();
                     }
                     else if (actor.dy() > 0){
-                        actor.resetJumpState();
+//                        actor.resetJumpState();
                         actor.setY(obj.collider().top() - actor.painter().height()-1);
                         actor.zeroDy();
                     }
