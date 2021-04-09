@@ -194,7 +194,7 @@ public class TestGame extends Scene {
 
         try {
 
-            final MapLoader mapLoader = new MapLoader("/map/basicMap.bmp", "/map/basicMap.txt");
+            final MapLoader mapLoader = new MapLoader("/map/testMap.bmp", "/map/testMap.txt");
 
             final ArrayList<MapInfo> mapInfoArr = mapLoader.combineInfo();
 
