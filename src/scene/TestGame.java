@@ -142,6 +142,17 @@ public class TestGame extends Scene{
                     }
                     actor.moveX();
                 }
+//              地板的頂點碰撞, 會壞掉! 未解決
+//                else {
+//                    actor.moveX();
+//                    if (actor.velocity().x() < 0) { //left
+//                        actor.setX(obj.collider().right() + 1);
+//                        actor.velocity().stopX();
+//                    } else if (actor.velocity().x() > 0) {
+//                        actor.setX(obj.collider().left() - 1 - actor.painter().width());
+//                        actor.velocity().stopX();
+//                    }
+//                }
             }
         }
 
