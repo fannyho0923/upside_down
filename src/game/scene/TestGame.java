@@ -33,15 +33,23 @@ public class TestGame extends Scene{
     public void sceneBegin() {
         gameObjects = new ArrayList<>();
         mapInit(gameObjects); // load map information
+<<<<<<< HEAD:src/game/scene/TestGame.java
         actor = new Actor(160, 320);//160,320
 
+=======
+        actor = new Actor(160,300);
+>>>>>>> f4e2aeba31603864ab9d146642e1bd52bac8f499:src/scene/TestGame.java
         background = new Background();
 
         int cameraWidth = 960;//640
         int cameraHeight = 640;
 
         MapInformation.getInstance().setMapInfo(this.background);
+<<<<<<< HEAD:src/game/scene/TestGame.java
         tracker = new Tracker((cameraWidth - MAP_UNIT) / 2, (cameraHeight - MAP_UNIT) / 2, 8);
+=======
+        tracker = new Tracker((cameraWidth-MAP_UNIT)/2, (cameraHeight-MAP_UNIT)/2, 64);
+>>>>>>> f4e2aeba31603864ab9d146642e1bd52bac8f499:src/scene/TestGame.java
         // speed 必須是camera 長寬的公因數
         tracker_movement = TRACKER_MOVEMENT.TOUCH_CAMERA;
 
@@ -72,11 +80,17 @@ public class TestGame extends Scene{
 =======
                 switch(commandCode){
                     case Global.VK_LEFT:
+<<<<<<< HEAD:src/game/scene/TestGame.java
 >>>>>>> 67f0f1c3d2778b1663c66bcaa19ef5ee271f7ecf:src/scene/TestGame.java
                         actor.walkLeft();
+=======
+                        //actor.velocity().setX(-actor.WALK_SPEED);
+                        actor.leftSpeedUp(true);
+>>>>>>> f4e2aeba31603864ab9d146642e1bd52bac8f499:src/scene/TestGame.java
                         break;
                     case Global.VK_RIGHT:
-                        actor.walkRight();
+                        //actor.velocity().setX(actor.WALK_SPEED);
+                        actor.rightSpeedUp(true);
                         break;
                 }
             }
@@ -89,15 +103,20 @@ public class TestGame extends Scene{
 =======
                 switch (commandCode){
                     case Global.VK_LEFT:
+<<<<<<< HEAD:src/game/scene/TestGame.java
 >>>>>>> 67f0f1c3d2778b1663c66bcaa19ef5ee271f7ecf:src/scene/TestGame.java
                         actor.walkStop();
+=======
+                        actor.leftSpeedUp(false);
+                        actor.velocity().stopX();
+>>>>>>> f4e2aeba31603864ab9d146642e1bd52bac8f499:src/scene/TestGame.java
                         break;
                     case Global.VK_RIGHT:
-                        actor.walkStop();
+                        actor.rightSpeedUp(false);
+                        actor.velocity().stopX();
                         break;
                     case Global.VK_SPACE:
-                        actor.jump();
-                        break;
+                        actor.velocity().gravityReverse();
                 }
             }
 
@@ -125,9 +144,14 @@ public class TestGame extends Scene{
             this.actor.paint(g);
         }
 
+<<<<<<< HEAD:src/game/scene/TestGame.java
         gameObjects.forEach(a ->
         {
             if (camera.isCollision(a)) {
+=======
+        gameObjects.forEach(a-> {
+            if(camera.isCollision(a)) {
+>>>>>>> f4e2aeba31603864ab9d146642e1bd52bac8f499:src/scene/TestGame.java
                 a.paint(g);
             }
         });
@@ -158,6 +182,7 @@ public class TestGame extends Scene{
 //            }
             if (actor.isCollision(obj)) {
                 actor.preMove();
+<<<<<<< HEAD:src/game/scene/TestGame.java
                 actor.fall();
                 if (actor.isCollision(obj)) {
                     if (actor.dy() < 0) {
@@ -170,6 +195,20 @@ public class TestGame extends Scene{
                     }
 
                     actor.walk();
+=======
+
+                actor.moveY();
+                if(actor.isCollision(obj)){
+                    if(actor.velocity().y() < 0){
+                        actor.setY(obj.collider().bottom() +1);
+                        actor.velocity().stopY();
+                    }
+                    else if (actor.velocity().y() > 0){
+                        actor.setY(obj.collider().top() - actor.painter().height() -1);
+                        actor.velocity().stopY();
+                    }
+                    actor.moveX();
+>>>>>>> f4e2aeba31603864ab9d146642e1bd52bac8f499:src/scene/TestGame.java
                 }
             }
         }
