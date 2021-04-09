@@ -12,6 +12,11 @@ public class Road extends GameObject{
     }
 
     @Override
+    public void CollisionEffect(GameObject gameObject) {
+
+    }
+
+    @Override
     public void paint(Graphics g) {
         g.drawImage(img, painter().left(), painter().top(), null);
     }
