@@ -16,7 +16,6 @@ public class Global {
     // 畫面更新時間
     public static final int FRAME_LIMIT = 60;
     public static final long LIMIT_DELTA_TIME = 1000000000 / FRAME_LIMIT;
-    public static final int SPACE = 10;
     public static int UNIT_X = 32;
     public static int UNIT_Y = 32;
     // 重力係數

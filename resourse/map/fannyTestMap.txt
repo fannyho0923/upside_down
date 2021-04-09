@@ -1,0 +1,2 @@
+road,-10066432,C:\Users\heweihan\new\road_2x2.png,2,2
+wall,-39373,C:\Users\heweihan\new\wall_1x1.png,1,1

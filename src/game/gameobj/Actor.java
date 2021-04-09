@@ -8,7 +8,7 @@ import java.awt.*;
 
 public class Actor extends GameObject{
     public static int WALK_SPEED = 6;
-    private final float WALK_ACCELERATION = 0.7f;
+    private final float WALK_ACCELERATION = 0.5f;
     private Velocity velocity;
 
     private ActionAnimator actionAnimator;
@@ -19,7 +19,7 @@ public class Actor extends GameObject{
 
 
     public Actor(int x, int y){
-        super(x,y,32*2,32*2);
+        super(x,y,32,32);
         velocity = new Velocity(0,0,0,0,false);
         leftSpeedUp = false;
         rightSpeedUp = false;
