@@ -1,5 +1,6 @@
 package game.gameobj;
 
+<<<<<<< HEAD
 <<<<<<< HEAD:src/game/gameobj/Actor.java
 import game.controller.ImageController;
 import game.utils.Global;
@@ -8,6 +9,11 @@ import controller.ImageController;
 import utils.Delay;
 import utils.Global;
 >>>>>>> 67f0f1c3d2778b1663c66bcaa19ef5ee271f7ecf:src/gameobj/Actor.java
+=======
+import game.controller.ImageController;
+import game.utils.Delay;
+import game.utils.Global;
+>>>>>>> 8606fae96e5ba903d449a7313015fc36f79395b4
 
 import java.awt.*;
 

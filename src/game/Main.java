@@ -1,8 +1,12 @@
+<<<<<<< HEAD
 <<<<<<< HEAD:src/game/Main.java
+=======
+>>>>>>> 8606fae96e5ba903d449a7313015fc36f79395b4
 package game;
 
 import game.controller.SceneController;
 import game.scene.TestGame;
+<<<<<<< HEAD
 import game.scene.TestSceneA;
 import game.scene.TestSceneB;
 import game.utils.CommandSolver;
@@ -15,6 +19,11 @@ import utils.CommandSolver;
 import utils.GameKernel;
 import utils.Global;
 >>>>>>> 67f0f1c3d2778b1663c66bcaa19ef5ee271f7ecf:src/Main.java
+=======
+import game.utils.CommandSolver;
+import game.utils.GameKernel;
+import game.utils.Global;
+>>>>>>> 8606fae96e5ba903d449a7313015fc36f79395b4
 
 import javax.swing.*;
 import java.awt.event.KeyEvent;

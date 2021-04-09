@@ -1,6 +1,10 @@
 package game.camera;
 
 import game.gameobj.GameObject;
+<<<<<<< HEAD
+=======
+import game.utils.Global;
+>>>>>>> 8606fae96e5ba903d449a7313015fc36f79395b4
 
 import java.awt.*;
 

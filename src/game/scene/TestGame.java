@@ -6,15 +6,22 @@ import game.gameobj.*;
 import game.maploader.MapInfo;
 import game.maploader.MapLoader;
 import game.utils.CommandSolver;
+<<<<<<< HEAD
 
+=======
+>>>>>>> 8606fae96e5ba903d449a7313015fc36f79395b4
 import java.awt.*;
 import java.io.IOException;
 import java.util.ArrayList;
 
+<<<<<<< HEAD
 <<<<<<< HEAD:src/game/scene/TestGame.java
 public class TestGame extends Scene {
 =======
 import utils.Global;
+=======
+import game.utils.Global;
+>>>>>>> 8606fae96e5ba903d449a7313015fc36f79395b4
 
 public class TestGame extends Scene{
 >>>>>>> 67f0f1c3d2778b1663c66bcaa19ef5ee271f7ecf:src/scene/TestGame.java
