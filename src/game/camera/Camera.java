@@ -97,12 +97,12 @@ public class Camera extends GameObject {
     }
 
     /*使用時，請在場景的paint方法中
-    1.game.camera.start(g) //將畫布移動到您的顯示視窗範圍(0,0)
+    1.camera.start(g) //將畫布移動到您的顯示視窗範圍(0,0)
     2.放入您的物件(請讓每個物件與camera做isCollision碰撞判斷，有重疊到才paint)
-    EX: if(game.camera.isCollision(ac)){
+    EX: if(camera.isCollision(ac)){
             ac.paint(g);
         }
-    3. game.camera.end(g) 將畫布移回原位
+    3. camera.end(g) 將畫布移回原位
     4. 如果有第二顆camera 再次操作 1 ~ 3。
     */
     public void start(final Graphics g) {
