@@ -192,10 +192,12 @@ public class TestGame extends Scene {
     public void mapInit(ArrayList<GameObject> gameObjects) {
 
         try {
+
             final MapLoader mapLoader = new MapLoader("/map/testMap.bmp", "/map/testMap.txt");
+
             final ArrayList<MapInfo> mapInfoArr = mapLoader.combineInfo();
 
-            this.gameObjects.addAll(mapLoader.createObjectArray("ro ad", MAP_UNIT, mapInfoArr, (gameObject, name, mapInfo, size) -> {
+            this.gameObjects.addAll(mapLoader.createObjectArray("road", MAP_UNIT, mapInfoArr, (gameObject, name, mapInfo, size) -> {
                 final GameObject tmp;
                 if (gameObject.equals(name)) {
                     tmp = new Road(mapInfo.getX() * size, mapInfo.getY() * size, mapInfo.getSizeX() * size, mapInfo.getSizeY() * size);
