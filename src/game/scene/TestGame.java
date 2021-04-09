@@ -176,7 +176,7 @@ public class TestGame extends Scene {
     public void mapInit(ArrayList<GameObject> gameObjects) {
 
         try {
-            final MapLoader mapLoader = new MapLoader("/map/fannyTestMap.bmp", "/map/fannyTestMap.txt");
+            final MapLoader mapLoader = new MapLoader("/map/basicMap.bmp", "/map/basicMap.txt");
             final ArrayList<MapInfo> mapInfoArr = mapLoader.combineInfo();
 
             this.gameObjects.addAll(mapLoader.createObjectArray("road", MAP_UNIT, mapInfoArr, (gameObject, name, mapInfo, size) -> {
