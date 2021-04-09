@@ -125,22 +125,15 @@ public class TestGame extends Scene{
     public void update() {
         actor.update();
 
+
+
         for (int i = 0; i < gameObjects.size(); i++){
             GameObject obj = gameObjects.get(i);
-            //fanny
-            if (actor.collider().right()<=camera.collider().left()) {//work left
-                actor.setXY(camera.collider().right()-1, actor.collider().bottom());
-                return;
-            }if (actor.collider().left()>=camera.collider().right()) {
-                actor.setXY(camera.collider().left()-31, actor.collider().bottom());
-                return;
-            }
-
             if(actor.isCollision(obj)) {
-                actor.preMove();
 
+                actor.preMove();
                 actor.moveY();
-                if(actor.isCollision(obj)){
+                if(actor.isCollision(obj)){ // 撞到 Y
                     if(actor.velocity().y() < 0){
                         actor.setY(obj.collider().bottom() +1);
                         actor.velocity().stopY();
@@ -150,14 +143,28 @@ public class TestGame extends Scene{
                         actor.velocity().stopY();
                     }
                     actor.moveX();
+
                 }
+                // y還沒被修正的掉落? 應該是撞到前一塊物件
+                if(actor.collider().bottom() == obj.collider().top() |
+                   actor.collider().top() == obj.collider().bottom()){
+                    actor.moveX();
+                }
+                // 撞到牆的反彈還沒修正
             }
         }
 
+        //fanny 左右穿牆 , 如果使用touch camera 不會矛盾, 角色到不了, 不可能觸發事件
+        if (actor.collider().right()<=camera.collider().left()) {//work left
+            actor.setXY(camera.collider().right() -1, actor.painter().top());
+            return;
+        }if (actor.collider().left()>=camera.collider().right()) {
+            actor.setXY(camera.collider().left() - actor.painter().width() +1 , actor.painter().top());
+            return;
+        }
 
         tracker_movement.move(actor,camera,tracker);
 //        tracker_movement.move(tracker);
-
         camera.update();
     }
 
@@ -165,6 +172,7 @@ public class TestGame extends Scene{
 
         try {
             final MapLoader mapLoader = new MapLoader("/map/fannyTestMap.bmp", "/map/fannyTestMap.txt");
+            //final MapLoader mapLoader = new MapLoader("/map/testMap.bmp", "/map/testMap.txt");
             final ArrayList<MapInfo> mapInfoArr = mapLoader.combineInfo();
 
             this.gameObjects.addAll(mapLoader.createObjectArray("road", MAP_UNIT, mapInfoArr, (gameObject, name, mapInfo, size) -> {
@@ -253,6 +261,17 @@ public class TestGame extends Scene{
             @Override
             public void move(Tracker tracker) {
                 tracker.down();
+            }
+        },
+        HOLD{
+            @Override
+            public void move(GameObject gameObject, Camera camera, Tracker tracker) {
+
+            }
+
+            @Override
+            public void move(Tracker tracker) {
+
             }
         };
 
