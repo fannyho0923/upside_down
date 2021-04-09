@@ -2,6 +2,7 @@ package game.scene;
 
 import game.camera.Camera;
 import game.camera.MapInformation;
+import game.camera.SmallMap;
 import game.gameobj.*;
 import game.maploader.MapInfo;
 import game.maploader.MapLoader;
@@ -22,8 +23,8 @@ public class TestGame extends Scene {
     private Tracker tracker;
     private TRACKER_MOVEMENT tracker_movement;
 
-
     private final int MAP_UNIT = 32;
+    private SmallMap smallMap;
 
     @Override
     public void sceneBegin() {
@@ -46,6 +47,15 @@ public class TestGame extends Scene {
                 .setCameraLockDirection(false, false, false, false)
                 .setCameraStartLocation(0, 0)
                 .gen();
+        smallMap = new SmallMap(
+                new Camera.Builder(
+                        MapInformation.getInstance().width(),
+                        MapInformation.getInstance().height()
+                )
+                        .setChaseObj(tracker)
+                        .setCameraWindowLocation(Global.WINDOW_WIDTH, 0)
+                        .setCameraStartLocation(0,0)
+                        .gen(), 0.1, 0.1);
     }
 
     @Override
@@ -120,16 +130,21 @@ public class TestGame extends Scene {
                 a.paint(g);
             }
         });
-
         camera.paint(g);
         camera.end(g);
+
+        smallMap.start(g);
+        if(smallMap.isCollision(background)){
+           background.paint(g);
+        }
+        smallMap.paint(g, camera, Color.yellow);
+
+        smallMap.end(g);
     }
 
     @Override
     public void update() {
         actor.update();
-
-
         for (int i = 0; i < gameObjects.size(); i++) {
             GameObject obj = gameObjects.get(i);
             if (actor.isCollision(obj)) {
@@ -157,7 +172,7 @@ public class TestGame extends Scene {
             }
         }
 
-        //fanny 左右穿牆 , 如果使用touch camera 通常角色到不了, 不會觸發事件
+        // 左右穿牆 , 如果使用touch camera 通常角色到不了, 不會觸發事件
         // 但角色速度過快的時候還是會觸發
         if (actor.collider().right() <= camera.collider().left()) {//work left
             actor.setXY(camera.collider().right() - 1, actor.painter().top());
@@ -171,15 +186,16 @@ public class TestGame extends Scene {
         tracker_movement.move(actor, camera, tracker);
 //        tracker_movement.move(tracker);
         camera.update();
+        smallMap.update();
     }
 
     public void mapInit(ArrayList<GameObject> gameObjects) {
 
         try {
-            final MapLoader mapLoader = new MapLoader("/map/fannyTestMap.bmp", "/map/fannyTestMap.txt");
+            final MapLoader mapLoader = new MapLoader("/map/testMap.bmp", "/map/testMap.txt");
             final ArrayList<MapInfo> mapInfoArr = mapLoader.combineInfo();
 
-            this.gameObjects.addAll(mapLoader.createObjectArray("road", MAP_UNIT, mapInfoArr, (gameObject, name, mapInfo, size) -> {
+            this.gameObjects.addAll(mapLoader.createObjectArray("ro ad", MAP_UNIT, mapInfoArr, (gameObject, name, mapInfo, size) -> {
                 final GameObject tmp;
                 if (gameObject.equals(name)) {
                     tmp = new Road(mapInfo.getX() * size, mapInfo.getY() * size, mapInfo.getSizeX() * size, mapInfo.getSizeY() * size);
