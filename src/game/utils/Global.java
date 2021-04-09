@@ -8,7 +8,7 @@ public class Global {
     //測試模式
     public static final boolean IS_DEBUG = true;
     //視窗大小
-    public static final int WINDOW_WIDTH = 800;
+    public static final int WINDOW_WIDTH = 960;
     public static final int WINDOW_HEIGHT = 672;
     //資料刷新時間
     public static final int UPDATE_TIMES_PER_SEC = 60;// 每秒更新60次遊戲邏輯

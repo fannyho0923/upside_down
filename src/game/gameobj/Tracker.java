@@ -73,4 +73,8 @@ public class Tracker extends GameObject {
     }
 
 
+    @Override
+    public void CollisionEffect(GameObject gameObject) {
+
+    }
 }

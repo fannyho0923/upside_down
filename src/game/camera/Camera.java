@@ -186,6 +186,11 @@ public class Camera extends GameObject {
         return this.cameraWindowY;
     }
 
+    @Override
+    public void CollisionEffect(GameObject gameObject) {
+
+    }
+
     public static class Builder {
         private final Camera cam;
 
