@@ -28,7 +28,7 @@ public class TestGame extends Scene{
     public void sceneBegin() {
         gameObjects = new ArrayList<>();
         mapInit(gameObjects); // load map information
-        actor = new Actor(160,300);
+        actor = new Actor(50,200);//160,300
         background = new Background();
 
         int cameraWidth = 640;
@@ -164,7 +164,7 @@ public class TestGame extends Scene{
     public void mapInit(ArrayList<GameObject> gameObjects) {
 
         try {
-            final MapLoader mapLoader = new MapLoader("/map/fannyTestMap.bmp", "/map/fannyTestMap.txt");
+            final MapLoader mapLoader = new MapLoader("/map/testMap.bmp", "/map/testMap.txt");
             final ArrayList<MapInfo> mapInfoArr = mapLoader.combineInfo();
 
             this.gameObjects.addAll(mapLoader.createObjectArray("road", MAP_UNIT, mapInfoArr, (gameObject, name, mapInfo, size) -> {
