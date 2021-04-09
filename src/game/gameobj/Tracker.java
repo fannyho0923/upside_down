@@ -1,5 +1,6 @@
 package game.gameobj;
 
+import game.camera.Camera;
 import game.utils.Global;
 
 import java.awt.*;
@@ -70,4 +71,6 @@ public class Tracker extends GameObject {
         goalX = x;
         goalY = y;
     }
+
+
 }
