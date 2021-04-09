@@ -60,7 +60,7 @@ public class Server extends Thread {
         try {
             ss = new ServerSocket(TCP_PORT);//建立一個埠號為TCP_PORT的Socket的伺服器端
             disConnectDatagramSocket = new DatagramSocket(DISCONNECT_PORT);
-            System.out.println("game.Internect.Server started...");
+            System.out.println("Internect.Server started...");
         } catch (IOException e) {
             e.printStackTrace();
         }
