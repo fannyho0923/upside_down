@@ -1,4 +1,4 @@
-package utils;
+package game.utils;
 
 public class Global {
     //是否為網路模式

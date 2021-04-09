@@ -1,8 +1,10 @@
-import controller.SceneController;
-import scene.TestGame;
-import utils.CommandSolver;
-import utils.GameKernel;
-import utils.Global;
+package game;
+
+import game.controller.SceneController;
+import game.scene.TestGame;
+import game.utils.CommandSolver;
+import game.utils.GameKernel;
+import game.utils.Global;
 
 import javax.swing.*;
 import java.awt.event.KeyEvent;

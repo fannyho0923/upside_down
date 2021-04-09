@@ -1,7 +1,7 @@
-package gameobj;
+package game.gameobj;
 
-import camera.MapInformation;
-import utils.GameKernel;
+import game.camera.MapInformation;
+import game.utils.GameKernel;
 
 public abstract class GameObject implements GameKernel.UpdateInterface, GameKernel.PaintInterface {
     private final Rect collider; //物件的碰撞方塊

@@ -1,8 +1,8 @@
-package gameobj;
+package game.gameobj;
 
-import controller.ImageController;
-import utils.Delay;
-import utils.Global;
+import game.controller.ImageController;
+import game.utils.Delay;
+import game.utils.Global;
 
 import java.awt.*;
 

@@ -1,7 +1,7 @@
-package scene;
+package game.scene;
 
-import utils.CommandSolver;
-import utils.GameKernel;
+import game.utils.CommandSolver;
+import game.utils.GameKernel;
 
 public abstract class Scene implements GameKernel.UpdateInterface, GameKernel.PaintInterface {
     public abstract void sceneBegin();

@@ -1,4 +1,4 @@
-package maploader;
+package game.maploader;
 
 import javax.imageio.ImageIO;
 import java.awt.image.BufferedImage;

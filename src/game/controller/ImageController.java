@@ -1,4 +1,4 @@
-package controller;
+package game.controller;
 
 import javax.imageio.ImageIO;
 import java.awt.*;
