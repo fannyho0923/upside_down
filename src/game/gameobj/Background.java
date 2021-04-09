@@ -24,9 +24,4 @@ public class Background extends GameObject{
     public void update() {
 
     }
-
-    @Override
-    public void CollisionEffect(GameObject gameObject) {
-
-    }
 }

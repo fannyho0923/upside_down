@@ -4,7 +4,9 @@ import game.controller.ImageController;
 
 import java.awt.*;
 
-public class Key extends GameObject{
+public class Key extends MapObject{
+    // 另外載入, 不要加在GameObjArr
+
     Image img;
     public Key(int top, int left, int width, int height) {
         super(top, left, width, height);

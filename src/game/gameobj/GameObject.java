@@ -231,5 +231,4 @@ public abstract class GameObject implements GameKernel.UpdateInterface, GameKern
 
 
     }
-    public abstract void CollisionEffect(GameObject gameObject);
 }

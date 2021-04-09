@@ -3,7 +3,7 @@ package game.scene;
 import game.gameobj.Actor;
 import game.gameobj.Background;
 import game.gameobj.GameObject;
-import game.gameobj.Velocity;
+import game.utils.Velocity;
 
 public class fannyTest extends GameScene{
     @Override

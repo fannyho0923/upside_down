@@ -7,6 +7,7 @@ import game.maploader.MapInfo;
 import game.maploader.MapLoader;
 import game.utils.CommandSolver;
 import game.utils.Global;
+import game.utils.Velocity;
 
 import java.awt.*;
 import java.io.IOException;
@@ -20,7 +21,7 @@ public abstract class GameScene extends Scene {
     private ArrayList<GameObject> gameObjects;
 
     private Camera camera;
-    private NewTracker newTracker;
+    private Tracker tracker;
     private boolean actorTrigCamera;
     private int frameX_count = 0;
     private int frameY_count = 0;
@@ -51,22 +52,22 @@ public abstract class GameScene extends Scene {
         int cameraWidth = setCameraWidth();
         int cameraHeight = setCameraHeight();
         MapInformation.getInstance().setMapInfo(this.background);
-        newTracker = new NewTracker((cameraWidth - Global.MAP_UNIT) / 2,
+        tracker = new Tracker((cameraWidth - Global.MAP_UNIT) / 2,
                 (cameraHeight - Global.MAP_UNIT) / 2, setCameraVelocity());
         actorTrigCamera = setActorTrigCamera();
         if(actorTrigCamera){
-            newTracker.velocity().stop();
+            tracker.velocity().stop();
         }
 
         camera = new Camera.Builder(cameraWidth, cameraHeight)
-                .setChaseObj(newTracker) //
+                .setChaseObj(tracker) //
                 .setCameraWindowLocation(0, 0)
                 .setCameraLockDirection(false, false, false, false)
                 .setCameraStartLocation(setCameraStartX(), setCameraStartY())
                 .gen();
 
         if(actorTrigCamera){
-            newTracker.velocity().stop();
+            tracker.velocity().stop();
         }
     }
 
@@ -177,6 +178,7 @@ public abstract class GameScene extends Scene {
                 }
                 // 撞到牆的反彈還沒修正
             }
+            obj.update();
         }
 
         // 瞬間移動, 暫時還沒用到tracker 的速度
@@ -193,12 +195,12 @@ public abstract class GameScene extends Scene {
             if (actor.painter().centerY() > camera.painter().bottom()) {   // 下
                 frameY_count++;
             }
-            newTracker.setX( (camera.painter().width() - Global.MAP_UNIT) / 2 +
+            tracker.setX( (camera.painter().width() - Global.MAP_UNIT) / 2 +
                     (camera.painter().width()*frameX_count));
-            newTracker.setY( (camera.painter().height() - Global.MAP_UNIT) / 2 +
+            tracker.setY( (camera.painter().height() - Global.MAP_UNIT) / 2 +
                     camera.painter().height()*frameY_count);
         }else{
-            newTracker.update();
+            tracker.update();
 
             //fanny 左右穿牆
             if (actor.collider().right() <= camera.collider().left()) {//work left
@@ -210,7 +212,6 @@ public abstract class GameScene extends Scene {
                 return;
             }
         }
-
         camera.update();
     }
 
@@ -324,7 +325,7 @@ public abstract class GameScene extends Scene {
             this.gameObjects.addAll(mapLoader.createObjectArray("conveyorRight", Global.MAP_UNIT, mapInfoArr, (gameObject, name, mapInfo, size) -> {
                 final GameObject tmp;
                 if (gameObject.equals(name)) {
-                    tmp = new Conveyor(mapInfo.getX() * size, mapInfo.getY() * size, mapInfo.getSizeX() * size, mapInfo.getSizeY() * size);
+                    tmp = new Conveyor(mapInfo.getX() * size, mapInfo.getY() * size, mapInfo.getSizeX() * size, mapInfo.getSizeY() * size, 2);
                     return tmp;
                 }
                 return null;
@@ -333,7 +334,7 @@ public abstract class GameScene extends Scene {
             this.gameObjects.addAll(mapLoader.createObjectArray("conveyorLeft", Global.MAP_UNIT, mapInfoArr, (gameObject, name, mapInfo, size) -> {
                 final GameObject tmp;
                 if (gameObject.equals(name)) {
-                    tmp = new Conveyor(mapInfo.getX() * size, mapInfo.getY() * size, mapInfo.getSizeX() * size, mapInfo.getSizeY() * size);
+                    tmp = new Conveyor(mapInfo.getX() * size, mapInfo.getY() * size, mapInfo.getSizeX() * size, mapInfo.getSizeY() * size, 2);
                     return tmp;
                 }
                 return null;

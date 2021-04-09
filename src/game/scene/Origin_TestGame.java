@@ -21,7 +21,7 @@ public class Origin_TestGame extends Scene {
 
     private Camera camera;
     private Tracker tracker;
-    private TRACKER_MOVEMENT tracker_movement;
+//    private TRACKER_MOVEMENT tracker_movement;
 
     private final int MAP_UNIT = 32;
     private SmallMap smallMap;
@@ -38,9 +38,9 @@ public class Origin_TestGame extends Scene {
         int cameraHeight = 640;
 
         MapInformation.getInstance().setMapInfo(this.background);
-        tracker = new Tracker((cameraWidth - MAP_UNIT) / 2, (cameraHeight - MAP_UNIT) / 2, 4);
+//        tracker = new Tracker((cameraWidth - MAP_UNIT) / 2, (cameraHeight - MAP_UNIT) / 2, 4);
         // speed 必須是camera 長寬的公因數
-        tracker_movement = TRACKER_MOVEMENT.TOUCH_CAMERA;
+//        tracker_movement = TRACKER_MOVEMENT.TOUCH_CAMERA;
 
         camera = new Camera.Builder(cameraWidth, cameraHeight)
                 .setChaseObj(tracker)
@@ -175,7 +175,7 @@ public class Origin_TestGame extends Scene {
 
         // 左右穿牆 , 如果使用touch camera 通常角色到不了, 不會觸發事件
         // 但角色速度過快的時候還是會觸發
-        if(tracker_movement != TRACKER_MOVEMENT.TOUCH_CAMERA){
+//        if(tracker_movement != TRACKER_MOVEMENT.TOUCH_CAMERA){
             if (actor.collider().right() <= camera.collider().left()) {//work left
                 actor.setXY(camera.collider().right() - 1, actor.painter().top());
                 return;
@@ -184,9 +184,9 @@ public class Origin_TestGame extends Scene {
                 actor.setXY(camera.collider().left() - actor.painter().width() + 1, actor.painter().top());
                 return;
             }
-        }
+//        }
 
-        tracker_movement.move(actor, camera, tracker);
+//        tracker_movement.move(actor, camera, tracker);
         camera.update();
         smallMap.update();
     }
@@ -303,7 +303,7 @@ public class Origin_TestGame extends Scene {
             this.gameObjects.addAll(mapLoader.createObjectArray("conveyorRight", MAP_UNIT, mapInfoArr, (gameObject, name, mapInfo, size) -> {
                 final GameObject tmp;
                 if (gameObject.equals(name)) {
-                    tmp = new Conveyor(mapInfo.getX() * size, mapInfo.getY() * size, mapInfo.getSizeX() * size, mapInfo.getSizeY() * size);
+                    tmp = new Conveyor(mapInfo.getX() * size, mapInfo.getY() * size, mapInfo.getSizeX() * size, mapInfo.getSizeY() * size, 2);
                     return tmp;
                 }
                 return null;
@@ -312,7 +312,7 @@ public class Origin_TestGame extends Scene {
             this.gameObjects.addAll(mapLoader.createObjectArray("conveyorLeft", MAP_UNIT, mapInfoArr, (gameObject, name, mapInfo, size) -> {
                 final GameObject tmp;
                 if (gameObject.equals(name)) {
-                    tmp = new Conveyor(mapInfo.getX() * size, mapInfo.getY() * size, mapInfo.getSizeX() * size, mapInfo.getSizeY() * size);
+                    tmp = new Conveyor(mapInfo.getX() * size, mapInfo.getY() * size, mapInfo.getSizeX() * size, mapInfo.getSizeY() * size, 2);
                     return tmp;
                 }
                 return null;
@@ -342,91 +342,91 @@ public class Origin_TestGame extends Scene {
         }
     }
 
-    private enum TRACKER_MOVEMENT {
-        TOUCH_CAMERA {
-            @Override
-            public void move(GameObject gameObject, Camera camera, Tracker tracker) {
-                if (gameObject.painter().centerX() < camera.painter().left()) {       // 左
-                    tracker.moveTo(tracker.painter().left() - camera.painter().width(), tracker.painter().top());
-                }
-                if (gameObject.painter().centerY() < camera.painter().top()) {         // 上
-                    tracker.moveTo(tracker.painter().left(), tracker.painter().top() - camera.painter().width());
-                }
-                if (gameObject.painter().centerX() > camera.painter().right()) {     // 右
-                    tracker.moveTo(tracker.painter().left() + camera.painter().width(), tracker.painter().top());
-                }
-                if (gameObject.painter().centerY() > camera.painter().bottom()) {   // 下
-                    tracker.moveTo(tracker.painter().left(), tracker.painter().top() + camera.painter().width());
-                }
-
-                tracker.tryMove();
-            }
-
-            @Override
-            public void move(Tracker tracker) {
-            }
-        },
-        LEFT_ROLLING {
-            @Override
-            public void move(GameObject gameObject, Camera camera, Tracker tracker) {
-                tracker.leftShift();
-            }
-
-            @Override
-            public void move(Tracker tracker) {
-                tracker.leftShift();
-            }
-
-        },
-        UP_ROLLING {
-            @Override
-            public void move(GameObject gameObject, Camera camera, Tracker tracker) {
-                tracker.up();
-            }
-
-            @Override
-            public void move(Tracker tracker) {
-                tracker.up();
-            }
-        },
-        RIGHT_ROLLING {
-            @Override
-            public void move(GameObject gameObject, Camera camera, Tracker tracker) {
-                tracker.rightShift();
-            }
-
-            @Override
-            public void move(Tracker tracker) {
-                tracker.rightShift();
-            }
-        },
-        DOWN_ROLLING {
-            @Override
-            public void move(GameObject gameObject, Camera camera, Tracker tracker) {
-                tracker.down();
-            }
-
-            @Override
-            public void move(Tracker tracker) {
-                tracker.down();
-            }
-        },
-        HOLD {
-            @Override
-            public void move(GameObject gameObject, Camera camera, Tracker tracker) {
-
-            }
-
-            @Override
-            public void move(Tracker tracker) {
-
-            }
-        };
-
-        public abstract void move(GameObject gameObject, Camera camera, Tracker tracker);
-
-        public abstract void move(Tracker tracker);
-
-    }
+//    private enum TRACKER_MOVEMENT {
+//        TOUCH_CAMERA {
+//            @Override
+//            public void move(GameObject gameObject, Camera camera, Tracker tracker) {
+//                if (gameObject.painter().centerX() < camera.painter().left()) {       // 左
+//                    tracker.moveTo(tracker.painter().left() - camera.painter().width(), tracker.painter().top());
+//                }
+//                if (gameObject.painter().centerY() < camera.painter().top()) {         // 上
+//                    tracker.moveTo(tracker.painter().left(), tracker.painter().top() - camera.painter().width());
+//                }
+//                if (gameObject.painter().centerX() > camera.painter().right()) {     // 右
+//                    tracker.moveTo(tracker.painter().left() + camera.painter().width(), tracker.painter().top());
+//                }
+//                if (gameObject.painter().centerY() > camera.painter().bottom()) {   // 下
+//                    tracker.moveTo(tracker.painter().left(), tracker.painter().top() + camera.painter().width());
+//                }
+//
+//                tracker.tryMove();
+//            }
+//
+//            @Override
+//            public void move(Tracker tracker) {
+//            }
+//        },
+//        LEFT_ROLLING {
+//            @Override
+//            public void move(GameObject gameObject, Camera camera, Tracker tracker) {
+//                tracker.leftShift();
+//            }
+//
+//            @Override
+//            public void move(Tracker tracker) {
+//                tracker.leftShift();
+//            }
+//
+//        },
+//        UP_ROLLING {
+//            @Override
+//            public void move(GameObject gameObject, Camera camera, Tracker tracker) {
+//                tracker.up();
+//            }
+//
+//            @Override
+//            public void move(Tracker tracker) {
+//                tracker.up();
+//            }
+//        },
+//        RIGHT_ROLLING {
+//            @Override
+//            public void move(GameObject gameObject, Camera camera, Tracker tracker) {
+//                tracker.rightShift();
+//            }
+//
+//            @Override
+//            public void move(Tracker tracker) {
+//                tracker.rightShift();
+//            }
+//        },
+//        DOWN_ROLLING {
+//            @Override
+//            public void move(GameObject gameObject, Camera camera, Tracker tracker) {
+//                tracker.down();
+//            }
+//
+//            @Override
+//            public void move(Tracker tracker) {
+//                tracker.down();
+//            }
+//        },
+//        HOLD {
+//            @Override
+//            public void move(GameObject gameObject, Camera camera, Tracker tracker) {
+//
+//            }
+//
+//            @Override
+//            public void move(Tracker tracker) {
+//
+//            }
+//        };
+//
+//        public abstract void move(GameObject gameObject, Camera camera, Tracker tracker);
+//
+//        public abstract void move(Tracker tracker);
+//
+//    }
 
 }

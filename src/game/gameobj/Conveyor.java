@@ -1,19 +1,24 @@
 package game.gameobj;
 
 import game.controller.ImageController;
+import game.utils.Velocity;
 
 import java.awt.*;
 
-public class Conveyor extends GameObject{
+public class Conveyor extends MapObject{
+    // 另外載入, 不要放在GameObj Arr, 鏡頭轉換時要重新創建
+
     Image img;
-    public Conveyor(int top, int left, int width, int height) {
+    private int shift_x;
+    public Conveyor(int top, int left, int width, int height, int shift_x) {
         super(top, left, width, height);
+        this.shift_x = shift_x;
         img = ImageController.getInstance().tryGet("/img/lift_right_2x1.png");
     }
 
     @Override
     public void CollisionEffect(GameObject gameObject) {
-
+        gameObject.offsetX(shift_x);
     }
 
     @Override
