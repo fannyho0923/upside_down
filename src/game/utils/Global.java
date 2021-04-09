@@ -19,7 +19,7 @@ public class Global {
     public static int UNIT_X = 32;
     public static int UNIT_Y = 32;
     // 重力係數
-    public static final float GRAVITY = 0.6f;
+    public static final float GRAVITY = 0.3f;
     // 連跳次數, 寫好玩的, 不會用到
     public static final int continueJump = 2;
 
@@ -27,6 +27,7 @@ public class Global {
     public static final int VK_LEFT = 1;
     public static final int VK_RIGHT = 2;
     public static final int VK_SPACE = 3;
+    public static final int VK_A = 4;
 
 
 

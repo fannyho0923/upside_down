@@ -86,6 +86,9 @@ public class TestGame extends Scene {
                         break;
                     case Global.VK_SPACE:
                         actor.velocity().gravityReverse();
+                        break;
+                    case Global.VK_A: //jump
+                        actor.jump();
                 }
             }
 
@@ -134,6 +137,7 @@ public class TestGame extends Scene {
                 actor.preMove();
                 actor.moveY();
                 if (actor.isCollision(obj)) { // 撞到 Y
+                    actor.jumpReset();
                     if (actor.velocity().y() < 0) {
                         actor.setY(obj.collider().bottom() + 1);
                         actor.velocity().stopY();
@@ -153,7 +157,8 @@ public class TestGame extends Scene {
             }
         }
 
-        //fanny 左右穿牆 , 如果使用touch camera 不會矛盾, 角色到不了, 不可能觸發事件
+        //fanny 左右穿牆 , 如果使用touch camera 通常角色到不了, 不會觸發事件
+        // 但角色速度過快的時候還是會觸發
         if (actor.collider().right() <= camera.collider().left()) {//work left
             actor.setXY(camera.collider().right() - 1, actor.painter().top());
             return;
@@ -204,7 +209,7 @@ public class TestGame extends Scene {
             public void move(GameObject gameObject, Camera camera, Tracker tracker) {
                 if (gameObject.painter().centerX() < camera.painter().left()) {       // 左
                     tracker.moveTo(tracker.painter().left() - camera.painter().width(), tracker.painter().top());
-                } //left
+                }
                 if (gameObject.painter().centerY() < camera.painter().top()) {         // 上
                     tracker.moveTo(tracker.painter().left(), tracker.painter().top() - camera.painter().width());
                 }

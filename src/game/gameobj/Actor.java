@@ -8,7 +8,8 @@ import java.awt.*;
 
 public class Actor extends GameObject{
     public static int WALK_SPEED = 6;
-    private final float WALK_ACCELERATION = 0.5f;
+    private static final int JUMP_SPEED = 30;
+    private static final float WALK_ACCELERATION = 0.5f;
     private Velocity velocity;
 
     private ActionAnimator actionAnimator;
@@ -16,16 +17,18 @@ public class Actor extends GameObject{
 
     private boolean leftSpeedUp;
     private boolean rightSpeedUp;
+    private int jumpCount;
 
 
     public Actor(int x, int y){
         super(x,y,32,32);
         velocity = new Velocity(0,0,0,0,false);
-        leftSpeedUp = false;
-        rightSpeedUp = false;
 
         num = 1;
         actionAnimator = new ActionAnimator();
+        leftSpeedUp = false;
+        rightSpeedUp = false;
+        jumpCount = 0;
     }
     @Override
     public void paint(Graphics g) {
@@ -49,6 +52,8 @@ public class Actor extends GameObject{
         velocity.update();
         move();
     }
+
+    // 移動
 
     public Velocity velocity() {
         return velocity;
@@ -82,6 +87,19 @@ public class Actor extends GameObject{
         offsetY(velocity.y());
     }
 
+    public void jump(){
+        if(jumpCount > 0){
+            this.velocity.offsetY(-JUMP_SPEED);
+            jumpCount--;
+        }
+    }
+
+    public void jumpReset(){
+        jumpCount = Global.continueJump;
+    }
+
+
+    // 人物動畫
     private static class ActionAnimator{
         private Image img;
         private Image imgR;

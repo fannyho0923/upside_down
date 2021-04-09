@@ -27,6 +27,7 @@ public class Main {// 資料刷新時間
                         .add(KeyEvent.VK_LEFT, Global.VK_LEFT)
                         .add(KeyEvent.VK_RIGHT, Global.VK_RIGHT)
                         .add(KeyEvent.VK_SPACE, Global.VK_SPACE)
+                        .add(KeyEvent.VK_A, Global.VK_A)
                         .next().keyCleanMode().subscribe(sceneController)
                 )
                 .paint(sceneController)
