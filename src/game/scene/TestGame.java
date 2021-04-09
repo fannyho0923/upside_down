@@ -1,16 +1,16 @@
-package scene;
+package game.scene;
 
-import camera.Camera;
-import camera.MapInformation;
-import gameobj.*;
-import maploader.MapInfo;
-import maploader.MapLoader;
-import utils.CommandSolver;
+import game.camera.Camera;
+import game.camera.MapInformation;
+import game.gameobj.*;
+import game.maploader.MapInfo;
+import game.maploader.MapLoader;
+import game.utils.CommandSolver;
 import java.awt.*;
 import java.io.IOException;
 import java.util.ArrayList;
 
-import utils.Global;
+import game.utils.Global;
 
 public class TestGame extends Scene{
     private Background background;

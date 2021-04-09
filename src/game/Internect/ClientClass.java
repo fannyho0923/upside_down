@@ -1,4 +1,4 @@
-package Internect;
+package game.Internect;
 
 import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
@@ -18,7 +18,7 @@ import java.util.Map;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
-import static utils.Global.IS_DEBUG;
+import static game.utils.Global.IS_DEBUG;
 
 public class ClientClass {
 

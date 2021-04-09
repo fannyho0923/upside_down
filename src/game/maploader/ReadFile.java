@@ -1,4 +1,4 @@
-package maploader;
+package game.maploader;
 
 import java.io.*;
 import java.util.ArrayList;

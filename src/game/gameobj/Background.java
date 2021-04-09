@@ -1,6 +1,6 @@
-package gameobj;
+package game.gameobj;
 
-import controller.ImageController;
+import game.controller.ImageController;
 
 import java.awt.*;
 

@@ -1,4 +1,4 @@
-package maploader;
+package game.maploader;
 
 public class MapInfo {
 

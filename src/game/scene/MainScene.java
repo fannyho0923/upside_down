@@ -1,6 +1,6 @@
-package scene;
+package game.scene;
 
-import utils.CommandSolver;
+import game.utils.CommandSolver;
 
 import java.awt.*;
 

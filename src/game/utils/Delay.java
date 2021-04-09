@@ -1,4 +1,4 @@
-package utils;
+package game.utils;
 
 public class Delay {
     private int count;// 當下的經過幀數

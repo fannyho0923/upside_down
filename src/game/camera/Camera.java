@@ -1,7 +1,7 @@
-package camera;
+package game.camera;
 
-import gameobj.GameObject;
-import utils.Global;
+import game.gameobj.GameObject;
+import game.utils.Global;
 
 import java.awt.*;
 import java.awt.geom.AffineTransform;

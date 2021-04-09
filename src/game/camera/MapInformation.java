@@ -1,6 +1,6 @@
-package camera;
+package game.camera;
 
-import gameobj.GameObject;
+import game.gameobj.GameObject;
 
 import java.awt.image.BufferedImage;
 
