@@ -14,15 +14,16 @@ import java.util.ArrayList;
 
 
 public abstract class GameScene extends Scene {
+
     private GameObject background;
     private Actor actor;
     private ArrayList<GameObject> gameObjects;
 
     private Camera camera;
-    private Tracker tracker;
-    private TRACKER_MOVEMENT tracker_movement;
-
-    private final int MAP_UNIT = 32;
+    private NewTracker newTracker;
+    private boolean actorTrigCamera;
+    private int frameX_count = 0;
+    private int frameY_count = 0;
 
     public abstract String setMapBmpPath();
     public abstract String setMapTxtPath();
@@ -31,42 +32,42 @@ public abstract class GameScene extends Scene {
     public abstract GameObject setBackground();
     public abstract int setCameraWidth();
     public abstract int setCameraHeight();
-    public abstract TRACKER_MOVEMENT setTrackerMovement();
-    public abstract int setTrackerSpeed();
+
     public abstract int setCameraStartX();
     public abstract int setCameraStartY();
-
-
+    public abstract Velocity setCameraVelocity();
+    public abstract boolean setActorTrigCamera();
 
 
 
     @Override
     public void sceneBegin() {
         gameObjects = new ArrayList<>();
-        mapInit(gameObjects); // load map information
         actor = addActor();
-        // actor = new Actor(50, 200);//160,300
         background = setBackground();
-        //background = new Background();
+
+        mapInit(gameObjects);
 
         int cameraWidth = setCameraWidth();
         int cameraHeight = setCameraHeight();
-
-//        int cameraWidth = 640;
-//        int cameraHeight = 640;
-
         MapInformation.getInstance().setMapInfo(this.background);
-        tracker = new Tracker((cameraWidth - MAP_UNIT) / 2, (cameraHeight - MAP_UNIT) / 2, setTrackerSpeed());
-        // speed 必須是camera 長寬的公因數
-        tracker_movement = setTrackerMovement();
-        // tracker_movement = TRACKER_MOVEMENT.TOUCH_CAMERA;
+        newTracker = new NewTracker((cameraWidth - Global.MAP_UNIT) / 2,
+                (cameraHeight - Global.MAP_UNIT) / 2, setCameraVelocity());
+        actorTrigCamera = setActorTrigCamera();
+        if(actorTrigCamera){
+            newTracker.velocity().stop();
+        }
 
         camera = new Camera.Builder(cameraWidth, cameraHeight)
-                .setChaseObj(tracker)
+                .setChaseObj(newTracker) //
                 .setCameraWindowLocation(0, 0)
                 .setCameraLockDirection(false, false, false, false)
                 .setCameraStartLocation(setCameraStartX(), setCameraStartY())
                 .gen();
+
+        if(actorTrigCamera){
+            newTracker.velocity().stop();
+        }
     }
 
     @Override
@@ -178,9 +179,28 @@ public abstract class GameScene extends Scene {
             }
         }
 
-        //fanny 左右穿牆 , 如果使用touch camera 通常角色到不了, 不會觸發事件
-        // 但角色速度過快的時候還是會觸發
-        if(tracker_movement != TRACKER_MOVEMENT.TOUCH_CAMERA){
+        // 瞬間移動, 暫時還沒用到tracker 的速度
+        if(actorTrigCamera){
+            if (actor.painter().centerX() < camera.painter().left()) {       // 左
+                frameX_count--;
+            }
+            if (actor.painter().centerY() < camera.painter().top()) {         // 上
+                frameY_count--;
+            }
+            if (actor.painter().centerX() > camera.painter().right()) {     // 右
+                frameX_count++;
+            }
+            if (actor.painter().centerY() > camera.painter().bottom()) {   // 下
+                frameY_count++;
+            }
+            newTracker.setX( (camera.painter().width() - Global.MAP_UNIT) / 2 +
+                    (camera.painter().width()*frameX_count));
+            newTracker.setY( (camera.painter().height() - Global.MAP_UNIT) / 2 +
+                    camera.painter().height()*frameY_count);
+        }else{
+            newTracker.update();
+
+            //fanny 左右穿牆
             if (actor.collider().right() <= camera.collider().left()) {//work left
                 actor.setXY(camera.collider().right() - 1, actor.painter().top());
                 return;
@@ -191,8 +211,6 @@ public abstract class GameScene extends Scene {
             }
         }
 
-        tracker_movement.move(actor, camera, tracker);
-//        tracker_movement.move(tracker);
         camera.update();
     }
 
@@ -202,7 +220,7 @@ public abstract class GameScene extends Scene {
             final MapLoader mapLoader = new MapLoader(setMapBmpPath(),setMapTxtPath());
             final ArrayList<MapInfo> mapInfoArr = mapLoader.combineInfo();
 
-            this.gameObjects.addAll(mapLoader.createObjectArray("road", MAP_UNIT, mapInfoArr, (gameObject, name, mapInfo, size) -> {
+            this.gameObjects.addAll(mapLoader.createObjectArray("road", Global.MAP_UNIT, mapInfoArr, (gameObject, name, mapInfo, size) -> {
                 final GameObject tmp;
                 if (gameObject.equals(name)) {
                     tmp = new Road(mapInfo.getX() * size, mapInfo.getY() * size, mapInfo.getSizeX() * size, mapInfo.getSizeY() * size);
@@ -211,10 +229,129 @@ public abstract class GameScene extends Scene {
                 return null;
             }));
 
-            this.gameObjects.addAll(mapLoader.createObjectArray("wall", MAP_UNIT, mapInfoArr, (gameObject, name, mapInfo, size) -> {
+            this.gameObjects.addAll(mapLoader.createObjectArray("wall", Global.MAP_UNIT, mapInfoArr, (gameObject, name, mapInfo, size) -> {
                 final GameObject tmp;
                 if (gameObject.equals(name)) {
                     tmp = new Wall(mapInfo.getX() * size, mapInfo.getY() * size, mapInfo.getSizeX() * size, mapInfo.getSizeY() * size);
+                    return tmp;
+                }
+                return null;
+            }));
+
+            this.gameObjects.addAll(mapLoader.createObjectArray("tileDarkGreen", Global.MAP_UNIT, mapInfoArr, (gameObject, name, mapInfo, size) -> {
+                final GameObject tmp;
+                if (gameObject.equals(name)) {
+                    tmp = new Tile(mapInfo.getX() * size, mapInfo.getY() * size, mapInfo.getSizeX() * size, mapInfo.getSizeY() * size);
+                    return tmp;
+                }
+                return null;
+            }));
+
+            this.gameObjects.addAll(mapLoader.createObjectArray("spikeUp", Global.MAP_UNIT, mapInfoArr, (gameObject, name, mapInfo, size) -> {
+                final GameObject tmp;
+                if (gameObject.equals(name)) {
+                    tmp = new Spike(mapInfo.getX() * size, mapInfo.getY() * size, mapInfo.getSizeX() * size, mapInfo.getSizeY() * size,
+                            1);
+                    return tmp;
+                }
+                return null;
+            }));
+
+            this.gameObjects.addAll(mapLoader.createObjectArray("tileRed", Global.MAP_UNIT, mapInfoArr, (gameObject, name, mapInfo, size) -> {
+                final GameObject tmp;
+                if (gameObject.equals(name)) {
+                    tmp = new Tile(mapInfo.getX() * size, mapInfo.getY() * size, mapInfo.getSizeX() * size, mapInfo.getSizeY() * size);
+                    return tmp;
+                }
+                return null;
+            }));
+
+            this.gameObjects.addAll(mapLoader.createObjectArray("tileGreen", Global.MAP_UNIT, mapInfoArr, (gameObject, name, mapInfo, size) -> {
+                final GameObject tmp;
+                if (gameObject.equals(name)) {
+                    tmp = new Tile(mapInfo.getX() * size, mapInfo.getY() * size, mapInfo.getSizeX() * size, mapInfo.getSizeY() * size);
+                    return tmp;
+                }
+                return null;
+            }));
+
+            this.gameObjects.addAll(mapLoader.createObjectArray("spikeDown", Global.MAP_UNIT, mapInfoArr, (gameObject, name, mapInfo, size) -> {
+                final GameObject tmp;
+                if (gameObject.equals(name)) {
+                    tmp = new Spike(mapInfo.getX() * size, mapInfo.getY() * size, mapInfo.getSizeX() * size, mapInfo.getSizeY() * size,
+                            2);
+                    return tmp;
+                }
+                return null;
+            }));
+
+            this.gameObjects.addAll(mapLoader.createObjectArray("monster", Global.MAP_UNIT, mapInfoArr, (gameObject, name, mapInfo, size) -> {
+                final GameObject tmp;
+                if (gameObject.equals(name)) {
+                    tmp = new Monster(mapInfo.getX() * size, mapInfo.getY() * size, mapInfo.getSizeX() * size, mapInfo.getSizeY() * size);
+                    return tmp;
+                }
+                return null;
+            }));
+
+            this.gameObjects.addAll(mapLoader.createObjectArray("movePlatform", Global.MAP_UNIT, mapInfoArr, (gameObject, name, mapInfo, size) -> {
+                final GameObject tmp;
+                if (gameObject.equals(name)) {
+                    tmp = new MovePlatform(mapInfo.getX() * size, mapInfo.getY() * size, mapInfo.getSizeX() * size, mapInfo.getSizeY() * size);
+                    return tmp;
+                }
+                return null;
+            }));
+
+            this.gameObjects.addAll(mapLoader.createObjectArray("pass", Global.MAP_UNIT, mapInfoArr, (gameObject, name, mapInfo, size) -> {
+                final GameObject tmp;
+                if (gameObject.equals(name)) {
+                    tmp = new Pass(mapInfo.getX() * size, mapInfo.getY() * size, mapInfo.getSizeX() * size, mapInfo.getSizeY() * size);
+                    return tmp;
+                }
+                return null;
+            }));
+
+            this.gameObjects.addAll(mapLoader.createObjectArray("rubber", Global.MAP_UNIT, mapInfoArr, (gameObject, name, mapInfo, size) -> {
+                final GameObject tmp;
+                if (gameObject.equals(name)) {
+                    tmp = new Rubber(mapInfo.getX() * size, mapInfo.getY() * size, mapInfo.getSizeX() * size, mapInfo.getSizeY() * size);
+                    return tmp;
+                }
+                return null;
+            }));
+
+            this.gameObjects.addAll(mapLoader.createObjectArray("conveyorRight", Global.MAP_UNIT, mapInfoArr, (gameObject, name, mapInfo, size) -> {
+                final GameObject tmp;
+                if (gameObject.equals(name)) {
+                    tmp = new Conveyor(mapInfo.getX() * size, mapInfo.getY() * size, mapInfo.getSizeX() * size, mapInfo.getSizeY() * size);
+                    return tmp;
+                }
+                return null;
+            }));
+
+            this.gameObjects.addAll(mapLoader.createObjectArray("conveyorLeft", Global.MAP_UNIT, mapInfoArr, (gameObject, name, mapInfo, size) -> {
+                final GameObject tmp;
+                if (gameObject.equals(name)) {
+                    tmp = new Conveyor(mapInfo.getX() * size, mapInfo.getY() * size, mapInfo.getSizeX() * size, mapInfo.getSizeY() * size);
+                    return tmp;
+                }
+                return null;
+            }));
+
+            this.gameObjects.addAll(mapLoader.createObjectArray("brokenRoad", Global.MAP_UNIT, mapInfoArr, (gameObject, name, mapInfo, size) -> {
+                final GameObject tmp;
+                if (gameObject.equals(name)) {
+                    tmp = new BrokenRoad(mapInfo.getX() * size, mapInfo.getY() * size, mapInfo.getSizeX() * size, mapInfo.getSizeY() * size);
+                    return tmp;
+                }
+                return null;
+            }));
+
+            this.gameObjects.addAll(mapLoader.createObjectArray("key", Global.MAP_UNIT, mapInfoArr, (gameObject, name, mapInfo, size) -> {
+                final GameObject tmp;
+                if (gameObject.equals(name)) {
+                    tmp = new Key(mapInfo.getX() * size, mapInfo.getY() * size, mapInfo.getSizeX() * size, mapInfo.getSizeY() * size);
                     return tmp;
                 }
                 return null;
@@ -224,93 +361,6 @@ public abstract class GameScene extends Scene {
         } catch (final IOException e) {
             e.printStackTrace();
         }
-    }
-
-    public enum TRACKER_MOVEMENT {
-        TOUCH_CAMERA {
-            @Override
-            public void move(GameObject gameObject, Camera camera, Tracker tracker) {
-                if (gameObject.painter().centerX() < camera.painter().left()) {       // 左
-                    tracker.moveTo(tracker.painter().left() - camera.painter().width(), tracker.painter().top());
-                }
-                if (gameObject.painter().centerY() < camera.painter().top()) {         // 上
-                    tracker.moveTo(tracker.painter().left(), tracker.painter().top() - camera.painter().width());
-                }
-                if (gameObject.painter().centerX() > camera.painter().right()) {     // 右
-                    tracker.moveTo(tracker.painter().left() + camera.painter().width(), tracker.painter().top());
-                }
-                if (gameObject.painter().centerY() > camera.painter().bottom()) {   // 下
-                    tracker.moveTo(tracker.painter().left(), tracker.painter().top() + camera.painter().width());
-                }
-
-                tracker.tryMove();
-            }
-
-            @Override
-            public void move(Tracker tracker) {
-            }
-        },
-        LEFT_ROLLING {
-            @Override
-            public void move(GameObject gameObject, Camera camera, Tracker tracker) {
-                tracker.leftShift();
-            }
-
-            @Override
-            public void move(Tracker tracker) {
-                tracker.leftShift();
-            }
-
-        },
-        UP_ROLLING {
-            @Override
-            public void move(GameObject gameObject, Camera camera, Tracker tracker) {
-                tracker.up();
-            }
-
-            @Override
-            public void move(Tracker tracker) {
-                tracker.up();
-            }
-        },
-        RIGHT_ROLLING {
-            @Override
-            public void move(GameObject gameObject, Camera camera, Tracker tracker) {
-                tracker.rightShift();
-            }
-
-            @Override
-            public void move(Tracker tracker) {
-                tracker.rightShift();
-            }
-        },
-        DOWN_ROLLING {
-            @Override
-            public void move(GameObject gameObject, Camera camera, Tracker tracker) {
-                tracker.down();
-            }
-
-            @Override
-            public void move(Tracker tracker) {
-                tracker.down();
-            }
-        },
-        HOLD {
-            @Override
-            public void move(GameObject gameObject, Camera camera, Tracker tracker) {
-
-            }
-
-            @Override
-            public void move(Tracker tracker) {
-
-            }
-        };
-
-        public abstract void move(GameObject gameObject, Camera camera, Tracker tracker);
-
-        public abstract void move(Tracker tracker);
-
     }
 
 }

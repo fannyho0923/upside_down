@@ -14,7 +14,7 @@ import java.io.IOException;
 import java.util.ArrayList;
 
 
-public class TestGame extends Scene {
+public class Origin_TestGame extends Scene {
     private Background background;
     private Actor actor;
     private ArrayList<GameObject> gameObjects;

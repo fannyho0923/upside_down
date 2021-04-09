@@ -5,20 +5,20 @@ import game.gameobj.Background;
 import game.gameobj.GameObject;
 import game.gameobj.Velocity;
 
-public class test extends GameScene{
+public class BasicScene extends GameScene {
     @Override
     public String setMapBmpPath() {
-        return "/map/fannyTestMap.bmp";
+        return "/map/basicMap.bmp";
     }
 
     @Override
     public String setMapTxtPath() {
-        return "/map/fannyTestMap.txt";
+        return "/map/basicMap.txt";
     }
 
     @Override
     public Actor addActor() {
-        return new Actor(40,40);
+        return new Actor(400,200);
     }
 
     @Override
@@ -53,6 +53,8 @@ public class test extends GameScene{
 
     @Override
     public boolean setActorTrigCamera() {
-        return false;
+        return true;
     }
+
+
 }
