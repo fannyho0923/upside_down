@@ -1,4 +1,4 @@
-package Internect;
+package game.Internect;
 
 import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
