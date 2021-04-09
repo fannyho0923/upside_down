@@ -1,3 +1,4 @@
+<<<<<<< HEAD:src/game/Main.java
 package game;
 
 import game.controller.SceneController;
@@ -7,6 +8,13 @@ import game.scene.TestSceneB;
 import game.utils.CommandSolver;
 import game.utils.GameKernel;
 import game.utils.Global;
+//=======
+import controller.SceneController;
+import scene.TestGame;
+import utils.CommandSolver;
+import utils.GameKernel;
+import utils.Global;
+>>>>>>> 67f0f1c3d2778b1663c66bcaa19ef5ee271f7ecf:src/Main.java
 
 import javax.swing.*;
 import java.awt.event.KeyEvent;
@@ -18,17 +26,14 @@ public class Main {// 資料刷新時間
 
         final SceneController sceneController = SceneController.getInstance();
         sceneController.change(new TestGame());
-        //sceneController.change(new TestSceneA());
         final GameKernel gameKernel = new GameKernel.Builder()
                 .input(new CommandSolver.BuildStream()
                         .mouseTrack().forceRelease().subscribe(sceneController)
                         .keyboardTrack()
-                        .add(KeyEvent.VK_ENTER, 1)
-                        .add(KeyEvent.VK_LEFT, 2)
-                        .add(KeyEvent.VK_RIGHT, 3)
-                        .add(KeyEvent.VK_SPACE, 4)
-                        .add(KeyEvent.VK_UP,5)
-                        .add(KeyEvent.VK_DOWN,6)
+                        .add(KeyEvent.VK_ENTER, Global.VK_ENTER)
+                        .add(KeyEvent.VK_LEFT, Global.VK_LEFT)
+                        .add(KeyEvent.VK_RIGHT, Global.VK_RIGHT)
+                        .add(KeyEvent.VK_SPACE, Global.VK_SPACE)
                         .next().keyCleanMode().subscribe(sceneController)
                 )
                 .paint(sceneController)

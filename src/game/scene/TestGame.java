@@ -11,7 +11,13 @@ import java.awt.*;
 import java.io.IOException;
 import java.util.ArrayList;
 
+<<<<<<< HEAD:src/game/scene/TestGame.java
 public class TestGame extends Scene {
+=======
+import utils.Global;
+
+public class TestGame extends Scene{
+>>>>>>> 67f0f1c3d2778b1663c66bcaa19ef5ee271f7ecf:src/scene/TestGame.java
     private Background background;
     private Actor actor;
     private ArrayList<GameObject> gameObjects;
@@ -60,11 +66,16 @@ public class TestGame extends Scene {
         return new CommandSolver.KeyListener() {
             @Override
             public void keyPressed(int commandCode, long trigTime) {
+<<<<<<< HEAD:src/game/scene/TestGame.java
                 switch (commandCode) {
                     case 2:
+=======
+                switch(commandCode){
+                    case Global.VK_LEFT:
+>>>>>>> 67f0f1c3d2778b1663c66bcaa19ef5ee271f7ecf:src/scene/TestGame.java
                         actor.walkLeft();
                         break;
-                    case 3:
+                    case Global.VK_RIGHT:
                         actor.walkRight();
                         break;
                 }
@@ -72,14 +83,19 @@ public class TestGame extends Scene {
 
             @Override
             public void keyReleased(int commandCode, long trigTime) {
+<<<<<<< HEAD:src/game/scene/TestGame.java
                 switch (commandCode) {
                     case 2: // left
+=======
+                switch (commandCode){
+                    case Global.VK_LEFT:
+>>>>>>> 67f0f1c3d2778b1663c66bcaa19ef5ee271f7ecf:src/scene/TestGame.java
                         actor.walkStop();
                         break;
-                    case 3: //right
+                    case Global.VK_RIGHT:
                         actor.walkStop();
                         break;
-                    case 4:
+                    case Global.VK_SPACE:
                         actor.jump();
                         break;
                 }
