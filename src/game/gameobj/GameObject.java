@@ -228,5 +228,8 @@ public abstract class GameObject implements GameKernel.UpdateInterface, GameKern
         public final void setCenter(final int x, final int y) {
             offset(x - centerX(), y - centerY());
         }
+
+
     }
+    public abstract void CollisionEffect(GameObject gameObject);
 }

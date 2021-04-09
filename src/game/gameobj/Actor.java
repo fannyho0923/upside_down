@@ -98,6 +98,11 @@ public class Actor extends GameObject{
         jumpCount = Global.continueJump;
     }
 
+    @Override
+    public void CollisionEffect(GameObject gameObject) {
+
+    }
+
 
     // 人物動畫
     private static class ActionAnimator{

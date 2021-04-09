@@ -1,5 +1,6 @@
 package game.gameobj;
 
+import game.camera.Camera;
 import game.utils.Global;
 
 import java.awt.*;
@@ -69,5 +70,11 @@ public class Tracker extends GameObject {
     public void moveTo(int x, int y){
         goalX = x;
         goalY = y;
+    }
+
+
+    @Override
+    public void CollisionEffect(GameObject gameObject) {
+
     }
 }
