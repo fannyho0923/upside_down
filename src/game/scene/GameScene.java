@@ -184,7 +184,7 @@ public abstract class GameScene extends Scene {
             if (actor.painter().centerX() < camera.painter().left()) {       // 左
                 frameX_count--;
             }
-            if (actor.painter().centerY() < camera.painter().top()) {         // 上
+            if (actor.painter().centerY() < camera.painter().top()) {        // 上
                 frameY_count--;
             }
             if (actor.painter().centerX() > camera.painter().right()) {     // 右

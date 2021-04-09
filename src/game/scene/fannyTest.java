@@ -5,7 +5,7 @@ import game.gameobj.Background;
 import game.gameobj.GameObject;
 import game.gameobj.Velocity;
 
-public class test extends GameScene{
+public class fannyTest extends GameScene{
     @Override
     public String setMapBmpPath() {
         return "/map/fannyTestMap.bmp";
