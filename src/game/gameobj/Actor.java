@@ -38,7 +38,6 @@ public class Actor extends GameObject{
 
     @Override
     public void update() {
-
         // walking, acceleration increase
         if (leftSpeedUp){
             velocity.offsetDX(-WALK_ACCELERATION);
