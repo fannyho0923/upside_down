@@ -1,25 +1,8 @@
 package game.gameobj;
+import game.controller.ImageController;
+import game.utils.Global;
+import game.utils.Delay;
 
-<<<<<<< HEAD
-<<<<<<< HEAD
-<<<<<<< HEAD:src/game/gameobj/Actor.java
-import game.controller.ImageController;
-import game.utils.Global;
-=======
-import controller.ImageController;
-import utils.Delay;
-import utils.Global;
->>>>>>> 67f0f1c3d2778b1663c66bcaa19ef5ee271f7ecf:src/gameobj/Actor.java
-=======
-import game.controller.ImageController;
-import game.utils.Delay;
-import game.utils.Global;
->>>>>>> 8606fae96e5ba903d449a7313015fc36f79395b4
-=======
-import game.controller.ImageController;
-import game.utils.Delay;
-import game.utils.Global;
->>>>>>> 32444a950cc5d1f531c471d60a14b94000a8133a
 
 import java.awt.*;
 
@@ -197,8 +180,5 @@ public class Actor extends GameObject{
                     tx + UNIT_X*WALK[count], ty, //依照來源圖片的位置取出圖片後，放到畫布上的位置
                     tx + UNIT_X*WALK[count] + UNIT_X, ty+UNIT_Y, null);
         }
-
-
-
     }
 }

@@ -1,38 +1,13 @@
-<<<<<<< HEAD
-<<<<<<< HEAD
-<<<<<<< HEAD:src/game/Main.java
-=======
->>>>>>> 8606fae96e5ba903d449a7313015fc36f79395b4
-=======
->>>>>>> 32444a950cc5d1f531c471d60a14b94000a8133a
+
 package game;
 
 import game.controller.SceneController;
 import game.scene.TestGame;
-<<<<<<< HEAD
-<<<<<<< HEAD
-import game.scene.TestSceneA;
-import game.scene.TestSceneB;
+
 import game.utils.CommandSolver;
 import game.utils.GameKernel;
 import game.utils.Global;
-//=======
-import controller.SceneController;
-import scene.TestGame;
-import utils.CommandSolver;
-import utils.GameKernel;
-import utils.Global;
->>>>>>> 67f0f1c3d2778b1663c66bcaa19ef5ee271f7ecf:src/Main.java
-=======
-import game.utils.CommandSolver;
-import game.utils.GameKernel;
-import game.utils.Global;
->>>>>>> 8606fae96e5ba903d449a7313015fc36f79395b4
-=======
-import game.utils.CommandSolver;
-import game.utils.GameKernel;
-import game.utils.Global;
->>>>>>> 32444a950cc5d1f531c471d60a14b94000a8133a
+
 
 import javax.swing.*;
 import java.awt.event.KeyEvent;
