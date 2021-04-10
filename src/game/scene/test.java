@@ -1,6 +1,7 @@
 package game.scene;
 
 import game.gameobj.Actor;
+import game.gameobj.ActorPro;
 import game.gameobj.Background;
 import game.gameobj.GameObject;
 
@@ -8,6 +9,11 @@ public class test extends GameScene{
     @Override
     public Actor addActor() {
         return new Actor(50, 200);
+    }
+//fanny
+    @Override
+    public ActorPro addActorPro() {
+        return new ActorPro(50, 200);
     }
 
     @Override

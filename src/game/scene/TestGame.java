@@ -2,6 +2,7 @@ package game.scene;
 
 import game.camera.Camera;
 import game.camera.MapInformation;
+import game.controller.ImageController;
 import game.gameobj.*;
 import game.maploader.MapInfo;
 import game.maploader.MapLoader;
@@ -15,21 +16,25 @@ import java.util.ArrayList;
 
 public class TestGame extends Scene {
     private Background background;
-    private Actor actor;
+    //    private Actor actor;
+    private ActorPro actor;
     private ArrayList<GameObject> gameObjects;
 
     private Camera camera;
     private Tracker tracker;
     private TRACKER_MOVEMENT tracker_movement;
 
-
+    private Image img;
     private final int MAP_UNIT = 32;
 
     @Override
     public void sceneBegin() {
+
+        img = ImageController.getInstance().tryGet("/img/actor_1_l.png");
+
         gameObjects = new ArrayList<>();
         mapInit(gameObjects); // load map information
-        actor = new Actor(50, 200);//160,300
+        actor = new ActorPro(50, 200);//160,300
         background = new Background();
 
         int cameraWidth = 640;
@@ -65,11 +70,16 @@ public class TestGame extends Scene {
                     case Global.VK_LEFT:
                         //actor.velocity().setX(-actor.WALK_SPEED);
                         actor.leftSpeedUp(true);
+//                        actor.setDirection(Global.Direction.LEFT);
                         break;
                     case Global.VK_RIGHT:
                         //actor.velocity().setX(actor.WALK_SPEED);
                         actor.rightSpeedUp(true);
+//                        actor.setDirection(Global.Direction.RIGHT);
                         break;
+//                    default:
+//                        actor.setDirection(Global.Direction.NO);
+//                        break;
                 }
             }
 
@@ -89,6 +99,9 @@ public class TestGame extends Scene {
                         break;
                     case Global.VK_A: //jump
                         actor.jump();
+//                    default:
+//                        actor.setDirection(Global.Direction.NO);
+//                        break;
                 }
             }
 
@@ -120,23 +133,28 @@ public class TestGame extends Scene {
                 a.paint(g);
             }
         });
-
         camera.paint(g);
         camera.end(g);
     }
 
     @Override
     public void update() {
-        actor.update();
+//        actor.update();
 
+//        System.out.println(actor.collider().bottom());
+        actor.update();
 
         for (int i = 0; i < gameObjects.size(); i++) {
             GameObject obj = gameObjects.get(i);
+            System.out.println("!!!"+actor.collider().bottom());
+
             if (actor.isCollision(obj)) {
 
                 actor.preMove();
                 actor.moveY();
+
                 if (actor.isCollision(obj)) { // 撞到 Y
+                    System.out.println(actor.collider().bottom());
                     actor.jumpReset();
                     if (actor.velocity().y() < 0) {
                         actor.setY(obj.collider().bottom() + 1);
@@ -159,7 +177,7 @@ public class TestGame extends Scene {
 
         //fanny 左右穿牆 , 如果使用touch camera 通常角色到不了, 不會觸發事件
         // 但角色速度過快的時候還是會觸發
-        if(tracker_movement != TRACKER_MOVEMENT.TOUCH_CAMERA){
+        if (tracker_movement != TRACKER_MOVEMENT.TOUCH_CAMERA) {
             if (actor.collider().right() <= camera.collider().left()) {//work left
                 actor.setXY(camera.collider().right() - 1, actor.painter().top());
                 return;
@@ -177,7 +195,7 @@ public class TestGame extends Scene {
     public void mapInit(ArrayList<GameObject> gameObjects) {
 
         try {
-            final MapLoader mapLoader = new MapLoader("/map/fannyTestMap.bmp", "/map/fannyTestMap.txt");
+            final MapLoader mapLoader = new MapLoader("/map/testMap.bmp", "/map/testMap.txt");
             final ArrayList<MapInfo> mapInfoArr = mapLoader.combineInfo();
 
             this.gameObjects.addAll(mapLoader.createObjectArray("road", MAP_UNIT, mapInfoArr, (gameObject, name, mapInfo, size) -> {
@@ -197,7 +215,6 @@ public class TestGame extends Scene {
                 }
                 return null;
             }));
-
 
         } catch (final IOException e) {
             e.printStackTrace();

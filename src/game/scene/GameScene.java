@@ -15,7 +15,10 @@ import java.util.ArrayList;
 
 public abstract class GameScene extends Scene {
     private GameObject background;
-    private Actor actor;
+//    private Actor actor;
+    //fanny
+    private ActorPro actor;
+
     private ArrayList<GameObject> gameObjects;
 
     private Camera camera;
@@ -26,8 +29,10 @@ public abstract class GameScene extends Scene {
 
     public abstract String setMapBmpPath();
     public abstract String setMapTxtPath();
-
     public abstract Actor addActor();
+
+    //fanny
+    public abstract ActorPro addActorPro();
     public abstract GameObject setBackground();
     public abstract int setCameraWidth();
     public abstract int setCameraHeight();
@@ -44,7 +49,8 @@ public abstract class GameScene extends Scene {
     public void sceneBegin() {
         gameObjects = new ArrayList<>();
         mapInit(gameObjects); // load map information
-        actor = addActor();
+        actor = addActorPro();
+//        actorPro=addActorPro();
         // actor = new Actor(50, 200);//160,300
         background = setBackground();
         //background = new Background();
@@ -149,7 +155,7 @@ public abstract class GameScene extends Scene {
     @Override
     public void update() {
         actor.update();
-
+//actorPro.update();
 
         for (int i = 0; i < gameObjects.size(); i++) {
             GameObject obj = gameObjects.get(i);

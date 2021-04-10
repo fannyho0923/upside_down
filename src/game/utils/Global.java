@@ -29,6 +29,12 @@ public class Global {
     public static final int VK_SPACE = 3;
     public static final int VK_A = 4;
 
+    //人物大小單位
+    public static int UNIT_X32=32;
+    public static int UNIT_Y32=32;
+    public static int UNIT_X64=64;
+    public static int UNIT_Y64=64;
+
 
 
     public static int random(final int min, final int max) {
