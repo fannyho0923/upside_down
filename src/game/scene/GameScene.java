@@ -26,6 +26,10 @@ public abstract class GameScene extends Scene {
     private int frameX_count = 0;
     private int frameY_count = 0;
 
+
+    private Spike up;
+    private Spike down;
+
     public abstract String setMapBmpPath();
     public abstract String setMapTxtPath();
 
@@ -65,6 +69,9 @@ public abstract class GameScene extends Scene {
                 .setCameraLockDirection(false, false, false, false)
                 .setCameraStartLocation(setCameraStartX(), setCameraStartY())
                 .gen();
+
+        up = new Spike(camera.painter().left(),camera.painter().top(), camera.painter().width(), 32, 1 );
+        down = new Spike(camera.painter().left(),camera.painter().bottom()-32,  camera.painter().width(), 32, 1);
 
         if(actorTrigCamera){
             tracker.velocity().stop();
@@ -144,14 +151,19 @@ public abstract class GameScene extends Scene {
             }
         });
 
+        up.paint(g);
+        down.paint(g);
+
         camera.paint(g);
         camera.end(g);
+
+
+
     }
 
     @Override
     public void update() {
         actor.update();
-
 
         for (int i = 0; i < gameObjects.size(); i++) {
             GameObject obj = gameObjects.get(i);
@@ -212,7 +224,14 @@ public abstract class GameScene extends Scene {
                 return;
             }
         }
+
+        up = new Spike(camera.painter().left(),camera.painter().top(), camera.painter().width(), 32, 1 );
+        down = new Spike(camera.painter().left(),camera.painter().bottom()-32,  camera.painter().width(), 32, 1);
+
         camera.update();
+
+
+
     }
 
     public void mapInit(ArrayList<GameObject> gameObjects) {

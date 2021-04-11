@@ -48,12 +48,12 @@ public class BasicScene extends GameScene {
 
     @Override
     public Velocity setCameraVelocity() {
-        return new Velocity(0,0,0,0,false);
+        return new Velocity(30,0,0,0,false);
     }
 
     @Override
     public boolean setActorTrigCamera() {
-        return true;
+        return false;
     }
 
 

@@ -20,7 +20,7 @@ public class Spike extends MapObject{
 
     @Override
     public void paint(Graphics g) {
-        g.drawImage(getImage(), painter().left(), painter().top(), null);
+        g.drawImage(getImage(), painter().left(), painter().top(), this.painter().width(), this.painter().height(), null);
     }
 
     @Override
