@@ -15,7 +15,6 @@ import java.util.ArrayList;
 
 public abstract class GameScene extends Scene {
     private GameObject background;
-//    private Actor actor;
     //fanny
     private ActorPro actor;
 
@@ -28,21 +27,25 @@ public abstract class GameScene extends Scene {
     private final int MAP_UNIT = 32;
 
     public abstract String setMapBmpPath();
+
     public abstract String setMapTxtPath();
-    public abstract Actor addActor();
 
     //fanny
     public abstract ActorPro addActorPro();
+
     public abstract GameObject setBackground();
+
     public abstract int setCameraWidth();
+
     public abstract int setCameraHeight();
+
     public abstract TRACKER_MOVEMENT setTrackerMovement();
+
     public abstract int setTrackerSpeed();
+
     public abstract int setCameraStartX();
+
     public abstract int setCameraStartY();
-
-
-
 
 
     @Override
@@ -186,7 +189,7 @@ public abstract class GameScene extends Scene {
 
         //fanny 左右穿牆 , 如果使用touch camera 通常角色到不了, 不會觸發事件
         // 但角色速度過快的時候還是會觸發
-        if(tracker_movement != TRACKER_MOVEMENT.TOUCH_CAMERA){
+        if (tracker_movement != TRACKER_MOVEMENT.TOUCH_CAMERA) {
             if (actor.collider().right() <= camera.collider().left()) {//work left
                 actor.setXY(camera.collider().right() - 1, actor.painter().top());
                 return;
@@ -205,7 +208,7 @@ public abstract class GameScene extends Scene {
     public void mapInit(ArrayList<GameObject> gameObjects) {
 
         try {
-            final MapLoader mapLoader = new MapLoader(setMapBmpPath(),setMapTxtPath());
+            final MapLoader mapLoader = new MapLoader(setMapBmpPath(), setMapTxtPath());
             final ArrayList<MapInfo> mapInfoArr = mapLoader.combineInfo();
 
             this.gameObjects.addAll(mapLoader.createObjectArray("road", MAP_UNIT, mapInfoArr, (gameObject, name, mapInfo, size) -> {

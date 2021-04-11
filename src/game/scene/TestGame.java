@@ -2,7 +2,6 @@ package game.scene;
 
 import game.camera.Camera;
 import game.camera.MapInformation;
-import game.controller.ImageController;
 import game.gameobj.*;
 import game.maploader.MapInfo;
 import game.maploader.MapLoader;
@@ -16,7 +15,6 @@ import java.util.ArrayList;
 
 public class TestGame extends Scene {
     private Background background;
-    //    private Actor actor;
     private ActorPro actor;
     private ArrayList<GameObject> gameObjects;
 
@@ -24,17 +22,14 @@ public class TestGame extends Scene {
     private Tracker tracker;
     private TRACKER_MOVEMENT tracker_movement;
 
-    private Image img;
     private final int MAP_UNIT = 32;
 
     @Override
     public void sceneBegin() {
 
-        img = ImageController.getInstance().tryGet("/img/actor_1_l.png");
-
         gameObjects = new ArrayList<>();
         mapInit(gameObjects); // load map information
-        actor = new ActorPro(50, 200,5);//160,300
+        actor = new ActorPro(50, 200, 2);//160,300
         background = new Background();
 
         int cameraWidth = 640;
@@ -68,18 +63,11 @@ public class TestGame extends Scene {
             public void keyPressed(int commandCode, long trigTime) {
                 switch (commandCode) {
                     case Global.VK_LEFT:
-                        //actor.velocity().setX(-actor.WALK_SPEED);
                         actor.leftSpeedUp(true);
-//                        actor.setDirection(Global.Direction.LEFT);
                         break;
                     case Global.VK_RIGHT:
-                        //actor.velocity().setX(actor.WALK_SPEED);
                         actor.rightSpeedUp(true);
-//                        actor.setDirection(Global.Direction.RIGHT);
                         break;
-//                    default:
-//                        actor.setDirection(Global.Direction.NO);
-//                        break;
                 }
             }
 
@@ -99,9 +87,6 @@ public class TestGame extends Scene {
                         break;
                     case Global.VK_A: //jump
                         actor.jump();
-//                    default:
-//                        actor.setDirection(Global.Direction.NO);
-//                        break;
                 }
             }
 
@@ -139,22 +124,17 @@ public class TestGame extends Scene {
 
     @Override
     public void update() {
-//        actor.update();
 
-//        System.out.println(actor.collider().bottom());
         actor.update();
 
         for (int i = 0; i < gameObjects.size(); i++) {
             GameObject obj = gameObjects.get(i);
-            System.out.println("!!!"+actor.collider().bottom());
-
             if (actor.isCollision(obj)) {
 
                 actor.preMove();
                 actor.moveY();
 
                 if (actor.isCollision(obj)) { // 撞到 Y
-                    System.out.println(actor.collider().bottom());
                     actor.jumpReset();
                     if (actor.velocity().y() < 0) {
                         actor.setY(obj.collider().bottom() + 1);
