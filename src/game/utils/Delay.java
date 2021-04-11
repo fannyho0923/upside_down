@@ -2,7 +2,7 @@ package game.utils;
 
 public class Delay {
     private int count;// 當下的經過幀數
-    private final int countLimit;// 總共要計時的幀數
+    private int countLimit;// 總共要計時的幀數
     private boolean isPause;
     private boolean isLoop;
 
@@ -26,6 +26,7 @@ public class Delay {
         this.isLoop = false;
         this.isPause = false;
     }
+    
 
     public void pause() {
         this.isPause = true;

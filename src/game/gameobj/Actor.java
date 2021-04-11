@@ -177,8 +177,10 @@ public class Actor extends GameObject {
                     14,
                     count * Global.UNIT_X64 + Global.UNIT_X64 - 22,
                     Global.UNIT_Y64 - 16, null);
-
         }
-
+    }
+    public enum State{
+        Alive,
+        Dead;
     }
 }
