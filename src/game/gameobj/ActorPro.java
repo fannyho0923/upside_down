@@ -20,10 +20,17 @@ public class ActorPro extends GameObject {
     private boolean leftSpeedUp;
     private boolean rightSpeedUp;
     private int jumpCount;
+    private Image imgRight;
+    private Image imgLeft;
+    private Image imgRightRev;
+    private Image imgLeftRev;
     private Image img;
+    private Image imgRev;
+
+    private Image[][] imageBox=new Image[6][2];
 
 
-    public ActorPro(int x, int y) {
+    public ActorPro(int x, int y,int num) {
         super(x, y, Global.UNIT_X32, Global.UNIT_Y32);
         velocity = new Velocity(0, 0, 0, 0, false);
         direction = Global.Direction.NO;
@@ -31,8 +38,29 @@ public class ActorPro extends GameObject {
         leftSpeedUp = false;
         rightSpeedUp = false;
         jumpCount = 0;
-        img = ImageController.getInstance().tryGet("/img/actor_1.png");
+        getImageBox(num);
     }
+
+    public void getImageBox(int num){
+        imageBox[0][0]=ImageController.getInstance().tryGet("/img/actor_1.png");
+        imageBox[0][1]=ImageController.getInstance().tryGet("/img/actor_1_l.png");
+        imageBox[1][0]=ImageController.getInstance().tryGet("/img/actor2.png");
+        imageBox[1][1]=ImageController.getInstance().tryGet("/img/actor2_l.png");
+        imageBox[2][0]=ImageController.getInstance().tryGet("/img/actor3.png");
+        imageBox[2][1]=ImageController.getInstance().tryGet("/img/actor3_l.png");
+        imageBox[3][0]=ImageController.getInstance().tryGet("/img/actor4.png");
+        imageBox[3][1]=ImageController.getInstance().tryGet("/img/actor4_l.png");
+        imageBox[4][0]=ImageController.getInstance().tryGet("/img/actor5.png");
+        imageBox[4][1]=ImageController.getInstance().tryGet("/img/actor5_l.png");
+        imageBox[5][0]=ImageController.getInstance().tryGet("/img/actor6.png");
+        imageBox[5][1]=ImageController.getInstance().tryGet("/img/actor6_l.png");
+        this.imgRight= imageBox[num][0];
+        this.imgLeft= imageBox[num][1];
+        this.imgRightRev= paintReverse(imgRight);
+        this.imgLeftRev= paintReverse(imgLeft);
+    }
+
+
 
     public void setDirection(Global.Direction direction) {
         this.direction = direction;
@@ -45,7 +73,7 @@ public class ActorPro extends GameObject {
     @Override
     public void paint(Graphics g) {
         if (velocity.isReverse()) {
-            actionAnimator.paint(g, paintReverse(img), painter().left(), painter().top(),
+            actionAnimator.paint(g, this.imgRev, painter().left(), painter().top(),
                     painter().right(), painter().bottom(), getDirection());
         } else {
             actionAnimator.paint(g, this.img, painter().left(), painter().top(),
@@ -83,9 +111,6 @@ public class ActorPro extends GameObject {
         return velocity;
     }
 
-//    public void setVelocity(Velocity velocity) {
-//        this.velocity = velocity;
-//    }
 
     public void preMove() {
         offsetX(-velocity.x());
@@ -105,10 +130,12 @@ public class ActorPro extends GameObject {
         offsetY(velocity.y());
         switch (this.direction) {
             case LEFT:
-                this.img = ImageController.getInstance().tryGet("/img/actor_1_l.png");
+                this.img = imgLeft;
+                this.imgRev = imgLeftRev;
                 break;
             case RIGHT:
-                this.img = ImageController.getInstance().tryGet("/img/actor_1.png");
+                this.img = imgRight;
+                this.imgRev=imgRightRev;
                 break;
             case NO:
                 break;

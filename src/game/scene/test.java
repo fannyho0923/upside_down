@@ -13,7 +13,7 @@ public class test extends GameScene{
 //fanny
     @Override
     public ActorPro addActorPro() {
-        return new ActorPro(50, 200);
+        return new ActorPro(50, 200,0);
     }
 
     @Override

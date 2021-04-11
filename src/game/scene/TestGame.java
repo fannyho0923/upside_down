@@ -34,7 +34,7 @@ public class TestGame extends Scene {
 
         gameObjects = new ArrayList<>();
         mapInit(gameObjects); // load map information
-        actor = new ActorPro(50, 200);//160,300
+        actor = new ActorPro(50, 200,5);//160,300
         background = new Background();
 
         int cameraWidth = 640;
