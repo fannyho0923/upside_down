@@ -26,7 +26,7 @@ public class Delay {
         this.isLoop = false;
         this.isPause = false;
     }
-    
+
 
     public void pause() {
         this.isPause = true;
