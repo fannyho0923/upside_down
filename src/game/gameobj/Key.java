@@ -14,7 +14,7 @@ public class Key extends MapObject{
     }
 
     @Override
-    public void CollisionEffect(GameObject gameObject) {
+    public void collisionEffect(Actor actor) {
 
     }
 

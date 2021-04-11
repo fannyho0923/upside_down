@@ -4,7 +4,7 @@ import game.controller.ImageController;
 
 import java.awt.*;
 
-public class Monster extends GameObject{
+public class Monster extends MapObject{
     Image img;
     public Monster(int top, int left, int width, int height) {
         super(top, left, width, height);
@@ -12,7 +12,7 @@ public class Monster extends GameObject{
     }
 
     @Override
-    public void CollisionEffect(GameObject gameObject) {
+    public void collisionEffect(Actor actor) {
 
     }
 

@@ -17,8 +17,8 @@ public class Conveyor extends MapObject{
     }
 
     @Override
-    public void CollisionEffect(GameObject gameObject) {
-        gameObject.offsetX(shift_x);
+    public void collisionEffect(Actor actor) {
+        actor.offsetX(shift_x);
     }
 
     @Override

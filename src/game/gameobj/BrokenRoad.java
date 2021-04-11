@@ -19,7 +19,7 @@ public class BrokenRoad extends MapObject{
     }
 
     @Override
-    public void CollisionEffect(Actor actor) {
+    public void collisionEffect(Actor actor) {
             delay.play();
     }
 
