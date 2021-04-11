@@ -9,7 +9,7 @@ import java.awt.*;
 public class Actor extends GameObject{
     public static int WALK_SPEED = 6;
     private static final int JUMP_SPEED = 30;
-    private static final float WALK_ACCELERATION = 0.5f;
+    private static final float WALK_ACCELERATION = 0.1f;
     private Velocity velocity;
 
     private ActionAnimator actionAnimator;
