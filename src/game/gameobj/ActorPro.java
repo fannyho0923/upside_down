@@ -12,7 +12,7 @@ import java.awt.image.BufferedImage;
 
 public class ActorPro extends GameObject {
     private static final int JUMP_SPEED = 30;
-    private static final float WALK_ACCELERATION = 0.5f;
+    private static final float WALK_ACCELERATION = 0.1f;
     private Velocity velocity;
     private Global.Direction direction;
     private ActionAnimator actionAnimator;
@@ -29,7 +29,7 @@ public class ActorPro extends GameObject {
 
 
     public ActorPro(int x, int y, int num) {
-        super(x, y, Global.UNIT_X32, Global.UNIT_Y32);
+        super(x, y, Global.UNIT_X64, Global.UNIT_Y64);
         velocity = new Velocity(0, 0, 0, 0, false);
         direction = Global.Direction.NO;
         actionAnimator = new ActionAnimator();
