@@ -19,8 +19,8 @@ public class BrokenRoad extends MapObject{
     }
 
     @Override
-    public void CollisionEffect(GameObject gameObject) {
-            isTouched = true;
+    public void CollisionEffect(Actor actor) {
+            delay.play();
     }
 
     public boolean isExist(){

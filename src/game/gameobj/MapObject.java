@@ -1,11 +1,12 @@
 package game.gameobj;
 
-public abstract class MapObject extends GameObject{
+import java.awt.*;
 
-    public MapObject(int top, int left, int width, int height) {
-        super(top, left, width, height);
+public abstract class MapObject extends GameObject {
+
+    public MapObject(int x, int y, int weight, int height){
+        super(x,y,weight,height);
     }
 
-    public abstract void CollisionEffect(MapObject gameObject);
-    public abstract void CollisionEffect(Actor actor);
+    public abstract void collisionEffect(Actor actor);
 }
