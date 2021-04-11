@@ -8,7 +8,8 @@ public class Background extends GameObject{
     private Image img;
 
     public Background(){
-        super(0,0, 1280,1280);
+        //x=3840 y=1920
+        super(0,0, 3840,1920);
         img = ImageController.getInstance().tryGet("/img/background.jpg");
     }
 
@@ -21,6 +22,11 @@ public class Background extends GameObject{
 
     @Override
     public void update() {
+
+    }
+
+    @Override
+    public void CollisionEffect(GameObject gameObject) {
 
     }
 }

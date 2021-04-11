@@ -4,7 +4,6 @@ package game;
 import game.controller.SceneController;
 import game.scene.TestGame;
 
-import game.scene.test;
 import game.utils.CommandSolver;
 import game.utils.GameKernel;
 import game.utils.Global;

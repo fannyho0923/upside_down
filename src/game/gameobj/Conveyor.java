@@ -4,11 +4,11 @@ import game.controller.ImageController;
 
 import java.awt.*;
 
-public class Wall extends GameObject{
+public class Conveyor extends GameObject{
     Image img;
-    public Wall(int x, int y, int width, int height) {
-        super(x, y,width,height);
-        img = ImageController.getInstance().tryGet("/img/wall_1x1.png");
+    public Conveyor(int top, int left, int width, int height) {
+        super(top, left, width, height);
+        img = ImageController.getInstance().tryGet("/img/lift_right_2x1.png");
     }
 
     @Override

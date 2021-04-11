@@ -1,14 +1,14 @@
 package game.scene;
 
-import game.gameobj.ActorPro;
+import game.gameobj.Actor;
 import game.gameobj.Background;
 import game.gameobj.GameObject;
 
-public class test extends GameScene{
+public class Test extends GameScene{
 
 //fanny
     @Override
-    public ActorPro addActorPro() {
+    public Actor addActorPro() {
 //        return new ActorPro(50, 200,2);
         return null;
     }

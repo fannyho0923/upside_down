@@ -10,7 +10,7 @@ import java.awt.geom.AffineTransform;
 import java.awt.image.AffineTransformOp;
 import java.awt.image.BufferedImage;
 
-public class ActorPro extends GameObject {
+public class Actor extends GameObject {
     private static final int JUMP_SPEED = 30;
     private static final float WALK_ACCELERATION = 0.1f;
     private Velocity velocity;
@@ -28,8 +28,8 @@ public class ActorPro extends GameObject {
     private Image imgRev;
 
 
-    public ActorPro(int x, int y, int num) {
-        super(x, y, Global.UNIT_X64, Global.UNIT_Y64);
+    public Actor(int x, int y, int num) {
+        super(x, y, Global.UNIT_X32, Global.UNIT_Y32);
         velocity = new Velocity(0, 0, 0, 0, false);
         direction = Global.Direction.NO;
         actionAnimator = new ActionAnimator();
@@ -146,6 +146,11 @@ public class ActorPro extends GameObject {
 
     public void jumpReset() {
         jumpCount = Global.continueJump;
+    }
+
+    @Override
+    public void CollisionEffect(GameObject gameObject) {
+
     }
 
 

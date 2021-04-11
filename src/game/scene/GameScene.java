@@ -16,7 +16,7 @@ import java.util.ArrayList;
 public abstract class GameScene extends Scene {
     private GameObject background;
     //fanny
-    private ActorPro actor;
+    private Actor actor;
 
     private ArrayList<GameObject> gameObjects;
 
@@ -31,7 +31,7 @@ public abstract class GameScene extends Scene {
     public abstract String setMapTxtPath();
 
     //fanny
-    public abstract ActorPro addActorPro();
+    public abstract Actor addActorPro();
 
     public abstract GameObject setBackground();
 
