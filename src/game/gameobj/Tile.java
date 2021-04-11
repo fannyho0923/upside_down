@@ -4,7 +4,7 @@ import game.controller.ImageController;
 
 import java.awt.*;
 
-public class Tile extends GameObject{
+public class Tile extends MapObject{
     Image img;
     public Tile(int top, int left, int width, int height) {
         super(top, left, width, height);

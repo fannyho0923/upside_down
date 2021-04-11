@@ -4,7 +4,7 @@ import game.controller.ImageController;
 
 import java.awt.*;
 
-public class Wall extends GameObject{
+public class Wall extends MapObject{
     Image img;
     public Wall(int x, int y, int width, int height) {
         super(x, y,width,height);

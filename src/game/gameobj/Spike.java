@@ -4,7 +4,7 @@ import game.controller.ImageController;
 
 import java.awt.*;
 
-public class Spike extends GameObject{
+public class Spike extends MapObject{
     Image img;
     int num;
     public Spike(int top, int left, int width, int height, int num) {

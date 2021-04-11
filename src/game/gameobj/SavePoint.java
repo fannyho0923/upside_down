@@ -4,7 +4,7 @@ import game.controller.ImageController;
 
 import java.awt.*;
 
-public class SavePoint extends GameObject{
+public class SavePoint extends MapObject{
     Image img;
     public SavePoint(int top, int left, int width, int height) {
         super(top, left, width, height);

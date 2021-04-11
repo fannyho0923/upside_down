@@ -6,5 +6,6 @@ public abstract class MapObject extends GameObject{
         super(top, left, width, height);
     }
 
-    public abstract void CollisionEffect(GameObject gameObject);
+    public abstract void CollisionEffect(MapObject gameObject);
+    public abstract void CollisionEffect(Actor actor);
 }

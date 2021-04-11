@@ -4,7 +4,7 @@ import game.controller.ImageController;
 
 import java.awt.*;
 
-public class Rubber extends GameObject{
+public class Rubber extends MapObject{
     Image img;
     public Rubber(int top, int left, int width, int height) {
         super(top, left, width, height);

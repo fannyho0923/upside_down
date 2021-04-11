@@ -4,7 +4,7 @@ import game.controller.ImageController;
 
 import java.awt.*;
 
-public class Road extends GameObject{
+public class Road extends MapObject{
     Image img;
     public Road(int x, int y, int width, int height) {
         super(x, y,width,height);
