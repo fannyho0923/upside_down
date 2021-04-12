@@ -19,6 +19,7 @@ public abstract class GameScene extends Scene {
     private GameObject background;
     private Actor actor;
     private ArrayList<GameObject> gameObjects;
+    private ArrayList<GameObject> brokenRoads; // 分開加入, 鏡頭改變時要重新加入
 
     private Camera camera;
     private Tracker tracker;
@@ -48,6 +49,7 @@ public abstract class GameScene extends Scene {
     @Override
     public void sceneBegin() {
         gameObjects = new ArrayList<>();
+        brokenRoads = new ArrayList<>();
         actor = addActor();
         background = setBackground();
 
@@ -240,6 +242,15 @@ public abstract class GameScene extends Scene {
             final MapLoader mapLoader = new MapLoader(setMapBmpPath(),setMapTxtPath());
             final ArrayList<MapInfo> mapInfoArr = mapLoader.combineInfo();
 
+            this.brokenRoads.addAll(mapLoader.createObjectArray("brokenRoad", Global.MAP_UNIT, mapInfoArr, (gameObject, name, mapInfo, size) -> {
+                final GameObject tmp;
+                if (gameObject.equals(name)) {
+                    tmp = new BrokenRoad(mapInfo.getX() * size, mapInfo.getY() * size, mapInfo.getSizeX() * size, mapInfo.getSizeY() * size);
+                    return tmp;
+                }
+                return null;
+            }));
+
             this.gameObjects.addAll(mapLoader.createObjectArray("road", Global.MAP_UNIT, mapInfoArr, (gameObject, name, mapInfo, size) -> {
                 final GameObject tmp;
                 if (gameObject.equals(name)) {
@@ -354,15 +365,6 @@ public abstract class GameScene extends Scene {
                 final GameObject tmp;
                 if (gameObject.equals(name)) {
                     tmp = new Conveyor(mapInfo.getX() * size, mapInfo.getY() * size, mapInfo.getSizeX() * size, mapInfo.getSizeY() * size, 2);
-                    return tmp;
-                }
-                return null;
-            }));
-
-            this.gameObjects.addAll(mapLoader.createObjectArray("brokenRoad", Global.MAP_UNIT, mapInfoArr, (gameObject, name, mapInfo, size) -> {
-                final GameObject tmp;
-                if (gameObject.equals(name)) {
-                    tmp = new BrokenRoad(mapInfo.getX() * size, mapInfo.getY() * size, mapInfo.getSizeX() * size, mapInfo.getSizeY() * size);
                     return tmp;
                 }
                 return null;

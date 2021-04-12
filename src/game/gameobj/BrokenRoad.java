@@ -15,7 +15,7 @@ public class BrokenRoad extends MapObject{
         img = ImageController.getInstance().tryGet("/img/brokenRoad_1x1.png");
         isTouched = false;
         isExist = true;
-        delay = new Delay(10);
+        delay = new Delay(30);
     }
 
     @Override
@@ -34,9 +34,6 @@ public class BrokenRoad extends MapObject{
 
     @Override
     public void update() {
-        if(isTouched){
-            delay.play();
-        }
         if(delay.count()){
             isExist = false;
         }
