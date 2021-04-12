@@ -3,6 +3,7 @@ package game.gameobj;
 import game.controller.ImageController;
 import game.utils.Global;
 import game.utils.Delay;
+import game.utils.Velocity;
 
 
 import java.awt.*;
@@ -13,6 +14,7 @@ import java.awt.image.BufferedImage;
 public class Actor extends GameObject {
     private static final int JUMP_SPEED = 30;
     private static final float WALK_ACCELERATION = 0.1f;
+
     private Velocity velocity;
     private Global.Direction direction;
     private ActionAnimator actionAnimator;
@@ -27,6 +29,10 @@ public class Actor extends GameObject {
     private Image img;
     private Image imgRev;
 
+    private int rebornX;
+    private int rebornY;
+    private boolean rebornState;
+
 
     public Actor(int x, int y, int num) {
         super(x, y, Global.UNIT_X32, Global.UNIT_Y32);
@@ -38,34 +44,13 @@ public class Actor extends GameObject {
         jumpCount = 0;
         this.img=ImageController.getInstance().tryGet("/img/actor_"+num+".png");
         setImage(num);
-    }
 
-    public void setImage(int num) {
-        this.imgRight = ImageController.getInstance().tryGet("/img/actor_"+num+".png");
-        this.imgLeft = ImageController.getInstance().tryGet("/img/actor_"+num+"_l.png");
-        this.imgRightRev = paintReverse(imgRight);
-        this.imgLeftRev = paintReverse(imgLeft);
+        rebornX = x;
+        rebornY = y;
+        rebornState = velocity.isReverse();
     }
 
 
-    public void setDirection(Global.Direction direction) {
-        this.direction = direction;
-    }
-
-    public Global.Direction getDirection() {
-        return direction;
-    }
-
-    @Override
-    public void paint(Graphics g) {
-        if (velocity.isReverse()) {
-            actionAnimator.paint(g, this.imgRev, painter().left(), painter().top(),
-                    painter().right(), painter().bottom(), getDirection());
-        } else {
-            actionAnimator.paint(g, this.img, painter().left(), painter().top(),
-                    painter().right(), painter().bottom(), getDirection());
-        }
-    }
 
     @Override
     public void update() {
@@ -84,6 +69,19 @@ public class Actor extends GameObject {
         move();
     }
 
+
+
+    @Override
+    public void paint(Graphics g) {
+        if (velocity.isReverse()) {
+            actionAnimator.paint(g, this.imgRev, painter().left(), painter().top(),
+                    painter().right(), painter().bottom(), getDirection());
+        } else {
+            actionAnimator.paint(g, this.img, painter().left(), painter().top(),
+                    painter().right(), painter().bottom(), getDirection());
+        }
+    }
+
     private Image paintReverse(Image img) {
         AffineTransform tx = AffineTransform.getScaleInstance(1, -1);
         tx.translate(0, -img.getHeight(null));
@@ -91,12 +89,54 @@ public class Actor extends GameObject {
         return op.filter((BufferedImage) img, null);
     }
 
-    // 移動
 
+
+    // 人物動畫
+    private static class ActionAnimator {
+        private int count;
+        private Delay delay;
+
+        public ActionAnimator() {
+            count = 0;
+            delay = new Delay(3);
+            delay.loop();
+        }
+
+
+        public void paint(Graphics g, Image img, int left, int top, int right, int bottom, Global.Direction direction) {
+            if (direction != Global.Direction.NO) {
+                if (delay.count()) {
+                    count = ++count % 8;
+                }
+            }
+            g.drawImage(img, left, top, right, bottom,
+                    count * Global.UNIT_X64 + 22,
+                    14,
+                    count * Global.UNIT_X64 + Global.UNIT_X64 - 22,
+                    Global.UNIT_Y64 - 16, null);
+        }
+    }
+    public enum State{
+        Alive,
+        Dead;
+    }
+
+    public void setImage(int num) {
+        this.imgRight = ImageController.getInstance().tryGet("/img/actor_"+num+".png");
+        this.imgLeft = ImageController.getInstance().tryGet("/img/actor_"+num+"_l.png");
+        this.imgRightRev = paintReverse(imgRight);
+        this.imgLeftRev = paintReverse(imgLeft);
+    }
+
+    public void setDirection(Global.Direction direction) {
+        this.direction = direction;
+    }
+
+
+    // 移動
     public Velocity velocity() {
         return velocity;
     }
-
 
     public void preMove() {
         offsetX(-velocity.x());
@@ -148,39 +188,39 @@ public class Actor extends GameObject {
         jumpCount = Global.continueJump;
     }
 
+    public void setRebornX(int rebornX) {
+        this.rebornX = rebornX;
+    }
+
+    public void setRebornY(int rebornY) {
+        this.rebornY = rebornY;
+    }
+
+    public void setRebornState(boolean rebornState) {
+        this.rebornState = rebornState;
+    }
+
+    public void reborn(){
+        this.setXY(rebornX,rebornY);
+        velocity.setGravityReverse(rebornState);
+    }
+
+    public Global.Direction getDirection() {
+        return direction;
+    }
+
     @Override
-    public void CollisionEffect(GameObject gameObject) {
+    public void collisionEffect(Actor actor) {
 
     }
 
-
-    // 人物動畫
-    private static class ActionAnimator {
-        private int count;
-        private Delay delay;
-
-        public ActionAnimator() {
-            count = 0;
-            delay = new Delay(3);
-            delay.loop();
-        }
-
-
-        public void paint(Graphics g, Image img, int left, int top, int right, int bottom, Global.Direction direction) {
-            if (direction != Global.Direction.NO) {
-                if (delay.count()) {
-                    count = ++count % 8;
-                }
-            }
-            g.drawImage(img, left, top, right, bottom,
-                    count * Global.UNIT_X64 + 22,
-                    14,
-                    count * Global.UNIT_X64 + Global.UNIT_X64 - 22,
-                    Global.UNIT_Y64 - 16, null);
-        }
+    @Override
+    public boolean isExist() {
+        return false;
     }
-    public enum State{
-        Alive,
-        Dead;
+
+    @Override
+    public void setExist(boolean isExist) {
+
     }
 }

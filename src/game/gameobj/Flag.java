@@ -12,9 +12,22 @@ public class Flag extends GameObject{
     }
 
     @Override
-    public void CollisionEffect(GameObject gameObject) {
+    public void collisionEffect(Actor actor) {
+        actor.setRebornX(actor.painter().left());
+        actor.setRebornY(actor.painter().top());
+        actor.setRebornState(actor.velocity().isReverse());
+    }
+
+    @Override
+    public boolean isExist() {
+        return true;
+    }
+
+    @Override
+    public void setExist(boolean isExist) {
 
     }
+
 
     @Override
     public void paint(Graphics g) {

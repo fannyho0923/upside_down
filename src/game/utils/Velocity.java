@@ -1,4 +1,4 @@
-package game.gameobj;
+package game.utils;
 
 import game.utils.Global;
 
@@ -14,8 +14,8 @@ public class Velocity {
 
 
     public Velocity(int x, int y, int dx, int dy, boolean gravityReverse){
-        this.x = x;
-        this.y = y;
+        setX(x);
+        setY(y);
         this.dx = dx;
         this.dy = dy;
         this.gravityReverse = gravityReverse;
@@ -29,6 +29,9 @@ public class Velocity {
         return gravityReverse;
     }
 
+    public void setGravityReverse(boolean gravityReverse) {
+        this.gravityReverse = gravityReverse;
+    }
 
     public int x() {
         return x;

@@ -5,6 +5,8 @@ import game.controller.ImageController;
 import java.awt.*;
 
 public class Key extends GameObject{
+    // 另外載入, 不要加在GameObjArr
+
     Image img;
     public Key(int top, int left, int width, int height) {
         super(top, left, width, height);
@@ -12,7 +14,17 @@ public class Key extends GameObject{
     }
 
     @Override
-    public void CollisionEffect(GameObject gameObject) {
+    public void collisionEffect(Actor actor) {
+
+    }
+
+    @Override
+    public boolean isExist() {
+        return false;
+    }
+
+    @Override
+    public void setExist(boolean isExist) {
 
     }
 

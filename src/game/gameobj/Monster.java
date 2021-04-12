@@ -12,7 +12,17 @@ public class Monster extends GameObject{
     }
 
     @Override
-    public void CollisionEffect(GameObject gameObject) {
+    public void collisionEffect(Actor actor) {
+        actor.reborn();
+    }
+
+    @Override
+    public boolean isExist() {
+        return false;
+    }
+
+    @Override
+    public void setExist(boolean isExist) {
 
     }
 

@@ -3,14 +3,22 @@ package game.scene;
 import game.gameobj.Actor;
 import game.gameobj.Background;
 import game.gameobj.GameObject;
+import game.utils.Velocity;
 
-public class Test extends GameScene{
-
-//fanny
+public class fannyTest extends GameScene{
     @Override
-    public Actor addActorPro() {
-//        return new ActorPro(50, 200,2);
-        return null;
+    public String setMapBmpPath() {
+        return "/map/fannyTestMap.bmp";
+    }
+
+    @Override
+    public String setMapTxtPath() {
+        return "/map/fannyTestMap.txt";
+    }
+
+    @Override
+    public Actor addActor() {
+        return new Actor(40,40,2);
     }
 
     @Override
@@ -20,7 +28,7 @@ public class Test extends GameScene{
 
     @Override
     public int setCameraWidth() {
-        return 640;
+        return 960;
     }
 
     @Override
@@ -29,13 +37,8 @@ public class Test extends GameScene{
     }
 
     @Override
-    public GameScene.TRACKER_MOVEMENT setTrackerMovement() {
-        return TRACKER_MOVEMENT.TOUCH_CAMERA;
-    }
-
-    @Override
     public int setTrackerSpeed() {
-        return 4;
+        return 0;
     }
 
     @Override
@@ -49,12 +52,12 @@ public class Test extends GameScene{
     }
 
     @Override
-    public String setMapBmpPath() {
-        return "/map/testMap.bmp";
+    public Velocity setCameraVelocity() {
+        return new Velocity(0,0,0,0,false);
     }
 
     @Override
-    public String setMapTxtPath() {
-        return "/map/testMap.txt";
+    public boolean setActorTrigCamera() {
+        return false;
     }
 }

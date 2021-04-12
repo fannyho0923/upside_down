@@ -1,5 +1,6 @@
 package game.camera;
 
+import game.gameobj.Actor;
 import game.gameobj.GameObject;
 import game.utils.Global;
 
@@ -187,7 +188,17 @@ public class Camera extends GameObject {
     }
 
     @Override
-    public void CollisionEffect(GameObject gameObject) {
+    public void collisionEffect(Actor actor) {
+
+    }
+
+    @Override
+    public boolean isExist() {
+        return false;
+    }
+
+    @Override
+    public void setExist(boolean isExist) {
 
     }
 

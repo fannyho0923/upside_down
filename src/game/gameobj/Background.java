@@ -26,7 +26,17 @@ public class Background extends GameObject{
     }
 
     @Override
-    public void CollisionEffect(GameObject gameObject) {
+    public void collisionEffect(Actor actor) {
+
+    }
+
+    @Override
+    public boolean isExist() {
+        return true;
+    }
+
+    @Override
+    public void setExist(boolean isExist) {
 
     }
 }

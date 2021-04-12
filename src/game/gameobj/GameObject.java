@@ -229,7 +229,9 @@ public abstract class GameObject implements GameKernel.UpdateInterface, GameKern
             offset(x - centerX(), y - centerY());
         }
 
-
     }
-    public abstract void CollisionEffect(GameObject gameObject);
+
+    public abstract void collisionEffect(Actor actor);
+    public abstract boolean isExist();
+    public abstract void setExist(boolean isExist);
 }

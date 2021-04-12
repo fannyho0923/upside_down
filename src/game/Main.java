@@ -2,7 +2,10 @@
 package game;
 
 import game.controller.SceneController;
-import game.scene.TestGame;
+
+import game.scene.BasicScene;
+
+
 
 import game.utils.CommandSolver;
 import game.utils.GameKernel;
@@ -18,7 +21,7 @@ public class Main {// 資料刷新時間
         final JFrame jFrame = new JFrame();
 
         final SceneController sceneController = SceneController.getInstance();
-        sceneController.change(new TestGame());
+        sceneController.change(new BasicScene());
         final GameKernel gameKernel = new GameKernel.Builder()
                 .input(new CommandSolver.BuildStream()
                         .mouseTrack().forceRelease().subscribe(sceneController)

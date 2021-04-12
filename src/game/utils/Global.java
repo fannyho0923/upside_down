@@ -18,6 +18,8 @@ public class Global {
     public static final long LIMIT_DELTA_TIME = 1000000000 / FRAME_LIMIT;
     public static int UNIT_X = 32;
     public static int UNIT_Y = 32;
+
+    public static int MAP_UNIT = 32;
     // 重力係數
     public static final float GRAVITY = 0.3f;
     // 連跳次數, 寫好玩的, 不會用到
@@ -34,6 +36,7 @@ public class Global {
     public static int UNIT_Y32=32;
     public static int UNIT_X64=64;
     public static int UNIT_Y64=64;
+
 
 
 
