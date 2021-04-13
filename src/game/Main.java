@@ -4,6 +4,8 @@ package game;
 import game.controller.SceneController;
 
 import game.scene.BasicScene;
+import game.scene.BasicSceneTest;
+import game.scene.SceneSet;
 import game.scene.fannyTest;
 import game.utils.CommandSolver;
 import game.utils.GameKernel;
@@ -19,7 +21,7 @@ public class Main {// 資料刷新時間
         final JFrame jFrame = new JFrame();
 
         final SceneController sceneController = SceneController.getInstance();
-        sceneController.change(new BasicScene());
+        sceneController.change(new BasicSceneTest());
         final GameKernel gameKernel = new GameKernel.Builder()
                 .input(new CommandSolver.BuildStream()
                         .mouseTrack().forceRelease().subscribe(sceneController)
