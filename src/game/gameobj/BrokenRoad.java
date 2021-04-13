@@ -13,7 +13,7 @@ public class BrokenRoad extends GameObject{
         super(top, left, width, height);
         img = ImageController.getInstance().tryGet("/img/brokenRoad_1x1.png");
         isTouched = false;
-        delay = new Delay(10);
+        delay = new Delay(20);
     }
 
     @Override

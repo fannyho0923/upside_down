@@ -19,11 +19,9 @@ public abstract class GameScene extends Scene {
     private GameObject background;
     //fanny
     private Actor actor;
-
     private ArrayList<GameObject> gameObjects;
     private ArrayList<GameObject> orinBrokenRoads; // 分開加入, 鏡頭改變時要重新加入
     private ArrayList<GameObject> brokenRoads;
-
 
     private Camera camera;
     private Tracker tracker;
@@ -31,31 +29,23 @@ public abstract class GameScene extends Scene {
     private int frameX_count = 0;
     private int frameY_count = 0;
 
-
     private Spike up;
     private Spike down;
 
     public abstract String setMapBmpPath();
-
     public abstract String setMapTxtPath();
 
     //fanny
     public abstract Actor addActor();
-
     public abstract GameObject setBackground();
-
     public abstract int setCameraWidth();
-
     public abstract int setCameraHeight();
-
     public abstract int setTrackerSpeed();
 
     public abstract int setCameraStartX();
     public abstract int setCameraStartY();
     public abstract Velocity setCameraVelocity();
     public abstract boolean setActorTrigCamera();
-
-
 
     @Override
     public void sceneBegin() {
@@ -65,21 +55,20 @@ public abstract class GameScene extends Scene {
         mapInit(); // load map information
 
         brokenRoads = (ArrayList) orinBrokenRoads.clone();
-
         actor = addActor();
         background = setBackground();
 
-
         int cameraWidth = setCameraWidth();
         int cameraHeight = setCameraHeight();
+
         MapInformation.getInstance().setMapInfo(this.background);
         tracker = new Tracker((cameraWidth - Global.MAP_UNIT) / 2,
                 (cameraHeight - Global.MAP_UNIT) / 2, setCameraVelocity());
         actorTrigCamera = setActorTrigCamera();
+
         if(actorTrigCamera){
             tracker.velocity().stop();
         }
-
         camera = new Camera.Builder(cameraWidth, cameraHeight)
                 .setChaseObj(tracker) //
                 .setCameraWindowLocation(0, 0)
@@ -92,7 +81,6 @@ public abstract class GameScene extends Scene {
 
         if(actorTrigCamera){
             tracker.velocity().stop();
-
         }
     }
 
@@ -220,7 +208,6 @@ public abstract class GameScene extends Scene {
                 orinBrokenRoads.forEach(a -> System.out.println(a.isExist()));
                 System.out.println("=============================");
                 brokenRoads.forEach(a -> System.out.println(a.isExist()));
-
             }
             if (actor.painter().centerY() < camera.painter().top()) {        // 上
                 frameY_count--;

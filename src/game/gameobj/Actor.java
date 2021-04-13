@@ -14,7 +14,7 @@ import java.awt.image.BufferedImage;
 public class Actor extends GameObject {
     private static final int JUMP_SPEED = 30;
     private static final float WALK_ACCELERATION = 0f;
-    public static final int WALK_SPEED = 10;
+    public static final int WALK_SPEED = 5;
 
     private Velocity velocity;
     private Global.Direction direction;

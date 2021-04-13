@@ -236,6 +236,7 @@ public abstract class GameObject implements GameKernel.UpdateInterface, GameKern
     public boolean isExist(){
         return isExist;
     }
+
     public void setExist(boolean isExist){
         this.isExist = isExist;
     }
