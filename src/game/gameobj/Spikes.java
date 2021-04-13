@@ -25,7 +25,7 @@ public class Spikes extends MapObject{
 
     @Override
     public void update() {
-
+        setXY(painter().left(),painter().top());
     }
 
     public Image getImage(){

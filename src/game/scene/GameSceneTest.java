@@ -5,8 +5,6 @@ import game.camera.MapInformation;
 import game.gameobj.*;
 import game.maploader.MapInfo;
 import game.maploader.MapLoader;
-import game.scene.Scene;
-import game.scene.SceneSet;
 import game.utils.CommandSolver;
 import game.utils.Global;
 
@@ -47,6 +45,8 @@ public class GameSceneTest extends Scene {
         if(sceneSet.isActorTrigCamera()){
             tracker.velocity().stop();
         }
+        spikesDown = new Spikes(camera.painter().left(),camera.painter().top(), camera.painter().width(), 32, 2 );
+        spikesUp = new Spikes(camera.painter().left(),camera.painter().bottom()-32,  camera.painter().width(), 32, 1);
     }
 
     @Override
@@ -192,8 +192,8 @@ public class GameSceneTest extends Scene {
                 sceneSet.getActor().setXY(camera.collider().left() - sceneSet.getActor().painter().width() + 1, sceneSet.getActor().painter().top());
                 return;
             }
-            spikesDown = new Spikes(camera.painter().left(),camera.painter().top(), camera.painter().width(), 32, 2 );
-            spikesUp = new Spikes(camera.painter().left(),camera.painter().bottom()-32,  camera.painter().width(), 32, 1);
+            spikesDown.offsetY(camera.painter().top()-spikesDown.painter().top());
+            spikesUp.offsetY(camera.painter().bottom()-spikesUp.painter().bottom());
         }
     }
 
