@@ -15,7 +15,7 @@ public class Spike extends GameObject{
 
     @Override
     public void collisionEffect(Actor actor) {
-
+        actor.reborn();
     }
 
     @Override
