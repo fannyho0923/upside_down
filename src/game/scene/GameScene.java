@@ -29,23 +29,35 @@ public abstract class GameScene extends Scene {
     private int frameX_count = 0;
     private int frameY_count = 0;
 
+    private String mapBmpPath;
+    private String mapTxtPath;
+
     private Spike up;
     private Spike down;
 
-    public abstract String setMapBmpPath();
-    public abstract String setMapTxtPath();
+    public GameScene(String mapBmpPath, String mapTxtPath,
+                     Actor actor, GameObject background,
+                     int cameraWidth, int cameraHeight, int cameraVelocityX, int cameraVelocityY,
+                     int cameraStartX, int cameraStartY,
+                     boolean actorTrigCamera){
+        this.mapBmpPath = mapBmpPath;
+        this.mapTxtPath = mapTxtPath;
+        this.actor = actor;
+        this.background = background;
+        this.tracker = new Tracker((cameraWidth - Global.MAP_UNIT) / 2,
+                (cameraHeight - Global.MAP_UNIT) / 2, new Velocity(cameraVelocityX,cameraVelocityY,0,0,false));
+        this.actorTrigCamera = actorTrigCamera;
 
-    //fanny
-    public abstract Actor addActor();
-    public abstract GameObject setBackground();
-    public abstract int setCameraWidth();
-    public abstract int setCameraHeight();
-    public abstract int setTrackerSpeed();
+        camera = new Camera.Builder(cameraWidth, cameraHeight)
+                .setChaseObj(tracker) //
+                .setCameraWindowLocation(0, 0)
+                .setCameraLockDirection(false, false, false, false)
+                .setCameraStartLocation(cameraStartX, cameraStartY)
+                .gen();
 
-    public abstract int setCameraStartX();
-    public abstract int setCameraStartY();
-    public abstract Velocity setCameraVelocity();
-    public abstract boolean setActorTrigCamera();
+    }
+
+
 
     @Override
     public void sceneBegin() {
@@ -55,26 +67,25 @@ public abstract class GameScene extends Scene {
         mapInit(); // load map information
 
         brokenRoads = (ArrayList) orinBrokenRoads.clone();
-        actor = addActor();
-        background = setBackground();
-
-        int cameraWidth = setCameraWidth();
-        int cameraHeight = setCameraHeight();
+//        actor = addActor();
+//        background = setBackground();
+//
+//        int cameraWidth = setCameraWidth();
+//        int cameraHeight = setCameraHeight();
 
         MapInformation.getInstance().setMapInfo(this.background);
-        tracker = new Tracker((cameraWidth - Global.MAP_UNIT) / 2,
-                (cameraHeight - Global.MAP_UNIT) / 2, setCameraVelocity());
-        actorTrigCamera = setActorTrigCamera();
-
+//        tracker = new Tracker((cameraWidth - Global.MAP_UNIT) / 2,
+//                (cameraHeight - Global.MAP_UNIT) / 2, setCameraVelocity());
+//        actorTrigCamera = setActorTrigCamera();
         if(actorTrigCamera){
             tracker.velocity().stop();
         }
-        camera = new Camera.Builder(cameraWidth, cameraHeight)
-                .setChaseObj(tracker) //
-                .setCameraWindowLocation(0, 0)
-                .setCameraLockDirection(false, false, false, false)
-                .setCameraStartLocation(setCameraStartX(), setCameraStartY())
-                .gen();
+//        camera = new Camera.Builder(cameraWidth, cameraHeight)
+//                .setChaseObj(tracker) //
+//                .setCameraWindowLocation(0, 0)
+//                .setCameraLockDirection(false, false, false, false)
+//                .setCameraStartLocation(setCameraStartX(), setCameraStartY())
+//                .gen();
 
         up = new Spike(camera.painter().left(),camera.painter().top(), camera.painter().width(), 32, 1 );
         down = new Spike(camera.painter().left(),camera.painter().bottom()-32,  camera.painter().width(), 32, 1);
@@ -240,19 +251,15 @@ public abstract class GameScene extends Scene {
                 return;
             }
         }
-
         up = new Spike(camera.painter().left(),camera.painter().top(), camera.painter().width(), 32, 1 );
         down = new Spike(camera.painter().left(),camera.painter().bottom()-32,  camera.painter().width(), 32, 1);
-
         camera.update();
     }
 
     public void mapInit() {
-
         try {
-            final MapLoader mapLoader = new MapLoader(setMapBmpPath(), setMapTxtPath());
+            final MapLoader mapLoader = new MapLoader(mapBmpPath, mapTxtPath);
             final ArrayList<MapInfo> mapInfoArr = mapLoader.combineInfo();
-
             this.orinBrokenRoads.addAll(mapLoader.createObjectArray("brokenRoad", Global.MAP_UNIT, mapInfoArr, (gameObject, name, mapInfo, size) -> {
                 final GameObject tmp;
                 if (gameObject.equals(name)) {

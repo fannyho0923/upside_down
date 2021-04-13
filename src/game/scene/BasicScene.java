@@ -8,61 +8,10 @@ import game.utils.Velocity;
 
 
 public class BasicScene extends GameScene {
-    @Override
-    public String setMapBmpPath() {
-        return "/map/basicMap0411.bmp";
+    public BasicScene() {
+        super("/map/basicMap0411.bmp", "/map/basicMap0411.txt",
+                new Actor(400, 200, 2), new Background(),
+                960, 640, 0, 0, 0, 0, true);
     }
-
-    @Override
-    public String setMapTxtPath() {
-        return "/map/basicMap0411.txt";
-    }
-
-
-    @Override
-    public Actor addActor() {
-        return new Actor(400,200,2);
-    }
-
-    @Override
-    public GameObject setBackground() {
-        return new Background();
-    }
-
-    @Override
-    public int setCameraWidth() {
-        return 960;
-    }
-
-    @Override
-    public int setCameraHeight() {
-        return 640;
-    }
-
-    @Override
-    public int setTrackerSpeed() {
-        return 0;
-    }
-
-    @Override
-    public int setCameraStartX() {
-        return 0;
-    }
-
-    @Override
-    public int setCameraStartY() {
-        return 0;
-    }
-
-    @Override
-    public Velocity setCameraVelocity() {
-        return new Velocity(0,0,0,0,false);
-    }
-
-    @Override
-    public boolean setActorTrigCamera() {
-        return true;
-    }
-
-
 }
+

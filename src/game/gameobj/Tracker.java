@@ -35,6 +35,8 @@ public class Tracker extends GameObject{
     @Override
     public void update() {
         offset(velocity.x(), velocity.y());
+//        System.out.println(velocity().x());
+//        System.out.println(velocity().y());
     }
 
     @Override
