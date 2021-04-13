@@ -1,16 +1,7 @@
 package game.scene;
 
-import game.camera.Camera;
-import game.camera.MapInformation;
 import game.gameobj.*;
-import game.maploader.MapInfo;
-import game.maploader.MapLoader;
-import game.utils.CommandSolver;
-import game.utils.Global;
 import game.utils.Velocity;
-
-import java.awt.*;
-import java.io.IOException;
 import java.util.ArrayList;
 
 public class SceneSet {
@@ -18,7 +9,6 @@ public class SceneSet {
     private Actor actor;
     private ArrayList<GameObject> gameObjects;
 
-//    private Camera camera;
     private int cameraWidth;
     private int cameraHeight;
     private int cameraStartX;
@@ -29,17 +19,10 @@ public class SceneSet {
     private int cameraVelDx;
     private int cameraVelDy;
 
-//    private Tracker tracker;
     private boolean actorTrigCamera;
 
     private String mapBmpPath;
     private String mapTxtPath;
-
-    private int frameX_count = 0;
-    private int frameY_count = 0;
-
-    private Spike up;
-    private Spike down;
 
     public SceneSet(int actorX, int actorY,
                     GameObject background,
@@ -61,15 +44,6 @@ public class SceneSet {
         this.actorTrigCamera = actorTrigCamera; //false=固定鏡頭, true=鏡頭會動
         this.mapBmpPath = mapBmpPath;
         this.mapTxtPath = mapTxtPath;
-//        this.cameraVelocity = new Velocity(cameraVelX, cameraVelY, cameraVelDx, cameraVelDy, false);
-//        this.tracker = new Tracker((cameraWidth - Global.MAP_UNIT) / 2,
-//                (cameraHeight - Global.MAP_UNIT) / 2, cameraVelocity);
-//        this.camera = new Camera.Builder(cameraWidth, cameraHeight)
-//                .setChaseObj(tracker) //
-//                .setCameraWindowLocation(0, 0)
-//                .setCameraLockDirection(false, false, false, false)
-//                .setCameraStartLocation(cameraStartX, cameraStartY)
-//                .gen();
     }
 
     public void setBackground(GameObject background) {
@@ -83,10 +57,6 @@ public class SceneSet {
     public void setGameObjects(ArrayList<GameObject> gameObjects) {
         this.gameObjects = gameObjects;
     }
-
-//    public void setTracker(Tracker tracker) {
-//        this.tracker = tracker;
-//    }
 
     public ArrayList<GameObject> getGameObjects() {
         return gameObjects;
@@ -112,21 +82,6 @@ public class SceneSet {
         return mapTxtPath;
     }
 
-//    public Tracker genTracker(){
-//        return new Tracker((cameraWidth - Global.MAP_UNIT) / 2,
-//                (cameraHeight - Global.MAP_UNIT) / 2, cameraVelocity);
-//    }
-
-//    public Tracker getTracker() {
-//        return tracker;
-//    }
-//
-//    public Camera getCamera() {
-//        return camera;
-//    }
-//
-
-
     public int getCameraStartX() {
         return cameraStartX;
     }
@@ -142,15 +97,6 @@ public class SceneSet {
     public int getCameraHeight() {
         return cameraHeight;
     }
-
-//    public Camera genCamera(){
-//        return new Camera.Builder(cameraWidth, cameraHeight)
-//                .setChaseObj(genTracker()) //
-//                .setCameraWindowLocation(0, 0)
-//                .setCameraLockDirection(false, false, false, false)
-//                .setCameraStartLocation(cameraStartX, cameraStartY)
-//                .gen();
-//    }
 
     public boolean isActorTrigCamera() {
         return actorTrigCamera;

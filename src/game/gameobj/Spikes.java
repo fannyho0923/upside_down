@@ -4,10 +4,10 @@ import game.controller.ImageController;
 
 import java.awt.*;
 
-public class Spike extends MapObject{
+public class Spikes extends MapObject{
     Image img;
     int num;
-    public Spike(int top, int left, int width, int height, int num) {
+    public Spikes(int top, int left, int width, int height, int num) {
         super(top, left, width, height);
         this.num = num;
         img = null;
@@ -31,11 +31,11 @@ public class Spike extends MapObject{
     public Image getImage(){
         switch (num){
             case 1:
-                img = ImageController.getInstance().tryGet("/img/spikeUp.png");
+                img = ImageController.getInstance().tryGet("/img/spikesUp.png");
                 break;
 
             case 2:
-                img = ImageController.getInstance().tryGet("/img/spikeDown.png");
+                img = ImageController.getInstance().tryGet("/img/spikesDown.png");
                 break;
         }
         return img;

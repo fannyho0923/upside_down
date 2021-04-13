@@ -1,4 +1,4 @@
-package game.utils;
+package game.scene;
 
 import game.camera.Camera;
 import game.camera.MapInformation;
@@ -7,6 +7,8 @@ import game.maploader.MapInfo;
 import game.maploader.MapLoader;
 import game.scene.Scene;
 import game.scene.SceneSet;
+import game.utils.CommandSolver;
+import game.utils.Global;
 
 import java.awt.*;
 import java.io.IOException;
@@ -17,6 +19,8 @@ public class GameSceneTest extends Scene {
     private Camera camera;
     private int frameX_count = 0;
     private int frameY_count = 0;
+    private Spikes spikesUp;
+    private Spikes spikesDown;
 
     private SceneSet sceneSet;
     
@@ -29,17 +33,11 @@ public class GameSceneTest extends Scene {
     public void sceneBegin() {
         mapInit(sceneSet.getGameObjects());
         MapInformation.getInstance().setMapInfo(this.sceneSet.getBackground());
-//        sceneSet.getTracker() = sceneSet.getTracker();
-//        tracker = sceneSet.genTracker();
         tracker = new Tracker((sceneSet.getCameraWidth() - Global.MAP_UNIT) / 2,
                 (sceneSet.getCameraHeight() - Global.MAP_UNIT) / 2, sceneSet.getCameraVelocity());
-        System.out.println(tracker.velocity().x());
-        System.out.println(tracker.velocity().y());
         if(sceneSet.isActorTrigCamera()){
             tracker.velocity().stop();
         }
-//        sceneSet.genCamera();
-
         camera = new Camera.Builder(sceneSet.getCameraWidth(), sceneSet.getCameraHeight())
                 .setChaseObj(tracker) //
                 .setCameraWindowLocation(0, 0)
@@ -49,9 +47,8 @@ public class GameSceneTest extends Scene {
         if(sceneSet.isActorTrigCamera()){
             tracker.velocity().stop();
         }
-
-//        up = new Spike(camera.painter().left(),camera.painter().top(), camera.painter().width(), 32, 1 );
-//        down = new Spike(camera.painter().left(),camera.painter().bottom()-32,  camera.painter().width(), 32, 1);
+        spikesDown = new Spikes(camera.painter().left(),camera.painter().top(), camera.painter().width(), 32, 2 );
+        spikesUp = new Spikes(camera.painter().left(),camera.painter().bottom()-32,  camera.painter().width(), 32, 1);
     }
 
     @Override
@@ -59,7 +56,7 @@ public class GameSceneTest extends Scene {
         this.sceneSet.setBackground(null);
         this.sceneSet.setActor(null);
         this.sceneSet.setGameObjects(null);
-//        this.camera = null;
+        this.camera = null;
     }
 
     @Override
@@ -127,8 +124,8 @@ public class GameSceneTest extends Scene {
             }
         });
 
-//        up.paint(g);
-//        down.paint(g);
+        spikesUp.paint(g);
+        spikesDown.paint(g);
 
         camera.paint(g);
         camera.end(g);
@@ -186,7 +183,6 @@ public class GameSceneTest extends Scene {
                     camera.painter().height()*frameY_count);
         }else{
             tracker.update();
-//            System.out.println("!");
 
             //fanny 左右穿牆
             if (sceneSet.getActor().collider().right() <= camera.collider().left()) {//work left
@@ -199,8 +195,8 @@ public class GameSceneTest extends Scene {
             }
         }
 
-//        up = new Spike(camera.painter().left(),camera.painter().top(), camera.painter().width(), 32, 1 );
-//        down = new Spike(camera.painter().left(),camera.painter().bottom()-32,  camera.painter().width(), 32, 1);
+        spikesDown = new Spikes(camera.painter().left(),camera.painter().top(), camera.painter().width(), 32, 2 );
+        spikesUp = new Spikes(camera.painter().left(),camera.painter().bottom()-32,  camera.painter().width(), 32, 1);
 
         camera.update();
     }
