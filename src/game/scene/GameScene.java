@@ -32,13 +32,12 @@ public abstract class GameScene extends Scene {
     private String mapBmpPath;
     private String mapTxtPath;
 
-    private Spike up;
-    private Spike down;
+    private Spikes spikesUp;
+    private Spikes spikesDown;
 
     public GameScene(String mapBmpPath, String mapTxtPath,
                      Actor actor, GameObject background,
                      int cameraWidth, int cameraHeight, int cameraVelocityX, int cameraVelocityY,
-                     int cameraStartX, int cameraStartY,
                      boolean actorTrigCamera){
         this.mapBmpPath = mapBmpPath;
         this.mapTxtPath = mapTxtPath;
@@ -46,15 +45,14 @@ public abstract class GameScene extends Scene {
         this.background = background;
         this.tracker = new Tracker((cameraWidth - Global.UNIT) / 2,
                 (cameraHeight - Global.UNIT) / 2, new Velocity(cameraVelocityX,cameraVelocityY,0,0,false));
+        System.out.println(tracker.painter().left());
+        System.out.println(tracker.painter().top());
+
         this.actorTrigCamera = actorTrigCamera;
 
         camera = new Camera.Builder(cameraWidth, cameraHeight)
-                .setChaseObj(tracker) //
-                .setCameraWindowLocation(0, 0)
-                .setCameraLockDirection(false, false, false, false)
-                .setCameraStartLocation(cameraStartX, cameraStartY)
+                .setChaseObj(tracker)
                 .gen();
-
     }
 
     @Override
@@ -68,13 +66,9 @@ public abstract class GameScene extends Scene {
         if(actorTrigCamera){
             tracker.velocity().stop();
         }
-
-        up = new Spike(camera.painter().left(),camera.painter().top(), camera.painter().width(), 32, 1 );
-        down = new Spike(camera.painter().left(),camera.painter().bottom()-32,  camera.painter().width(), 32, 1);
-
-        if(actorTrigCamera){
-            tracker.velocity().stop();
-        }
+        spikesDown = new Spikes(camera.painter().left(),camera.painter().top(),camera.painter().width(), 32, 2 );
+        spikesUp = new Spikes(camera.painter().left(),camera.painter().bottom()-32,  camera.painter().width(), 32, 1);
+        System.out.println(camera.painter().left());
     }
 
     @Override
@@ -151,15 +145,16 @@ public abstract class GameScene extends Scene {
                 a.paint(g);
             }
         });
-        up.paint(g);
-        down.paint(g);
 
         if (camera.isCollision(this.actor)) {
             this.actor.paint(g);
         }
+
+        spikesUp.paint(g);
+        spikesDown.paint(g);
+
         camera.paint(g);
         camera.end(g);
-
     }
 
     @Override
@@ -189,6 +184,7 @@ public abstract class GameScene extends Scene {
             }
         }
 
+        camera.update();
         // 瞬間移動, 暫時還沒用到tracker 的速度
         if(actorTrigCamera){
             if (actor.painter().centerX() < camera.painter().left()) {       // 左
@@ -202,6 +198,7 @@ public abstract class GameScene extends Scene {
             if (actor.painter().centerX() > camera.painter().right()) {     // 右
                 frameX_count++;
                 brokenRoads = (ArrayList) orinBrokenRoads.clone();
+                System.out.println(camera.painter().left());
             }
             if (actor.painter().centerY() > camera.painter().bottom()) {   // 下
                 frameY_count++;
@@ -211,6 +208,7 @@ public abstract class GameScene extends Scene {
                     (camera.painter().width()*frameX_count));
             tracker.setY( (camera.painter().height() - Global.UNIT) / 2 +
                     camera.painter().height()*frameY_count);
+            System.out.println(camera.painter().left());
         }else{
             tracker.update();
             if (actor.collider().right() <= camera.collider().left()) {//work left
@@ -221,10 +219,12 @@ public abstract class GameScene extends Scene {
                 actor.setXY(camera.collider().left() - actor.painter().width() + 1, actor.painter().top());
                 return;
             }
+            spikesDown.painter().setXY(camera.painter().left(),camera.painter().top()-5); // 為什麼會不貼邊??
+            spikesUp.painter().setXY(camera.painter().left(),camera.painter().top() + camera.painter().height() - spikesUp.painter().height());
         }
-        up = new Spike(camera.painter().left(),camera.painter().top(), camera.painter().width(), 32, 1 );
-        down = new Spike(camera.painter().left(),camera.painter().bottom()-32,  camera.painter().width(), 32, 1);
-        camera.update();
+
+
+
     }
 
     public void mapInit() {

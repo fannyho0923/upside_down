@@ -21,6 +21,8 @@ public class Spikes extends GameObject{
     @Override
     public void paint(Graphics g) {
         g.drawImage(getImage(), painter().left(), painter().top(), this.painter().width(), this.painter().height(), null);
+//        System.out.print(painter().left());
+//        System.out.println(painter().top());
     }
 
     @Override
@@ -33,7 +35,6 @@ public class Spikes extends GameObject{
             case 1:
                 img = ImageController.getInstance().tryGet("/img/spikesUp.png");
                 break;
-
             case 2:
                 img = ImageController.getInstance().tryGet("/img/spikesDown.png");
                 break;

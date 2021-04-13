@@ -11,7 +11,7 @@ public class BasicScene extends GameScene {
     public BasicScene() {
         super("/map/basicMap0411.bmp", "/map/basicMap0411.txt",
                 new Actor(400, 200, 2), new Background(),
-                960, 640, 0, 0, 0, 0, true);
+                960, 640, 0, 10,false);
     }
 }
 

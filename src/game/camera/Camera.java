@@ -34,7 +34,6 @@ public class Camera extends GameObject {
         this.lockDown = false;
         this.cameraWindowX = 0;
         this.cameraWindowY = 0;
-
     }
 
     protected Camera(final Camera cam) {
