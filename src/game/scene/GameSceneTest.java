@@ -47,8 +47,6 @@ public class GameSceneTest extends Scene {
         if(sceneSet.isActorTrigCamera()){
             tracker.velocity().stop();
         }
-        spikesDown = new Spikes(camera.painter().left(),camera.painter().top(), camera.painter().width(), 32, 2 );
-        spikesUp = new Spikes(camera.painter().left(),camera.painter().bottom()-32,  camera.painter().width(), 32, 1);
     }
 
     @Override
@@ -164,6 +162,7 @@ public class GameSceneTest extends Scene {
         }
 
         // 瞬間移動, 暫時還沒用到tracker 的速度
+        camera.update();
         if(sceneSet.isActorTrigCamera()){
             if (sceneSet.getActor().painter().centerX() < camera.painter().left()) {       // 左
                 frameX_count--;
@@ -193,12 +192,9 @@ public class GameSceneTest extends Scene {
                 sceneSet.getActor().setXY(camera.collider().left() - sceneSet.getActor().painter().width() + 1, sceneSet.getActor().painter().top());
                 return;
             }
+            spikesDown = new Spikes(camera.painter().left(),camera.painter().top(), camera.painter().width(), 32, 2 );
+            spikesUp = new Spikes(camera.painter().left(),camera.painter().bottom()-32,  camera.painter().width(), 32, 1);
         }
-
-        spikesDown = new Spikes(camera.painter().left(),camera.painter().top(), camera.painter().width(), 32, 2 );
-        spikesUp = new Spikes(camera.painter().left(),camera.painter().bottom()-32,  camera.painter().width(), 32, 1);
-
-        camera.update();
     }
 
     public void mapInit(ArrayList<GameObject> gameObjects) {

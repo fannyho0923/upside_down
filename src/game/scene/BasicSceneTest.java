@@ -7,8 +7,8 @@ public class BasicSceneTest extends GameSceneTest {
         super(new SceneSet(400, 200,
                 new Background(),
                 960, 640, 0,0,
-                0, 0, 0, 0,
-                true,
+                0, 10, 0, 0,
+                false,
                 "/map/basicMap.bmp", "/map/basicMap.txt"));
     }
 }
