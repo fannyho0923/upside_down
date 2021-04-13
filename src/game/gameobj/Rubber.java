@@ -13,8 +13,8 @@ public class Rubber extends GameObject{
 
     @Override
     public void collisionEffect(Actor actor) {
-        actor.beBlock(this);
-        actor.velocity().gravityReverse();
+        actor.block(this);
+        actor.reverse();
     }
 
     @Override

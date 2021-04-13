@@ -13,8 +13,7 @@ public class Wall extends GameObject{
 
     @Override
     public void collisionEffect(Actor actor) {
-        actor.beBlock(this);
-
+        actor.block(this);
     }
 
     @Override

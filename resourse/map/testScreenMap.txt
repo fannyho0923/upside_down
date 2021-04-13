@@ -1,3 +1,0 @@
-mace,-13421773,/Users/heweihan/暫定素材_請用此畫地圖/mace_1x1.png,1,1
-brokenRoad,-10092544,/Users/heweihan/暫定素材_請用此畫地圖/brokenRoad_1x1.png,1,1
-wall,-39322,/Users/heweihan/暫定素材_請用此畫地圖/wall_1x1.png,1,1

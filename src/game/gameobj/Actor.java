@@ -3,7 +3,7 @@ package game.gameobj;
 import game.controller.ImageController;
 import game.utils.Global;
 import game.utils.Delay;
-import game.utils.Velocity;
+import game.utils.Vector;
 
 
 import java.awt.*;
@@ -12,17 +12,20 @@ import java.awt.image.AffineTransformOp;
 import java.awt.image.BufferedImage;
 
 public class Actor extends GameObject {
+
     private static final int JUMP_SPEED = 30;
-    private static final float WALK_ACCELERATION = 0f;
     public static final int WALK_SPEED = 5;
 
-    private Velocity velocity;
+    private Vector velocity;
+    private int jumpCount;
+    private boolean isReverse;
+    private boolean canReverse;
+
+    private int nextX;
+    private int nextY;
+
     private Global.Direction direction;
     private ActionAnimator actionAnimator;
-
-    private boolean leftSpeedUp;
-    private boolean rightSpeedUp;
-    private int jumpCount;
 
     private Image imgRight;
     private Image imgLeft;
@@ -36,50 +39,55 @@ public class Actor extends GameObject {
     private boolean rebornState;
     private int keyCount;
 
-
     public Actor(int x, int y, int num) {
-        super(x, y, Global.UNIT_X32, Global.UNIT_Y32);
-        velocity = new Velocity(0, 0, 0, 0, false);
+        super(x, y, 32, 32);
+        velocity = new Vector(0,0);
+        jumpCount = 0;
+        this.isReverse = false;
+        this.canReverse = false;
+
         direction = Global.Direction.NO;
         actionAnimator = new ActionAnimator();
-        leftSpeedUp = false;
-        rightSpeedUp = false;
-        jumpCount = 0;
+
         this.img=ImageController.getInstance().tryGet("/img/actor_"+num+".png");
         setImage(num);
 
         rebornX = x;
         rebornY = y;
-        rebornState = velocity.isReverse();
+        rebornState = false;
         keyCount  = 0;
     }
 
     @Override
     public void update() {
-        // walking, acceleration increase
-        if (leftSpeedUp) {
-            velocity.offsetDX(-WALK_ACCELERATION);
-            setDirection(Global.Direction.LEFT);
-        } else if (rightSpeedUp) {
-            velocity.offsetDX(WALK_ACCELERATION);
-            setDirection(Global.Direction.RIGHT);
-
-        } else {
-            setDirection(Global.Direction.NO);
+        if (velocity.x() == 0){
+            direction = Global.Direction.NO;
+        }else if(velocity.x() > 0){
+            direction = Global.Direction.RIGHT;
+        }else{
+            direction = Global.Direction.LEFT;
         }
-        velocity.update();
-        move();
+        gravity();
+        nextX = this.collider().left() + (int)velocity.x();
+        nextY = this.collider().top() + (int)velocity.y();
     }
 
     @Override
     public void paint(Graphics g) {
-        if (velocity.isReverse()) {
+        if (isReverse) {
             actionAnimator.paint(g, this.imgRev, painter().left(), painter().top(),
-                    painter().right(), painter().bottom(), getDirection());
+                    painter().right(), painter().bottom(), direction);
         } else {
             actionAnimator.paint(g, this.img, painter().left(), painter().top(),
-                    painter().right(), painter().bottom(), getDirection());
+                    painter().right(), painter().bottom(), direction);
         }
+    }
+
+    public void setImage(int num) {
+        this.imgRight = ImageController.getInstance().tryGet("/img/actor_"+num+".png");
+        this.imgLeft = ImageController.getInstance().tryGet("/img/actor_"+num+"_l.png");
+        this.imgRightRev = paintReverse(imgRight);
+        this.imgLeftRev = paintReverse(imgLeft);
     }
 
     private Image paintReverse(Image img) {
@@ -93,13 +101,11 @@ public class Actor extends GameObject {
     private static class ActionAnimator {
         private int count;
         private Delay delay;
-
         public ActionAnimator() {
             count = 0;
             delay = new Delay(3);
             delay.loop();
         }
-
 
         public void paint(Graphics g, Image img, int left, int top, int right, int bottom, Global.Direction direction) {
             if (direction != Global.Direction.NO) {
@@ -114,73 +120,38 @@ public class Actor extends GameObject {
                     Global.UNIT_Y64 - 16, null);
         }
     }
+
     public enum State{
         Alive,
         Dead;
     }
 
-    public void setImage(int num) {
-        this.imgRight = ImageController.getInstance().tryGet("/img/actor_"+num+".png");
-        this.imgLeft = ImageController.getInstance().tryGet("/img/actor_"+num+"_l.png");
-        this.imgRightRev = paintReverse(imgRight);
-        this.imgLeftRev = paintReverse(imgLeft);
+    public void reverse(){
+        if(canReverse){
+            isReverse = !isReverse;
+        }
+        canReverse = false;
     }
 
-    public Global.Direction getDirection() {
-        return direction;
+    public void gravity(){
+        if(isReverse){
+            velocity.addY(-Global.GRAVITY);
+        }else{
+            velocity.addY(Global.GRAVITY);
+        }
     }
 
-    public void setDirection(Global.Direction direction) {
-        this.direction = direction;
-    }
-
-    // 移動
-    public Velocity velocity() {
+    public Vector velocity(){
         return velocity;
     }
 
-    public void preMove() {
-        offsetX(-velocity.x());
-        offsetY(-velocity.y());
-    }
-
-    public void leftSpeedUp(boolean speedUp) {
-        leftSpeedUp = speedUp;
-    }
-
-    public void rightSpeedUp(boolean speedUp) {
-        rightSpeedUp = speedUp;
-    }
-
-    public void move() {
-        offsetX(velocity.x());
-        offsetY(velocity.y());
-        switch (this.direction) {
-            case LEFT:
-                this.img = imgLeft;
-                this.imgRev = imgLeftRev;
-                break;
-            case RIGHT:
-                this.img = imgRight;
-                this.imgRev = imgRightRev;
-                break;
-            case NO:
-                break;
-        }
-
-    }
-
-    public void moveX() {
-        offsetX(velocity.x());
-    }
-
-    public void moveY() {
-        offsetY(velocity.y());
+    public void move(){
+        this.setXY(nextX, nextY);
     }
 
     public void jump() {
         if (jumpCount > 0) {
-            this.velocity.offsetY(-JUMP_SPEED);
+            this.velocity.addY(Actor.JUMP_SPEED);
             jumpCount--;
         }
     }
@@ -189,9 +160,7 @@ public class Actor extends GameObject {
         jumpCount = Global.continueJump;
     }
 
-
     // 場景物件效果
-
     public void setRebornX(int rebornX) {
         this.rebornX = rebornX;
     }
@@ -206,38 +175,86 @@ public class Actor extends GameObject {
 
     public void reborn(){
         this.setXY(rebornX,rebornY);
-        velocity.setGravityReverse(rebornState);
+        isReverse = rebornState;
     }
 
-    public void beBlock(GameObject obj){
-        this.preMove();
-        this.moveY();
-        if (this.isCollision(obj)) { // 撞到 Y
-            this.jumpReset();
-            if (this.velocity().y() < 0) {
-                this.setY(obj.collider().bottom() +1 );
-                this.velocity().stopY();
-            } else if (this.velocity().y() > 0) {
-                this.setY(obj.collider().top() - this.painter().height() -1);
-                this.velocity().stopY();
+    public void block(GameObject obj){
+        this.canReverse = true;
+        Rect colliderX;
+        Rect colliderY;
+        if(velocity.x() < 0){ // 左
+            colliderX = new Rect(this.collider().left() + (int)velocity.x(),this.collider().top(),
+                    (int)velocity.absX(),this.collider().height());
+            if(colliderX.isOverlap(obj.collider())){
+                if(nextX < obj.collider().right()){
+                    nextY = obj.collider().right();
+                    velocity.zeroX();
+                }
+
             }
-            this.moveX();
+        }else if(velocity.x() > 0){ //右
+            colliderX = new Rect(this.collider().right(), this.collider().top(),
+                    (int)velocity.absX(),this.collider().height());
+            if(colliderX.isOverlap(obj.collider())){
+                if(nextX > obj.collider().left() - this.collider().width()){
+                    nextX = obj.collider().left() - this.collider().width();
+                    velocity.zeroX();
+                }
 
+            }
         }
-        // y還沒被修正的掉落? 應該是撞到前一塊物件
-        if (this.collider().bottom() == obj.collider().top() |
-                this.collider().top() == obj.collider().bottom()) {
-            this.moveX();
+        if(velocity.y() > 0){ // 上
+            colliderY = new Rect(this.collider().left(),this.collider().bottom() + (int)this.velocity.y(),
+                    this.collider().width(), (int)velocity.absY());
+            if(colliderY.isOverlap(obj.collider())){
+                if( nextY < obj.collider().bottom()){
+                    nextY = obj.collider().bottom();
+                    velocity.zeroY();
+                }
+
+            }
+        }else if(velocity.y() < 0){
+            colliderY = new Rect(this.collider().left(),this.collider().top(),
+                    this.collider().width(), (int)velocity.absY());
+            if(colliderY.isOverlap(obj.collider())){
+                if(nextY > obj.collider().top() - this.collider().height()){
+                    nextY = obj.collider().top() - this.collider().height();
+                    velocity.zeroY();
+                }
+
+                //velocity.setY(obj.collider().top() - this.collider().height());
+            }
         }
     }
+
+
+//        this.preMove();
+//        this.moveY();
+//        if (this.isCollision(obj)) { // 撞到 Y
+//            this.jumpReset();
+//            if (this.velocity().y() < 0) {
+//                this.setY(obj.collider().bottom() +1 );
+//                this.velocity().stopY();
+//            } else if (this.velocity().y() > 0) {
+//                this.setY(obj.collider().top() - this.painter().height() -1);
+//                this.velocity().stopY();
+//            }
+//            this.moveX();
+//            canReverse = true;
+//
+//        }
+//        // y還沒被修正的掉落? 應該是撞到前一塊物件
+//        if (this.collider().bottom() == obj.collider().top() |
+//                this.collider().top() == obj.collider().bottom()) {
+//            this.moveX();
+//        }
+
 
     public void getKey(){
         this.keyCount++;
     }
 
-
     @Override
     public void collisionEffect(Actor actor) {
-
     }
 }

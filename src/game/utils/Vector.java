@@ -4,13 +4,22 @@ public class Vector {
     private double x;
     private double y;
 
-    private Vector(double x, double y) {
+    public Vector(double x, double y) {
         this.x = x;
         this.y = y;
     }
 
+    public Vector(double x1, double x2, double y1, double y2){
+        this.x = x2-x1;
+        this.y = y2-y1;
+    }
+
     public double x() {
         return x;
+    }
+
+    public double absX(){
+        return Math.abs(x);
     }
 
     public void setX(double x) {
@@ -21,6 +30,10 @@ public class Vector {
         return y;
     }
 
+    public double absY(){
+        return Math.abs(y);
+    }
+
     public void setY(double y) {
         this.y = y;
     }
@@ -28,6 +41,14 @@ public class Vector {
     public void add(Vector vector){
         this.x += vector.x();
         this.y += vector.y();
+    }
+
+    public void addX(double dx){
+        this.x += dx;
+    }
+
+    public void addY(double dy){
+        this.y += dy;
     }
 
     public void minus(Vector vector){
@@ -69,12 +90,19 @@ public class Vector {
         return this.multiply(this,1.0/n);
     }
 
-    public void offSetX(double dx){
-        this.x += dx;
+    public void zero(){
+        this.x = 0;
+        this.y = 0;
     }
 
-    public void offSetY(double dy){
-        this.y += dy;
+    public void zeroX(){
+        this.x = 0;
     }
+
+    public void zeroY(){
+        this.y = 0;
+    }
+
+
 
 }

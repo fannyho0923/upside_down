@@ -18,7 +18,7 @@ public class BrokenRoad extends GameObject{
 
     @Override
     public void collisionEffect(Actor actor) {
-            actor.beBlock(this);
+            actor.block(this);
             delay.play();
     }
 

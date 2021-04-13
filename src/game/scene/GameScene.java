@@ -7,7 +7,7 @@ import game.maploader.MapInfo;
 import game.maploader.MapLoader;
 import game.utils.CommandSolver;
 import game.utils.Global;
-import game.utils.Velocity;
+import game.utils.Vector;
 
 import java.awt.*;
 import java.io.IOException;
@@ -45,7 +45,7 @@ public abstract class GameScene extends Scene {
         this.actor = actor;
         this.background = background;
         this.tracker = new Tracker((cameraWidth - Global.UNIT) / 2,
-                (cameraHeight - Global.UNIT) / 2, new Velocity(cameraVelocityX,cameraVelocityY,0,0,false));
+                (cameraHeight - Global.UNIT) / 2, new Vector(cameraVelocityX,cameraVelocityY));
         this.actorTrigCamera = actorTrigCamera;
 
         camera = new Camera.Builder(cameraWidth, cameraHeight)
@@ -66,15 +66,11 @@ public abstract class GameScene extends Scene {
 
         MapInformation.getInstance().setMapInfo(this.background);
         if(actorTrigCamera){
-            tracker.velocity().stop();
+            tracker.velocity().zero();
         }
-
         up = new Spike(camera.painter().left(),camera.painter().top(), camera.painter().width(), 32, 1 );
         down = new Spike(camera.painter().left(),camera.painter().bottom()-32,  camera.painter().width(), 32, 1);
 
-        if(actorTrigCamera){
-            tracker.velocity().stop();
-        }
     }
 
     @Override
@@ -93,11 +89,9 @@ public abstract class GameScene extends Scene {
                 switch (commandCode) {
                     case Global.VK_LEFT:
                         actor.velocity().setX(-Actor.WALK_SPEED);
-                        actor.leftSpeedUp(true);
                         break;
                     case Global.VK_RIGHT:
                         actor.velocity().setX(Actor.WALK_SPEED);
-                        actor.rightSpeedUp(true);
                         break;
                 }
             }
@@ -106,15 +100,13 @@ public abstract class GameScene extends Scene {
             public void keyReleased(int commandCode, long trigTime) {
                 switch (commandCode) {
                     case Global.VK_LEFT:
-                        actor.leftSpeedUp(false);
-                        actor.velocity().stopX();
+                        actor.velocity().zeroX();
                         break;
                     case Global.VK_RIGHT:
-                        actor.rightSpeedUp(false);
-                        actor.velocity().stopX();
+                        actor.velocity().zero();
                         break;
                     case Global.VK_SPACE:
-                        actor.velocity().gravityReverse();
+                        actor.reverse();
                         break;
                     case Global.VK_A: //jump
                         actor.jump();
@@ -164,8 +156,10 @@ public abstract class GameScene extends Scene {
 
     @Override
     public void update() {
-
         actor.update();
+        System.out.println(actor.painter().top());
+        System.out.println(actor.velocity().y());
+
         for (int i = 0; i < gameObjects.size(); i++) {
             GameObject obj = gameObjects.get(i);
             if (actor.isCollision(obj)) {
@@ -188,6 +182,7 @@ public abstract class GameScene extends Scene {
                 brokenRoads.remove(i);
             }
         }
+        actor.move();
 
         // 瞬間移動, 暫時還沒用到tracker 的速度
         if(actorTrigCamera){

@@ -20,7 +20,7 @@ public class Tile extends GameObject{
 
     @Override
     public void collisionEffect(Actor actor) {
-        actor.beBlock(this);
+        actor.block(this);
     }
 
     @Override

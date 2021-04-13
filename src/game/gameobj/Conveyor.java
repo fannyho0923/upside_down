@@ -1,7 +1,6 @@
 package game.gameobj;
 
 import game.controller.ImageController;
-import game.utils.Velocity;
 
 import java.awt.*;
 
@@ -18,7 +17,7 @@ public class Conveyor extends GameObject{
 
     @Override
     public void collisionEffect(Actor actor) {
-        actor.beBlock(this);
+        actor.block(this);
         actor.offsetX(shift_x);
     }
 
