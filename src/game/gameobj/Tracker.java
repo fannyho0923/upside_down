@@ -42,13 +42,4 @@ public class Tracker extends GameObject{
 
     }
 
-    @Override
-    public boolean isExist() {
-        return false;
-    }
-
-    @Override
-    public void setExist(boolean isExist) {
-
-    }
 }

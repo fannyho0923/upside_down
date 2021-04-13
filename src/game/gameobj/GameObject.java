@@ -7,11 +7,13 @@ public abstract class GameObject implements GameKernel.UpdateInterface, GameKern
     private final Rect collider; //物件的碰撞方塊
     private final Rect painter;  //物件的繪圖方塊
     private int id;
+    private boolean isExist;
 
     //預設以(top,left)為物件左上角生成物件
     public GameObject(final int top, final int left, final int width, final int height) {
         this.collider = new Rect(top, left, width, height);
         this.painter = new Rect(top, left, width, height);
+        this.isExist = true;
     }
 
     //true:以(x,y)為物件中心生成物件 false:預設以(x,y)為物件左上角生成物件
@@ -231,7 +233,13 @@ public abstract class GameObject implements GameKernel.UpdateInterface, GameKern
 
     }
 
+    public boolean isExist(){
+        return isExist;
+    }
+    public void setExist(boolean isExist){
+        this.isExist = isExist;
+    }
+
     public abstract void collisionEffect(Actor actor);
-    public abstract boolean isExist();
-    public abstract void setExist(boolean isExist);
+
 }

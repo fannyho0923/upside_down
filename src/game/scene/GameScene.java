@@ -111,11 +111,11 @@ public abstract class GameScene extends Scene {
             public void keyPressed(int commandCode, long trigTime) {
                 switch (commandCode) {
                     case Global.VK_LEFT:
-                        //actor.velocity().setX(-actor.WALK_SPEED);
+                        actor.velocity().setX(-Actor.WALK_SPEED);
                         actor.leftSpeedUp(true);
                         break;
                     case Global.VK_RIGHT:
-                        //actor.velocity().setX(actor.WALK_SPEED);
+                        actor.velocity().setX(Actor.WALK_SPEED);
                         actor.rightSpeedUp(true);
                         break;
                 }
@@ -159,9 +159,7 @@ public abstract class GameScene extends Scene {
             this.background.paint(g);
         }
 
-        if (camera.isCollision(this.actor)) {
-            this.actor.paint(g);
-        }
+
 
         gameObjects.forEach(a -> {
             if (camera.isCollision(a)) {
@@ -177,6 +175,10 @@ public abstract class GameScene extends Scene {
         up.paint(g);
         down.paint(g);
 
+        if (camera.isCollision(this.actor)) {
+            this.actor.paint(g);
+        }
+
         camera.paint(g);
         camera.end(g);
 
@@ -188,56 +190,19 @@ public abstract class GameScene extends Scene {
         actor.update();
         for (int i = 0; i < gameObjects.size(); i++) {
             GameObject obj = gameObjects.get(i);
-
             if (actor.isCollision(obj)) {
-                actor.preMove();
-                actor.moveY();
-                if (actor.isCollision(obj)) { // 撞到 Y
-                    actor.jumpReset();
-                    if (actor.velocity().y() < 0) {
-                        actor.setY(obj.collider().bottom() +1 );
-                        actor.velocity().stopY();
-                    } else if (actor.velocity().y() > 0) {
-                        actor.setY(obj.collider().top() - actor.painter().height() -1);
-                        actor.velocity().stopY();
-                    }
-                    actor.moveX();
-
-                }
-                // y還沒被修正的掉落? 應該是撞到前一塊物件
-                if (actor.collider().bottom() == obj.collider().top() |
-                        actor.collider().top() == obj.collider().bottom()) {
-                    actor.moveX();
-                }
                 obj.collisionEffect(actor);
-                // 撞到牆的反彈還沒修正
             }
             obj.update();
+            if(!obj.isExist()){
+                gameObjects.remove(i);
+            }
         }
 
         for (int i = 0; i < brokenRoads.size(); i++) {
             GameObject obj = brokenRoads.get(i);
             if (actor.isCollision(obj)) {
-                actor.preMove();
-                actor.moveY();
-                if (actor.isCollision(obj)) { // 撞到 Y
-                    brokenRoads.get(i).collisionEffect(actor);
-                    actor.jumpReset();
-                    if (actor.velocity().y() < 0) {
-                        actor.setY(obj.collider().bottom() + 1);
-                        actor.velocity().stopY();
-                    } else if (actor.velocity().y() > 0) {
-                        actor.setY(obj.collider().top() - actor.painter().height() - 1);
-                        actor.velocity().stopY();
-                    }
-                    actor.moveX();
-                }
-                // y還沒被修正的掉落? 應該是撞到前一塊物件
-                if (actor.collider().bottom() == obj.collider().top() |
-                        actor.collider().top() == obj.collider().bottom()) {
-                    actor.moveX();
-                }
-                // 撞到牆的反彈還沒修正
+                obj.collisionEffect(actor);
             }
             obj.update();
             if(!obj.isExist()){
@@ -388,6 +353,15 @@ public abstract class GameScene extends Scene {
                 final GameObject tmp;
                 if (gameObject.equals(name)) {
                     tmp = new MovePlatform(mapInfo.getX() * size, mapInfo.getY() * size, mapInfo.getSizeX() * size, mapInfo.getSizeY() * size);
+                    return tmp;
+                }
+                return null;
+            }));
+
+            this.gameObjects.addAll(mapLoader.createObjectArray("flag", Global.MAP_UNIT, mapInfoArr, (gameObject, name, mapInfo, size) -> {
+                final GameObject tmp;
+                if (gameObject.equals(name)) {
+                    tmp = new Flag(mapInfo.getX() * size, mapInfo.getY() * size, mapInfo.getSizeX() * size, mapInfo.getSizeY() * size);
                     return tmp;
                 }
                 return null;

@@ -18,17 +18,8 @@ public class Conveyor extends GameObject{
 
     @Override
     public void collisionEffect(Actor actor) {
+        actor.beBlock(this);
         actor.offsetX(shift_x);
-    }
-
-    @Override
-    public boolean isExist() {
-        return true;
-    }
-
-    @Override
-    public void setExist(boolean isExist) {
-
     }
 
     @Override

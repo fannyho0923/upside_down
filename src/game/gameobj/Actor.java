@@ -13,7 +13,8 @@ import java.awt.image.BufferedImage;
 
 public class Actor extends GameObject {
     private static final int JUMP_SPEED = 30;
-    private static final float WALK_ACCELERATION = 0.1f;
+    private static final float WALK_ACCELERATION = 0f;
+    public static final int WALK_SPEED = 10;
 
     private Velocity velocity;
     private Global.Direction direction;
@@ -22,6 +23,7 @@ public class Actor extends GameObject {
     private boolean leftSpeedUp;
     private boolean rightSpeedUp;
     private int jumpCount;
+
     private Image imgRight;
     private Image imgLeft;
     private Image imgRightRev;
@@ -32,6 +34,7 @@ public class Actor extends GameObject {
     private int rebornX;
     private int rebornY;
     private boolean rebornState;
+    private int keyCount;
 
 
     public Actor(int x, int y, int num) {
@@ -48,9 +51,8 @@ public class Actor extends GameObject {
         rebornX = x;
         rebornY = y;
         rebornState = velocity.isReverse();
+        keyCount  = 0;
     }
-
-
 
     @Override
     public void update() {
@@ -69,8 +71,6 @@ public class Actor extends GameObject {
         move();
     }
 
-
-
     @Override
     public void paint(Graphics g) {
         if (velocity.isReverse()) {
@@ -88,8 +88,6 @@ public class Actor extends GameObject {
         AffineTransformOp op = new AffineTransformOp(tx, AffineTransformOp.TYPE_NEAREST_NEIGHBOR);
         return op.filter((BufferedImage) img, null);
     }
-
-
 
     // 人物動畫
     private static class ActionAnimator {
@@ -128,10 +126,13 @@ public class Actor extends GameObject {
         this.imgLeftRev = paintReverse(imgLeft);
     }
 
+    public Global.Direction getDirection() {
+        return direction;
+    }
+
     public void setDirection(Global.Direction direction) {
         this.direction = direction;
     }
-
 
     // 移動
     public Velocity velocity() {
@@ -188,6 +189,9 @@ public class Actor extends GameObject {
         jumpCount = Global.continueJump;
     }
 
+
+    // 場景物件效果
+
     public void setRebornX(int rebornX) {
         this.rebornX = rebornX;
     }
@@ -205,22 +209,35 @@ public class Actor extends GameObject {
         velocity.setGravityReverse(rebornState);
     }
 
-    public Global.Direction getDirection() {
-        return direction;
+    public void beBlock(GameObject obj){
+        this.preMove();
+        this.moveY();
+        if (this.isCollision(obj)) { // 撞到 Y
+            this.jumpReset();
+            if (this.velocity().y() < 0) {
+                this.setY(obj.collider().bottom() +1 );
+                this.velocity().stopY();
+            } else if (this.velocity().y() > 0) {
+                this.setY(obj.collider().top() - this.painter().height() -1);
+                this.velocity().stopY();
+            }
+            this.moveX();
+
+        }
+        // y還沒被修正的掉落? 應該是撞到前一塊物件
+        if (this.collider().bottom() == obj.collider().top() |
+                this.collider().top() == obj.collider().bottom()) {
+            this.moveX();
+        }
     }
+
+    public void getKey(){
+        this.keyCount++;
+    }
+
 
     @Override
     public void collisionEffect(Actor actor) {
-
-    }
-
-    @Override
-    public boolean isExist() {
-        return false;
-    }
-
-    @Override
-    public void setExist(boolean isExist) {
 
     }
 }

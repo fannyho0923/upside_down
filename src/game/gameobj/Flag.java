@@ -15,19 +15,9 @@ public class Flag extends GameObject{
     public void collisionEffect(Actor actor) {
         actor.setRebornX(actor.painter().left());
         actor.setRebornY(actor.painter().top());
-        actor.setRebornState(actor.velocity().isReverse());
+        actor.setRebornState(false);
+        // 依據人物最後碰到的位置重設, 待修正固定值
     }
-
-    @Override
-    public boolean isExist() {
-        return true;
-    }
-
-    @Override
-    public void setExist(boolean isExist) {
-
-    }
-
 
     @Override
     public void paint(Graphics g) {

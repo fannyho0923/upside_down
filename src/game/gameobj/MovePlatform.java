@@ -13,17 +13,7 @@ public class MovePlatform extends GameObject{
 
     @Override
     public void collisionEffect(Actor actor) {
-
-    }
-
-    @Override
-    public boolean isExist() {
-        return false;
-    }
-
-    @Override
-    public void setExist(boolean isExist) {
-
+        actor.beBlock(this);
     }
 
     @Override

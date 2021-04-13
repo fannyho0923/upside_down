@@ -17,16 +17,6 @@ public class Pass extends GameObject{
     }
 
     @Override
-    public boolean isExist() {
-        return false;
-    }
-
-    @Override
-    public void setExist(boolean isExist) {
-
-    }
-
-    @Override
     public void paint(Graphics g) {
         g.drawImage(img, painter().left(), painter().top(), null);
     }

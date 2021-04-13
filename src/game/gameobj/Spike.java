@@ -19,16 +19,6 @@ public class Spike extends GameObject{
     }
 
     @Override
-    public boolean isExist() {
-        return false;
-    }
-
-    @Override
-    public void setExist(boolean isExist) {
-
-    }
-
-    @Override
     public void paint(Graphics g) {
         g.drawImage(getImage(), painter().left(), painter().top(), this.painter().width(), this.painter().height(), null);
     }
