@@ -19,7 +19,6 @@ public class Global {
     public static int UNIT_X = 32;
     public static int UNIT_Y = 32;
 
-    public static int UNIT_Map = 32;
     public static int UNIT = 32;
     // 重力係數
     public static final float GRAVITY = 0.1f;
