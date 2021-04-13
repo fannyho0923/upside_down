@@ -124,7 +124,6 @@ public abstract class GameObject implements GameKernel.UpdateInterface, GameKern
         private final int height;
         private int x; //(x,y)為長方形的左上角座標
         private int y;
-
         //左上角(x,y)開始生成矩形
         public Rect(final int x, final int y, final int width, final int height) {
             this.x = x;

@@ -63,7 +63,6 @@ public class Actor extends GameObject {
         } else if (rightSpeedUp) {
             velocity.offsetDX(WALK_ACCELERATION);
             setDirection(Global.Direction.RIGHT);
-
         } else {
             setDirection(Global.Direction.NO);
         }
@@ -99,7 +98,6 @@ public class Actor extends GameObject {
             delay = new Delay(3);
             delay.loop();
         }
-
 
         public void paint(Graphics g, Image img, int left, int top, int right, int bottom, Global.Direction direction) {
             if (direction != Global.Direction.NO) {
@@ -167,7 +165,6 @@ public class Actor extends GameObject {
             case NO:
                 break;
         }
-
     }
 
     public void moveX() {
@@ -189,9 +186,7 @@ public class Actor extends GameObject {
         jumpCount = Global.continueJump;
     }
 
-
     // 場景物件效果
-
     public void setRebornX(int rebornX) {
         this.rebornX = rebornX;
     }
@@ -222,11 +217,9 @@ public class Actor extends GameObject {
                 this.velocity().stopY();
             }
             this.moveX();
-
         }
-        // y還沒被修正的掉落? 應該是撞到前一塊物件
         if (this.collider().bottom() == obj.collider().top() |
-                this.collider().top() == obj.collider().bottom()) {
+                this.collider().top() == obj.collider().bottom()){
             this.moveX();
         }
     }
@@ -234,7 +227,6 @@ public class Actor extends GameObject {
     public void getKey(){
         this.keyCount++;
     }
-
 
     @Override
     public void collisionEffect(Actor actor) {

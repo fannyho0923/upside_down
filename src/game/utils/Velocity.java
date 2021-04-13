@@ -12,7 +12,6 @@ public class Velocity {
     private final int MAX_X = 30;
     private final int MAX_Y = 30;
 
-
     public Velocity(int x, int y, int dx, int dy, boolean gravityReverse){
         setX(x);
         setY(y);

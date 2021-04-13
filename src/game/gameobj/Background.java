@@ -17,7 +17,6 @@ public class Background extends GameObject{
     public void paint(Graphics g) {
         g.drawImage(img,painter().left(),painter().top(),
                 painter().width(),painter().height(),null);
-
     }
 
     @Override

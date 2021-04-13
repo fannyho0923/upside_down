@@ -20,7 +20,6 @@ public class Key extends GameObject{
         setExist(false);
     }
 
-
     @Override
     public void paint(Graphics g) {
         g.drawImage(img, painter().left(), painter().top(), null);
