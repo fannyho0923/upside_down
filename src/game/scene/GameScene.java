@@ -205,25 +205,33 @@ public abstract class GameScene extends Scene {
                 frameX_count--;
                 brokenRoads = (ArrayList) orinBrokenRoads.clone();
 
-                orinBrokenRoads.forEach(a -> System.out.println(a.isExist()));
-                System.out.println("=============================");
-                brokenRoads.forEach(a -> System.out.println(a.isExist()));
+                actor.offsetX(-(actor.painter().width())/2);
+
+//                orinBrokenRoads.forEach(a -> System.out.println(a.isExist()));
+//                System.out.println("=============================");
+//                brokenRoads.forEach(a -> System.out.println(a.isExist()));
             }
             if (actor.painter().centerY() < camera.painter().top()) {        // 上
                 frameY_count--;
                 brokenRoads = (ArrayList) orinBrokenRoads.clone();
+                System.out.println("UP");
+                actor.offsetY(-actor.painter().height()/2);
             }
             if (actor.painter().centerX() > camera.painter().right()) {     // 右
                 frameX_count++;
                 brokenRoads = (ArrayList) orinBrokenRoads.clone();
 
-                orinBrokenRoads.forEach(a -> System.out.println(a.isExist()));
-                System.out.println("=============================");
-                brokenRoads.forEach(a -> System.out.println(a.isExist()));
+//                orinBrokenRoads.forEach(a -> System.out.println(a.isExist()));
+//                System.out.println("=============================");
+//                brokenRoads.forEach(a -> System.out.println(a.isExist()));
+                System.out.println("R");
+                actor.offsetX(actor.painter().width()/2);
             }
             if (actor.painter().centerY() > camera.painter().bottom()) {   // 下
                 frameY_count++;
                 brokenRoads = (ArrayList) orinBrokenRoads.clone();
+                System.out.println("DOWN");
+                actor.offsetY(actor.painter().height()/2);
             }
             tracker.setX( (camera.painter().width() - Global.MAP_UNIT) / 2 +
                     (camera.painter().width()*frameX_count));
