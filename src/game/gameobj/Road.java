@@ -8,7 +8,7 @@ public class Road extends GameObject{
     Image img;
     public Road(int x, int y, int width, int height) {
         super(x, y,width,height);
-        img = ImageController.getInstance().tryGet("/img/road_2x2.png");
+        img = ImageController.getInstance().tryGet("/img/road_1x1.png");
     }
 
     @Override

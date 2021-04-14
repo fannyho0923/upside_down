@@ -8,7 +8,7 @@ public class Pass extends GameObject{
     Image img;
     public Pass(int top, int left, int width, int height) {
         super(top, left, width, height);
-        img = ImageController.getInstance().tryGet("/img/pass.png");
+        img = ImageController.getInstance().tryGet("/img/tile_0007.png");
     }
 
     @Override

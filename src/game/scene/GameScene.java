@@ -231,14 +231,6 @@ public abstract class GameScene extends Scene {
         try {
             final MapLoader mapLoader = new MapLoader(mapBmpPath, mapTxtPath);
             final ArrayList<MapInfo> mapInfoArr = mapLoader.combineInfo();
-            this.orinBrokenRoads.addAll(mapLoader.createObjectArray("brokenRoad", Global.UNIT, mapInfoArr, (gameObject, name, mapInfo, size) -> {
-                final GameObject tmp;
-                if (gameObject.equals(name)) {
-                    tmp = new BrokenRoad(mapInfo.getX() * size, mapInfo.getY() * size, mapInfo.getSizeX() * size, mapInfo.getSizeY() * size);
-                    return tmp;
-                }
-                return null;
-            }));
 
             this.gameObjects.addAll(mapLoader.createObjectArray("road", Global.UNIT, mapInfoArr, (gameObject, name, mapInfo, size) -> {
                 final GameObject tmp;
@@ -261,17 +253,7 @@ public abstract class GameScene extends Scene {
             this.gameObjects.addAll(mapLoader.createObjectArray("tileDarkGreen", Global.UNIT, mapInfoArr, (gameObject, name, mapInfo, size) -> {
                 final GameObject tmp;
                 if (gameObject.equals(name)) {
-                    tmp = new Tile(mapInfo.getX() * size, mapInfo.getY() * size, mapInfo.getSizeX() * size, mapInfo.getSizeY() * size, Tile.Color.GREEN);
-                    return tmp;
-                }
-                return null;
-            }));
-
-            this.gameObjects.addAll(mapLoader.createObjectArray("spikeUp", Global.UNIT, mapInfoArr, (gameObject, name, mapInfo, size) -> {
-                final GameObject tmp;
-                if (gameObject.equals(name)) {
-                    tmp = new Spike(mapInfo.getX() * size, mapInfo.getY() * size, mapInfo.getSizeX() * size, mapInfo.getSizeY() * size,
-                            1);
+                    tmp = new Tile(mapInfo.getX() * size, mapInfo.getY() * size, mapInfo.getSizeX() * size, mapInfo.getSizeY() * size, 1);
                     return tmp;
                 }
                 return null;
@@ -280,7 +262,7 @@ public abstract class GameScene extends Scene {
             this.gameObjects.addAll(mapLoader.createObjectArray("tileRed", Global.UNIT, mapInfoArr, (gameObject, name, mapInfo, size) -> {
                 final GameObject tmp;
                 if (gameObject.equals(name)) {
-                    tmp = new Tile(mapInfo.getX() * size, mapInfo.getY() * size, mapInfo.getSizeX() * size, mapInfo.getSizeY() * size, Tile.Color.RED);
+                    tmp = new Tile(mapInfo.getX() * size, mapInfo.getY() * size, mapInfo.getSizeX() * size, mapInfo.getSizeY() * size, 2);
                     return tmp;
                 }
                 return null;
@@ -289,7 +271,27 @@ public abstract class GameScene extends Scene {
             this.gameObjects.addAll(mapLoader.createObjectArray("tileGreen", Global.UNIT, mapInfoArr, (gameObject, name, mapInfo, size) -> {
                 final GameObject tmp;
                 if (gameObject.equals(name)) {
-                    tmp = new Tile(mapInfo.getX() * size, mapInfo.getY() * size, mapInfo.getSizeX() * size, mapInfo.getSizeY() * size, Tile.Color.GREEN);
+                    tmp = new Tile(mapInfo.getX() * size, mapInfo.getY() * size, mapInfo.getSizeX() * size, mapInfo.getSizeY() * size, 3);
+                    return tmp;
+                }
+                return null;
+            }));
+
+            this.gameObjects.addAll(mapLoader.createObjectArray("savePoint", Global.UNIT, mapInfoArr, (gameObject, name, mapInfo, size) -> {
+                final GameObject tmp;
+                if (gameObject.equals(name)) {
+                    tmp = new SavePoint(mapInfo.getX() * size, mapInfo.getY() * size, mapInfo.getSizeX() * size, mapInfo.getSizeY() * size);
+                    return tmp;
+                }
+                return null;
+            }));
+
+
+            this.gameObjects.addAll(mapLoader.createObjectArray("spikeUp", Global.UNIT, mapInfoArr, (gameObject, name, mapInfo, size) -> {
+                final GameObject tmp;
+                if (gameObject.equals(name)) {
+                    tmp = new Spike(mapInfo.getX() * size, mapInfo.getY() * size, mapInfo.getSizeX() * size, mapInfo.getSizeY() * size,
+                            1);
                     return tmp;
                 }
                 return null;
@@ -305,28 +307,154 @@ public abstract class GameScene extends Scene {
                 return null;
             }));
 
-            this.gameObjects.addAll(mapLoader.createObjectArray("monster", Global.UNIT, mapInfoArr, (gameObject, name, mapInfo, size) -> {
+            this.gameObjects.addAll(mapLoader.createObjectArray("key", Global.UNIT, mapInfoArr, (gameObject, name, mapInfo, size) -> {
                 final GameObject tmp;
                 if (gameObject.equals(name)) {
-                    tmp = new Monster(mapInfo.getX() * size, mapInfo.getY() * size, mapInfo.getSizeX() * size, mapInfo.getSizeY() * size);
+                    tmp = new Key(mapInfo.getX() * size, mapInfo.getY() * size, mapInfo.getSizeX() * size, mapInfo.getSizeY() * size);
                     return tmp;
                 }
                 return null;
             }));
 
-            this.gameObjects.addAll(mapLoader.createObjectArray("movePlatform", Global.UNIT, mapInfoArr, (gameObject, name, mapInfo, size) -> {
+            this.gameObjects.addAll(mapLoader.createObjectArray("transHead", Global.UNIT, mapInfoArr, (gameObject, name, mapInfo, size) -> {
                 final GameObject tmp;
                 if (gameObject.equals(name)) {
-                    tmp = new MovePlatform(mapInfo.getX() * size, mapInfo.getY() * size, mapInfo.getSizeX() * size, mapInfo.getSizeY() * size);
+                    tmp = new Conveyor(mapInfo.getX() * size, mapInfo.getY() * size, mapInfo.getSizeX() * size, mapInfo.getSizeY() * size, 10, 0, 1);
                     return tmp;
                 }
                 return null;
             }));
 
-            this.gameObjects.addAll(mapLoader.createObjectArray("flag", Global.UNIT, mapInfoArr, (gameObject, name, mapInfo, size) -> {
+            this.gameObjects.addAll(mapLoader.createObjectArray("transBody", Global.UNIT, mapInfoArr, (gameObject, name, mapInfo, size) -> {
                 final GameObject tmp;
                 if (gameObject.equals(name)) {
-                    tmp = new Flag(mapInfo.getX() * size, mapInfo.getY() * size, mapInfo.getSizeX() * size, mapInfo.getSizeY() * size);
+                    tmp = new Conveyor(mapInfo.getX() * size, mapInfo.getY() * size, mapInfo.getSizeX() * size, mapInfo.getSizeY() * size,10, 0,2);
+                    return tmp;
+                }
+                return null;
+            }));
+
+            this.gameObjects.addAll(mapLoader.createObjectArray("transTail", Global.UNIT, mapInfoArr, (gameObject, name, mapInfo, size) -> {
+                final GameObject tmp;
+                if (gameObject.equals(name)) {
+                    tmp = new Conveyor(mapInfo.getX() * size, mapInfo.getY() * size, mapInfo.getSizeX() * size, mapInfo.getSizeY() * size,10,0,3);
+                    return tmp;
+                }
+                return null;
+            }));
+
+            this.gameObjects.addAll(mapLoader.createObjectArray("transTail_R", Global.UNIT, mapInfoArr, (gameObject, name, mapInfo, size) -> {
+                final GameObject tmp;
+                if (gameObject.equals(name)) {
+                    tmp = new Conveyor(mapInfo.getX() * size, mapInfo.getY() * size, mapInfo.getSizeX() * size, mapInfo.getSizeY() * size, 10, 0, 1);
+                    return tmp;
+                }
+                return null;
+            }));
+
+            this.gameObjects.addAll(mapLoader.createObjectArray("transBody_R", Global.UNIT, mapInfoArr, (gameObject, name, mapInfo, size) -> {
+                final GameObject tmp;
+                if (gameObject.equals(name)) {
+                    tmp = new Conveyor(mapInfo.getX() * size, mapInfo.getY() * size, mapInfo.getSizeX() * size, mapInfo.getSizeY() * size,10, 0,2);
+                    return tmp;
+                }
+                return null;
+            }));
+
+            this.gameObjects.addAll(mapLoader.createObjectArray("transHead_R", Global.UNIT, mapInfoArr, (gameObject, name, mapInfo, size) -> {
+                final GameObject tmp;
+                if (gameObject.equals(name)) {
+                    tmp = new Conveyor(mapInfo.getX() * size, mapInfo.getY() * size, mapInfo.getSizeX() * size, mapInfo.getSizeY() * size,10,0,3);
+                    return tmp;
+                }
+                return null;
+            }));
+
+            this.orinBrokenRoads.addAll(mapLoader.createObjectArray("brokenRoad", Global.UNIT, mapInfoArr, (gameObject, name, mapInfo, size) -> {
+                final GameObject tmp;
+                if (gameObject.equals(name)) {
+                    tmp = new BrokenRoad(mapInfo.getX() * size, mapInfo.getY() * size, mapInfo.getSizeX() * size, mapInfo.getSizeY() * size);
+                    return tmp;
+                }
+                return null;
+            }));
+
+            this.gameObjects.addAll(mapLoader.createObjectArray("rubberHead", Global.UNIT, mapInfoArr, (gameObject, name, mapInfo, size) -> {
+                final GameObject tmp;
+                if (gameObject.equals(name)) {
+                    tmp = new Rubber(mapInfo.getX() * size, mapInfo.getY() * size, mapInfo.getSizeX() * size, mapInfo.getSizeY() * size, 0, 1);
+                    return tmp;
+                }
+                return null;
+            }));
+
+            this.gameObjects.addAll(mapLoader.createObjectArray("rubberBody", Global.UNIT, mapInfoArr, (gameObject, name, mapInfo, size) -> {
+                final GameObject tmp;
+                if (gameObject.equals(name)) {
+                    tmp = new Rubber(mapInfo.getX() * size, mapInfo.getY() * size, mapInfo.getSizeX() * size, mapInfo.getSizeY() * size, 0, 2);
+                    return tmp;
+                }
+                return null;
+            }));
+
+            this.gameObjects.addAll(mapLoader.createObjectArray("rubberTail", Global.UNIT, mapInfoArr, (gameObject, name, mapInfo, size) -> {
+                final GameObject tmp;
+                if (gameObject.equals(name)) {
+                    tmp = new Rubber(mapInfo.getX() * size, mapInfo.getY() * size, mapInfo.getSizeX() * size, mapInfo.getSizeY() * size,0, 3);
+                    return tmp;
+                }
+                return null;
+            }));
+
+            this.gameObjects.addAll(mapLoader.createObjectArray("rubberTail_R", Global.UNIT, mapInfoArr, (gameObject, name, mapInfo, size) -> {
+                final GameObject tmp;
+                if (gameObject.equals(name)) {
+                    tmp = new Rubber(mapInfo.getX() * size, mapInfo.getY() * size, mapInfo.getSizeX() * size, mapInfo.getSizeY() * size, 1, 1);
+                    return tmp;
+                }
+                return null;
+            }));
+
+            this.gameObjects.addAll(mapLoader.createObjectArray("rubberBody_R", Global.UNIT, mapInfoArr, (gameObject, name, mapInfo, size) -> {
+                final GameObject tmp;
+                if (gameObject.equals(name)) {
+                    tmp = new Rubber(mapInfo.getX() * size, mapInfo.getY() * size, mapInfo.getSizeX() * size, mapInfo.getSizeY() * size, 1, 2);
+                    return tmp;
+                }
+                return null;
+            }));
+
+            this.gameObjects.addAll(mapLoader.createObjectArray("rubberHead_R", Global.UNIT, mapInfoArr, (gameObject, name, mapInfo, size) -> {
+                final GameObject tmp;
+                if (gameObject.equals(name)) {
+                    tmp = new Rubber(mapInfo.getX() * size, mapInfo.getY() * size, mapInfo.getSizeX() * size, mapInfo.getSizeY() * size, 1, 3);
+                    return tmp;
+                }
+                return null;
+            }));
+
+            this.gameObjects.addAll(mapLoader.createObjectArray("mon1", Global.UNIT, mapInfoArr, (gameObject, name, mapInfo, size) -> {
+                final GameObject tmp;
+                if (gameObject.equals(name)) {
+                    tmp = new Monster(mapInfo.getX() * size, mapInfo.getY() * size, mapInfo.getSizeX() * size, mapInfo.getSizeY() * size, 1);
+                    return tmp;
+                }
+                return null;
+            }));
+
+            this.gameObjects.addAll(mapLoader.createObjectArray("mon2", Global.UNIT, mapInfoArr, (gameObject, name, mapInfo, size) -> {
+                final GameObject tmp;
+                if (gameObject.equals(name)) {
+                    tmp = new Monster(mapInfo.getX() * size, mapInfo.getY() * size, mapInfo.getSizeX() * size, mapInfo.getSizeY() * size, 2);
+                    return tmp;
+                }
+                return null;
+            }));
+
+            this.gameObjects.addAll(mapLoader.createObjectArray("mon3", Global.UNIT, mapInfoArr, (gameObject, name, mapInfo, size) -> {
+                final GameObject tmp;
+                if (gameObject.equals(name)) {
+                    tmp = new Monster(mapInfo.getX() * size, mapInfo.getY() * size, mapInfo.getSizeX() * size, mapInfo.getSizeY() * size, 3);
                     return tmp;
                 }
                 return null;
@@ -341,41 +469,51 @@ public abstract class GameScene extends Scene {
                 return null;
             }));
 
-            this.gameObjects.addAll(mapLoader.createObjectArray("rubber", Global.UNIT, mapInfoArr, (gameObject, name, mapInfo, size) -> {
+            this.gameObjects.addAll(mapLoader.createObjectArray("born", Global.UNIT, mapInfoArr, (gameObject, name, mapInfo, size) -> {
                 final GameObject tmp;
                 if (gameObject.equals(name)) {
-                    tmp = new Rubber(mapInfo.getX() * size, mapInfo.getY() * size, mapInfo.getSizeX() * size, mapInfo.getSizeY() * size);
+                    tmp = new Born(mapInfo.getX() * size, mapInfo.getY() * size, mapInfo.getSizeX() * size, mapInfo.getSizeY() * size);
                     return tmp;
                 }
                 return null;
             }));
 
-            this.gameObjects.addAll(mapLoader.createObjectArray("conveyorRight", Global.UNIT, mapInfoArr, (gameObject, name, mapInfo, size) -> {
+            this.gameObjects.addAll(mapLoader.createObjectArray("movePlatHead", Global.UNIT, mapInfoArr, (gameObject, name, mapInfo, size) -> {
                 final GameObject tmp;
                 if (gameObject.equals(name)) {
-                    tmp = new Conveyor(mapInfo.getX() * size, mapInfo.getY() * size, mapInfo.getSizeX() * size, mapInfo.getSizeY() * size, 10);
+                    tmp = new MovePlatform(mapInfo.getX() * size, mapInfo.getY() * size, mapInfo.getSizeX() * size, mapInfo.getSizeY() * size,1);
                     return tmp;
                 }
                 return null;
             }));
 
-            this.gameObjects.addAll(mapLoader.createObjectArray("conveyorLeft", Global.UNIT, mapInfoArr, (gameObject, name, mapInfo, size) -> {
+            this.gameObjects.addAll(mapLoader.createObjectArray("movePlatBody", Global.UNIT, mapInfoArr, (gameObject, name, mapInfo, size) -> {
                 final GameObject tmp;
                 if (gameObject.equals(name)) {
-                    tmp = new Conveyor(mapInfo.getX() * size, mapInfo.getY() * size, mapInfo.getSizeX() * size, mapInfo.getSizeY() * size, -10);
+                    tmp = new MovePlatform(mapInfo.getX() * size, mapInfo.getY() * size, mapInfo.getSizeX() * size, mapInfo.getSizeY() * size,2);
                     return tmp;
                 }
                 return null;
             }));
 
-            this.gameObjects.addAll(mapLoader.createObjectArray("key", Global.UNIT, mapInfoArr, (gameObject, name, mapInfo, size) -> {
+            this.gameObjects.addAll(mapLoader.createObjectArray("movePlatTail", Global.UNIT, mapInfoArr, (gameObject, name, mapInfo, size) -> {
                 final GameObject tmp;
                 if (gameObject.equals(name)) {
-                    tmp = new Key(mapInfo.getX() * size, mapInfo.getY() * size, mapInfo.getSizeX() * size, mapInfo.getSizeY() * size);
+                    tmp = new MovePlatform(mapInfo.getX() * size, mapInfo.getY() * size, mapInfo.getSizeX() * size, mapInfo.getSizeY() * size,3);
                     return tmp;
                 }
                 return null;
             }));
+
+
+//            this.gameObjects.addAll(mapLoader.createObjectArray("", Global.UNIT, mapInfoArr, (gameObject, name, mapInfo, size) -> {
+//                final GameObject tmp;
+//                if (gameObject.equals(name)) {
+//                    tmp = new (mapInfo.getX() * size, mapInfo.getY() * size, mapInfo.getSizeX() * size, mapInfo.getSizeY() * size);
+//                    return tmp;
+//                }
+//                return null;
+//            }));
 
         } catch (final IOException e) {
             e.printStackTrace();

@@ -6,9 +6,10 @@ import java.awt.*;
 
 public class MovePlatform extends GameObject{
     Image img;
-    public MovePlatform(int top, int left, int width, int height) {
+    int num;
+    public MovePlatform(int top, int left, int width, int height, int num) {
         super(top, left, width, height);
-        img = ImageController.getInstance().tryGet("/img/elevator_1x1.png");
+        this.num = num;
     }
 
     @Override
@@ -24,5 +25,20 @@ public class MovePlatform extends GameObject{
     @Override
     public void update() {
 
+    }
+
+    public Image getImage(){
+            switch (num){
+                case 1:
+                    img = ImageController.getInstance().tryGet("/img/tile_0250.png");
+                    break;
+                case 2:
+                    img = ImageController.getInstance().tryGet("/img/tile_0251.png");
+                    break;
+                case 3:
+                    img = ImageController.getInstance().tryGet("/img/tile_0252.png");
+                    break;
+            }
+        return img;
     }
 }

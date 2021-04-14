@@ -6,16 +6,10 @@ import java.awt.*;
 
 public class Tile extends GameObject{
     Image img;
-    Color color;
-    public Tile(int top, int left, int width, int height, Color color) {
+    int style;
+    public Tile(int top, int left, int width, int height, int style) {
         super(top, left, width, height);
-        this.color = color;
-    }
-
-    public enum Color{
-        GREEN,
-        RED,
-        DARK_GREEN;
+        this.style = style;
     }
 
     @Override
@@ -34,17 +28,17 @@ public class Tile extends GameObject{
     }
 
     public Image getImage(){
-        switch (color){
-            case GREEN:
-                img = ImageController.getInstance().tryGet("/img/tileGreen.png");
+        switch (style){
+            case 1:
+                img = ImageController.getInstance().tryGet("/img/tile_0049.png");
                 break;
 
-            case RED:
-                img = ImageController.getInstance().tryGet("/img/tileRed.png");
+            case 2:
+                img = ImageController.getInstance().tryGet("/img/tile_0051.png");
                 break;
 
-            case DARK_GREEN:
-                img = ImageController.getInstance().tryGet("/img/tileDarkGreen.png");
+            case 3:
+                img = ImageController.getInstance().tryGet("/img/tile_0090.png");
                 break;
         }
         return img;
