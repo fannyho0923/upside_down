@@ -17,6 +17,8 @@ import java.util.ArrayList;
 public abstract class GameScene extends Scene {
 
     private GameObject background;
+    private GameObject cameraBack;
+    private GameObject ghost;
     //fanny
     private Actor actor;
     private ArrayList<GameObject> gameObjects;
@@ -27,7 +29,7 @@ public abstract class GameScene extends Scene {
     private Tracker tracker;
     private boolean actorTrigCamera;
     private int frameX_count = 0;
-    private int frameY_count = 0;
+    private int frameY_count = 1;
 
     private String mapBmpPath;
     private String mapTxtPath;
@@ -39,20 +41,23 @@ public abstract class GameScene extends Scene {
                      Actor actor, GameObject background,
                      int cameraWidth, int cameraHeight, int cameraVelocityX, int cameraVelocityY,
                      boolean actorTrigCamera){
+        int cameraStartX = cameraWidth*frameX_count;
+        int cameraStartY = cameraHeight*frameY_count;
+
         this.mapBmpPath = mapBmpPath;
         this.mapTxtPath = mapTxtPath;
-        this.actor = actor;
         this.background = background;
-        this.tracker = new Tracker((cameraWidth - Global.UNIT) / 2,
-                (cameraHeight - Global.UNIT) / 2, new Velocity(cameraVelocityX,cameraVelocityY,0,0,false));
-        System.out.println(tracker.painter().left());
-        System.out.println(tracker.painter().top());
 
+        this.actor = new Actor(cameraStartX + 900, cameraStartY+500, 2);
+        ghost = new Ghost(1280, 1400);
+
+        this.tracker = new Tracker(cameraStartX + (cameraWidth - Global.UNIT) / 2,
+                cameraStartY +(cameraHeight - Global.UNIT)/2, new Velocity(cameraVelocityX,cameraVelocityY,0,0,false));
         this.actorTrigCamera = actorTrigCamera;
-
         camera = new Camera.Builder(cameraWidth, cameraHeight)
                 .setChaseObj(tracker)
                 .gen();
+        cameraBack = new CameraBack(camera.painter().left(),camera.painter().top());
     }
 
     @Override
@@ -68,7 +73,6 @@ public abstract class GameScene extends Scene {
         }
         spikesDown = new Spikes(camera.painter().left(),camera.painter().top(),camera.painter().width(), 32, 2 );
         spikesUp = new Spikes(camera.painter().left(),camera.painter().bottom()-32,  camera.painter().width(), 32, 1);
-        System.out.println(camera.painter().left());
     }
 
     @Override
@@ -93,6 +97,12 @@ public abstract class GameScene extends Scene {
                         actor.velocity().setX(Actor.WALK_SPEED);
                         actor.rightSpeedUp(true);
                         break;
+                    case Global.VK_SPACE:
+                        if(actor.canReverse()){
+                            actor.velocity().gravityReverse();
+                            actor.setCanReverse(false);
+                        }
+                        break;
                 }
             }
 
@@ -106,9 +116,6 @@ public abstract class GameScene extends Scene {
                     case Global.VK_RIGHT:
                         actor.rightSpeedUp(false);
                         actor.velocity().stopX();
-                        break;
-                    case Global.VK_SPACE:
-                        actor.velocity().gravityReverse();
                         break;
                     case Global.VK_A: //jump
                         actor.jump();
@@ -130,9 +137,9 @@ public abstract class GameScene extends Scene {
     public void paint(Graphics g) {
         camera.start(g);
 
-        if (camera.isCollision(this.background)) {
-            this.background.paint(g);
-        }
+        this.cameraBack.paint(g);
+
+        ghost.paint(g);
 
         gameObjects.forEach(a -> {
             if (camera.isCollision(a)) {
@@ -159,7 +166,7 @@ public abstract class GameScene extends Scene {
 
     @Override
     public void update() {
-
+        ghost.update();
         actor.update();
         for (int i = 0; i < gameObjects.size(); i++) {
             GameObject obj = gameObjects.get(i);
@@ -185,6 +192,7 @@ public abstract class GameScene extends Scene {
         }
 
         camera.update();
+        cameraBack.setXY(camera.painter().left(),camera.painter().top());
         // 瞬間移動, 暫時還沒用到tracker 的速度
         if(actorTrigCamera){
             if (actor.painter().centerX() < camera.painter().left()) {       // 左
@@ -208,7 +216,6 @@ public abstract class GameScene extends Scene {
                     (camera.painter().width()*frameX_count));
             tracker.setY( (camera.painter().height() - Global.UNIT) / 2 +
                     camera.painter().height()*frameY_count);
-            System.out.println(camera.painter().left());
         }else{
             tracker.update();
             if (actor.collider().right() <= camera.collider().left()) {//work left
@@ -222,9 +229,6 @@ public abstract class GameScene extends Scene {
             spikesDown.painter().setXY(camera.painter().left(),camera.painter().top()-5); // 為什麼會不貼邊??
             spikesUp.painter().setXY(camera.painter().left(),camera.painter().top() + camera.painter().height() - spikesUp.painter().height());
         }
-
-
-
     }
 
     public void mapInit() {
@@ -261,7 +265,7 @@ public abstract class GameScene extends Scene {
             this.gameObjects.addAll(mapLoader.createObjectArray("tileDarkGreen", Global.UNIT, mapInfoArr, (gameObject, name, mapInfo, size) -> {
                 final GameObject tmp;
                 if (gameObject.equals(name)) {
-                    tmp = new Tile(mapInfo.getX() * size, mapInfo.getY() * size, mapInfo.getSizeX() * size, mapInfo.getSizeY() * size, Tile.Color.GREEN);
+                    tmp = new Tile(mapInfo.getX() * size, mapInfo.getY() * size, mapInfo.getSizeX() * size, mapInfo.getSizeY() * size, Tile.Color.DARK_GREEN);
                     return tmp;
                 }
                 return null;

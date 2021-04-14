@@ -37,7 +37,6 @@ public final class GameKernel extends Canvas {
             this.pi.paint(g);
         }
         // end
-
         g.dispose();// 畫完之後釋放掉相關資源
         bs.show();// 畫出畫面
     }

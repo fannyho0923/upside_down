@@ -23,6 +23,7 @@ public class Actor extends GameObject {
     private boolean leftSpeedUp;
     private boolean rightSpeedUp;
     private int jumpCount;
+    private boolean canReverse;
 
     private Image imgRight;
     private Image imgLeft;
@@ -52,6 +53,8 @@ public class Actor extends GameObject {
         rebornY = y;
         rebornState = velocity.isReverse();
         keyCount  = 0;
+
+        canReverse = false;
     }
 
     @Override
@@ -186,6 +189,14 @@ public class Actor extends GameObject {
         jumpCount = Global.continueJump;
     }
 
+    public boolean canReverse(){
+        return canReverse;
+    }
+
+    public void setCanReverse(boolean canReverse) {
+        this.canReverse = canReverse;
+    }
+
     // 場景物件效果
     public void setRebornX(int rebornX) {
         this.rebornX = rebornX;
@@ -205,6 +216,7 @@ public class Actor extends GameObject {
     }
 
     public void beBlock(GameObject obj){
+        canReverse = true;
         this.preMove();
         this.moveY();
         if (this.isCollision(obj)) { // 撞到 Y

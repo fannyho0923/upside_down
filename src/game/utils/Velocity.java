@@ -109,17 +109,14 @@ public class Velocity {
         dy = 0;
     }
 
-
     public void update(){
         if (gravityReverse){
             dy -= Global.GRAVITY;
         }else {
             dy += Global.GRAVITY;
         }
-
         offsetX(dx);
         offsetY(dy);
-
     }
 
 }
