@@ -8,14 +8,10 @@ import java.awt.*;
 
 public class Spike extends GameObject{
     Image img;
-    int num;
     Delay delay;
     public Spike(int top, int left, int width, int height, int num) {
         super(top,left,width,height);
         delay = new Delay(5);
-
-//        this.num = num;
-//        img = null;
 
         switch(num){
             case 1:
@@ -42,12 +38,10 @@ public class Spike extends GameObject{
             actor.reborn();
         }
 //        AudioResourceController.getInstance().play("/sound/dead.wav");
-
     }
 
     @Override
     public void paint(Graphics g) {
-//        g.drawImage(getImage(), painter().left(), painter().top(), null);
         g.drawImage(img, painter().left(), painter().top(), null);
     }
 

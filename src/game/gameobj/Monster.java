@@ -28,8 +28,6 @@ public class Monster extends GameObject{
                 tour = new Tour(this, 0,0,10);
                 break;
         }
-
-        //img = ImageController.getInstance().tryGet("/img/monster.png");
     }
 
     @Override
@@ -46,19 +44,4 @@ public class Monster extends GameObject{
     public void update() {
         tour.update();
     }
-
-//    public Image getImage(){
-//        switch (num){
-//            case 1:
-//                img = ImageController.getInstance().tryGet("/img/tile_0245.png");
-//                break;
-//            case 2:
-//                img = ImageController.getInstance().tryGet("/img/tile_0383.png");
-//            break;
-//            case 3:
-//                img = ImageController.getInstance().tryGet("/img/tile_0260.png");
-//            break;
-//        }
-//        return img;
-//    }
 }

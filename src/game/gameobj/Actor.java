@@ -219,6 +219,7 @@ public class Actor extends GameObject {
     public void reborn(){
         this.setXY(rebornX,rebornY);
         velocity.setGravityReverse(rebornState);
+        velocity().stop();
     }
 
     public void beBlock(GameObject obj){
@@ -232,8 +233,6 @@ public class Actor extends GameObject {
             this.setX(obj.collider().right()+1);
             return;
         }
-
-
         canReverse = true;
         this.preMove();
         this.moveY();
