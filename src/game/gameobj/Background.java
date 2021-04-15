@@ -8,9 +8,9 @@ public class Background extends GameObject{
     private Image img;
 
     public Background(){
-        //x=3840 y=1920
-        super(0,0, 3840,1920);
-        img = ImageController.getInstance().tryGet("/img/dungeon_background_1226.jpg");
+        //x=3840 y=1920, unit_X=1280 unit_Y=640
+        super(0,0, 3840,2560);
+        img = ImageController.getInstance().tryGet("/img/dungeon_background.jpg");
     }
 
     @Override
