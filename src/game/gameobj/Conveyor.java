@@ -1,5 +1,6 @@
 package game.gameobj;
 
+import game.controller.AudioResourceController;
 import game.controller.ImageController;
 import game.utils.Velocity;
 
@@ -21,6 +22,7 @@ public class Conveyor extends GameObject{
 
     @Override
     public void collisionEffect(Actor actor) {
+        AudioResourceController.getInstance().play("/sound/conveyor-crop.wav");
         actor.beBlock(this);
         if (dir == 1) {
             actor.offsetX(shift_x);

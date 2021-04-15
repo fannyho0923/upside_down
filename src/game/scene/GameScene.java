@@ -28,8 +28,8 @@ public abstract class GameScene extends Scene {
     private Camera camera;
     private Tracker tracker;
     private boolean actorTrigCamera;
-    private int frameX_count = 0;
-    private int frameY_count = 3;
+    private int frameX_count = 1;
+    private int frameY_count = 2;
 
     private String mapBmpPath;
     private String mapTxtPath;
