@@ -2,6 +2,7 @@ package game.scene;
 
 import game.camera.Camera;
 import game.camera.MapInformation;
+import game.controller.AudioResourceController;
 import game.gameobj.*;
 import game.maploader.MapInfo;
 import game.maploader.MapLoader;
@@ -9,6 +10,7 @@ import game.utils.CommandSolver;
 import game.utils.Global;
 import game.utils.Velocity;
 
+import javax.sound.sampled.Clip;
 import java.awt.*;
 import java.io.IOException;
 import java.util.ArrayList;
@@ -27,10 +29,11 @@ public abstract class GameScene extends Scene {
     private Camera camera;
     private Tracker tracker;
     private boolean actorTrigCamera;
+
     private int num;
 
-    private int frameX_count = 0;
-    private int frameY_count = 3;
+    private int frameX_count = 1;
+    private int frameY_count = 2;
 
     private String mapBmpPath;
     private String mapTxtPath;
@@ -59,6 +62,7 @@ public abstract class GameScene extends Scene {
 
     @Override
     public void sceneBegin() {
+        AudioResourceController.getInstance().loop("/sound/Battle-Dawn-crop-reduce.wav",50);
         gameObjects = new ArrayList<>();
         orinBrokenRoads = new ArrayList<>();
         movePlatform = new ArrayList<>();
@@ -75,6 +79,7 @@ public abstract class GameScene extends Scene {
 
     @Override
     public void sceneEnd() {
+        AudioResourceController.getInstance().stop("/sound/Battle-Dawn-crop-reduce.wav");
         this.background = null;
         this.actor = null;
         this.gameObjects = null;
@@ -226,7 +231,6 @@ public abstract class GameScene extends Scene {
             if (actor.painter().centerX() > camera.painter().right()) {     // 右
                 frameX_count++;
                 brokenRoads = (ArrayList) orinBrokenRoads.clone();
-                System.out.println(camera.painter().left());
             }
             if (actor.painter().centerY() > camera.painter().bottom()) {   // 下
                 frameY_count++;

@@ -1,5 +1,6 @@
 package game.gameobj;
 
+import game.controller.AudioResourceController;
 import game.controller.ImageController;
 import game.utils.Global;
 import game.utils.Delay;
