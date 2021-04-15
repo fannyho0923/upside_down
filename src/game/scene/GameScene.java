@@ -7,7 +7,7 @@ import game.maploader.MapInfo;
 import game.maploader.MapLoader;
 import game.utils.CommandSolver;
 import game.utils.Global;
-import game.utils.Velocity;
+import game.utils.Vector;
 
 import java.awt.*;
 import java.io.IOException;
@@ -28,8 +28,8 @@ public abstract class GameScene extends Scene {
     private Camera camera;
     private Tracker tracker;
     private boolean actorTrigCamera;
-    private int frameX_count = 0;
-    private int frameY_count = 1;
+    private int frameX_count = 1;
+    private int frameY_count = 2;
 
     private String mapBmpPath;
     private String mapTxtPath;
@@ -48,11 +48,11 @@ public abstract class GameScene extends Scene {
         this.mapTxtPath = mapTxtPath;
         this.background = background;
 
-        this.actor = new Actor(cameraStartX + 900, cameraStartY+500, 2);
+        this.actor = new Actor(cameraStartX + 200, cameraStartY+200, 2);
         ghost = new Ghost(1280, 1400);
 
         this.tracker = new Tracker(cameraStartX + (cameraWidth - Global.UNIT) / 2,
-                cameraStartY +(cameraHeight - Global.UNIT)/2, new Velocity(cameraVelocityX,cameraVelocityY,0,0,false));
+                cameraStartY +(cameraHeight - Global.UNIT)/2, new Vector((double)cameraVelocityX,(double)cameraVelocityY));
         this.actorTrigCamera = actorTrigCamera;
         camera = new Camera.Builder(cameraWidth, cameraHeight)
                 .setChaseObj(tracker)
@@ -69,7 +69,7 @@ public abstract class GameScene extends Scene {
 
         MapInformation.getInstance().setMapInfo(this.background);
         if(actorTrigCamera){
-            tracker.velocity().stop();
+            tracker.velocity().zero();
         }
         spikesDown = new Spikes(camera.painter().left(),camera.painter().top(),camera.painter().width(), 32, 2 );
         spikesUp = new Spikes(camera.painter().left(),camera.painter().bottom()-32,  camera.painter().width(), 32, 1);
@@ -90,16 +90,17 @@ public abstract class GameScene extends Scene {
             public void keyPressed(int commandCode, long trigTime) {
                 switch (commandCode) {
                     case Global.VK_LEFT:
+                        actor.setDirection(Global.Direction.LEFT);
                         actor.velocity().setX(-Actor.WALK_SPEED);
-                        actor.leftSpeedUp(true);
                         break;
                     case Global.VK_RIGHT:
+                        actor.setDirection(Global.Direction.RIGHT);
                         actor.velocity().setX(Actor.WALK_SPEED);
-                        actor.rightSpeedUp(true);
                         break;
                     case Global.VK_SPACE:
                         if(actor.canReverse()){
-                            actor.velocity().gravityReverse();
+                            actor.reverse();
+                            //actor.velocity().gravityReverse();
                             actor.setCanReverse(false);
                         }
                         break;
@@ -110,12 +111,15 @@ public abstract class GameScene extends Scene {
             public void keyReleased(int commandCode, long trigTime) {
                 switch (commandCode) {
                     case Global.VK_LEFT:
-                        actor.leftSpeedUp(false);
-                        actor.velocity().stopX();
+                        actor.setDirection(Global.Direction.NO);
+                        actor.velocity().zeroX();
+
+                        //actor.velocity().stopX();
                         break;
                     case Global.VK_RIGHT:
-                        actor.rightSpeedUp(false);
-                        actor.velocity().stopX();
+                        actor.setDirection(Global.Direction.NO);
+                        actor.velocity().zeroX();
+                        //actor.velocity().stopX();
                         break;
                     case Global.VK_A: //jump
                         actor.jump();

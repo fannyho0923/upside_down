@@ -21,8 +21,10 @@ public class Rubber extends GameObject{
         }
 //        actor.velocity().setY(-actor.velocity().y());
 //        actor.velocity().setDy(0);
-        actor.velocity().stopY();
-        actor.velocity().gravityReverse();
+        actor.velocity().zeroY();
+        actor.reverse();
+        //actor.velocity().stopY();
+        //actor.velocity().gravityReverse();
     }
 
     @Override

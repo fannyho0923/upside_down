@@ -4,7 +4,7 @@ public class Vector {
     private double x;
     private double y;
 
-    private Vector(double x, double y) {
+    public Vector(double x, double y) {
         this.x = x;
         this.y = y;
     }
@@ -28,6 +28,19 @@ public class Vector {
     public void add(Vector vector){
         this.x += vector.x();
         this.y += vector.y();
+    }
+
+    public void add(double dx, double dy){
+        this.x += dx;
+        this.y += dy;
+    }
+
+    public void addX(double dx){
+        this.x += dx;
+    }
+
+    public void addY(double dy){
+        this.y += dy;
     }
 
     public void minus(Vector vector){
@@ -69,12 +82,19 @@ public class Vector {
         return this.multiply(this,1.0/n);
     }
 
-    public void offSetX(double dx){
-        this.x += dx;
+    public void zero(){
+        this.x = 0;
+        this.y = 0;
     }
 
-    public void offSetY(double dy){
-        this.y += dy;
+    public void zeroX(){
+        this.x = 0;
     }
+
+    public void zeroY(){
+        this.y = 0;
+    }
+
+
 
 }

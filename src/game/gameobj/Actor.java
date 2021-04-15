@@ -4,6 +4,7 @@ import game.controller.ImageController;
 import game.utils.Global;
 import game.utils.Delay;
 import game.utils.Velocity;
+import game.utils.Vector;
 
 
 import java.awt.*;
@@ -13,15 +14,14 @@ import java.awt.image.BufferedImage;
 
 public class Actor extends GameObject {
     private static final int JUMP_SPEED = 30;
-    private static final float WALK_ACCELERATION = 0f;
     public static final int WALK_SPEED = 5;
 
-    private Velocity velocity;
+    //private Velocity velocity;
+    private Vector v;
+    private boolean isReverse;
     private Global.Direction direction;
     private ActionAnimator actionAnimator;
 
-    private boolean leftSpeedUp;
-    private boolean rightSpeedUp;
     private int jumpCount;
     private boolean canReverse;
 
@@ -40,42 +40,39 @@ public class Actor extends GameObject {
 
     public Actor(int x, int y, int num) {
         super(x, y, Global.UNIT_X32, Global.UNIT_Y32);
-        velocity = new Velocity(0, 0, 0, 0, false);
+        v = new Vector(0,0);
+        //velocity = new Velocity(0, 0, 0, 0, false);
         direction = Global.Direction.NO;
-        actionAnimator = new ActionAnimator();
-        leftSpeedUp = false;
-        rightSpeedUp = false;
+        isReverse = false;
         jumpCount = 0;
+
         this.img=ImageController.getInstance().tryGet("/img/actor_"+num+".png");
         setImage(num);
+        actionAnimator = new ActionAnimator();
 
         rebornX = x;
         rebornY = y;
-        rebornState = velocity.isReverse();
+        rebornState = isReverse();
         keyCount  = 0;
-
         canReverse = false;
     }
 
     @Override
     public void update() {
-        // walking, acceleration increase
-        if (leftSpeedUp) {
-            velocity.offsetDX(-WALK_ACCELERATION);
-            setDirection(Global.Direction.LEFT);
-        } else if (rightSpeedUp) {
-            velocity.offsetDX(WALK_ACCELERATION);
-            setDirection(Global.Direction.RIGHT);
-        } else {
-            setDirection(Global.Direction.NO);
+        //velocity.update();
+        if(isReverse){
+            v.addY(-Global.GRAVITY);
+        }else {
+            v.addY(Global.GRAVITY);
         }
-        velocity.update();
         move();
+
     }
 
     @Override
     public void paint(Graphics g) {
-        if (velocity.isReverse()) {
+        //if (velocity.isReverse()) {
+        if (isReverse)   {
             actionAnimator.paint(g, this.imgRev, painter().left(), painter().top(),
                     painter().right(), painter().bottom(), getDirection());
         } else {
@@ -135,28 +132,40 @@ public class Actor extends GameObject {
         this.direction = direction;
     }
 
-    // 移動
-    public Velocity velocity() {
-        return velocity;
+    public void reverse(){
+        this.isReverse = !isReverse;
     }
+
+    public void serReverse(boolean state){
+        this.isReverse = state;
+    }
+
+    public boolean isReverse(){
+        return isReverse;
+    }
+
+    // 移動
+    public Vector velocity(){
+        return v;
+    }
+
+//    public Velocity velocity() {
+//        return velocity;
+//    }
 
     public void preMove() {
-        offsetX(-velocity.x());
-        offsetY(-velocity.y());
+        offset(-(int)v.x(),-(int)v.y());
     }
 
-    public void leftSpeedUp(boolean speedUp) {
-        leftSpeedUp = speedUp;
-    }
+//    public void preMove() {
+//        offsetX(-velocity.x());
+//        offsetY(-velocity.y());
+//    }
 
-    public void rightSpeedUp(boolean speedUp) {
-        rightSpeedUp = speedUp;
-    }
-
-    public void move() {
-        offsetX(velocity.x());
-        offsetY(velocity.y());
-        switch (this.direction) {
+    private void move(){
+        offset((int)v.x(),(int)v.y());
+        System.out.println(v.x());
+        switch (this.direction){
             case LEFT:
                 this.img = imgLeft;
                 this.imgRev = imgLeftRev;
@@ -165,25 +174,55 @@ public class Actor extends GameObject {
                 this.img = imgRight;
                 this.imgRev = imgRightRev;
                 break;
-            case NO:
-                break;
         }
     }
 
-    public void moveX() {
-        offsetX(velocity.x());
+//    public void move() {
+//        offsetX(velocity.x());
+//        offsetY(velocity.y());
+//        switch (this.direction) {
+//            case LEFT:
+//                this.img = imgLeft;
+//                this.imgRev = imgLeftRev;
+//                break;
+//            case RIGHT:
+//                this.img = imgRight;
+//                this.imgRev = imgRightRev;
+//                break;
+//            case NO:
+//                break;
+//        }
+//    }
+
+    private void moveX(){
+        offsetX((int)v.x());
     }
 
-    public void moveY() {
-        offsetY(velocity.y());
+    private void moveY(){
+        offsetY((int)v.y());
     }
+
+//    public void moveX() {
+//        offsetX(velocity.x());
+//    }
+
+//    public void moveY() {
+//        offsetY(velocity.y());
+//    }
 
     public void jump() {
         if (jumpCount > 0) {
-            this.velocity.offsetY(-JUMP_SPEED);
+            this.v.addY(-JUMP_SPEED);
             jumpCount--;
         }
     }
+
+//    public void jump() {
+//        if (jumpCount > 0) {
+//            this.velocity.offsetY(-JUMP_SPEED);
+//            jumpCount--;
+//        }
+//    }
 
     public void jumpReset() {
         jumpCount = Global.continueJump;
@@ -212,7 +251,8 @@ public class Actor extends GameObject {
 
     public void reborn(){
         this.setXY(rebornX,rebornY);
-        velocity.setGravityReverse(rebornState);
+        this.isReverse = rebornState;
+        //velocity.setGravityReverse(rebornState);
     }
 
     public void beBlock(GameObject obj){
@@ -223,10 +263,12 @@ public class Actor extends GameObject {
             this.jumpReset();
             if (this.velocity().y() < 0) {
                 this.setY(obj.collider().bottom() +1 );
-                this.velocity().stopY();
+                //this.velocity().stopY();
+                this.v.zeroX();
             } else if (this.velocity().y() > 0) {
                 this.setY(obj.collider().top() - this.painter().height() -1);
-                this.velocity().stopY();
+                //this.velocity().stopY();
+                this.v.zeroX();
             }
             this.moveX();
         }
