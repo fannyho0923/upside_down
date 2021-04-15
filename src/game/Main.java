@@ -4,13 +4,10 @@ package game;
 import game.controller.ImageController;
 import game.controller.SceneController;
 
-// import game.scene.BasicScene;
-
 import game.menu.menu.BackgroundType;
 import game.menu.menu.Style;
 import game.menu.menu.Theme;
 import game.menu.scene.MenuScene;
-import game.scene.BasicScene;
 import game.utils.CommandSolver;
 import game.utils.GameKernel;
 import game.utils.Global;
@@ -45,7 +42,7 @@ public class Main {// 資料刷新時間
                 .update(sceneController)
                 .gen();
 
-        jFrame.setTitle("Game Merge");
+        jFrame.setTitle("Upside Down");
         jFrame.setSize(Global.WINDOW_WIDTH, Global.WINDOW_HEIGHT);
         jFrame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 
@@ -55,8 +52,6 @@ public class Main {// 資料刷新時間
 
         gameKernel.run();
     }
-
-
 
     private static void initTheme() {
         //0
