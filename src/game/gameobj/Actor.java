@@ -94,11 +94,13 @@ public class Actor extends GameObject {
     private static class ActionAnimator {
         private int count;
         private Delay delay;
+//        private State state;
 
         public ActionAnimator() {
             count = 0;
             delay = new Delay(3);
             delay.loop();
+//            state=State.Dead;
         }
 
         public void paint(Graphics g, Image img, int left, int top, int right, int bottom, Global.Direction direction) {
@@ -114,6 +116,7 @@ public class Actor extends GameObject {
                     Global.UNIT_Y64 - 16, null);
         }
     }
+
     public enum State{
         Alive,
         Dead;

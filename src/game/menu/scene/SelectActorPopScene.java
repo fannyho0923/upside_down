@@ -78,7 +78,7 @@ public class SelectActorPopScene extends Scene {
         back = new Button(480 - 200, 650 - 105, Theme.get(3));
         start.setClickedActionPerformed((int x, int y) -> {
             for (int i = 1; i <= arrayList.size(); i++) {
-                if (arrayList.get(i).getIsFocus()) {
+                if (arrayList.get(i-1).getIsFocus()) {
                     SceneController.getInstance().change(new BasicScene(i));
                     return;
                 }
