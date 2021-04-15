@@ -59,7 +59,7 @@ public abstract class GameScene extends Scene {
 
     @Override
     public void sceneBegin() {
-        AudioResourceController.getInstance().loop("/sound/Battle-Dawn-crop2.wav",50);
+        AudioResourceController.getInstance().loop("/sound/Battle-Dawn-crop-reduce.wav",50);
         gameObjects = new ArrayList<>();
         orinBrokenRoads = new ArrayList<>();
         mapInit();
@@ -76,7 +76,7 @@ public abstract class GameScene extends Scene {
 
     @Override
     public void sceneEnd() {
-        AudioResourceController.getInstance().stop("/sound/Battle-Dawn-crop2.wav");
+        AudioResourceController.getInstance().stop("/sound/Battle-Dawn-crop-reduce.wav");
         this.background = null;
         this.actor = null;
         this.gameObjects = null;
