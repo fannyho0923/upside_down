@@ -2,6 +2,7 @@ package game.scene;
 
 import game.camera.Camera;
 import game.camera.MapInformation;
+import game.controller.AudioResourceController;
 import game.gameobj.*;
 import game.maploader.MapInfo;
 import game.maploader.MapLoader;
@@ -9,6 +10,7 @@ import game.utils.CommandSolver;
 import game.utils.Global;
 import game.utils.Velocity;
 
+import javax.sound.sampled.Clip;
 import java.awt.*;
 import java.io.IOException;
 import java.util.ArrayList;
@@ -57,6 +59,7 @@ public abstract class GameScene extends Scene {
 
     @Override
     public void sceneBegin() {
+        AudioResourceController.getInstance().loop("/sound/Battle-Dawn-crop2.wav",50);
         gameObjects = new ArrayList<>();
         orinBrokenRoads = new ArrayList<>();
         mapInit();
@@ -68,11 +71,12 @@ public abstract class GameScene extends Scene {
         }
         spikesDown = new Spikes(camera.painter().left(),camera.painter().top(),camera.painter().width(), 32, 2 );
         spikesUp = new Spikes(camera.painter().left(),camera.painter().bottom()-32,  camera.painter().width(), 32, 1);
-        System.out.println(camera.painter().left());
+//        System.out.println(camera.painter().left());
     }
 
     @Override
     public void sceneEnd() {
+        AudioResourceController.getInstance().stop("/sound/Battle-Dawn-crop2.wav");
         this.background = null;
         this.actor = null;
         this.gameObjects = null;
