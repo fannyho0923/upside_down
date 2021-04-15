@@ -6,11 +6,9 @@ import game.controller.ImageController;
 import java.awt.*;
 
 public class Key extends GameObject{
-    // 另外載入, 不要加在GameObjArr
-
     Image img;
-    public Key(int top, int left, int width, int height) {
-        super(top, left, width, height);
+    public Key(int left, int top, int width, int height) {
+        super(left, top, width, height);
         img = ImageController.getInstance().tryGet("/img/key_1x1.png");
     }
 

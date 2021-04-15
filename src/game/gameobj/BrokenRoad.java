@@ -10,8 +10,8 @@ public class BrokenRoad extends GameObject{
     private Image img;
     private boolean isTouched;
     private Delay delay;
-    public BrokenRoad(int top, int left, int width, int height) {
-        super(top, left, width, height);
+    public BrokenRoad(int left, int top, int width, int height) {
+        super(left, top, width, height);
         img = ImageController.getInstance().tryGet("/img/tile_0071.png");
         isTouched = false;
         delay = new Delay(20);
@@ -21,7 +21,7 @@ public class BrokenRoad extends GameObject{
     public void collisionEffect(Actor actor) {
         AudioResourceController.getInstance().play("/sound/break_platform.wav");
         actor.beBlock(this);
-            delay.play();
+        delay.play();
     }
 
     @Override

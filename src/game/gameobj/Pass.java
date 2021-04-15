@@ -7,8 +7,8 @@ import java.awt.*;
 
 public class Pass extends GameObject{
     Image img;
-    public Pass(int top, int left, int width, int height) {
-        super(top, left, width, height);
+    public Pass(int left, int top, int width, int height) {
+        super(left, top, width, height);
         img = ImageController.getInstance().tryGet("/img/tile_0007.png");
     }
 

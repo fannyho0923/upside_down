@@ -32,8 +32,8 @@ public abstract class GameScene extends Scene {
 
     private int num;
 
-    private int frameX_count = 1;
-    private int frameY_count = 2;
+    private int frameX_count;
+    private int frameY_count;
 
     private String mapBmpPath;
     private String mapTxtPath;
@@ -43,14 +43,24 @@ public abstract class GameScene extends Scene {
     public GameScene(String mapBmpPath, String mapTxtPath, Actor actor, GameObject background,
                      int cameraWidth, int cameraHeight, int cameraVelocityX, int cameraVelocityY,
                      boolean actorTrigCamera){//刪掉actor
-        int cameraStartX = cameraWidth*frameX_count;
-        int cameraStartY = cameraHeight*frameY_count;
+
+        gameObjects = new ArrayList<>();
+        orinBrokenRoads = new ArrayList<>();
+        movePlatform = new ArrayList<>();
 
         this.mapBmpPath = mapBmpPath;
         this.mapTxtPath = mapTxtPath;
-        this.background = background;
-        this.actor = actor;
 
+        mapInit();
+        this.actor = actor;
+        frameX_count = gameObjects.get(0).collider().left() / cameraWidth;
+        frameY_count = gameObjects.get(0).collider().top() / cameraHeight;
+
+        actor.setXY(gameObjects.get(0).painter().left(),gameObjects.get(0).painter().top());
+        this.background = background;
+
+        int cameraStartX = cameraWidth*frameX_count;
+        int cameraStartY = cameraHeight*frameY_count;
         this.tracker = new Tracker(cameraStartX + (cameraWidth - Global.UNIT) / 2,
                 cameraStartY +(cameraHeight - Global.UNIT)/2, new Velocity(cameraVelocityX,cameraVelocityY,0,0,false));
         this.actorTrigCamera = actorTrigCamera;
@@ -63,10 +73,7 @@ public abstract class GameScene extends Scene {
     @Override
     public void sceneBegin() {
         AudioResourceController.getInstance().loop("/sound/Battle-Dawn-crop-reduce.wav",50);
-        gameObjects = new ArrayList<>();
-        orinBrokenRoads = new ArrayList<>();
-        movePlatform = new ArrayList<>();
-        mapInit();
+
         brokenRoads = (ArrayList) orinBrokenRoads.clone();
 
         MapInformation.getInstance().setMapInfo(this.background);
@@ -174,16 +181,6 @@ public abstract class GameScene extends Scene {
     @Override
     public void update() {
         actor.update();
-        for (int i = 0; i < gameObjects.size(); i++) {
-            GameObject obj = gameObjects.get(i);
-            if (actor.isCollision(obj)) {
-                obj.collisionEffect(actor);
-            }
-            obj.update();
-            if(!obj.isExist()){
-                gameObjects.remove(i);
-            }
-        }
 
         for (int i = 0; i < brokenRoads.size(); i++) {
             GameObject obj = brokenRoads.get(i);
@@ -212,6 +209,17 @@ public abstract class GameScene extends Scene {
                 }
             }
             obj.update();
+        }
+
+        for (int i = 0; i < gameObjects.size(); i++) {
+            GameObject obj = gameObjects.get(i);
+            if (actor.isCollision(obj)) {
+                obj.collisionEffect(actor);
+            }
+            obj.update();
+            if(!obj.isExist()){
+                gameObjects.remove(i);
+            }
         }
 
         actor.shift();
