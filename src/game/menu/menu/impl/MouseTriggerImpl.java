@@ -1,6 +1,7 @@
 package game.menu.menu.impl;
 //選滑鼠滑進去、點擊功能擇一
 
+import game.controller.AudioResourceController;
 import game.controller.SceneController;
 import game.menu.menu.*;
 import java.awt.event.MouseEvent;
