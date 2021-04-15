@@ -20,7 +20,11 @@ public class Main {// 資料刷新時間
         final JFrame jFrame = new JFrame();
 
         final SceneController sceneController = SceneController.getInstance();
+<<<<<<< HEAD
         sceneController.change(new BasicScene());
+=======
+        sceneController.change(new TestGame(0));
+>>>>>>> menu
         final GameKernel gameKernel = new GameKernel.Builder()
                 .input(new CommandSolver.BuildStream()
                         .mouseTrack().forceRelease().subscribe(sceneController)
