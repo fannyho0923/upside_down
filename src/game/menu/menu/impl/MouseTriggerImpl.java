@@ -34,7 +34,6 @@ public class MouseTriggerImpl {
         if (state == CommandSolver.MouseState.MOVED) {
             if (isOval) {
                 if (ovalOverlap(obj, e.getX(), e.getY())) {
-                    System.out.println("O");
                     AudioResourceController.getInstance().shot("/sound/menu_tab.wav");
                     obj.isHover();
                 } else {
