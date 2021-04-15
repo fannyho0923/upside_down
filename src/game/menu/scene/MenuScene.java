@@ -26,7 +26,7 @@ public class MenuScene extends Scene {
 
     @Override
     public void sceneBegin() {
-        AudioResourceController.getInstance().play("");
+//        AudioResourceController.getInstance().play("");
         image = ImageController.getInstance().tryGet("/img/menuPic.png");
         star = ImageController.getInstance().tryGet("/img/star-3.png");
 //        selectPop = new SelectActorPopScene(90, 100, 650, 450);
