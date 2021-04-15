@@ -1,9 +1,11 @@
 package game.utils;
 
+import game.gameobj.Actor;
 import game.gameobj.GameObject;
 
 public class Tour {
     private GameObject obj;
+    private Actor actor;
     private int dx;
     private int dy;
     private int step;
@@ -27,4 +29,8 @@ public class Tour {
             count++;
         }
     }
+
+
+
+
 }

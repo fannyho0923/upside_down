@@ -2,8 +2,9 @@ package game.gameobj;
 
 import game.controller.ImageController;
 import game.utils.Tour;
-import game.utils.Vector;
+
 import java.awt.*;
+import game.utils.Vector;
 
 
 public class MovePlatform extends GameObject{
@@ -11,18 +12,30 @@ public class MovePlatform extends GameObject{
     Image img;
     int num;
     private Tour tour;
-    private Vector velocity;
+    private Vector v;
+
+    private int count;
+    private int step1;
+    private int step2;
     public MovePlatform(int top, int left, int width, int height, int num) {
         super(top, left, width, height);
-        this.velocity = new Vector(-2,0);
-        this.tour = new Tour(this, (int)velocity.x(), (int)velocity.y(), 20);
+        this.v = new Vector(5,0);
         this.num = num;
+        this.tour = new Tour(this,(int)v.x(),(int)v.y(),30);
     }
+
+//    count %= (step * 4);
+//        if(count < step | count >= step * 3){
+//        obj.offset(dx, dy);
+//        count++;
+//    }else{
+//        obj.offset(-dx,-dy);
+//        count++;
+//    }
 
     @Override
     public void collisionEffect(Actor actor) {
         actor.beBlock(this);
-        actor.offset((int)velocity.x(),(int)velocity.y());
     }
 
     @Override
