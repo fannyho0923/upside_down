@@ -2,6 +2,7 @@ package game.gameobj;
 
 import game.controller.AudioResourceController;
 import game.controller.ImageController;
+import game.utils.Delay;
 
 import java.awt.*;
 
@@ -16,7 +17,8 @@ public class Spike extends GameObject{
 
     @Override
     public void collisionEffect(Actor actor) {
-        AudioResourceController.getInstance().play("/sound/spike.wav");
+        AudioResourceController.getInstance().shot("/sound/spike.wav");
+        AudioResourceController.getInstance().shot("/sound/game_over.wav");
         actor.reborn();
     }
 
