@@ -9,17 +9,25 @@ import java.awt.*;
 public class Spike extends GameObject{
     Image img;
     int num;
+    Delay delay;
     public Spike(int top, int left, int width, int height, int num) {
         super(top, left, width, height);
         this.num = num;
         img = null;
+        delay = new Delay(55);
     }
 
     @Override
     public void collisionEffect(Actor actor) {
         AudioResourceController.getInstance().play("/sound/spike.wav");
-        AudioResourceController.getInstance().play("/sound/game_over.wav");
-        actor.reborn();
+        delay.play();
+        if (delay.count()) {
+            AudioResourceController.getInstance().play("/sound/dead.wav");
+        }
+        delay.play();
+        if (delay.count()) {
+            actor.reborn();
+        }
     }
 
     @Override
