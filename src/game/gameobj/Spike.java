@@ -14,20 +14,21 @@ public class Spike extends GameObject{
         super(top, left, width, height);
         this.num = num;
         img = null;
-        delay = new Delay(55);
+        delay = new Delay(5);
     }
 
     @Override
     public void collisionEffect(Actor actor) {
-        AudioResourceController.getInstance().play("/sound/spike.wav");
-        delay.play();
-        if (delay.count()) {
-            AudioResourceController.getInstance().play("/sound/dead.wav");
+        System.out.println("!");
+        if(!delay.isPlaying()){
+            AudioResourceController.getInstance().shot("/sound/spike.wav");
+            delay.play();
         }
-        delay.play();
         if (delay.count()) {
             actor.reborn();
         }
+//        AudioResourceController.getInstance().play("/sound/dead.wav");
+
     }
 
     @Override

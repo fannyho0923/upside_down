@@ -47,8 +47,6 @@ public abstract class GameScene extends Scene {
         this.background = background;
         this.tracker = new Tracker((cameraWidth - Global.UNIT) / 2,
                 (cameraHeight - Global.UNIT) / 2, new Velocity(cameraVelocityX,cameraVelocityY,0,0,false));
-        System.out.println(tracker.painter().left());
-        System.out.println(tracker.painter().top());
 
         this.actorTrigCamera = actorTrigCamera;
 
@@ -202,7 +200,6 @@ public abstract class GameScene extends Scene {
             if (actor.painter().centerX() > camera.painter().right()) {     // 右
                 frameX_count++;
                 brokenRoads = (ArrayList) orinBrokenRoads.clone();
-                System.out.println(camera.painter().left());
             }
             if (actor.painter().centerY() > camera.painter().bottom()) {   // 下
                 frameY_count++;
@@ -212,7 +209,6 @@ public abstract class GameScene extends Scene {
                     (camera.painter().width()*frameX_count));
             tracker.setY( (camera.painter().height() - Global.UNIT) / 2 +
                     camera.painter().height()*frameY_count);
-            System.out.println(camera.painter().left());
         }else{
             tracker.update();
             if (actor.collider().right() <= camera.collider().left()) {//work left
