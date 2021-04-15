@@ -34,14 +34,14 @@ public class MouseTriggerImpl {
         if (state == CommandSolver.MouseState.MOVED) {
             if (isOval) {
                 if (ovalOverlap(obj, e.getX(), e.getY())) {
-                    AudioResourceController.getInstance().shot("/sound/menu_tab.wav");
+                    AudioResourceController.getInstance().shot("/sound/tab.wav");
                     obj.isHover();
                 } else {
                     obj.unHover();
                 }
             } else {
                 if (rectOverlap(obj, e.getX(), e.getY())) {
-                    AudioResourceController.getInstance().shot("/sound/menu_tab.wav");
+                    AudioResourceController.getInstance().shot("/sound/tab.wav");
                     obj.isHover();
                 } else {
                     obj.unHover();
