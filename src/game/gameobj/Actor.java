@@ -222,11 +222,18 @@ public class Actor extends GameObject {
     }
 
     public void beBlock(GameObject obj){
+        // 物件移動角色時被阻擋
         if(shift.x() > 0){
-
+            shift = zeroShift;
+            this.setX(obj.collider().left() - this.collider().width() -1);
+            return;
         }else if(shift.x() < 0){
-
+            shift = zeroShift;
+            this.setX(obj.collider().right()+1);
+            return;
         }
+
+
         canReverse = true;
         this.preMove();
         this.moveY();

@@ -32,8 +32,8 @@ public abstract class GameScene extends Scene {
 
     private int num;
 
-    private int frameX_count = 1;
-    private int frameY_count = 2;
+    private int frameX_count = 0; //1
+    private int frameY_count = 3; //2
 
     private String mapBmpPath;
     private String mapTxtPath;
@@ -174,16 +174,6 @@ public abstract class GameScene extends Scene {
     @Override
     public void update() {
         actor.update();
-        for (int i = 0; i < gameObjects.size(); i++) {
-            GameObject obj = gameObjects.get(i);
-            if (actor.isCollision(obj)) {
-                obj.collisionEffect(actor);
-            }
-            obj.update();
-            if(!obj.isExist()){
-                gameObjects.remove(i);
-            }
-        }
 
         for (int i = 0; i < brokenRoads.size(); i++) {
             GameObject obj = brokenRoads.get(i);
@@ -212,6 +202,17 @@ public abstract class GameScene extends Scene {
                 }
             }
             obj.update();
+        }
+
+        for (int i = 0; i < gameObjects.size(); i++) {
+            GameObject obj = gameObjects.get(i);
+            if (actor.isCollision(obj)) {
+                obj.collisionEffect(actor);
+            }
+            obj.update();
+            if(!obj.isExist()){
+                gameObjects.remove(i);
+            }
         }
 
         actor.shift();

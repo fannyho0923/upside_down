@@ -17,10 +17,10 @@ public class MovePlatform extends GameObject{
 
     public MovePlatform(int left, int top, int width, int height, int num) {
         super(left, top, width, height);
-        this.vector = new Vector(5,0);
+        this.vector = new Vector(2,0);
         this.velocity = new Vector(0,0);
         this.num = num;
-        this.tour = new Tour2(this, vector,100, 50);
+        this.tour = new Tour2(this, vector,200, 0);
         this.setSecondCollider(new Rect(left-1,top-1,width+2,width+2));
     }
 
