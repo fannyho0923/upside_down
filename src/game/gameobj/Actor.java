@@ -4,6 +4,7 @@ import game.controller.ImageController;
 import game.utils.Global;
 import game.utils.Delay;
 import game.utils.Velocity;
+import game.utils.Vector;
 
 
 import java.awt.*;
@@ -17,6 +18,9 @@ public class Actor extends GameObject {
     public static final int WALK_SPEED = 5;
 
     private Velocity velocity;
+    private Vector shift;
+    private final Vector zeroShift = new Vector(0,0);
+
     private Global.Direction direction;
     private ActionAnimator actionAnimator;
 
@@ -41,6 +45,8 @@ public class Actor extends GameObject {
     public Actor(int x, int y, int num) {
         super(x, y, Global.UNIT_X32, Global.UNIT_Y32);
         velocity = new Velocity(0, 0, 0, 0, false);
+        shift = new Vector(0,0);
+
         direction = Global.Direction.NO;
         actionAnimator = new ActionAnimator();
         leftSpeedUp = false;
@@ -69,7 +75,10 @@ public class Actor extends GameObject {
             setDirection(Global.Direction.NO);
         }
         velocity.update();
+        offset((int)shift.x(),(int)shift.y());
+        System.out.println(shift.x());
         move();
+        shift = zeroShift;
     }
 
     @Override
@@ -215,6 +224,12 @@ public class Actor extends GameObject {
     }
 
     public void beBlock(GameObject obj){
+        if(shift.x() > 0){
+
+        }else if(shift.x() < 0){
+
+        }
+
         canReverse = true;
         this.preMove();
         this.moveY();
@@ -235,12 +250,12 @@ public class Actor extends GameObject {
         }
     }
 
+    public void shift(Vector shift){
+        this.shift = shift;
+    }
+
     public void getKey(){
         this.keyCount++;
     }
 
-    @Override
-    public void collisionEffect(Actor actor) {
-
-    }
 }

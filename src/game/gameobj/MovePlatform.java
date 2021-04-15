@@ -1,7 +1,7 @@
 package game.gameobj;
 
 import game.controller.ImageController;
-import game.utils.Tour;
+import game.utils.Tour2;
 
 import java.awt.*;
 import game.utils.Vector;
@@ -11,31 +11,32 @@ public class MovePlatform extends GameObject{
 
     Image img;
     int num;
-    private Tour tour;
-    private Vector v;
+    private Tour2 tour;
+    private Vector vector;
+    private Vector velocity;
 
-    private int count;
-    private int step1;
-    private int step2;
-    public MovePlatform(int top, int left, int width, int height, int num) {
-        super(top, left, width, height);
-        this.v = new Vector(5,0);
+    public MovePlatform(int left, int top, int width, int height, int num) {
+        super(left, top, width, height);
+        this.vector = new Vector(5,0);
+        this.velocity = new Vector(0,0);
         this.num = num;
-        this.tour = new Tour(this,(int)v.x(),(int)v.y(),30);
+        this.tour = new Tour2(this, vector,100, 50);
+        this.setSecondCollider(new Rect(left-1,top-1,width+2,width+2));
     }
 
-//    count %= (step * 4);
-//        if(count < step | count >= step * 3){
-//        obj.offset(dx, dy);
-//        count++;
-//    }else{
-//        obj.offset(-dx,-dy);
-//        count++;
-//    }
+    public void setVelocity(Vector vector){
+        this.velocity = vector;
+    }
 
     @Override
     public void collisionEffect(Actor actor) {
         actor.beBlock(this);
+    }
+
+    @Override
+    public void secondCollisionEffect(Actor actor){
+        //actor.offset((int)this.velocity.x(),(int)this.velocity.y());
+        actor.shift(velocity);
     }
 
     @Override
@@ -46,6 +47,7 @@ public class MovePlatform extends GameObject{
     @Override
     public void update() {
         tour.update();
+        this.offset((int)velocity.x(),(int)velocity.y());
     }
 
     public Image getImage(){

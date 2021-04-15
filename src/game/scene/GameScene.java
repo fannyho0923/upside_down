@@ -18,20 +18,19 @@ public abstract class GameScene extends Scene {
 
     private GameObject background;
 //    private GameObject cameraBack;
-//    private GameObject ghost;
-
     private Actor actor;
     private ArrayList<GameObject> gameObjects;
     private ArrayList<GameObject> orinBrokenRoads; // 分開加入, 鏡頭改變時要重新加入
     private ArrayList<GameObject> brokenRoads;
+    private ArrayList<GameObject> movePlatform;
 
     private Camera camera;
     private Tracker tracker;
     private boolean actorTrigCamera;
     private int num;
 
-    private int frameX_count = 0;
-    private int frameY_count = 3;
+    private int frameX_count = 1;
+    private int frameY_count = 2;
 
     private String mapBmpPath;
     private String mapTxtPath;
@@ -47,13 +46,7 @@ public abstract class GameScene extends Scene {
         this.mapBmpPath = mapBmpPath;
         this.mapTxtPath = mapTxtPath;
         this.background = background;
-
-<<<<<<< HEAD
-        this.actor = new Actor(cameraStartX + 100, cameraStartY+50, 2);
-=======
         this.actor = actor;
->>>>>>> 3c3894a9fdfe4d8244a2221c5fc9b40fc94ead2e
-
         this.tracker = new Tracker(cameraStartX + (cameraWidth - Global.UNIT) / 2,
                 cameraStartY +(cameraHeight - Global.UNIT)/2, new Velocity(cameraVelocityX,cameraVelocityY,0,0,false));
         this.actorTrigCamera = actorTrigCamera;
@@ -67,6 +60,7 @@ public abstract class GameScene extends Scene {
     public void sceneBegin() {
         gameObjects = new ArrayList<>();
         orinBrokenRoads = new ArrayList<>();
+        movePlatform = new ArrayList<>();
         mapInit();
         brokenRoads = (ArrayList) orinBrokenRoads.clone();
 
@@ -139,7 +133,7 @@ public abstract class GameScene extends Scene {
     @Override
     public void paint(Graphics g) {
         camera.start(g);
-
+        background.paint(g);
 //        this.cameraBack.paint(g);
 
         gameObjects.forEach(a -> {
@@ -150,6 +144,12 @@ public abstract class GameScene extends Scene {
 
         brokenRoads.forEach(a -> {
             if (camera.isCollision(a)) {
+                a.paint(g);
+            }
+        });
+
+        movePlatform.forEach(a -> {
+            if (camera.isCollision(a)){
                 a.paint(g);
             }
         });
@@ -168,7 +168,6 @@ public abstract class GameScene extends Scene {
     @Override
     public void update() {
 
-        actor.update();
         for (int i = 0; i < gameObjects.size(); i++) {
             GameObject obj = gameObjects.get(i);
             if (actor.isCollision(obj)) {
@@ -191,6 +190,25 @@ public abstract class GameScene extends Scene {
                 brokenRoads.remove(i);
             }
         }
+        boolean planCollision = false;
+
+        for (int i = 0; i < movePlatform.size(); i++){
+            GameObject obj = movePlatform.get(i);
+            if (actor.isCollision(obj)) {
+                obj.collisionEffect(actor);
+            }
+            if(actor.collider().isOverlap(obj.secondCollider())){
+                planCollision = true;
+
+            }
+            if(i==movePlatform.size()-1){
+                if(planCollision){
+                    obj.secondCollisionEffect(actor);
+                }
+            }
+            obj.update();
+        }
+        actor.update();
 
         camera.update();
 //        cameraBack.setXY(camera.painter().left(),camera.painter().top());
@@ -237,19 +255,48 @@ public abstract class GameScene extends Scene {
             final MapLoader mapLoader = new MapLoader(mapBmpPath, mapTxtPath);
             final ArrayList<MapInfo> mapInfoArr = mapLoader.combineInfo();
 
-            this.gameObjects.addAll(mapLoader.createObjectArray("road", Global.UNIT, mapInfoArr, (gameObject, name, mapInfo, size) -> {
+            /*移動平台------------------------------------------------*/
+            this.movePlatform.addAll(mapLoader.createObjectArray("movePlatHead", Global.UNIT, mapInfoArr, (gameObject, name, mapInfo, size) -> {
                 final GameObject tmp;
                 if (gameObject.equals(name)) {
-                    tmp = new Road(mapInfo.getX() * size, mapInfo.getY() * size, mapInfo.getSizeX() * size, mapInfo.getSizeY() * size);
+                    tmp = new MovePlatform(mapInfo.getX() * size, mapInfo.getY() * size, mapInfo.getSizeX() * size, mapInfo.getSizeY() * size,1);
                     return tmp;
                 }
                 return null;
             }));
 
-            this.gameObjects.addAll(mapLoader.createObjectArray("wall", Global.UNIT, mapInfoArr, (gameObject, name, mapInfo, size) -> {
+            this.movePlatform.addAll(mapLoader.createObjectArray("movePlatBody", Global.UNIT, mapInfoArr, (gameObject, name, mapInfo, size) -> {
                 final GameObject tmp;
                 if (gameObject.equals(name)) {
-                    tmp = new Wall(mapInfo.getX() * size, mapInfo.getY() * size, mapInfo.getSizeX() * size, mapInfo.getSizeY() * size);
+                    tmp = new MovePlatform(mapInfo.getX() * size, mapInfo.getY() * size, mapInfo.getSizeX() * size, mapInfo.getSizeY() * size,2);
+                    return tmp;
+                }
+                return null;
+            }));
+
+            this.movePlatform.addAll(mapLoader.createObjectArray("movePlatTail", Global.UNIT, mapInfoArr, (gameObject, name, mapInfo, size) -> {
+                final GameObject tmp;
+                if (gameObject.equals(name)) {
+                    tmp = new MovePlatform(mapInfo.getX() * size, mapInfo.getY() * size, mapInfo.getSizeX() * size, mapInfo.getSizeY() * size,3);
+                    return tmp;
+                }
+                return null;
+            }));
+
+            // 易碎地, 要分開存!!
+            this.orinBrokenRoads.addAll(mapLoader.createObjectArray("brokenRoad", Global.UNIT, mapInfoArr, (gameObject, name, mapInfo, size) -> {
+                final GameObject tmp;
+                if (gameObject.equals(name)) {
+                    tmp = new BrokenRoad(mapInfo.getX() * size, mapInfo.getY() * size, mapInfo.getSizeX() * size, mapInfo.getSizeY() * size);
+                    return tmp;
+                }
+                return null;
+            }));
+
+            this.gameObjects.addAll(mapLoader.createObjectArray("born", Global.UNIT, mapInfoArr, (gameObject, name, mapInfo, size) -> {
+                final GameObject tmp;
+                if (gameObject.equals(name)) {
+                    tmp = new Born(mapInfo.getX() * size, mapInfo.getY() * size, mapInfo.getSizeX() * size, mapInfo.getSizeY() * size);
                     return tmp;
                 }
                 return null;
@@ -263,7 +310,6 @@ public abstract class GameScene extends Scene {
                 }
                 return null;
             }));
-
 
             this.gameObjects.addAll(mapLoader.createObjectArray("tile_0183", Global.UNIT, mapInfoArr, (gameObject, name, mapInfo, size) -> {
                 final GameObject tmp;
@@ -343,15 +389,6 @@ public abstract class GameScene extends Scene {
                 final GameObject tmp;
                 if (gameObject.equals(name)) {
                     tmp = new Conveyor(mapInfo.getX() * size, mapInfo.getY() * size, mapInfo.getSizeX() * size, mapInfo.getSizeY() * size,10,1,3);
-                    return tmp;
-                }
-                return null;
-            }));
-
-            this.orinBrokenRoads.addAll(mapLoader.createObjectArray("brokenRoad", Global.UNIT, mapInfoArr, (gameObject, name, mapInfo, size) -> {
-                final GameObject tmp;
-                if (gameObject.equals(name)) {
-                    tmp = new BrokenRoad(mapInfo.getX() * size, mapInfo.getY() * size, mapInfo.getSizeX() * size, mapInfo.getSizeY() * size);
                     return tmp;
                 }
                 return null;
@@ -442,43 +479,6 @@ public abstract class GameScene extends Scene {
                 final GameObject tmp;
                 if (gameObject.equals(name)) {
                     tmp = new Pass(mapInfo.getX() * size, mapInfo.getY() * size, mapInfo.getSizeX() * size, mapInfo.getSizeY() * size);
-                    return tmp;
-                }
-                return null;
-            }));
-
-            this.gameObjects.addAll(mapLoader.createObjectArray("born", Global.UNIT, mapInfoArr, (gameObject, name, mapInfo, size) -> {
-                final GameObject tmp;
-                if (gameObject.equals(name)) {
-                    tmp = new Born(mapInfo.getX() * size, mapInfo.getY() * size, mapInfo.getSizeX() * size, mapInfo.getSizeY() * size);
-                    return tmp;
-                }
-                return null;
-            }));
-
-            /*移動平台------------------------------------------------*/
-            this.gameObjects.addAll(mapLoader.createObjectArray("movePlatHead", Global.UNIT, mapInfoArr, (gameObject, name, mapInfo, size) -> {
-                final GameObject tmp;
-                if (gameObject.equals(name)) {
-                    tmp = new MovePlatform(mapInfo.getX() * size, mapInfo.getY() * size, mapInfo.getSizeX() * size, mapInfo.getSizeY() * size,1);
-                    return tmp;
-                }
-                return null;
-            }));
-
-            this.gameObjects.addAll(mapLoader.createObjectArray("movePlatBody", Global.UNIT, mapInfoArr, (gameObject, name, mapInfo, size) -> {
-                final GameObject tmp;
-                if (gameObject.equals(name)) {
-                    tmp = new MovePlatform(mapInfo.getX() * size, mapInfo.getY() * size, mapInfo.getSizeX() * size, mapInfo.getSizeY() * size,2);
-                    return tmp;
-                }
-                return null;
-            }));
-
-            this.gameObjects.addAll(mapLoader.createObjectArray("movePlatTail", Global.UNIT, mapInfoArr, (gameObject, name, mapInfo, size) -> {
-                final GameObject tmp;
-                if (gameObject.equals(name)) {
-                    tmp = new MovePlatform(mapInfo.getX() * size, mapInfo.getY() * size, mapInfo.getSizeX() * size, mapInfo.getSizeY() * size,3);
                     return tmp;
                 }
                 return null;
@@ -621,14 +621,6 @@ public abstract class GameScene extends Scene {
                 return null;
             }));
 
-//            this.gameObjects.addAll(mapLoader.createObjectArray("", Global.UNIT, mapInfoArr, (gameObject, name, mapInfo, size) -> {
-//                final GameObject tmp;
-//                if (gameObject.equals(name)) {
-//                    tmp = new (mapInfo.getX() * size, mapInfo.getY() * size, mapInfo.getSizeX() * size, mapInfo.getSizeY() * size);
-//                    return tmp;
-//                }
-//                return null;
-//            }));
 
         } catch (final IOException e) {
             e.printStackTrace();

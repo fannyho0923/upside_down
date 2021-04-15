@@ -77,4 +77,15 @@ public class Vector {
         this.y += dy;
     }
 
+    public void reverse(){
+        this.x = -this.x;
+        this.y = -this.y;
+    }
+
+    public static Vector reverse(Vector vector){
+        return new Vector(-vector.x(),-vector.y());
+    }
+
+
+
 }

@@ -2,17 +2,19 @@ package game.gameobj;
 
 import game.camera.MapInformation;
 import game.utils.GameKernel;
+import game.utils.Vector;
 
 public abstract class GameObject implements GameKernel.UpdateInterface, GameKernel.PaintInterface {
     private final Rect collider; //物件的碰撞方塊
     private final Rect painter;  //物件的繪圖方塊
     private int id;
     private boolean isExist;
+    private Rect secondCollider;
 
     //預設以(top,left)為物件左上角生成物件
-    public GameObject(final int top, final int left, final int width, final int height) {
-        this.collider = new Rect(top, left, width, height);
-        this.painter = new Rect(top, left, width, height);
+    public GameObject(final int left, final int top, final int width, final int height) {
+        this.collider = new Rect(left, top, width, height);
+        this.painter = new Rect(left, top, width, height);
         this.isExist = true;
     }
 
@@ -50,6 +52,14 @@ public abstract class GameObject implements GameKernel.UpdateInterface, GameKern
 
     public Rect painter() {
         return this.painter;
+    }
+
+    public void setSecondCollider(Rect rect){
+        this.secondCollider = rect;
+    }
+
+    public Rect secondCollider(){
+        return secondCollider;
     }
 
     public boolean isCollision(final GameObject gameObject) {
@@ -129,6 +139,8 @@ public abstract class GameObject implements GameKernel.UpdateInterface, GameKern
         this.isExist = isExist;
     }
 
-    public abstract void collisionEffect(Actor actor);
+    public void collisionEffect(Actor actor){}
+
+    public void secondCollisionEffect(Actor actor){}
 
 }
