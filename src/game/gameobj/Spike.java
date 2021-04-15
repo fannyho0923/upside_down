@@ -31,11 +31,11 @@ public class Spike extends GameObject{
     public Image getImage(){
         switch (num){
             case 1:
-                img = ImageController.getInstance().tryGet("/img/spikeUp.png");
+                img = ImageController.getInstance().tryGet("/img/tile_0183.png");
                 break;
 
             case 2:
-                img = ImageController.getInstance().tryGet("/img/spikeDown.png");
+                img = ImageController.getInstance().tryGet("/img/tile_0183_R.png");
                 break;
         }
         return img;

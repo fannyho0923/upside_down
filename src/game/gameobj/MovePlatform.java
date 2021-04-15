@@ -6,12 +6,14 @@ import java.awt.*;
 
 
 public class MovePlatform extends GameObject{
-    private Image img;
+
+    Image img;
+    int num;
     private Tour tour;
-    public MovePlatform(int top, int left, int width, int height) {
+    public MovePlatform(int top, int left, int width, int height, int num) {
         super(top, left, width, height);
-        this.tour = new Tour(this, -10, 0, 20);
-        img = ImageController.getInstance().tryGet("/img/elevator_1x1.png");
+            this.tour = new Tour(this, -10, 0, 20);
+        this.num = num;
     }
 
     @Override
@@ -27,5 +29,20 @@ public class MovePlatform extends GameObject{
     @Override
     public void update() {
         tour.update();
+    }
+
+    public Image getImage(){
+            switch (num){
+                case 1:
+                    img = ImageController.getInstance().tryGet("/img/tile_0330.png");
+                    break;
+                case 2:
+                    img = ImageController.getInstance().tryGet("/img/tile_0331.png");
+                    break;
+                case 3:
+                    img = ImageController.getInstance().tryGet("/img/tile_0332.png");
+                    break;
+            }
+        return img;
     }
 }

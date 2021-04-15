@@ -6,16 +6,10 @@ import java.awt.*;
 
 public class Tile extends GameObject{
     Image img;
-    Color color;
-    public Tile(int top, int left, int width, int height, Color color) {
+    int style;
+    public Tile(int top, int left, int width, int height, int style) {
         super(top, left, width, height);
-        this.color = color;
-    }
-
-    public enum Color{
-        GREEN,
-        RED,
-        DARK_GREEN;
+        this.style = style;
     }
 
     @Override
@@ -34,17 +28,65 @@ public class Tile extends GameObject{
     }
 
     public Image getImage(){
-        switch (color){
-            case GREEN:
-                img = ImageController.getInstance().tryGet("/img/tileGreen.png");
+        switch (style){
+            case 0:
+                img = ImageController.getInstance().tryGet("/img/tile_0000.png");
                 break;
 
-            case RED:
-                img = ImageController.getInstance().tryGet("/img/tileRed.png");
+            case 195:
+                img = ImageController.getInstance().tryGet("/img/tile_0195.png");
                 break;
 
-            case DARK_GREEN:
-                img = ImageController.getInstance().tryGet("/img/tileDarkGreen.png");
+            case 196:
+                img = ImageController.getInstance().tryGet("/img/tile_0196.png");
+                break;
+
+            case 197:
+                img = ImageController.getInstance().tryGet("/img/tile_0197.png");
+                break;
+
+            case 199:
+                img = ImageController.getInstance().tryGet("/img/tile_0199.png");
+                break;
+
+            case 215:
+                img = ImageController.getInstance().tryGet("/img/tile_0215.png");
+                break;
+
+            case 216:
+                img = ImageController.getInstance().tryGet("/img/tile_0216.png");
+                break;
+
+            case 217:
+                img = ImageController.getInstance().tryGet("/img/tile_0217.png");
+                break;
+
+            case 219:
+                img = ImageController.getInstance().tryGet("/img/tile_0219.png");
+                break;
+
+            case 235:
+                img = ImageController.getInstance().tryGet("/img/tile_0235.png");
+                break;
+
+            case 236:
+                img = ImageController.getInstance().tryGet("/img/tile_0236.png");
+                break;
+
+            case 237:
+                img = ImageController.getInstance().tryGet("/img/tile_0237.png");
+                break;
+
+            case 239:
+                img = ImageController.getInstance().tryGet("/img/tile_0239.png");
+                break;
+
+            case 259:
+                img = ImageController.getInstance().tryGet("/img/tile_0259.png");
+                break;
+
+            case 291:
+                img = ImageController.getInstance().tryGet("/img/tile_0291.png");
                 break;
         }
         return img;
