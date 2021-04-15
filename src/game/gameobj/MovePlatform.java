@@ -30,13 +30,13 @@ public class MovePlatform extends GameObject{
     public Image getImage(){
             switch (num){
                 case 1:
-                    img = ImageController.getInstance().tryGet("/img/tile_0250.png");
+                    img = ImageController.getInstance().tryGet("/img/tile_0330.png");
                     break;
                 case 2:
-                    img = ImageController.getInstance().tryGet("/img/tile_0251.png");
+                    img = ImageController.getInstance().tryGet("/img/tile_0331.png");
                     break;
                 case 3:
-                    img = ImageController.getInstance().tryGet("/img/tile_0252.png");
+                    img = ImageController.getInstance().tryGet("/img/tile_0332.png");
                     break;
             }
         return img;
