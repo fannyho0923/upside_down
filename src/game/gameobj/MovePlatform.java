@@ -2,6 +2,7 @@ package game.gameobj;
 
 import game.controller.ImageController;
 import game.utils.Tour;
+import game.utils.Vector;
 import java.awt.*;
 
 
@@ -10,15 +11,18 @@ public class MovePlatform extends GameObject{
     Image img;
     int num;
     private Tour tour;
+    private Vector velocity;
     public MovePlatform(int top, int left, int width, int height, int num) {
         super(top, left, width, height);
-            this.tour = new Tour(this, -10, 0, 20);
+        this.velocity = new Vector(-2,0);
+        this.tour = new Tour(this, (int)velocity.x(), (int)velocity.y(), 20);
         this.num = num;
     }
 
     @Override
     public void collisionEffect(Actor actor) {
         actor.beBlock(this);
+        actor.offset((int)velocity.x(),(int)velocity.y());
     }
 
     @Override

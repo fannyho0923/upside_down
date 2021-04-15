@@ -53,7 +53,6 @@ public class Actor extends GameObject {
         rebornY = y;
         rebornState = velocity.isReverse();
         keyCount  = 0;
-
         canReverse = false;
     }
 

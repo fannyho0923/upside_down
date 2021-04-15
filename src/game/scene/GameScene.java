@@ -318,10 +318,10 @@ public abstract class GameScene extends Scene {
                 return null;
             }));
 
-            this.gameObjects.addAll(mapLoader.createObjectArray("transTail_R", Global.UNIT, mapInfoArr, (gameObject, name, mapInfo, size) -> {
+            this.gameObjects.addAll(mapLoader.createObjectArray("transHead_R", Global.UNIT, mapInfoArr, (gameObject, name, mapInfo, size) -> {
                 final GameObject tmp;
                 if (gameObject.equals(name)) {
-                    tmp = new Conveyor(mapInfo.getX() * size, mapInfo.getY() * size, mapInfo.getSizeX() * size, mapInfo.getSizeY() * size, 10, 0, 1);
+                    tmp = new Conveyor(mapInfo.getX() * size, mapInfo.getY() * size, mapInfo.getSizeX() * size, mapInfo.getSizeY() * size, 10, 1, 1);
                     return tmp;
                 }
                 return null;
@@ -330,16 +330,16 @@ public abstract class GameScene extends Scene {
             this.gameObjects.addAll(mapLoader.createObjectArray("transBody_R", Global.UNIT, mapInfoArr, (gameObject, name, mapInfo, size) -> {
                 final GameObject tmp;
                 if (gameObject.equals(name)) {
-                    tmp = new Conveyor(mapInfo.getX() * size, mapInfo.getY() * size, mapInfo.getSizeX() * size, mapInfo.getSizeY() * size,10, 0,2);
+                    tmp = new Conveyor(mapInfo.getX() * size, mapInfo.getY() * size, mapInfo.getSizeX() * size, mapInfo.getSizeY() * size,10, 1,2);
                     return tmp;
                 }
                 return null;
             }));
 
-            this.gameObjects.addAll(mapLoader.createObjectArray("transHead_R", Global.UNIT, mapInfoArr, (gameObject, name, mapInfo, size) -> {
+            this.gameObjects.addAll(mapLoader.createObjectArray("transTail_R", Global.UNIT, mapInfoArr, (gameObject, name, mapInfo, size) -> {
                 final GameObject tmp;
                 if (gameObject.equals(name)) {
-                    tmp = new Conveyor(mapInfo.getX() * size, mapInfo.getY() * size, mapInfo.getSizeX() * size, mapInfo.getSizeY() * size,10,0,3);
+                    tmp = new Conveyor(mapInfo.getX() * size, mapInfo.getY() * size, mapInfo.getSizeX() * size, mapInfo.getSizeY() * size,10,1,3);
                     return tmp;
                 }
                 return null;
