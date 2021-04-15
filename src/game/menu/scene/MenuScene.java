@@ -3,6 +3,7 @@ package game.menu.scene;
 import java.awt.*;
 import java.awt.event.*;
 
+import game.controller.AudioResourceController;
 import game.controller.ImageController;
 import game.controller.SceneController;
 import game.menu.menu.*;
@@ -22,9 +23,17 @@ public class MenuScene extends Scene {
     private Image image;
 //    private SelectActorPopScene selectPop;
     private Image star;
+    private boolean isPlayed1;
+    private boolean isPlayed2;
+    private boolean isPlayed3;
+
 
     @Override
     public void sceneBegin() {
+        isPlayed1=false;
+        isPlayed2=false;
+        isPlayed3=false;
+        AudioResourceController.getInstance().play("/sound/Epilogue.wav");
         image = ImageController.getInstance().tryGet("/img/menuPic.png");
         star = ImageController.getInstance().tryGet("/img/star-3.png");
 //        selectPop = new SelectActorPopScene(90, 100, 650, 450);
@@ -53,6 +62,7 @@ public class MenuScene extends Scene {
 
     @Override
     public void sceneEnd() {
+        AudioResourceController.getInstance().stop("/sound/Epilogue.wav");
     }
 
     @Override
@@ -91,6 +101,37 @@ public class MenuScene extends Scene {
             MouseTriggerImpl.mouseTrig(button1, e, state);
             MouseTriggerImpl.mouseTrig(button2, e, state);
             MouseTriggerImpl.mouseTrig(rankButton, e, state);
+
+            if((button1.getIsHover())&&(!isPlayed1)){
+                AudioResourceController.getInstance().shot("/sound/tab.wav");
+                isPlayed1=true;
+            }
+            if (!button1.getIsHover()){
+                isPlayed1=false;
+            }
+
+            if((button2.getIsHover())&&(!isPlayed2)){
+                AudioResourceController.getInstance().shot("/sound/tab.wav");
+                isPlayed2=true;
+            }
+            if (!button2.getIsHover()){
+                isPlayed2=false;
+            }
+
+            if((rankButton.getIsHover())&&(!isPlayed3)){
+                AudioResourceController.getInstance().shot("/sound/tab.wav");
+                isPlayed3=true;
+            }
+            if (!rankButton.getIsHover()){
+                isPlayed3=false;
+            }
+
+//            playTab(button1, isPlayed1);
+//            playTab(button2, isPlayed2);
+//            playTab(rankButton, isPlayed3);
+            playConfirm(button1);
+            playConfirm(button2);
+            playConfirm(rankButton);
 //            if (selectPop.isShow()) {
 //                selectPop.mouseListener().mouseTrig(e, state, trigTime);
 //            }
@@ -122,5 +163,21 @@ public class MenuScene extends Scene {
 //                }
             }
         };
+    }
+
+//    public void playTab(Button button, Boolean isPlayed){
+//        if((button.getIsHover())&&(!isPlayed)){
+//            AudioResourceController.getInstance().shot("/sound/tab.wav");
+//            isPlayed=true;
+//        }
+//        if (!button.getIsHover()){
+//            isPlayed=false;
+//        }
+//    }
+
+    public void playConfirm(Button button){
+        if (button.getIsFocus()){
+            AudioResourceController.getInstance().shot("/sound/tab_confirm.wav");
+        }
     }
 }

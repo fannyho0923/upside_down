@@ -1,5 +1,6 @@
 package game.gameobj;
 
+import game.controller.AudioResourceController;
 import game.controller.ImageController;
 
 import java.awt.*;
@@ -15,6 +16,7 @@ public class Key extends GameObject{
 
     @Override
     public void collisionEffect(Actor actor) {
+        AudioResourceController.getInstance().play("/sound/get_key.wav");
         actor.getKey();
         setExist(false);
     }

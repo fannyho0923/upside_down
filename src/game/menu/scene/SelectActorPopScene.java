@@ -5,6 +5,7 @@ import java.awt.event.MouseEvent;
 import java.util.ArrayList;
 import java.util.HashMap;
 
+import game.controller.AudioResourceController;
 import game.controller.ImageController;
 import game.controller.SceneController;
 import game.menu.menu.*;
@@ -156,6 +157,18 @@ public class SelectActorPopScene extends Scene {
         actionAnimator.paintMan(g, actor4, 495, 422, 495 + Global.UNIT_X64, 472 + Global.UNIT_Y64, (a4.getIsHover() || a4.getIsFocus()));
         actionAnimator.paintMan(g, actor5, 575, 422, 575 + Global.UNIT_X64, 472 + Global.UNIT_Y64, (a5.getIsHover() || a5.getIsFocus()));
         actionAnimator.paintMan(g, actor6, 655, 422, 655 + Global.UNIT_X64, 472 + Global.UNIT_Y64, (a6.getIsHover() || a6.getIsFocus()));
+    }
+
+    public void playConfirm(Label label){
+        if (label.getIsFocus()){
+            AudioResourceController.getInstance().shot("/sound/tab_confirm.wav");
+        }
+    }
+
+    public void playConfirm(Button button){
+        if (button.getIsFocus()){
+            AudioResourceController.getInstance().shot("/sound/tab_confirm.wav");
+        }
     }
 
     private static class ActionAnimator {

@@ -29,8 +29,4 @@ public class Tour {
             count++;
         }
     }
-
-
-
-
 }
