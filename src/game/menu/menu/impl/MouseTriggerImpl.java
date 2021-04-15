@@ -34,14 +34,12 @@ public class MouseTriggerImpl {
         if (state == CommandSolver.MouseState.MOVED) {
             if (isOval) {
                 if (ovalOverlap(obj, e.getX(), e.getY())) {
-                    AudioResourceController.getInstance().shot("/sound/tab.wav");
                     obj.isHover();
                 } else {
                     obj.unHover();
                 }
             } else {
                 if (rectOverlap(obj, e.getX(), e.getY())) {
-                    AudioResourceController.getInstance().shot("/sound/tab.wav");
                     obj.isHover();
                 } else {
                     obj.unHover();
@@ -54,7 +52,6 @@ public class MouseTriggerImpl {
                 if (ovalOverlap(obj, e.getX(), e.getY())) {
                     obj.isFocus();
                     if (obj.getClickedAction() != null) {
-                        AudioResourceController.getInstance().shot("/sound/tab_confirm.wav");
                         obj.clickedActionPerformed();
                     }
                 } else {
@@ -62,7 +59,6 @@ public class MouseTriggerImpl {
                 }
             } else {
                 if (rectOverlap(obj, e.getX(), e.getY())) {
-                    AudioResourceController.getInstance().shot("/sound/tab_confirm.wav");
                     obj.isFocus();
                     if (obj.getClickedAction() != null) {
                         obj.clickedActionPerformed();

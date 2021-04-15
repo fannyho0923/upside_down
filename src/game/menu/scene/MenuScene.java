@@ -23,10 +23,11 @@ public class MenuScene extends Scene {
     private Image image;
 //    private SelectActorPopScene selectPop;
     private Image star;
-
+private boolean isPlayed;
     @Override
     public void sceneBegin() {
-//        AudioResourceController.getInstance().play("");
+        isPlayed=false;
+        AudioResourceController.getInstance().play("/sound/Epilogue.wav");
         image = ImageController.getInstance().tryGet("/img/menuPic.png");
         star = ImageController.getInstance().tryGet("/img/star-3.png");
 //        selectPop = new SelectActorPopScene(90, 100, 650, 450);
@@ -90,6 +91,12 @@ public class MenuScene extends Scene {
 //                    System.out.println(e.getX() + ", " + e.getY());
 //                }
 //            }
+            playTab(button1);
+            playTab(button2);
+            playTab(rankButton);
+            playConfirm(button1);
+            playConfirm(button2);
+            playConfirm(rankButton);
             MouseTriggerImpl.mouseTrig(button1, e, state);
             MouseTriggerImpl.mouseTrig(button2, e, state);
             MouseTriggerImpl.mouseTrig(rankButton, e, state);
@@ -124,5 +131,21 @@ public class MenuScene extends Scene {
 //                }
             }
         };
+    }
+
+    public void playTab(Button button){
+        if((button.getIsHover())&&(!this.isPlayed)){
+            AudioResourceController.getInstance().shot("/sound/tab.wav");
+            isPlayed=true;
+        }
+        if (!button.getIsHover()){
+            isPlayed=false;
+        }
+    }
+
+    public void playConfirm(Button button){
+        if (button.getIsFocus()){
+            AudioResourceController.getInstance().shot("/sound/tab_confirm.wav");
+        }
     }
 }
