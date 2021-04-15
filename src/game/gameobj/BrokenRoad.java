@@ -1,5 +1,6 @@
 package game.gameobj;
 
+import game.controller.AudioResourceController;
 import game.controller.ImageController;
 import game.utils.Delay;
 
@@ -18,7 +19,8 @@ public class BrokenRoad extends GameObject{
 
     @Override
     public void collisionEffect(Actor actor) {
-            actor.beBlock(this);
+        AudioResourceController.getInstance().play("/sound/break_platform.wav");
+        actor.beBlock(this);
             delay.play();
     }
 

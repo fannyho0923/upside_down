@@ -17,8 +17,8 @@ public class Spike extends GameObject{
 
     @Override
     public void collisionEffect(Actor actor) {
-        AudioResourceController.getInstance().shot("/sound/spike.wav");
-        AudioResourceController.getInstance().shot("/sound/game_over.wav");
+        AudioResourceController.getInstance().play("/sound/spike.wav");
+        AudioResourceController.getInstance().play("/sound/game_over.wav");
         actor.reborn();
     }
 
