@@ -19,7 +19,7 @@ public class MovePlatform extends GameObject{
 
     @Override
     public void paint(Graphics g) {
-        g.drawImage(img, painter().left(), painter().top(), null);
+        g.drawImage(getImage(), painter().left(), painter().top(), null);
     }
 
     @Override

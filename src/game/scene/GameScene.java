@@ -27,7 +27,7 @@ public abstract class GameScene extends Scene {
     private Tracker tracker;
     private boolean actorTrigCamera;
     private int frameX_count = 0;
-    private int frameY_count = 0;
+    private int frameY_count = 3;
 
     private String mapBmpPath;
     private String mapTxtPath;
@@ -451,6 +451,7 @@ public abstract class GameScene extends Scene {
                 return null;
             }));
 
+            /*移動平台------------------------------------------------*/
             this.gameObjects.addAll(mapLoader.createObjectArray("movePlatHead", Global.UNIT, mapInfoArr, (gameObject, name, mapInfo, size) -> {
                 final GameObject tmp;
                 if (gameObject.equals(name)) {
