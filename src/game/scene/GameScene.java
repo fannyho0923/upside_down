@@ -47,12 +47,7 @@ public abstract class GameScene extends Scene {
         this.mapBmpPath = mapBmpPath;
         this.mapTxtPath = mapTxtPath;
         this.background = background;
-
-<<<<<<< HEAD
-        this.actor = new Actor(cameraStartX + 100, cameraStartY+50, 2);
-=======
         this.actor = actor;
->>>>>>> 3c3894a9fdfe4d8244a2221c5fc9b40fc94ead2e
 
         this.tracker = new Tracker(cameraStartX + (cameraWidth - Global.UNIT) / 2,
                 cameraStartY +(cameraHeight - Global.UNIT)/2, new Velocity(cameraVelocityX,cameraVelocityY,0,0,false));
