@@ -28,20 +28,19 @@ public abstract class GameScene extends Scene {
     private Camera camera;
     private Tracker tracker;
     private boolean actorTrigCamera;
+    private int num;
 
     private int frameX_count = 1;
     private int frameY_count = 2;
 
     private String mapBmpPath;
     private String mapTxtPath;
-
     private Spikes spikesUp;
     private Spikes spikesDown;
 
-    public GameScene(String mapBmpPath, String mapTxtPath,
-                     Actor actor, GameObject background,
+    public GameScene(String mapBmpPath, String mapTxtPath, Actor actor, GameObject background,
                      int cameraWidth, int cameraHeight, int cameraVelocityX, int cameraVelocityY,
-                     boolean actorTrigCamera){
+                     boolean actorTrigCamera){//刪掉actor
         int cameraStartX = cameraWidth*frameX_count;
         int cameraStartY = cameraHeight*frameY_count;
 
@@ -49,7 +48,7 @@ public abstract class GameScene extends Scene {
         this.mapTxtPath = mapTxtPath;
         this.background = background;
 
-        this.actor = new Actor(cameraStartX + 900, cameraStartY+500, 2);
+        this.actor = actor;
 
         this.tracker = new Tracker(cameraStartX + (cameraWidth - Global.UNIT) / 2,
                 cameraStartY +(cameraHeight - Global.UNIT)/2, new Velocity(cameraVelocityX,cameraVelocityY,0,0,false));

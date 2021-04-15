@@ -10,8 +10,9 @@ import game.menu.menu.*;
 import game.menu.menu.Button;
 import game.menu.menu.Label;
 import game.menu.menu.impl.MouseTriggerImpl;
+import game.scene.BasicScene;
 import game.scene.Scene;
-import game.scene.TestGame;
+//import game.scene.TestGame;
 import game.utils.CommandSolver;
 import game.utils.Delay;
 import game.utils.Global;
@@ -63,55 +64,42 @@ public class SelectActorPopScene extends Scene {
         a6 = new Label(660, 422, style);
         label = new Label(385, 320, new Style.StyleRect(200, 80, new BackgroundType.BackgroundNull())
                 .setText("請選擇角色人物"));
-        actorMap.put(a1, 1);
-        actorMap.put(a2, 2);
-        actorMap.put(a3, 3);
-        actorMap.put(a4, 4);
-        actorMap.put(a5, 5);
-        actorMap.put(a6, 6);
 
 
         actionAnimator = new ActionAnimator();//90, 100, 650, 450
         start = new Button(480 + 125, 650 - 130, Theme.get(0));//Button(bk.getX() + getWidth() - 150, this.getY() + getHeight() - 130, Theme.get(0))
         back = new Button(480 - 200, 650 - 105, Theme.get(3));
-
-//        a1.setClickedActionPerformed();
         start.setClickedActionPerformed((int x, int y) -> {
             if (a1.getIsFocus() || a2.getIsFocus() || a3.getIsFocus() || a4.getIsFocus() || a5.getIsFocus() || a6.getIsFocus()) {
                 if (a1.getIsFocus()) {
-                    SceneController.getInstance().change(new TestGame(actorMap.get(a1)));
+                    System.out.println(a1.getIsFocus());
+                    SceneController.getInstance().change(new BasicScene(1));
                     return;
                 }
                 if (a2.getIsFocus()) {
-                    SceneController.getInstance().change(new TestGame(actorMap.get(a2)));
+                    SceneController.getInstance().change(new BasicScene(2));
                     return;
                 }
                 if (a3.getIsFocus()) {
-                    SceneController.getInstance().change(new TestGame(actorMap.get(a3)));
+                    SceneController.getInstance().change(new BasicScene(3));
                     return;
                 }
                 if (a4.getIsFocus()) {
-                    SceneController.getInstance().change(new TestGame(actorMap.get(a4)));
+                    SceneController.getInstance().change(new BasicScene(4));
                     return;
                 }
                 if (a5.getIsFocus()) {
-                    SceneController.getInstance().change(new TestGame(actorMap.get(a5)));
+                    SceneController.getInstance().change(new BasicScene(5));
                     return;
                 }
                 if (a6.getIsFocus()) {
-                    SceneController.getInstance().change(new TestGame(actorMap.get(a6)));
+                    SceneController.getInstance().change(new BasicScene(6));
                     return;
                 }
             }
 
         });
         back.setClickedActionPerformed((int x, int y) -> SceneController.getInstance().change(new MenuScene()));
-//        a1.setClickedActionPerformed((int x, int y) -> {};
-//        a2.setClickedActionPerformed((int x, int y) -> SceneController.getInstance().change(new MenuScene()));
-//        a3.setClickedActionPerformed((int x, int y) -> SceneController.getInstance().change(new MenuScene()));
-//        a4.setClickedActionPerformed((int x, int y) -> SceneController.getInstance().change(new MenuScene()));
-//        a5.setClickedActionPerformed((int x, int y) -> SceneController.getInstance().change(new MenuScene()));
-//        a6.setClickedActionPerformed((int x, int y) -> SceneController.getInstance().change(new MenuScene()));
 
     }
 

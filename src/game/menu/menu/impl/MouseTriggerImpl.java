@@ -5,7 +5,7 @@ import game.controller.SceneController;
 import game.menu.menu.*;
 import java.awt.event.MouseEvent;
 
-import game.scene.TestGame;
+//import game.scene.TestGame;
 import game.utils.CommandSolver;
 
 //外面輸入xy(滑鼠該有反應的位置)
