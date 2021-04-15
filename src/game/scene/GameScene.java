@@ -17,9 +17,9 @@ import java.util.ArrayList;
 public abstract class GameScene extends Scene {
 
     private GameObject background;
-    private GameObject cameraBack;
-    private GameObject ghost;
-    //fanny
+//    private GameObject cameraBack;
+//    private GameObject ghost;
+
     private Actor actor;
     private ArrayList<GameObject> gameObjects;
     private ArrayList<GameObject> orinBrokenRoads; // 分開加入, 鏡頭改變時要重新加入
@@ -28,6 +28,7 @@ public abstract class GameScene extends Scene {
     private Camera camera;
     private Tracker tracker;
     private boolean actorTrigCamera;
+
     private int frameX_count = 1;
     private int frameY_count = 2;
 
@@ -49,7 +50,6 @@ public abstract class GameScene extends Scene {
         this.background = background;
 
         this.actor = new Actor(cameraStartX + 900, cameraStartY+500, 2);
-        ghost = new Ghost(1280, 1400);
 
         this.tracker = new Tracker(cameraStartX + (cameraWidth - Global.UNIT) / 2,
                 cameraStartY +(cameraHeight - Global.UNIT)/2, new Velocity(cameraVelocityX,cameraVelocityY,0,0,false));
@@ -57,7 +57,7 @@ public abstract class GameScene extends Scene {
         camera = new Camera.Builder(cameraWidth, cameraHeight)
                 .setChaseObj(tracker)
                 .gen();
-        cameraBack = new CameraBack(camera.painter().left(),camera.painter().top());
+//        cameraBack = new CameraBack(camera.painter().left(),camera.painter().top());
     }
 
     @Override
@@ -137,9 +137,7 @@ public abstract class GameScene extends Scene {
     public void paint(Graphics g) {
         camera.start(g);
 
-        this.cameraBack.paint(g);
-
-        ghost.paint(g);
+//        this.cameraBack.paint(g);
 
         gameObjects.forEach(a -> {
             if (camera.isCollision(a)) {
@@ -166,7 +164,7 @@ public abstract class GameScene extends Scene {
 
     @Override
     public void update() {
-        ghost.update();
+
         actor.update();
         for (int i = 0; i < gameObjects.size(); i++) {
             GameObject obj = gameObjects.get(i);
@@ -192,7 +190,7 @@ public abstract class GameScene extends Scene {
         }
 
         camera.update();
-        cameraBack.setXY(camera.painter().left(),camera.painter().top());
+//        cameraBack.setXY(camera.painter().left(),camera.painter().top());
         // 瞬間移動, 暫時還沒用到tracker 的速度
         if(actorTrigCamera){
             if (actor.painter().centerX() < camera.painter().left()) {       // 左
@@ -455,6 +453,7 @@ public abstract class GameScene extends Scene {
                 return null;
             }));
 
+            /*移動平台------------------------------------------------*/
             this.gameObjects.addAll(mapLoader.createObjectArray("movePlatHead", Global.UNIT, mapInfoArr, (gameObject, name, mapInfo, size) -> {
                 final GameObject tmp;
                 if (gameObject.equals(name)) {
