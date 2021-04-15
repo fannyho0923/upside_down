@@ -62,6 +62,7 @@ public class MenuScene extends Scene {
 
     @Override
     public void sceneEnd() {
+        AudioResourceController.getInstance().stop("/sound/Epilogue.wav");
     }
 
     @Override
