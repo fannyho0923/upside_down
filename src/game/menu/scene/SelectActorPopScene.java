@@ -2,6 +2,7 @@ package game.menu.scene;
 
 import java.awt.*;
 import java.awt.event.MouseEvent;
+import java.util.ArrayList;
 import java.util.HashMap;
 
 import game.controller.ImageController;
@@ -38,7 +39,7 @@ public class SelectActorPopScene extends Scene {
     private Label label;
 
     private ActionAnimator actionAnimator;
-    HashMap<Label, Integer> actorMap = new HashMap<>();
+    private ArrayList<Label> arrayList = new ArrayList<>();
 
     @Override
     public void sceneBegin() {
@@ -62,6 +63,12 @@ public class SelectActorPopScene extends Scene {
         a4 = new Label(500, 422, style);
         a5 = new Label(580, 422, style);
         a6 = new Label(660, 422, style);
+        arrayList.add(a1);
+        arrayList.add(a2);
+        arrayList.add(a3);
+        arrayList.add(a4);
+        arrayList.add(a5);
+        arrayList.add(a6);
         label = new Label(385, 320, new Style.StyleRect(200, 80, new BackgroundType.BackgroundNull())
                 .setText("請選擇角色人物"));
 
@@ -70,34 +77,12 @@ public class SelectActorPopScene extends Scene {
         start = new Button(480 + 125, 650 - 130, Theme.get(0));//Button(bk.getX() + getWidth() - 150, this.getY() + getHeight() - 130, Theme.get(0))
         back = new Button(480 - 200, 650 - 105, Theme.get(3));
         start.setClickedActionPerformed((int x, int y) -> {
-            if (a1.getIsFocus() || a2.getIsFocus() || a3.getIsFocus() || a4.getIsFocus() || a5.getIsFocus() || a6.getIsFocus()) {
-                if (a1.getIsFocus()) {
-                    System.out.println(a1.getIsFocus());
-                    SceneController.getInstance().change(new BasicScene(1));
-                    return;
-                }
-                if (a2.getIsFocus()) {
-                    SceneController.getInstance().change(new BasicScene(2));
-                    return;
-                }
-                if (a3.getIsFocus()) {
-                    SceneController.getInstance().change(new BasicScene(3));
-                    return;
-                }
-                if (a4.getIsFocus()) {
-                    SceneController.getInstance().change(new BasicScene(4));
-                    return;
-                }
-                if (a5.getIsFocus()) {
-                    SceneController.getInstance().change(new BasicScene(5));
-                    return;
-                }
-                if (a6.getIsFocus()) {
-                    SceneController.getInstance().change(new BasicScene(6));
+            for (int i = 1; i <= arrayList.size(); i++) {
+                if (arrayList.get(i).getIsFocus()) {
+                    SceneController.getInstance().change(new BasicScene(i));
                     return;
                 }
             }
-
         });
         back.setClickedActionPerformed((int x, int y) -> SceneController.getInstance().change(new MenuScene()));
 
