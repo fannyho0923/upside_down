@@ -20,7 +20,7 @@ public class Monster extends GameObject{
                 break;
             case 2:
                 img = ImageController.getInstance().tryGet("/img/tile_0383.png");
-                tour = new Tour(this, 0,5,10);
+                tour = new Tour(this, 0,5,20);
                 break;
             case 3:
                 img = ImageController.getInstance().tryGet("/img/tile_0260.png");
