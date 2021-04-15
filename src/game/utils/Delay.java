@@ -2,7 +2,7 @@ package game.utils;
 
 public class Delay {
     private int count;// 當下的經過幀數
-    private int countLimit;// 總共要計時的幀數
+    public int countLimit;// 總共要計時的幀數
     private boolean isPause;
     private boolean isLoop;
 
@@ -27,6 +27,10 @@ public class Delay {
         this.isPause = false;
     }
 
+    //fanny
+    public void setCountLimit(int countLimit) {
+        this.countLimit = countLimit;
+    }
 
     public void pause() {
         this.isPause = true;

@@ -25,12 +25,17 @@ public class TestGame extends Scene {
     private final int MAP_UNIT = 32;
     private SmallMap smallMap;
     private Actor actor;
+    private int num;
+
+    public TestGame(Integer num){
+        this.num=num;
+    }
 
     @Override
     public void sceneBegin() {
         gameObjects = new ArrayList<>();
         mapInit(gameObjects); // load map information
-        actor = new Actor(200, 500, 2);//160,300
+        actor = new Actor(200, 500, num);//160,300
 
         background = new Background();
 
