@@ -84,6 +84,10 @@ public class Tile extends GameObject{
             case 259:
                 img = ImageController.getInstance().tryGet("/img/tile_0259.png");
                 break;
+
+            case 291:
+                img = ImageController.getInstance().tryGet("/img/tile_0291.png");
+                break;
         }
         return img;
     }
