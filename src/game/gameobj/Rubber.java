@@ -16,7 +16,13 @@ public class Rubber extends GameObject{
 
     @Override
     public void collisionEffect(Actor actor) {
-        actor.beBlock(this);
+        if(actor.velocity().y() < 0){ //up
+            actor.setY(this.collider().bottom()+1);
+        }else if (actor.velocity().y() > 0){
+            actor.offsetY(this.collider().top() -actor.collider().height() -1);
+        }
+
+        actor.velocity().stopY();
         actor.velocity().gravityReverse();
     }
 
