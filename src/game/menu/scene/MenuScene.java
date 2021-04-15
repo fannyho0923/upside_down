@@ -3,6 +3,7 @@ package game.menu.scene;
 import java.awt.*;
 import java.awt.event.*;
 
+import game.controller.AudioResourceController;
 import game.controller.ImageController;
 import game.controller.SceneController;
 import game.menu.menu.*;
@@ -25,6 +26,7 @@ public class MenuScene extends Scene {
 
     @Override
     public void sceneBegin() {
+        AudioResourceController.getInstance().play("");
         image = ImageController.getInstance().tryGet("/img/menuPic.png");
         star = ImageController.getInstance().tryGet("/img/star-3.png");
 //        selectPop = new SelectActorPopScene(90, 100, 650, 450);

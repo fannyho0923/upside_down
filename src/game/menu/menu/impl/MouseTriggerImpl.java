@@ -1,6 +1,7 @@
 package game.menu.menu.impl;
 //選滑鼠滑進去、點擊功能擇一
 
+import game.controller.AudioResourceController;
 import game.controller.SceneController;
 import game.menu.menu.*;
 import java.awt.event.MouseEvent;
@@ -33,6 +34,7 @@ public class MouseTriggerImpl {
         if (state == CommandSolver.MouseState.MOVED) {
             if (isOval) {
                 if (ovalOverlap(obj, e.getX(), e.getY())) {
+                    AudioResourceController.getInstance().shot("/sound/menu_tab.wav");
                     obj.isHover();
                 } else {
                     obj.unHover();
@@ -51,6 +53,7 @@ public class MouseTriggerImpl {
                 if (ovalOverlap(obj, e.getX(), e.getY())) {
                     obj.isFocus();
                     if (obj.getClickedAction() != null) {
+                        AudioResourceController.getInstance().shot("/sound/tab_confirm.wav");
                         obj.clickedActionPerformed();
                     }
                 } else {
