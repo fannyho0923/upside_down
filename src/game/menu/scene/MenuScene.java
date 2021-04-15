@@ -23,10 +23,16 @@ public class MenuScene extends Scene {
     private Image image;
 //    private SelectActorPopScene selectPop;
     private Image star;
-private boolean isPlayed;
+    private boolean isPlayed1;
+    private boolean isPlayed2;
+    private boolean isPlayed3;
+
+
     @Override
     public void sceneBegin() {
-        isPlayed=false;
+        isPlayed1=false;
+        isPlayed2=false;
+        isPlayed3=false;
         AudioResourceController.getInstance().play("/sound/Epilogue.wav");
         image = ImageController.getInstance().tryGet("/img/menuPic.png");
         star = ImageController.getInstance().tryGet("/img/star-3.png");
@@ -91,15 +97,40 @@ private boolean isPlayed;
 //                    System.out.println(e.getX() + ", " + e.getY());
 //                }
 //            }
-            playTab(button1);
-            playTab(button2);
-            playTab(rankButton);
-            playConfirm(button1);
-            playConfirm(button2);
-            playConfirm(rankButton);
             MouseTriggerImpl.mouseTrig(button1, e, state);
             MouseTriggerImpl.mouseTrig(button2, e, state);
             MouseTriggerImpl.mouseTrig(rankButton, e, state);
+
+            if((button1.getIsHover())&&(!isPlayed1)){
+                AudioResourceController.getInstance().shot("/sound/tab.wav");
+                isPlayed1=true;
+            }
+            if (!button1.getIsHover()){
+                isPlayed1=false;
+            }
+
+            if((button2.getIsHover())&&(!isPlayed2)){
+                AudioResourceController.getInstance().shot("/sound/tab.wav");
+                isPlayed2=true;
+            }
+            if (!button2.getIsHover()){
+                isPlayed2=false;
+            }
+
+            if((rankButton.getIsHover())&&(!isPlayed3)){
+                AudioResourceController.getInstance().shot("/sound/tab.wav");
+                isPlayed3=true;
+            }
+            if (!rankButton.getIsHover()){
+                isPlayed3=false;
+            }
+
+//            playTab(button1, isPlayed1);
+//            playTab(button2, isPlayed2);
+//            playTab(rankButton, isPlayed3);
+            playConfirm(button1);
+            playConfirm(button2);
+            playConfirm(rankButton);
 //            if (selectPop.isShow()) {
 //                selectPop.mouseListener().mouseTrig(e, state, trigTime);
 //            }
@@ -133,15 +164,15 @@ private boolean isPlayed;
         };
     }
 
-    public void playTab(Button button){
-        if((button.getIsHover())&&(!this.isPlayed)){
-            AudioResourceController.getInstance().shot("/sound/tab.wav");
-            isPlayed=true;
-        }
-        if (!button.getIsHover()){
-            isPlayed=false;
-        }
-    }
+//    public void playTab(Button button, Boolean isPlayed){
+//        if((button.getIsHover())&&(!isPlayed)){
+//            AudioResourceController.getInstance().shot("/sound/tab.wav");
+//            isPlayed=true;
+//        }
+//        if (!button.getIsHover()){
+//            isPlayed=false;
+//        }
+//    }
 
     public void playConfirm(Button button){
         if (button.getIsFocus()){
