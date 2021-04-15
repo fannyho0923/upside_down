@@ -37,6 +37,7 @@ public class MovePlatform extends GameObject{
     public void secondCollisionEffect(Actor actor){
         //actor.offset((int)this.velocity.x(),(int)this.velocity.y());
         actor.shift(velocity);
+        System.out.println(velocity.x());
     }
 
     @Override

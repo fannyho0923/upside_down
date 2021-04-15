@@ -75,10 +75,7 @@ public class Actor extends GameObject {
             setDirection(Global.Direction.NO);
         }
         velocity.update();
-        offset((int)shift.x(),(int)shift.y());
-        System.out.println(shift.x());
         move();
-        shift = zeroShift;
     }
 
     @Override
@@ -229,7 +226,6 @@ public class Actor extends GameObject {
         }else if(shift.x() < 0){
 
         }
-
         canReverse = true;
         this.preMove();
         this.moveY();
@@ -252,6 +248,11 @@ public class Actor extends GameObject {
 
     public void shift(Vector shift){
         this.shift = shift;
+    }
+
+    public void shift(){
+        offset((int)shift.x(),(int)shift.y());
+        shift = zeroShift;
     }
 
     public void getKey(){

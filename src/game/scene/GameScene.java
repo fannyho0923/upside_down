@@ -29,8 +29,8 @@ public abstract class GameScene extends Scene {
     private boolean actorTrigCamera;
     private int num;
 
-    private int frameX_count = 1;
-    private int frameY_count = 2;
+    private int frameX_count = 0;
+    private int frameY_count = 3;
 
     private String mapBmpPath;
     private String mapTxtPath;
@@ -47,10 +47,7 @@ public abstract class GameScene extends Scene {
         this.mapTxtPath = mapTxtPath;
         this.background = background;
         this.actor = actor;
-<<<<<<< HEAD
-=======
 
->>>>>>> c281a7ef18eb3a761e8e727610ecbcf7f41e80da
         this.tracker = new Tracker(cameraStartX + (cameraWidth - Global.UNIT) / 2,
                 cameraStartY +(cameraHeight - Global.UNIT)/2, new Velocity(cameraVelocityX,cameraVelocityY,0,0,false));
         this.actorTrigCamera = actorTrigCamera;
@@ -171,7 +168,7 @@ public abstract class GameScene extends Scene {
 
     @Override
     public void update() {
-
+        actor.update();
         for (int i = 0; i < gameObjects.size(); i++) {
             GameObject obj = gameObjects.get(i);
             if (actor.isCollision(obj)) {
@@ -194,8 +191,8 @@ public abstract class GameScene extends Scene {
                 brokenRoads.remove(i);
             }
         }
-        boolean planCollision = false;
 
+        boolean planCollision = false;
         for (int i = 0; i < movePlatform.size(); i++){
             GameObject obj = movePlatform.get(i);
             if (actor.isCollision(obj)) {
@@ -203,7 +200,6 @@ public abstract class GameScene extends Scene {
             }
             if(actor.collider().isOverlap(obj.secondCollider())){
                 planCollision = true;
-
             }
             if(i==movePlatform.size()-1){
                 if(planCollision){
@@ -212,7 +208,8 @@ public abstract class GameScene extends Scene {
             }
             obj.update();
         }
-        actor.update();
+
+        actor.shift();
 
         camera.update();
 //        cameraBack.setXY(camera.painter().left(),camera.painter().top());
