@@ -14,13 +14,20 @@ import java.awt.image.AffineTransformOp;
 import java.awt.image.BufferedImage;
 
 public class Actor extends GameObject {
+    public enum State {
+        ALIVE,
+        SPLASH,
+        REBORN,
+        DEAD;
+    }
+
     private static final int JUMP_SPEED = 30;
     private static final float WALK_ACCELERATION = 0f;
     public static final int WALK_SPEED = 5;
 
     private Velocity velocity;
     private Vector shift;
-    private final Vector zeroShift = new Vector(0,0);
+    private final Vector zeroShift = new Vector(0, 0);
 
     private Global.Direction direction;
     private ActionAnimator actionAnimator;
@@ -41,52 +48,129 @@ public class Actor extends GameObject {
     private int rebornY;
     private boolean rebornState;
     private int keyCount;
-
+    private State state;
+    private Delay deadDelay;
+    private Delay rebornDelay;
+    private Delay splashDelay;
 
     public Actor(int x, int y, int num) {
         super(x, y, Global.UNIT_X32, Global.UNIT_Y32);
         velocity = new Velocity(0, 0, 0, 0, false);
-        shift = new Vector(0,0);
-
+        shift = new Vector(0, 0);
         direction = Global.Direction.NO;
         actionAnimator = new ActionAnimator();
         leftSpeedUp = false;
         rightSpeedUp = false;
         jumpCount = 0;
-        this.img=ImageController.getInstance().tryGet("/img/actor_"+num+".png");
+        this.img = ImageController.getInstance().tryGet("/img/actor_" + num + ".png");
         setImage(num);
-
+        state = State.ALIVE;
         rebornX = x;
         rebornY = y;
         rebornState = velocity.isReverse();
-        keyCount  = 0;
+        keyCount = 0;
         canReverse = false;
+        deadDelay = new Delay(0);
+        splashDelay = new Delay(10);
+        rebornDelay = new Delay(90);
+        splashDelay.loop();
+
     }
 
     @Override
     public void update() {
-        // walking, acceleration increase
-        if (leftSpeedUp) {
-            velocity.offsetDX(-WALK_ACCELERATION);
-            setDirection(Global.Direction.LEFT);
-        } else if (rightSpeedUp) {
-            velocity.offsetDX(WALK_ACCELERATION);
-            setDirection(Global.Direction.RIGHT);
-        } else {
-            setDirection(Global.Direction.NO);
+
+        switch (state) {
+            case ALIVE:
+                // walking, acceleration increase
+                if (leftSpeedUp) {
+                    velocity.offsetDX(-WALK_ACCELERATION);
+                    setDirection(Global.Direction.LEFT);
+                } else if (rightSpeedUp) {
+                    velocity.offsetDX(WALK_ACCELERATION);
+                    setDirection(Global.Direction.RIGHT);
+                } else {
+                    setDirection(Global.Direction.NO);
+                }
+                velocity.update();
+                move();
+                break;
+            case SPLASH:
+                if (deadDelay.isStop()) {
+                    deadDelay.play();
+                }
+                if (deadDelay.count()) {
+                    state = State.DEAD;
+                }
+                break;
+            case DEAD:
+                this.setXY(rebornX, rebornY);
+                state = State.REBORN;
+                rebornDelay.play();
+                break;
+            case REBORN:
+                if (!rebornDelay.count()) {
+                    if (leftSpeedUp) {
+                        velocity.offsetDX(-WALK_ACCELERATION);
+                        setDirection(Global.Direction.LEFT);
+                    } else if (rightSpeedUp) {
+                        velocity.offsetDX(WALK_ACCELERATION);
+                        setDirection(Global.Direction.RIGHT);
+                    } else {
+                        setDirection(Global.Direction.NO);
+                    }
+                    velocity.update();
+                    move();
+                } else {
+                    state = State.ALIVE;
+                }
+                break;
+
         }
-        velocity.update();
-        move();
+
     }
 
     @Override
     public void paint(Graphics g) {
-        if (velocity.isReverse()) {
-            actionAnimator.paint(g, this.imgRev, painter().left(), painter().top(),
-                    painter().right(), painter().bottom(), getDirection());
-        } else {
-            actionAnimator.paint(g, this.img, painter().left(), painter().top(),
-                    painter().right(), painter().bottom(), getDirection());
+
+        switch (state) {
+            case ALIVE:
+                if (velocity.isReverse()) {
+                    actionAnimator.paint(g, this.imgRev, painter().left(), painter().top(),
+                            painter().right(), painter().bottom(), getDirection());
+                } else {
+                    actionAnimator.paint(g, this.img, painter().left(), painter().top(),
+                            painter().right(), painter().bottom(), getDirection());
+                }
+                break;
+            case SPLASH:
+                if (deadDelay.isPlaying()) {
+                    if (splashDelay.count()) {
+                        if (velocity.isReverse()) {
+                            actionAnimator.paint(g, this.imgRev, painter().left(), painter().top(),
+                                    painter().right(), painter().bottom(), Global.Direction.NO);
+                        } else {
+                            actionAnimator.paint(g, this.img, painter().left(), painter().top(),
+                                    painter().right(), painter().bottom(), Global.Direction.NO);
+                        }
+                    }
+                }
+                break;
+            case DEAD:
+                break;
+            case REBORN:
+                if (rebornDelay.isPlaying()) {
+                    if (splashDelay.count()) {
+                        if (velocity.isReverse()) {
+                            actionAnimator.paint(g, this.imgRev, painter().left(), painter().top(),
+                                    painter().right(), painter().bottom(), getDirection());
+                        } else {
+                            actionAnimator.paint(g, this.img, painter().left(), painter().top(),
+                                    painter().right(), painter().bottom(), getDirection());
+                        }
+                    }
+                }
+                break;
         }
     }
 
@@ -97,17 +181,16 @@ public class Actor extends GameObject {
         return op.filter((BufferedImage) img, null);
     }
 
+
     // 人物動畫
     private static class ActionAnimator {
         private int count;
         private Delay delay;
-//        private State state;
 
         public ActionAnimator() {
             count = 0;
             delay = new Delay(3);
             delay.loop();
-//            state=State.Dead;
         }
 
         public void paint(Graphics g, Image img, int left, int top, int right, int bottom, Global.Direction direction) {
@@ -124,14 +207,10 @@ public class Actor extends GameObject {
         }
     }
 
-    public enum State{
-        Alive,
-        Dead;
-    }
 
     public void setImage(int num) {
-        this.imgRight = ImageController.getInstance().tryGet("/img/actor_"+num+".png");
-        this.imgLeft = ImageController.getInstance().tryGet("/img/actor_"+num+"_l.png");
+        this.imgRight = ImageController.getInstance().tryGet("/img/actor_" + num + ".png");
+        this.imgLeft = ImageController.getInstance().tryGet("/img/actor_" + num + "_l.png");
         this.imgRightRev = paintReverse(imgRight);
         this.imgLeftRev = paintReverse(imgLeft);
     }
@@ -198,7 +277,7 @@ public class Actor extends GameObject {
         jumpCount = Global.continueJump;
     }
 
-    public boolean canReverse(){
+    public boolean canReverse() {
         return canReverse;
     }
 
@@ -219,21 +298,28 @@ public class Actor extends GameObject {
         this.rebornState = rebornState;
     }
 
-    public void reborn(){
-        this.setXY(rebornX,rebornY);
-        velocity.setGravityReverse(rebornState);
-        velocity().stop();
+    public State getState() {
+        return state;
     }
 
-    public void beBlock(GameObject obj){
+    public void dead() {
+        if (state != State.SPLASH && state != State.DEAD && state != State.REBORN) {
+            AudioResourceController.getInstance().play("/sound/dead.wav");
+            state = State.SPLASH;
+            velocity.setGravityReverse(rebornState);
+            velocity().stop();
+        }
+    }
+
+    public void beBlock(GameObject obj) {
         // 物件移動角色時被阻擋
-        if(shift.x() > 0){
+        if (shift.x() > 0) {
             shift = zeroShift;
-            this.setX(obj.collider().left() - this.collider().width() -1);
+            this.setX(obj.collider().left() - this.collider().width() - 1);
             return;
-        }else if(shift.x() < 0){
+        } else if (shift.x() < 0) {
             shift = zeroShift;
-            this.setX(obj.collider().right()+1);
+            this.setX(obj.collider().right() + 1);
             return;
         }
         canReverse = true;
@@ -242,30 +328,30 @@ public class Actor extends GameObject {
         if (this.isCollision(obj)) { // 撞到 Y
             this.jumpReset();
             if (this.velocity().y() < 0) {
-                this.setY(obj.collider().bottom() +1 );
+                this.setY(obj.collider().bottom() + 1);
                 this.velocity().stopY();
             } else if (this.velocity().y() > 0) {
-                this.setY(obj.collider().top() - this.painter().height() -1);
+                this.setY(obj.collider().top() - this.painter().height() - 1);
                 this.velocity().stopY();
             }
             this.moveX();
         }
         if (this.collider().bottom() == obj.collider().top() |
-                this.collider().top() == obj.collider().bottom()){
+                this.collider().top() == obj.collider().bottom()) {
             this.moveX();
         }
     }
 
-    public void shift(Vector shift){
+    public void shift(Vector shift) {
         this.shift = shift;
     }
 
-    public void shift(){
-        offset((int)shift.x(),(int)shift.y());
+    public void shift() {
+        offset((int) shift.x(), (int) shift.y());
         shift = zeroShift;
     }
 
-    public void getKey(){
+    public void getKey() {
         this.keyCount++;
     }
 

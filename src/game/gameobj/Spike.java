@@ -8,10 +8,8 @@ import java.awt.*;
 
 public class Spike extends GameObject{
     Image img;
-    Delay delay;
     public Spike(int top, int left, int width, int height, int num) {
         super(top,left,width,height);
-        delay = new Delay(5);
 
         switch(num){
             case 1:
@@ -29,15 +27,10 @@ public class Spike extends GameObject{
 
     @Override
     public void collisionEffect(Actor actor) {
-        System.out.println("!");
-        if(!delay.isPlaying()){
+        if(actor.getState() == Actor.State.ALIVE){
             AudioResourceController.getInstance().shot("/sound/spike.wav");
-            delay.play();
+            actor.dead();
         }
-        if (delay.count()) {
-            actor.reborn();
-        }
-//        AudioResourceController.getInstance().play("/sound/dead.wav");
     }
 
     @Override

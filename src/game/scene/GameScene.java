@@ -29,9 +29,6 @@ public abstract class GameScene extends Scene {
     private Camera camera;
     private Tracker tracker;
     private boolean actorTrigCamera;
-
-    private int num;
-
     private int frameX_count;
     private int frameY_count;
 
@@ -42,7 +39,7 @@ public abstract class GameScene extends Scene {
 
     public GameScene(String mapBmpPath, String mapTxtPath, Actor actor, GameObject background,
                      int cameraWidth, int cameraHeight, int cameraVelocityX, int cameraVelocityY,
-                     boolean actorTrigCamera){//刪掉actor
+                     boolean actorTrigCamera){
 
         gameObjects = new ArrayList<>();
         orinBrokenRoads = new ArrayList<>();

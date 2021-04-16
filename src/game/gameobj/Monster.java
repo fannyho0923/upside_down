@@ -1,17 +1,19 @@
 package game.gameobj;
 
 import game.controller.ImageController;
+import game.utils.Delay;
 import game.utils.Tour;
 
 import java.awt.*;
 
 public class Monster extends GameObject{
+    private Delay delay;
     Image img;
     Tour tour;
     int num;
     public Monster(int top, int left, int width, int height, int num) {
         super(top, left, width, height);
-
+        this.delay=new Delay(30);
         this.num = num;
         switch(num){
             case 1:
@@ -32,7 +34,7 @@ public class Monster extends GameObject{
 
     @Override
     public void collisionEffect(Actor actor) {
-        actor.reborn();
+        actor.dead();
     }
 
     @Override
