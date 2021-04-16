@@ -9,9 +9,11 @@ import java.awt.*;
 public class Spike extends GameObject{
     Image img;
     Delay delay;
+    boolean spikePlayed;
     public Spike(int top, int left, int width, int height, int num) {
         super(top,left,width,height);
         delay = new Delay(5);
+        spikePlayed = false;
 
         switch(num){
             case 1:
@@ -29,7 +31,6 @@ public class Spike extends GameObject{
 
     @Override
     public void collisionEffect(Actor actor) {
-        System.out.println("!");
         if(!delay.isPlaying()){
             AudioResourceController.getInstance().shot("/sound/spike.wav");
             delay.play();

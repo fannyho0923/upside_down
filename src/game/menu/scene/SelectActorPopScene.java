@@ -38,9 +38,12 @@ public class SelectActorPopScene extends Scene {
     private Image actor6;
     private Image menuBackground;
     private Label label;
+    private boolean isPlayedStart;
+    private boolean isPlayedBack;
 
     private ActionAnimator actionAnimator;
     private ArrayList<Label> arrayList = new ArrayList<>();
+    private ArrayList<Button> buttonArrayList = new ArrayList<>();
 
     @Override
     public void sceneBegin() {
@@ -86,6 +89,8 @@ public class SelectActorPopScene extends Scene {
             }
         });
         back.setClickedActionPerformed((int x, int y) -> SceneController.getInstance().change(new MenuScene()));
+        buttonArrayList.add(back);
+        buttonArrayList.add(start);
 
     }
 
@@ -139,6 +144,12 @@ public class SelectActorPopScene extends Scene {
             MouseTriggerImpl.mouseTrig(a4, e, state);
             MouseTriggerImpl.mouseTrig(a5, e, state);
             MouseTriggerImpl.mouseTrig(a6, e, state);
+
+            arrayList.forEach(Label::playTabSound);
+//            arrayList.forEach(Label::playConfirm);
+
+            buttonArrayList.forEach(Button::playTabSound);
+            buttonArrayList.forEach(Button::playConfirm);
         };
 
     }
@@ -157,18 +168,6 @@ public class SelectActorPopScene extends Scene {
         actionAnimator.paintMan(g, actor4, 495, 422, 495 + Global.UNIT_X64, 472 + Global.UNIT_Y64, (a4.getIsHover() || a4.getIsFocus()));
         actionAnimator.paintMan(g, actor5, 575, 422, 575 + Global.UNIT_X64, 472 + Global.UNIT_Y64, (a5.getIsHover() || a5.getIsFocus()));
         actionAnimator.paintMan(g, actor6, 655, 422, 655 + Global.UNIT_X64, 472 + Global.UNIT_Y64, (a6.getIsHover() || a6.getIsFocus()));
-    }
-
-    public void playConfirm(Label label){
-        if (label.getIsFocus()){
-            AudioResourceController.getInstance().shot("/sound/tab_confirm.wav");
-        }
-    }
-
-    public void playConfirm(Button button){
-        if (button.getIsFocus()){
-            AudioResourceController.getInstance().shot("/sound/tab_confirm.wav");
-        }
     }
 
     private static class ActionAnimator {

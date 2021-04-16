@@ -1,8 +1,14 @@
 package game.menu.menu;
 
+import game.controller.AudioResourceController;
+
 import java.awt.Graphics;
+import java.util.function.Consumer;
 
 public class Button extends Label {
+
+    //0416 Anne新增isPlayed屬性，存取音效撥放狀態
+    private boolean isPlayed;
 
     public Button(int x, int y, Style style) {
         super(x, y, style);
@@ -30,5 +36,33 @@ public class Button extends Label {
 
     }
 
+    //Anne新增音效方法
+    public void played() {
+        isPlayed = true;
+    }
+
+    public boolean isPlayed() {
+        return isPlayed;
+    }
+
+    public void resetPlay(){
+        isPlayed = false;
+    }
+
+    public void playTabSound(){
+        if (getIsHover()&&(!isPlayed())){
+            AudioResourceController.getInstance().shot("/sound/tab.wav");
+            played();
+        }
+        if (!getIsHover()){
+            resetPlay();
+        }
+    }
+
+    public void playConfirm(){
+        if (getIsFocus()){
+            AudioResourceController.getInstance().shot("/sound/tab_confirm.wav");
+        }
+    }
 
 }
