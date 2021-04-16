@@ -1,5 +1,6 @@
 package game.menu.menu;
 
+import game.controller.AudioResourceController;
 import game.utils.GameKernel;
 
 import java.awt.Graphics;
@@ -31,11 +32,15 @@ public class Label implements GameKernel.UpdateInterface, GameKernel.PaintInterf
     private boolean isFocus;
     private boolean isHover;
 
+    //Anne 新增音效狀態isPlayed
+    private boolean isPlayed;
+
     public Label(int x, int y, Style styleNormal) {
         this.x = x;
         this.y = y;
         this.styleFocus = this.styleHover = this.styleNormal = styleNormal;
         isFocus = false;
+        isPlayed = false;
     }
 
     public Label(int x, int y, Theme theme) {
@@ -95,6 +100,34 @@ public class Label implements GameKernel.UpdateInterface, GameKernel.PaintInterf
     public void unHover() {
         this.isHover = false;
     }
+
+    public void played() {
+        isPlayed = true;
+    }
+
+    public boolean isPlayed() {
+        return isPlayed;
+    }
+
+    public void resetPlay(){
+        isPlayed = false;
+    }
+
+    public void playTabSound(){
+        if (getIsHover()&&(!isPlayed())){
+            AudioResourceController.getInstance().shot("/sound/tab.wav");
+            played();
+        }
+        if (!getIsHover()){
+            resetPlay();
+        }
+    }
+
+//    public void playConfirm(){
+//        if (getIsFocus()){
+//            AudioResourceController.getInstance().shot("/sound/tab_confirm.wav");
+//        }
+//    }
 
     public Style getPaintStyle() {
         if (isFocus && this.styleFocus != null) {

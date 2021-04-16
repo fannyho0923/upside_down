@@ -304,7 +304,7 @@ public class Actor extends GameObject {
 
     public void dead() {
         if (state != State.SPLASH && state != State.DEAD && state != State.REBORN) {
-            AudioResourceController.getInstance().play("/sound/dead.wav");
+//            AudioResourceController.getInstance().play("/sound/dead.wav");
             state = State.SPLASH;
             velocity.setGravityReverse(rebornState);
             velocity().stop();
