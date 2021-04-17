@@ -3,18 +3,37 @@ package game.gameobj;
 import game.controller.AudioResourceController;
 import game.controller.ImageController;
 import game.utils.Delay;
+import game.utils.Global;
 
 import java.awt.*;
+
+
 
 public class BrokenRoad extends GameObject{
     private Image img;
     private boolean isTouched;
     private Delay delay;
-    public BrokenRoad(int left, int top, int width, int height) {
-        super(left, top, width, height);
+    private Type type;
+
+    public static enum Type{
+        A,
+        B;
+    }
+
+    public BrokenRoad(int left, int top, Type type) {
+        super(left, top, Global.UNIT,Global.UNIT);
         img = ImageController.getInstance().tryGet("/img/tile_0071.png");
-        isTouched = false;
+
         delay = new Delay(20);
+
+        isTouched = false;
+        switch (type){
+            case A:
+                img = ImageController.getInstance().tryGet("/img/gameObj/broken/broken1.png");
+                break;
+            case B:
+                img = ImageController.getInstance().tryGet("/img/gameObj/broken/broken2.png");
+        }
     }
 
     @Override

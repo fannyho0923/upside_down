@@ -2,61 +2,57 @@ package game.gameobj;
 
 import game.controller.AudioResourceController;
 import game.controller.ImageController;
+import game.utils.Global;
 
 import java.awt.*;
 
 public class Conveyor extends GameObject{
     // 另外載入, 不要放在GameObj Arr, 鏡頭轉換時要重新創建
 
-    private Image img;
-    private int shift_x;
-    private int dir;
-    public Conveyor(int left, int top, int width, int height, int shift_x, int dir ,int num) {
-        super(left, top, width, height);
-        this.shift_x = shift_x;
-        this.dir = dir;
+    private static final int SHIFT = 10;
+    private Type type;
 
-        if(dir == 1){
-            switch (num) {
-                case 1:
-                    img = ImageController.getInstance().tryGet("/img/tile_0124.png");
-                    break;
-                case 2:
-                    img = ImageController.getInstance().tryGet("/img/tile_0125.png");
-                    break;
-                case 3:
-                    img = ImageController.getInstance().tryGet("/img/tile_0126.png");
-                    break;
-            }
-        }else{
-            switch (num){
-                case 1:
-                    img = ImageController.getInstance().tryGet("/img/tile_0126_R.png");
-                    break;
-                case 2:
-                    img = ImageController.getInstance().tryGet("/img/tile_0125_R.png");
-                    break;
-                case 3:
-                    img = ImageController.getInstance().tryGet("/img/tile_0124_R.png");
-                    break;
-            }
+    public enum Type{
+        TopL1("/img/gameObj/conveyor/conveyor_top_L1.png",Global.Direction.LEFT),
+        TopL2("/img/gameObj/conveyor/conveyor_top_L2.png",Global.Direction.LEFT),
+        TopL3("/img/gameObj/conveyor/conveyor_top_L3.png",Global.Direction.LEFT),
+        DownL1("/img/gameObj/conveyor/conveyor_down_L1.png",Global.Direction.LEFT),
+        DownL2("/img/gameObj/conveyor/conveyor_down_L2.png",Global.Direction.LEFT),
+        DownL3("/img/gameObj/conveyor/conveyor_down_L3.png",Global.Direction.LEFT),
+        TopR1("/img/gameObj/conveyor/conveyor_top_R1.png",Global.Direction.RIGHT),
+        TopR2("/img/gameObj/conveyor/conveyor_top_R2.png",Global.Direction.RIGHT),
+        TopR3("/img/gameObj/conveyor/conveyor_top_R3.png",Global.Direction.RIGHT),
+        DownR1("/img/gameObj/conveyor/conveyor_down_R1.png",Global.Direction.RIGHT),
+        DownR2("/img/gameObj/conveyor/conveyor_down_R2.png",Global.Direction.RIGHT),
+        DownR3("/img/gameObj/conveyor/conveyor_down_R3.png",Global.Direction.RIGHT);
+
+        private Image img;
+        private Global.Direction dir;
+        Type(String path,Global.Direction dir){
+            this.img = ImageController.getInstance().tryGet(path);
+            this.dir = dir;
         }
+    }
+
+    public Conveyor(int left, int top, Type type) {
+        super(left, top, Global.UNIT, Global.UNIT);
+        this.type = type;
     }
 
     @Override
     public void collisionEffect(Actor actor) {
         AudioResourceController.getInstance().play("/sound/conveyor-crop.wav");
         actor.beBlock(this);
-        if (dir == 1) {
-            actor.offsetX(shift_x);
-        }else{
-            actor.offsetX(-shift_x);
+        if(type.dir == Global.Direction.LEFT){
+            actor.offsetX(-SHIFT);
+        }else if(type.dir == Global.Direction.RIGHT){
+            actor.offsetX(SHIFT);
         }
     }
 
     @Override
     public void paint(Graphics g) {
-        g.drawImage(img, painter().left(), painter().top(), null);
+        g.drawImage(type.img, painter().left(), painter().top(), null);
     }
 
     @Override

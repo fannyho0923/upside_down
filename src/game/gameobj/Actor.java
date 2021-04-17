@@ -42,7 +42,6 @@ public class Actor extends GameObject {
     private boolean rebornState;
     private int keyCount;
 
-
     public Actor(int x, int y, int num) {
         super(x, y, Global.UNIT_X32, Global.UNIT_Y32);
         velocity = new Velocity(0, 0, 0, 0, false);
@@ -101,7 +100,6 @@ public class Actor extends GameObject {
     private static class ActionAnimator {
         private int count;
         private Delay delay;
-
         public ActionAnimator() {
             count = 0;
             delay = new Delay(3);

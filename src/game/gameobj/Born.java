@@ -1,14 +1,15 @@
 package game.gameobj;
 
 import game.controller.ImageController;
+import game.utils.Global;
 
 import java.awt.*;
 
 public class Born extends GameObject{
     Image img;
-    public Born(int left, int top, int width, int height) {
-        super(left, top, width, height);
-        img = ImageController.getInstance().tryGet("/img/tile_0114.png");
+    public Born(int left, int top) {
+        super(left, top, Global.UNIT, Global.UNIT);
+        img = ImageController.getInstance().tryGet("/img/tile_0114.png"); // 還沒更正
     }
 
     @Override

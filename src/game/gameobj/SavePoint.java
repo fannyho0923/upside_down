@@ -1,14 +1,15 @@
 package game.gameobj;
 
 import game.controller.ImageController;
+import game.utils.Global;
 
 import java.awt.*;
 
 public class SavePoint extends GameObject{
     Image img;
-    public SavePoint(int top, int left, int width, int height) {
-        super(top, left, width, height);
-        img = ImageController.getInstance().tryGet("/img/tile_0102.png");
+    public SavePoint(int top, int left) {
+        super(top, left, Global.UNIT, Global.UNIT);
+        img = ImageController.getInstance().tryGet("/img/gameObj/savePoint/savePoint_toGet.png");
     }
 
     @Override
