@@ -54,7 +54,7 @@ public abstract class GameScene extends Scene {
         frameY_count = gameObjects.get(0).collider().top() / cameraHeight;
 
 //        actor.setXY(gameObjects.get(0).painter().left(),gameObjects.get(0).painter().top());
-        actor.setXY(10,200);
+        actor.setXY(100,500);
         actor.setRebornX(actor.painter().left());
         actor.setRebornY(actor.painter().top());
 
@@ -322,6 +322,33 @@ public abstract class GameScene extends Scene {
                 final GameObject tmp;
                 if (gameObject.equals(name)) {
                     tmp = new CameraBackground(mapInfo.getX() * size, mapInfo.getY() * size, CameraBackground.Type.C1);
+                    return tmp;
+                }
+                return null;
+            }));
+
+            this.gameObjects.addAll(mapLoader.createObjectArray("back3-2", Global.UNIT, mapInfoArr, (gameObject, name, mapInfo, size) -> {
+                final GameObject tmp;
+                if (gameObject.equals(name)) {
+                    tmp = new CameraBackground(mapInfo.getX() * size, mapInfo.getY() * size, CameraBackground.Type.C2);
+                    return tmp;
+                }
+                return null;
+            }));
+
+            this.gameObjects.addAll(mapLoader.createObjectArray("back3-3", Global.UNIT, mapInfoArr, (gameObject, name, mapInfo, size) -> {
+                final GameObject tmp;
+                if (gameObject.equals(name)) {
+                    tmp = new CameraBackground(mapInfo.getX() * size, mapInfo.getY() * size, CameraBackground.Type.C3);
+                    return tmp;
+                }
+                return null;
+            }));
+
+            this.gameObjects.addAll(mapLoader.createObjectArray("back3-4", Global.UNIT, mapInfoArr, (gameObject, name, mapInfo, size) -> {
+                final GameObject tmp;
+                if (gameObject.equals(name)) {
+                    tmp = new CameraBackground(mapInfo.getX() * size, mapInfo.getY() * size, CameraBackground.Type.C4);
                     return tmp;
                 }
                 return null;
