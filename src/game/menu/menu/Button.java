@@ -29,6 +29,4 @@ public class Button extends Label {
     public void update() {
 
     }
-
-
 }

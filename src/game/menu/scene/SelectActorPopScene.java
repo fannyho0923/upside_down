@@ -117,20 +117,14 @@ public class SelectActorPopScene extends Scene {
             public void keyTyped(char c, long trigTime) {
 
             }
-
         };
     }
 
 
-    //fanny
     @Override
     public CommandSolver.MouseListener mouseListener() {
         return (MouseEvent e, CommandSolver.MouseState state, long trigTime) -> {
-//            if (state != null) {
-//                if (state == CommandSolver.MouseState.PRESSED) {
-//                    System.out.println(e.getX() + "," + e.getY());
-//                }
-//            }
+
             MouseTriggerImpl.mouseTrig(start, e, state);
             MouseTriggerImpl.mouseTrig(back, e, state);
             MouseTriggerImpl.mouseTrig(a1, e, state);
@@ -140,10 +134,8 @@ public class SelectActorPopScene extends Scene {
             MouseTriggerImpl.mouseTrig(a5, e, state);
             MouseTriggerImpl.mouseTrig(a6, e, state);
         };
-
     }
 
-    //fanny
     @Override
     public void paint(Graphics g) {//90, 100, 650, 450
         g.drawImage(menuBackground, 0, 0, 1024, 760, null);//1024,760

@@ -22,11 +22,8 @@ public class Main {// 資料刷新時間
     public static void main(final String[] args) {
         initTheme();
         final JFrame jFrame = new JFrame();
-
         final SceneController sceneController = SceneController.getInstance();
-//        sceneController.change(new BasicScene());
         sceneController.change(new MenuScene());
-
         final GameKernel gameKernel = new GameKernel.Builder()
                 .input(new CommandSolver.BuildStream()
                         .mouseTrack().forceRelease().subscribe(sceneController)
@@ -47,9 +44,7 @@ public class Main {// 資料刷新時間
         jFrame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 
         jFrame.add(gameKernel);
-
         jFrame.setVisible(true);
-
         gameKernel.run();
     }
 
