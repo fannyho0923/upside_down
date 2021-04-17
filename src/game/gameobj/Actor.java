@@ -54,7 +54,7 @@ public class Actor extends GameObject {
     private Delay splashDelay;
 
     public Actor(int x, int y, int num) {
-        super(x, y, Global.UNIT_X32, Global.UNIT_Y32);
+        super(x, y, Global.UNIT_X64, Global.UNIT_Y64);
         velocity = new Velocity(0, 0, 0, 0, false);
         shift = new Vector(0, 0);
         direction = Global.Direction.NO;
