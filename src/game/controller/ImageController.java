@@ -27,7 +27,7 @@ public class ImageController {
     }
 
     public Image tryGet(final String path) {
-        if (imageMap.get(path)!=null) {
+        if (imageMap.containsKey(path)) {
             return imageMap.get(path);
         }
         return add(path);
