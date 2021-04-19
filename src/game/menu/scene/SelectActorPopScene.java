@@ -186,7 +186,7 @@ public class SelectActorPopScene extends Scene {
                         Global.UNIT_Y64 - 16, null);
             } else {
                 g.drawImage(img, left, top, right, bottom,
-                         4*Global.UNIT_X64 + 22,
+                        4*Global.UNIT_X64 + 22,
                         14,
                         4*Global.UNIT_X64 + Global.UNIT_X64 - 22,
                         Global.UNIT_Y64 - 16, null);

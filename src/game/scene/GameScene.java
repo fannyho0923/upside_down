@@ -50,12 +50,17 @@ public abstract class GameScene extends Scene {
 
         mapInit();
         this.actor = actor;
-        frameX_count = gameObjects.get(0).collider().left() / cameraWidth;
-        frameY_count = gameObjects.get(0).collider().top() / cameraHeight;
+//        frameX_count = gameObjects.get(0).collider().left() / cameraWidth;
+//        frameY_count = gameObjects.get(0).collider().top() / cameraHeight;
+        frameX_count=0;
+        frameY_count=0;
 
 //        actor.setXY(gameObjects.get(0).painter().left(),gameObjects.get(0).painter().top());
-        actor.setXY(100,500);
+
+        actor.setXY(370,60);
         actor.setReborn(actor.painter().left(),actor.painter().top(),false);
+
+
 
         this.background = background;
 
@@ -79,8 +84,8 @@ public abstract class GameScene extends Scene {
         if(actorTrigCamera){
             tracker.velocity().stop();
         }
-        spikesDown = new Spikes(camera.painter().left(),camera.painter().top(),camera.painter().width(), 32, 2 );
-        spikesUp = new Spikes(camera.painter().left(),camera.painter().bottom()-32,  camera.painter().width(), 32, 1);
+//        spikesDown = new Spikes(camera.painter().left(),camera.painter().top(),camera.painter().width(), 32, 2 );
+//        spikesUp = new Spikes(camera.painter().left(),camera.painter().bottom()-32,  camera.painter().width(), 32, 1);
     }
 
     @Override
@@ -165,8 +170,8 @@ public abstract class GameScene extends Scene {
             this.actor.paint(g);
         }
 
-        spikesUp.paint(g);
-        spikesDown.paint(g);
+//        spikesUp.paint(g);
+//        spikesDown.paint(g);
 
         camera.paint(g);
         camera.end(g);
@@ -250,8 +255,8 @@ public abstract class GameScene extends Scene {
                 actor.setXY(camera.collider().left() - actor.painter().width() + 1, actor.painter().top());
                 return;
             }
-            spikesDown.painter().setXY(camera.painter().left(),camera.painter().top()-5); // 為什麼會不貼邊??
-            spikesUp.painter().setXY(camera.painter().left(),camera.painter().top() + camera.painter().height() - spikesUp.painter().height());
+//            spikesDown.painter().setXY(camera.painter().left(),camera.painter().top()-5); // 為什麼會不貼邊??
+//            spikesUp.painter().setXY(camera.painter().left(),camera.painter().top() + camera.painter().height() - spikesUp.painter().height());
         }
     }
 
@@ -414,6 +419,69 @@ public abstract class GameScene extends Scene {
                 final GameObject tmp;
                 if (gameObject.equals(name)) {
                     tmp = new CameraBackground(mapInfo.getX() * size, mapInfo.getY() * size, CameraBackground.Type.H1);
+                    return tmp;
+                }
+                return null;
+            }));
+
+            this.gameObjects.addAll(mapLoader.createObjectArray("back13", Global.UNIT, mapInfoArr, (gameObject, name, mapInfo, size) -> {
+                final GameObject tmp;
+                if (gameObject.equals(name)) {
+                    tmp = new CameraBackground(mapInfo.getX() * size, mapInfo.getY() * size, CameraBackground.Type.Fanny13);
+                    return tmp;
+                }
+                return null;
+            }));
+
+            this.gameObjects.addAll(mapLoader.createObjectArray("back14", Global.UNIT, mapInfoArr, (gameObject, name, mapInfo, size) -> {
+                final GameObject tmp;
+                if (gameObject.equals(name)) {
+                    tmp = new CameraBackground(mapInfo.getX() * size, mapInfo.getY() * size, CameraBackground.Type.Fanny14);
+                    return tmp;
+                }
+                return null;
+            }));
+
+            this.gameObjects.addAll(mapLoader.createObjectArray("back15", Global.UNIT, mapInfoArr, (gameObject, name, mapInfo, size) -> {
+                final GameObject tmp;
+                if (gameObject.equals(name)) {
+                    tmp = new CameraBackground(mapInfo.getX() * size, mapInfo.getY() * size, CameraBackground.Type.Fanny15);
+                    return tmp;
+                }
+                return null;
+            }));
+
+            this.gameObjects.addAll(mapLoader.createObjectArray("back16", Global.UNIT, mapInfoArr, (gameObject, name, mapInfo, size) -> {
+                final GameObject tmp;
+                if (gameObject.equals(name)) {
+                    tmp = new CameraBackground(mapInfo.getX() * size, mapInfo.getY() * size, CameraBackground.Type.Fanny16);
+                    return tmp;
+                }
+                return null;
+            }));
+
+            this.gameObjects.addAll(mapLoader.createObjectArray("back17", Global.UNIT, mapInfoArr, (gameObject, name, mapInfo, size) -> {
+                final GameObject tmp;
+                if (gameObject.equals(name)) {
+                    tmp = new CameraBackground(mapInfo.getX() * size, mapInfo.getY() * size, CameraBackground.Type.Fanny17);
+                    return tmp;
+                }
+                return null;
+            }));
+
+            this.gameObjects.addAll(mapLoader.createObjectArray("back18", Global.UNIT, mapInfoArr, (gameObject, name, mapInfo, size) -> {
+                final GameObject tmp;
+                if (gameObject.equals(name)) {
+                    tmp = new CameraBackground(mapInfo.getX() * size, mapInfo.getY() * size, CameraBackground.Type.Fanny18);
+                    return tmp;
+                }
+                return null;
+            }));
+
+            this.gameObjects.addAll(mapLoader.createObjectArray("back19", Global.UNIT, mapInfoArr, (gameObject, name, mapInfo, size) -> {
+                final GameObject tmp;
+                if (gameObject.equals(name)) {
+                    tmp = new CameraBackground(mapInfo.getX() * size, mapInfo.getY() * size, CameraBackground.Type.Fanny19);
                     return tmp;
                 }
                 return null;
