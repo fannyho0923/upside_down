@@ -20,14 +20,15 @@ public class Actor extends GameObject {
     private Global.Direction fallDir;
     private boolean canReverse;
 
-    private ActionAnimator actionAnimator;
+    //private ActionAnimator actionAnimator;
 
     private Image imgRight;
     private Image imgLeft;
     private Image imgRightRev;
     private Image imgLeftRev;
     private Image img;
-    private Image imgRev;
+    private Delay AnimateDelay;
+    private int AnimateCount;
 
     private State lifeState;
 
@@ -42,9 +43,13 @@ public class Actor extends GameObject {
 
         this.walkDir = Global.Direction.NO;
         this.fallDir = Global.Direction.DOWN;
-        actionAnimator = new ActionAnimator();
+        //actionAnimator = new ActionAnimator();
         this.img=ImageController.getInstance().tryGet("/img/actor_"+num+".png");
         setImage(num);
+
+        AnimateDelay = new Delay(3);
+        AnimateDelay.loop();
+        AnimateCount = 0;
 
         lifeState = State.Alive;
         rebornX = x;
@@ -56,16 +61,50 @@ public class Actor extends GameObject {
 
     @Override
     public void paint(Graphics g) {
+        if (AnimateDelay.count()){
+            AnimateCount = AnimateCount++%8;
+        }
+
         switch (fallDir){
             case UP:
-                actionAnimator.paint(g, this.imgRev, painter().left(), painter().top(),
-                        painter().right(), painter().bottom(), walkDir);
+                switch (walkDir){
+                    case LEFT:
+                        img = imgLeftRev;
+                        break;
+                    case RIGHT:
+                        img = imgRightRev;
+                        break;
+                    case NO:
+                        break;
+                }
                 break;
             case DOWN:
-                actionAnimator.paint(g, this.img, painter().left(), painter().top(),
-                        painter().right(), painter().bottom(), walkDir);
+                switch (walkDir){
+                    case LEFT:
+                        img = imgLeft;
+                        break;
+                    case RIGHT:
+                        img = imgRight;
+                        break;
+                    case NO:
+                        break;
+                }
                 break;
         }
+
+        if (walkDir != Global.Direction.NO){
+            if (AnimateDelay.count()) {
+                AnimateCount = ++AnimateCount % 8;
+            }
+        }
+
+        g.drawImage(img, painter().left(), painter().top(),
+                painter().right(), painter().bottom(),
+                AnimateCount * Global.UNIT_X64 + 22,
+                14,
+                AnimateCount * Global.UNIT_X64 + Global.UNIT_X64 - 22,
+                Global.UNIT_Y64 - 16,
+                null);
     }
 
     private Image paintReverse(Image img) {
@@ -73,30 +112,6 @@ public class Actor extends GameObject {
         tx.translate(0, -img.getHeight(null));
         AffineTransformOp op = new AffineTransformOp(tx, AffineTransformOp.TYPE_NEAREST_NEIGHBOR);
         return op.filter((BufferedImage) img, null);
-    }
-
-    // 人物動畫
-    private static class ActionAnimator {
-        private int count;
-        private Delay delay;
-        public ActionAnimator() {
-            count = 0;
-            delay = new Delay(3);
-            delay.loop();
-        }
-
-        public void paint(Graphics g, Image img, int left, int top, int right, int bottom, Global.Direction direction) {
-            if (direction != Global.Direction.NO) {
-                if (delay.count()) {
-                    count = ++count % 8;
-                }
-            }
-            g.drawImage(img, left, top, right, bottom,
-                    count * Global.UNIT_X64 + 22,
-                    14,
-                    count * Global.UNIT_X64 + Global.UNIT_X64 - 22,
-                    Global.UNIT_Y64 - 16, null);
-        }
     }
 
     public enum State{
@@ -113,7 +128,6 @@ public class Actor extends GameObject {
 
     @Override
     public void update() {
-        // walking, acceleration increase
         switch(walkDir){
             case RIGHT:
                 offsetX(WALK_SPEED);
@@ -204,15 +218,16 @@ public class Actor extends GameObject {
                     this.setY(obj.collider().top()-this.collider().height() -1);
                     break;
             }
+            switch (walkDir){   //回覆走路狀態
+                case LEFT:
+                    offsetX(-WALK_SPEED);
+                    break;
+                case RIGHT:
+                    offsetX(WALK_SPEED);
+                    break;
+            }
         }
-        switch (walkDir){   //回覆走路狀態
-            case LEFT:
-                offsetX(-WALK_SPEED);
-                break;
-            case RIGHT:
-                offsetX(WALK_SPEED);
-                break;
-        }
+
     }
 
     public void getKey(){
