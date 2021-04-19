@@ -14,10 +14,8 @@ public class SavePoint extends GameObject{
 
     @Override
     public void collisionEffect(Actor actor) {
-        actor.setRebornX(actor.painter().left());
-        actor.setRebornY(actor.painter().top());
-        actor.setRebornState(false);
-        // 依據人物最後碰到的位置重設, 待修正固定值
+        actor.setReborn(this.collider().left(),this.collider().bottom()-actor.collider().height(),false);
+
     }
 
     @Override

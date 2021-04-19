@@ -9,6 +9,7 @@ import java.awt.*;
 
 public class Spike extends GameObject{
 
+
     private Type type;
 
     public enum Type{
@@ -33,14 +34,10 @@ public class Spike extends GameObject{
 
     @Override
     public void collisionEffect(Actor actor) {
-        if(!delay.isPlaying()){
+        if(actor.getState() == Actor.State.ALIVE){
             AudioResourceController.getInstance().shot("/sound/spike.wav");
-            delay.play();
+            actor.dead();
         }
-        if (delay.count()) {
-            //actor.reborn();
-        }
-//        AudioResourceController.getInstance().play("/sound/dead.wav");
     }
 
     @Override

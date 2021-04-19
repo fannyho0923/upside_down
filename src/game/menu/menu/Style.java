@@ -102,7 +102,6 @@ public abstract class Style {
             g.setColor(super.getTextColor());
             int stringWidth = g.getFontMetrics().stringWidth(super.text);
             g.drawString(super.text, x + (width - stringWidth) / 2, y + height / 2 + g.getFontMetrics().getDescent());
-
         }
 
     }

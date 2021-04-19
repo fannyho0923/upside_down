@@ -55,8 +55,7 @@ public abstract class GameScene extends Scene {
 
 //        actor.setXY(gameObjects.get(0).painter().left(),gameObjects.get(0).painter().top());
         actor.setXY(100,500);
-        actor.setRebornX(actor.painter().left());
-        actor.setRebornY(actor.painter().top());
+        actor.setReborn(actor.painter().left(),actor.painter().top(),false);
 
         this.background = background;
 
@@ -124,7 +123,7 @@ public abstract class GameScene extends Scene {
                         actor.velocity().stopX();
                         break;
                     case Global.VK_A: //jump
-                        actor.jump();
+                        //actor.jump();
                 }
             }
 
