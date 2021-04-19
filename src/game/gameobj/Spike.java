@@ -8,12 +8,6 @@ import game.utils.Global;
 import java.awt.*;
 
 public class Spike extends GameObject{
-<<<<<<< HEAD
-=======
-    Image img;
-    public Spike(int top, int left, int width, int height, int num) {
-        super(top,left,width,height);
->>>>>>> b886f29db8da8d6047141b5affe7b24264f02f8f
 
     private Type type;
 
@@ -39,21 +33,15 @@ public class Spike extends GameObject{
 
     @Override
     public void collisionEffect(Actor actor) {
-<<<<<<< HEAD
         if(!delay.isPlaying()){
-=======
-        if(actor.getState() == Actor.State.ALIVE){
->>>>>>> b886f29db8da8d6047141b5affe7b24264f02f8f
-            AudioResourceController.getInstance().shot("/sound/spike.wav");
-            actor.dead();
-        }
-<<<<<<< HEAD
-        if (delay.count()) {
-            //actor.reborn();
-        }
-//        AudioResourceController.getInstance().play("/sound/dead.wav");
-=======
->>>>>>> b886f29db8da8d6047141b5affe7b24264f02f8f
+
+            if(actor.getState() == Actor.State.ALIVE){
+                AudioResourceController.getInstance().shot("/sound/spike.wav");
+                actor.dead();
+            }
+            if (delay.count()) {
+                actor.reborn();
+            }
     }
 
     @Override
