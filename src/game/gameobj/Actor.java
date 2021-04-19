@@ -1,6 +1,5 @@
 package game.gameobj;
 
-import game.controller.AudioResourceController;
 import game.controller.ImageController;
 import game.utils.Global;
 import game.utils.Delay;
@@ -14,19 +13,12 @@ import java.awt.image.AffineTransformOp;
 import java.awt.image.BufferedImage;
 
 public class Actor extends GameObject {
-    private static final int JUMP_SPEED = 30;
-    private static final float WALK_ACCELERATION = 0f;
-    public static final int WALK_SPEED = 5;
+    private static final int JUMP_SPEED = 15;
+    public static final int WALK_SPEED = 3;
 
     private Velocity velocity;
-    private Vector shift;
-    private final Vector zeroShift = new Vector(0,0);
-
-    private Global.Direction direction;
     private ActionAnimator actionAnimator;
 
-    private boolean leftSpeedUp;
-    private boolean rightSpeedUp;
     private int jumpCount;
     private boolean canReverse;
 
@@ -44,36 +36,24 @@ public class Actor extends GameObject {
 
     public Actor(int x, int y, int num) {
         super(x, y, Global.UNIT_X32, Global.UNIT_Y32);
-        velocity = new Velocity(0, 0, 0, 0, false);
-        shift = new Vector(0,0);
+        velocity = new Velocity(0,0, false);
 
-        direction = Global.Direction.NO;
         actionAnimator = new ActionAnimator();
-        leftSpeedUp = false;
-        rightSpeedUp = false;
         jumpCount = 0;
-        this.img=ImageController.getInstance().tryGet("/img/actor_"+num+".png");
         setImage(num);
+        this.img = imgRight;
+        this.imgRev = imgRightRev;
 
         rebornX = x;
         rebornY = y;
         rebornState = velocity.isReverse();
         keyCount  = 0;
-        canReverse = false;
+        canReverse = true;
     }
 
     @Override
     public void update() {
-        // walking, acceleration increase
-        if (leftSpeedUp) {
-            velocity.offsetDX(-WALK_ACCELERATION);
-            setDirection(Global.Direction.LEFT);
-        } else if (rightSpeedUp) {
-            velocity.offsetDX(WALK_ACCELERATION);
-            setDirection(Global.Direction.RIGHT);
-        } else {
-            setDirection(Global.Direction.NO);
-        }
+        setCanReverse(false);
         velocity.update();
         move();
     }
@@ -82,10 +62,10 @@ public class Actor extends GameObject {
     public void paint(Graphics g) {
         if (velocity.isReverse()) {
             actionAnimator.paint(g, this.imgRev, painter().left(), painter().top(),
-                    painter().right(), painter().bottom(), getDirection());
+                    painter().right(), painter().bottom());
         } else {
             actionAnimator.paint(g, this.img, painter().left(), painter().top(),
-                    painter().right(), painter().bottom(), getDirection());
+                    painter().right(), painter().bottom());
         }
     }
 
@@ -97,7 +77,7 @@ public class Actor extends GameObject {
     }
 
     // 人物動畫
-    private static class ActionAnimator {
+    private class ActionAnimator {
         private int count;
         private Delay delay;
         public ActionAnimator() {
@@ -105,9 +85,8 @@ public class Actor extends GameObject {
             delay = new Delay(3);
             delay.loop();
         }
-
-        public void paint(Graphics g, Image img, int left, int top, int right, int bottom, Global.Direction direction) {
-            if (direction != Global.Direction.NO) {
+        public void paint(Graphics g, Image img, int left, int top, int right, int bottom) {
+            if (velocity.x() != 0) {
                 if (delay.count()) {
                     count = ++count % 8;
                 }
@@ -131,13 +110,6 @@ public class Actor extends GameObject {
         this.imgLeftRev = paintReverse(imgLeft);
     }
 
-    public Global.Direction getDirection() {
-        return direction;
-    }
-
-    public void setDirection(Global.Direction direction) {
-        this.direction = direction;
-    }
 
     // 移動
     public Velocity velocity() {
@@ -149,28 +121,16 @@ public class Actor extends GameObject {
         offsetY(-velocity.y());
     }
 
-    public void leftSpeedUp(boolean speedUp) {
-        leftSpeedUp = speedUp;
-    }
-
-    public void rightSpeedUp(boolean speedUp) {
-        rightSpeedUp = speedUp;
-    }
-
     public void move() {
         offsetX(velocity.x());
         offsetY(velocity.y());
-        switch (this.direction) {
-            case LEFT:
-                this.img = imgLeft;
-                this.imgRev = imgLeftRev;
-                break;
-            case RIGHT:
-                this.img = imgRight;
-                this.imgRev = imgRightRev;
-                break;
-            case NO:
-                break;
+        System.out.println(velocity.y());
+        if(velocity.x() > 0){
+            this.img = imgRight;
+            this.imgRev = imgRightRev;
+        }else if(velocity.x() < 0){
+            this.img = imgLeft;
+            this.imgRev = imgLeftRev;
         }
     }
 
@@ -221,16 +181,7 @@ public class Actor extends GameObject {
     }
 
     public void beBlock(GameObject obj){
-        // 物件移動角色時被阻擋
-        if(shift.x() > 0){
-            shift = zeroShift;
-            this.setX(obj.collider().left() - this.collider().width() -1);
-            return;
-        }else if(shift.x() < 0){
-            shift = zeroShift;
-            this.setX(obj.collider().right()+1);
-            return;
-        }
+
         canReverse = true;
         this.preMove();
         this.moveY();
@@ -251,17 +202,7 @@ public class Actor extends GameObject {
         }
     }
 
-    public void shift(Vector shift){
-        this.shift = shift;
-    }
-
-    public void shift(){
-        offset((int)shift.x(),(int)shift.y());
-        shift = zeroShift;
-    }
-
     public void getKey(){
         this.keyCount++;
     }
-
 }

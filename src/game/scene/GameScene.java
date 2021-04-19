@@ -63,7 +63,7 @@ public abstract class GameScene extends Scene {
         int cameraStartX = cameraWidth*frameX_count;
         int cameraStartY = cameraHeight*frameY_count;
         this.tracker = new Tracker(cameraStartX + (cameraWidth - Global.UNIT) / 2,
-                cameraStartY +(cameraHeight - Global.UNIT)/2, new Velocity(cameraVelocityX,cameraVelocityY,0,0,false));
+                cameraStartY +(cameraHeight - Global.UNIT)/2, new Velocity(cameraVelocityX,cameraVelocityY,false));
         this.actorTrigCamera = actorTrigCamera;
         camera = new Camera.Builder(cameraWidth, cameraHeight)
                 .setChaseObj(tracker)
@@ -101,11 +101,9 @@ public abstract class GameScene extends Scene {
                 switch (commandCode) {
                     case Global.VK_LEFT:
                         actor.velocity().setX(-Actor.WALK_SPEED);
-                        actor.leftSpeedUp(true);
                         break;
                     case Global.VK_RIGHT:
                         actor.velocity().setX(Actor.WALK_SPEED);
-                        actor.rightSpeedUp(true);
                         break;
                     case Global.VK_SPACE:
                         if(actor.canReverse()){
@@ -120,11 +118,9 @@ public abstract class GameScene extends Scene {
             public void keyReleased(int commandCode, long trigTime) {
                 switch (commandCode) {
                     case Global.VK_LEFT:
-                        actor.leftSpeedUp(false);
                         actor.velocity().stopX();
                         break;
                     case Global.VK_RIGHT:
-                        actor.rightSpeedUp(false);
                         actor.velocity().stopX();
                         break;
                     case Global.VK_A: //jump
@@ -220,8 +216,6 @@ public abstract class GameScene extends Scene {
                 gameObjects.remove(i);
             }
         }
-
-        actor.shift();
 
         camera.update();
 //        cameraBack.setXY(camera.painter().left(),camera.painter().top());

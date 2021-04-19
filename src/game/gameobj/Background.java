@@ -8,7 +8,7 @@ public class Background extends GameObject{
     private Image img;
 
     public Background(){
-        super(0,0, 3840,2560);
+        super(0,0, 5000,640);
         img = ImageController.getInstance().tryGet("/img/background.png");
     }
 
