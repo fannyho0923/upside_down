@@ -152,7 +152,6 @@ public class Actor extends GameObject {
         this.imgLeftRev = paintReverse(imgLeft);
     }
 
-
     // 移動
     public Velocity velocity() {
         return velocity;

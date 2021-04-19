@@ -9,12 +9,10 @@ public class Background extends GameObject{
 
     public Background(){
         super(0,0, 5000,640);
-        img = ImageController.getInstance().tryGet("/img/background.png");
     }
 
     @Override
     public void paint(Graphics g) {
-        g.drawImage(img,painter().left(),painter().top(),null);
     }
 
     @Override
