@@ -37,7 +37,7 @@ public abstract class GameScene extends Scene {
     private Spikes spikesUp;
     private Spikes spikesDown;
 
-    public GameScene(String mapBmpPath, String mapTxtPath, Actor actor, GameObject background,
+    public GameScene(String mapBmpPath, Actor actor, GameObject background,
                      int cameraWidth, int cameraHeight, int cameraVelocityX, int cameraVelocityY,
                      boolean actorTrigCamera){
 
@@ -46,18 +46,15 @@ public abstract class GameScene extends Scene {
         movePlatform = new ArrayList<>();
 
         this.mapBmpPath = mapBmpPath;
-        this.mapTxtPath = mapTxtPath;
+        this.mapTxtPath = "/map/genMap.txt";
 
         mapInit();
+
         this.actor = actor;
-//        frameX_count = gameObjects.get(0).collider().left() / cameraWidth;
-//        frameY_count = gameObjects.get(0).collider().top() / cameraHeight;
-        frameX_count=0;
-        frameY_count=0;
+        frameX_count = gameObjects.get(0).collider().left() / cameraWidth;
+        frameY_count = gameObjects.get(0).collider().top() / cameraHeight;
+        actor.setXY(gameObjects.get(0).painter().left(),gameObjects.get(0).painter().top());
 
-//        actor.setXY(gameObjects.get(0).painter().left(),gameObjects.get(0).painter().top());
-
-        actor.setXY(370,60);
         actor.setReborn(actor.painter().left(),actor.painter().top(),false);
 
 
@@ -222,8 +219,6 @@ public abstract class GameScene extends Scene {
         }
 
         camera.update();
-//        cameraBack.setXY(camera.painter().left(),camera.painter().top());
-        // 瞬間移動, 暫時還沒用到tracker 的速度
         if(actorTrigCamera){
             if (actor.painter().centerX() < camera.painter().left()) {       // 左
                 frameX_count--;
@@ -289,14 +284,14 @@ public abstract class GameScene extends Scene {
 
 
             // 出生點，存第一個
-//            this.gameObjects.addAll(mapLoader.createObjectArray("born", Global.UNIT, mapInfoArr, (gameObject, name, mapInfo, size) -> {
-//                final GameObject tmp;
-//                if (gameObject.equals(name)) {
-//                    tmp = new Born(mapInfo.getX() * size, mapInfo.getY() * size);
-//                    return tmp;
-//                }
-//                return null;
-//            }));
+            this.gameObjects.addAll(mapLoader.createObjectArray("born", Global.UNIT, mapInfoArr, (gameObject, name, mapInfo, size) -> {
+                final GameObject tmp;
+                if (gameObject.equals(name)) {
+                    tmp = new Born(mapInfo.getX() * size, mapInfo.getY() * size);
+                    return tmp;
+                }
+                return null;
+            }));
 
             this.gameObjects.addAll(mapLoader.createObjectArray("back1", Global.UNIT, mapInfoArr, (gameObject, name, mapInfo, size) -> {
                 final GameObject tmp;

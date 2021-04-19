@@ -9,7 +9,6 @@ public class Born extends GameObject{
     Image img;
     public Born(int left, int top) {
         super(left, top, Global.UNIT, Global.UNIT);
-        img = ImageController.getInstance().tryGet("/img/tile_0114.png"); // 還沒更正
     }
 
     @Override
