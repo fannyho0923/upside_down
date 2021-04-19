@@ -54,7 +54,7 @@ public abstract class GameScene extends Scene {
         frameY_count = gameObjects.get(0).collider().top() / cameraHeight;
 
 //        actor.setXY(gameObjects.get(0).painter().left(),gameObjects.get(0).painter().top());
-        actor.setXY(100,500);
+        actor.setXY(1000,1500);
         actor.setRebornX(actor.painter().left());
         actor.setRebornY(actor.painter().top());
 
@@ -68,6 +68,10 @@ public abstract class GameScene extends Scene {
         camera = new Camera.Builder(cameraWidth, cameraHeight)
                 .setChaseObj(tracker)
                 .gen();
+    }
+
+    public Actor getActor() {
+        return actor;
     }
 
     @Override
