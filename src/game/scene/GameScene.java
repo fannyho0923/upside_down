@@ -10,7 +10,6 @@ import game.utils.CommandSolver;
 import game.utils.Global;
 import game.utils.Velocity;
 
-import javax.sound.sampled.Clip;
 import java.awt.*;
 import java.io.IOException;
 import java.util.ArrayList;
@@ -34,9 +33,6 @@ public abstract class GameScene extends Scene {
 
     private String mapBmpPath;
     private String mapTxtPath;
-    private Spikes spikesUp;
-    private Spikes spikesDown;
-
     public GameScene(String mapBmpPath, Actor actor, GameObject background,
                      int cameraWidth, int cameraHeight, int cameraVelocityX, int cameraVelocityY,
                      boolean actorTrigCamera){
@@ -47,18 +43,15 @@ public abstract class GameScene extends Scene {
 
         this.mapBmpPath = mapBmpPath;
         this.mapTxtPath = "/map/genMap.txt";
-
         mapInit();
 
         this.actor = actor;
+
         frameX_count = gameObjects.get(0).collider().left() / cameraWidth;
         frameY_count = gameObjects.get(0).collider().top() / cameraHeight;
         actor.setXY(gameObjects.get(0).painter().left(),gameObjects.get(0).painter().top());
 
         actor.setReborn(actor.painter().left(),actor.painter().top(),false);
-
-
-
         this.background = background;
 
         int cameraStartX = cameraWidth*frameX_count;
@@ -76,7 +69,6 @@ public abstract class GameScene extends Scene {
         AudioResourceController.getInstance().loop("/sound/Battle-Dawn-crop-reduce.wav",50);
 
         brokenRoads = (ArrayList) orinBrokenRoads.clone();
-
         MapInformation.getInstance().setMapInfo(this.background);
         if(actorTrigCamera){
             tracker.velocity().stop();
@@ -124,8 +116,6 @@ public abstract class GameScene extends Scene {
                     case Global.VK_RIGHT:
                         actor.velocity().stopX();
                         break;
-                    case Global.VK_A: //jump
-                        //actor.jump();
                 }
             }
 
@@ -156,12 +146,6 @@ public abstract class GameScene extends Scene {
                 a.paint(g);
             }
         });
-
-//        movePlatform.forEach(a -> {
-//            if (camera.isCollision(a)){
-//                a.paint(g);
-//            }
-//        });
 
         if (camera.isCollision(this.actor)) {
             this.actor.paint(g);
@@ -281,7 +265,6 @@ public abstract class GameScene extends Scene {
                 }
                 return null;
             }));
-
 
             // 出生點，存第一個
             this.gameObjects.addAll(mapLoader.createObjectArray("born", Global.UNIT, mapInfoArr, (gameObject, name, mapInfo, size) -> {

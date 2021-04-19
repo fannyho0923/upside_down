@@ -166,7 +166,6 @@ public class Actor extends GameObject {
     public void move() {
         offsetX(velocity.x());
         offsetY(velocity.y());
-        System.out.println(velocity.y());
         if(velocity.x() > 0){
             this.img = imgRight;
             this.imgRev = imgRightRev;
