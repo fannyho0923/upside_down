@@ -28,7 +28,10 @@ public abstract class GameScene extends Scene {
     private Camera camera;
     private Tracker tracker;
     private boolean actorTrigCamera;
+<<<<<<< HEAD
 
+=======
+>>>>>>> b886f29db8da8d6047141b5affe7b24264f02f8f
     private int frameX_count;
     private int frameY_count;
 
