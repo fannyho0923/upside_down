@@ -34,7 +34,7 @@ public class Monster extends GameObject{
 
     @Override
     public void collisionEffect(Actor actor) {
-        actor.dead();
+        //actor.dead();
     }
 
     @Override

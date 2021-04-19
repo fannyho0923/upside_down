@@ -35,8 +35,6 @@ public class Button extends Label {
     public void update() {
 
     }
-<<<<<<< HEAD
-=======
 
     //Anne新增音效方法
     public void played() {
@@ -67,5 +65,4 @@ public class Button extends Label {
         }
     }
 
->>>>>>> b886f29db8da8d6047141b5affe7b24264f02f8f
 }

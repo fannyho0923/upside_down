@@ -28,10 +28,7 @@ public abstract class GameScene extends Scene {
     private Camera camera;
     private Tracker tracker;
     private boolean actorTrigCamera;
-<<<<<<< HEAD
 
-=======
->>>>>>> b886f29db8da8d6047141b5affe7b24264f02f8f
     private int frameX_count;
     private int frameY_count;
 
@@ -103,16 +100,14 @@ public abstract class GameScene extends Scene {
             public void keyPressed(int commandCode, long trigTime) {
                 switch (commandCode) {
                     case Global.VK_LEFT:
-                        actor.velocity().setX(-Actor.WALK_SPEED);
-                        actor.leftSpeedUp(true);
+                        actor.setWalkDir(Global.Direction.LEFT);
                         break;
                     case Global.VK_RIGHT:
-                        actor.velocity().setX(Actor.WALK_SPEED);
-                        actor.rightSpeedUp(true);
+                        actor.setWalkDir(Global.Direction.RIGHT);
                         break;
                     case Global.VK_SPACE:
                         if(actor.canReverse()){
-                            actor.velocity().gravityReverse();
+                            actor.fallReverse();
                             actor.setCanReverse(false);
                         }
                         break;
@@ -123,15 +118,13 @@ public abstract class GameScene extends Scene {
             public void keyReleased(int commandCode, long trigTime) {
                 switch (commandCode) {
                     case Global.VK_LEFT:
-                        actor.leftSpeedUp(false);
-                        actor.velocity().stopX();
+                        actor.setWalkDir(Global.Direction.NO);
                         break;
                     case Global.VK_RIGHT:
-                        actor.rightSpeedUp(false);
-                        actor.velocity().stopX();
+                        actor.setWalkDir(Global.Direction.NO);
                         break;
                     case Global.VK_A: //jump
-                        actor.jump();
+                        //actor.jump();
                 }
             }
 
@@ -183,7 +176,6 @@ public abstract class GameScene extends Scene {
     @Override
     public void update() {
         actor.update();
-
         for (int i = 0; i < brokenRoads.size(); i++) {
             GameObject obj = brokenRoads.get(i);
             if (actor.isCollision(obj)) {
@@ -224,11 +216,9 @@ public abstract class GameScene extends Scene {
             }
         }
 
-        actor.shift();
+//        actor.shift();
 
         camera.update();
-//        cameraBack.setXY(camera.painter().left(),camera.painter().top());
-        // 瞬間移動, 暫時還沒用到tracker 的速度
         if(actorTrigCamera){
             if (actor.painter().centerX() < camera.painter().left()) {       // 左
                 frameX_count--;
@@ -264,7 +254,6 @@ public abstract class GameScene extends Scene {
             spikesUp.painter().setXY(camera.painter().left(),camera.painter().top() + camera.painter().height() - spikesUp.painter().height());
         }
     }
-
 
     public void mapInit() {
         try {

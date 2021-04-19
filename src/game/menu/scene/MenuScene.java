@@ -90,16 +90,14 @@ public class MenuScene extends Scene {
             buttonArrayList.forEach(Button::playTabSound);
             buttonArrayList.forEach(Button::playConfirm);
 
-<<<<<<< HEAD
+
             playConfirm(button1);
             playConfirm(button2);
             playConfirm(rankButton);
-=======
+
 //            if (selectPop.isShow()) {
 //                selectPop.mouseListener().mouseTrig(e, state, trigTime);
 //            }
-
->>>>>>> b886f29db8da8d6047141b5affe7b24264f02f8f
         };
     }
 
@@ -120,13 +118,10 @@ public class MenuScene extends Scene {
             }
         };
     }
-<<<<<<< HEAD
 
     public void playConfirm(Button button){
         if (button.getIsFocus()){
             AudioResourceController.getInstance().shot("/sound/tab_confirm.wav");
         }
     }
-=======
->>>>>>> b886f29db8da8d6047141b5affe7b24264f02f8f
 }

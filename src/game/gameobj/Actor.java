@@ -1,6 +1,5 @@
 package game.gameobj;
 
-import game.controller.AudioResourceController;
 import game.controller.ImageController;
 import game.utils.Global;
 import game.utils.Delay;
@@ -14,21 +13,14 @@ import java.awt.image.AffineTransformOp;
 import java.awt.image.BufferedImage;
 
 public class Actor extends GameObject {
-    private static final int JUMP_SPEED = 30;
-    private static final float WALK_ACCELERATION = 0f;
     public static final int WALK_SPEED = 5;
+    public static final int FALL_SPEED = 5;
 
-    private Velocity velocity;
-    private Vector shift;
-    private final Vector zeroShift = new Vector(0,0);
-
-    private Global.Direction direction;
-    private ActionAnimator actionAnimator;
-
-    private boolean leftSpeedUp;
-    private boolean rightSpeedUp;
-    private int jumpCount;
+    private Global.Direction walkDir;
+    private Global.Direction fallDir;
     private boolean canReverse;
+
+    private ActionAnimator actionAnimator;
 
     private Image imgRight;
     private Image imgLeft;
@@ -37,55 +29,42 @@ public class Actor extends GameObject {
     private Image img;
     private Image imgRev;
 
+    private State lifeState;
+
     private int rebornX;
     private int rebornY;
-    private boolean rebornState;
+    private Global.Direction rebornDir;
+
     private int keyCount;
 
     public Actor(int x, int y, int num) {
         super(x, y, Global.UNIT_X32, Global.UNIT_Y32);
-        velocity = new Velocity(0, 0, 0, 0, false);
-        shift = new Vector(0,0);
 
-        direction = Global.Direction.NO;
+        this.walkDir = Global.Direction.NO;
+        this.fallDir = Global.Direction.DOWN;
         actionAnimator = new ActionAnimator();
-        leftSpeedUp = false;
-        rightSpeedUp = false;
-        jumpCount = 0;
         this.img=ImageController.getInstance().tryGet("/img/actor_"+num+".png");
         setImage(num);
 
+        lifeState = State.Alive;
         rebornX = x;
         rebornY = y;
-        rebornState = velocity.isReverse();
+        rebornDir = fallDir;
         keyCount  = 0;
         canReverse = false;
     }
 
     @Override
-    public void update() {
-        // walking, acceleration increase
-        if (leftSpeedUp) {
-            velocity.offsetDX(-WALK_ACCELERATION);
-            setDirection(Global.Direction.LEFT);
-        } else if (rightSpeedUp) {
-            velocity.offsetDX(WALK_ACCELERATION);
-            setDirection(Global.Direction.RIGHT);
-        } else {
-            setDirection(Global.Direction.NO);
-        }
-        velocity.update();
-        move();
-    }
-
-    @Override
     public void paint(Graphics g) {
-        if (velocity.isReverse()) {
-            actionAnimator.paint(g, this.imgRev, painter().left(), painter().top(),
-                    painter().right(), painter().bottom(), getDirection());
-        } else {
-            actionAnimator.paint(g, this.img, painter().left(), painter().top(),
-                    painter().right(), painter().bottom(), getDirection());
+        switch (fallDir){
+            case UP:
+                actionAnimator.paint(g, this.imgRev, painter().left(), painter().top(),
+                        painter().right(), painter().bottom(), walkDir);
+                break;
+            case DOWN:
+                actionAnimator.paint(g, this.img, painter().left(), painter().top(),
+                        painter().right(), painter().bottom(), walkDir);
+                break;
         }
     }
 
@@ -119,6 +98,7 @@ public class Actor extends GameObject {
                     Global.UNIT_Y64 - 16, null);
         }
     }
+
     public enum State{
         Alive,
         Dead;
@@ -131,66 +111,48 @@ public class Actor extends GameObject {
         this.imgLeftRev = paintReverse(imgLeft);
     }
 
-    public Global.Direction getDirection() {
-        return direction;
-    }
-
-    public void setDirection(Global.Direction direction) {
-        this.direction = direction;
-    }
-
-    // 移動
-    public Velocity velocity() {
-        return velocity;
-    }
-
-    public void preMove() {
-        offsetX(-velocity.x());
-        offsetY(-velocity.y());
-    }
-
-    public void leftSpeedUp(boolean speedUp) {
-        leftSpeedUp = speedUp;
-    }
-
-    public void rightSpeedUp(boolean speedUp) {
-        rightSpeedUp = speedUp;
-    }
-
-    public void move() {
-        offsetX(velocity.x());
-        offsetY(velocity.y());
-        switch (this.direction) {
-            case LEFT:
-                this.img = imgLeft;
-                this.imgRev = imgLeftRev;
-                break;
+    @Override
+    public void update() {
+        // walking, acceleration increase
+        switch(walkDir){
             case RIGHT:
-                this.img = imgRight;
-                this.imgRev = imgRightRev;
+                offsetX(WALK_SPEED);
                 break;
-            case NO:
+            case LEFT:
+                offsetX(-WALK_SPEED);
                 break;
+        }
+        switch(fallDir){
+            case UP:
+                offsetY(-FALL_SPEED);
+                break;
+            case DOWN:
+                offsetY(FALL_SPEED);
         }
     }
 
-    public void moveX() {
-        offsetX(velocity.x());
+    public Global.Direction walkDir() {
+        return walkDir;
     }
 
-    public void moveY() {
-        offsetY(velocity.y());
+    public void setWalkDir(Global.Direction direction) {
+        this.walkDir = direction;
     }
 
-    public void jump() {
-        if (jumpCount > 0) {
-            this.velocity.offsetY(-JUMP_SPEED);
-            jumpCount--;
+    public Global.Direction fallDir() {
+        return fallDir;
+    }
+
+    public void setFallDir(Global.Direction fallDir) {
+        this.fallDir = fallDir;
+    }
+
+    public void fallReverse(){
+        if(fallDir == Global.Direction.UP){
+            fallDir = Global.Direction.DOWN;
+        }else {
+            fallDir = Global.Direction.UP;
         }
-    }
-
-    public void jumpReset() {
-        jumpCount = Global.continueJump;
     }
 
     public boolean canReverse(){
@@ -210,54 +172,47 @@ public class Actor extends GameObject {
         this.rebornY = rebornY;
     }
 
-    public void setRebornState(boolean rebornState) {
-        this.rebornState = rebornState;
+    public void setRebornState(Global.Direction rebornDir) {
+        this.rebornDir = rebornDir;
     }
 
     public void reborn(){
         this.setXY(rebornX,rebornY);
-        velocity.setGravityReverse(rebornState);
-        velocity().stop();
+        this.fallDir = rebornDir;
+        this.walkDir = Global.Direction.NO;
     }
 
     public void beBlock(GameObject obj){
         // 物件移動角色時被阻擋
-        if(shift.x() > 0){
-            shift = zeroShift;
-            this.setX(obj.collider().left() - this.collider().width() -1);
-            return;
-        }else if(shift.x() < 0){
-            shift = zeroShift;
-            this.setX(obj.collider().right()+1);
-            return;
-        }
         canReverse = true;
-        this.preMove();
-        this.moveY();
-        if (this.isCollision(obj)) { // 撞到 Y
-            this.jumpReset();
-            if (this.velocity().y() < 0) {
-                this.setY(obj.collider().bottom() +1 );
-                this.velocity().stopY();
-            } else if (this.velocity().y() > 0) {
-                this.setY(obj.collider().top() - this.painter().height() -1);
-                this.velocity().stopY();
+
+        switch (walkDir){   //回覆走路狀態
+            case LEFT:
+                offsetX(WALK_SPEED);
+                break;
+            case RIGHT:
+                offsetX(-WALK_SPEED);
+                break;
+        }
+        if(this.isCollision(obj)){
+            // Y方向撞到
+            switch (fallDir){
+                case UP:
+                    this.setY(obj.collider().bottom() +1);
+                    break;
+                case DOWN:
+                    this.setY(obj.collider().top()-this.collider().height() -1);
+                    break;
             }
-            this.moveX();
         }
-        if (this.collider().bottom() == obj.collider().top() |
-                this.collider().top() == obj.collider().bottom()){
-            this.moveX();
+        switch (walkDir){   //回覆走路狀態
+            case LEFT:
+                offsetX(-WALK_SPEED);
+                break;
+            case RIGHT:
+                offsetX(WALK_SPEED);
+                break;
         }
-    }
-
-    public void shift(Vector shift){
-        this.shift = shift;
-    }
-
-    public void shift(){
-        offset((int)shift.x(),(int)shift.y());
-        shift = zeroShift;
     }
 
     public void getKey(){

@@ -34,14 +34,13 @@ public class Spike extends GameObject{
     @Override
     public void collisionEffect(Actor actor) {
         if(!delay.isPlaying()){
-
-            if(actor.getState() == Actor.State.ALIVE){
+//            if(actor.getState() == Actor.State.ALIVE){
                 AudioResourceController.getInstance().shot("/sound/spike.wav");
-                actor.dead();
+//                actor.dead();
             }
-            if (delay.count()) {
+//            if (delay.count()) {
                 actor.reborn();
-            }
+//            }
     }
 
     @Override

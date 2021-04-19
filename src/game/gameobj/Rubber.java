@@ -37,13 +37,16 @@ public class Rubber extends GameObject{
     @Override
     public void collisionEffect(Actor actor) {
         if(type.dir == Direction.horizontal){
-            if(actor.velocity().y() < 0){ //up
-                actor.setY(this.collider().bottom()+1);
-            }else if (actor.velocity().y() > 0){
-                actor.offsetY(this.collider().top() -actor.collider().height() -1);
+            switch (actor.fallDir()){
+                case UP:
+                    actor.setY(this.collider().bottom()+1);
+                    break;
+                case DOWN:
+                    actor.offsetY(this.collider().top() -actor.collider().height() -1);
+                    break;
             }
-            actor.velocity().stopY();
-            actor.velocity().gravityReverse();
+            actor.fallReverse();
+
         }else if(type.dir == Direction.vertical){
             // stopX??
             // 那離開不可以翻??

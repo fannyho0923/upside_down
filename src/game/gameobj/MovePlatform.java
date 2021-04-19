@@ -47,8 +47,7 @@ public class MovePlatform extends GameObject{
 
     @Override
     public void secondCollisionEffect(Actor actor){
-        actor.shift(velocity);
-        System.out.println(velocity.x());
+        //actor.shift(velocity);
     }
 
     @Override
