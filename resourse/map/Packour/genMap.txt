@@ -10,6 +10,13 @@ back5,-13108,D:\newMap\img\background\back5.jpg,30,20
 back6,-52,D:\newMap\img\background\back6.jpg,30,20
 back11,-3342388,D:\newMap\img\background\back11.jpg,30,20
 back12,-6684724,D:\newMap\img\background\back12.jpg,30,20
+back13,-65332,/Users/heweihan/New/img/background/back13.jpg,30,20
+back14,-10066432,/Users/heweihan/New/img/background/back14.jpg,30,20
+back15,-16751002,/Users/heweihan/New/img/background/back15.jpg,30,20
+back16,-6710887,/Users/heweihan/New/img/background/back16.jpg,30,20
+back17,-16777114,/Users/heweihan/New/img/background/back17.jpg,30,20
+back18,-13395457,/Users/heweihan/New/img/background/back18.jpg,30,20
+back19,-26113,/Users/heweihan/New/img/background/back19.jpg,30,20
 tile_0195,-6684775,D:\newMap\img\tile\tile_0195.png,1,1
 tile_0196,-103,D:\newMap\img\tile\tile_0196.png,1,1
 tile_0197,-13159,D:\newMap\img\tile\tile_0197.png,1,1

@@ -21,7 +21,14 @@ public class CameraBackground extends GameObject{
         E1("/img/gameObj/background/back5.jpg"),
         F1("/img/gameObj/background/back6.jpg"),
         G1("/img/gameObj/background/back11.jpg"),
-        H1("/img/gameObj/background/back12.jpg");
+        H1("/img/gameObj/background/back12.jpg"),
+        Fanny13("/img/gameObj/background/back13.jpg"),
+        Fanny14("/img/gameObj/background/back14.jpg"),
+        Fanny15("/img/gameObj/background/back15.jpg"),
+        Fanny16("/img/gameObj/background/back16.jpg"),
+        Fanny17("/img/gameObj/background/back17.jpg"),
+        Fanny18("/img/gameObj/background/back18.jpg"),
+        Fanny19("/img/gameObj/background/back19.jpg");
         private Image img;
         Type(String path){
             img = ImageController.getInstance().tryGet(path);
