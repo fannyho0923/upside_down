@@ -156,12 +156,6 @@ public abstract class GameScene extends Scene {
             }
         });
 
-//        movePlatform.forEach(a -> {
-//            if (camera.isCollision(a)){
-//                a.paint(g);
-//            }
-//        });
-
         if (camera.isCollision(this.actor)) {
             this.actor.paint(g);
         }
@@ -176,6 +170,7 @@ public abstract class GameScene extends Scene {
     @Override
     public void update() {
         actor.update();
+
         for (int i = 0; i < brokenRoads.size(); i++) {
             GameObject obj = brokenRoads.get(i);
             if (actor.isCollision(obj)) {
@@ -188,22 +183,23 @@ public abstract class GameScene extends Scene {
             }
         }
 
-        boolean planCollision = false;
-        for (int i = 0; i < movePlatform.size(); i++){
-            GameObject obj = movePlatform.get(i);
-            if (actor.isCollision(obj)) {
-                obj.collisionEffect(actor);
-            }
-            if(actor.collider().isOverlap(obj.secondCollider())){
-                planCollision = true;
-            }
-            if(i==movePlatform.size()-1){
-                if(planCollision){
-                    obj.secondCollisionEffect(actor);
-                }
-            }
-            obj.update();
-        }
+//        boolean planCollision = false;
+//        for (int i = 0; i < movePlatform.size(); i++){
+//            GameObject obj = movePlatform.get(i);
+//            if (actor.isCollision(obj)) {
+//                obj.collisionEffect(actor);
+//            }
+//            if(actor.collider().isOverlap(obj.secondCollider())){
+//                planCollision = true;
+//            }
+//            if(i==movePlatform.size()-1){
+//                if(planCollision){
+//                    obj.secondCollisionEffect(actor);
+//                }
+//            }
+//            obj.update();
+//        }
+
 
         for (int i = 0; i < gameObjects.size(); i++) {
             GameObject obj = gameObjects.get(i);

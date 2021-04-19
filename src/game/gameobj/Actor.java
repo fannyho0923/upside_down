@@ -31,6 +31,7 @@ public class Actor extends GameObject {
     private int AnimateCount;
 
     private State lifeState;
+    private boolean stand;
 
     private int rebornX;
     private int rebornY;
@@ -64,7 +65,6 @@ public class Actor extends GameObject {
         if (AnimateDelay.count()){
             AnimateCount = AnimateCount++%8;
         }
-
         switch (fallDir){
             case UP:
                 switch (walkDir){
@@ -128,6 +128,7 @@ public class Actor extends GameObject {
 
     @Override
     public void update() {
+        this.stand = false;
         switch(walkDir){
             case RIGHT:
                 offsetX(WALK_SPEED);
@@ -142,8 +143,18 @@ public class Actor extends GameObject {
                 break;
             case DOWN:
                 offsetY(FALL_SPEED);
+                break;
         }
     }
+
+    public void setStand(boolean stand){
+        this.stand = stand;
+    }
+
+    public void beBlock(GameObject obj){
+
+    }
+
 
     public Global.Direction walkDir() {
         return walkDir;
@@ -194,40 +205,6 @@ public class Actor extends GameObject {
         this.setXY(rebornX,rebornY);
         this.fallDir = rebornDir;
         this.walkDir = Global.Direction.NO;
-    }
-
-    public void beBlock(GameObject obj){
-        // 物件移動角色時被阻擋
-        canReverse = true;
-
-        switch (walkDir){   //回覆走路狀態
-            case LEFT:
-                offsetX(WALK_SPEED);
-                break;
-            case RIGHT:
-                offsetX(-WALK_SPEED);
-                break;
-        }
-        if(this.isCollision(obj)){
-            // Y方向撞到
-            switch (fallDir){
-                case UP:
-                    this.setY(obj.collider().bottom() +1);
-                    break;
-                case DOWN:
-                    this.setY(obj.collider().top()-this.collider().height() -1);
-                    break;
-            }
-            switch (walkDir){   //回覆走路狀態
-                case LEFT:
-                    offsetX(-WALK_SPEED);
-                    break;
-                case RIGHT:
-                    offsetX(WALK_SPEED);
-                    break;
-            }
-        }
-
     }
 
     public void getKey(){
