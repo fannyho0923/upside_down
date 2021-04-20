@@ -73,7 +73,6 @@ public class Rubber extends GameObject{
                 if (delay.count()) {
                     count++;
                 }
-                System.out.println(count);
                 g.drawImage(imgEffect, painter().left(), painter().top(), painter().right(), painter().bottom(),
                         count * Global.UNIT_X64,
                         count/5 * Global.UNIT_X64,

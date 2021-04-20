@@ -62,15 +62,12 @@ public class Spike extends GameObject{
 
     @Override
     public void collisionEffect(Actor actor) {
-        AudioResourceController.getInstance().shot("/sound/blood.wav");
         if(actor.getState() == Actor.State.ALIVE){
+//            AudioResourceController.getInstance().shot("/sound/spike.wav");
             actor.dead();
-//            isTouch=true;
-//            delay.loop();
         }
         if (actor.getState()==Actor.State.DEAD){
-//            AudioResourceController.getInstance().shot("/sound/spike.wav");
-//            AudioResourceController.getInstance().shot("/sound/blood.wav");
+            AudioResourceController.getInstance().shot("/sound/blood_crop.wav");
             isTouch=true;
             delay.loop();
         }
