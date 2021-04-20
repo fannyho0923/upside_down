@@ -12,6 +12,7 @@ import game.menu.menu.Button;
 import game.menu.menu.Label;
 import game.menu.menu.impl.MouseTriggerImpl;
 import game.scene.BasicScene;
+import game.scene.Parkour;
 import game.scene.Scene;
 //import game.scene.TestGame;
 import game.utils.CommandSolver;
@@ -79,7 +80,7 @@ public class SelectActorPopScene extends Scene {
         start.setClickedActionPerformed((int x, int y) -> {
             for (int i = 1; i <= arrayList.size(); i++) {
                 if (arrayList.get(i-1).getIsFocus()) {
-                    SceneController.getInstance().change(new BasicScene(i));
+                    SceneController.getInstance().change(new Parkour(i));
                     return;
                 }
             }

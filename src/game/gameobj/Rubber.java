@@ -39,6 +39,7 @@ public class Rubber extends GameObject{
         this.type = type;
         isTouch = false;
         imgEffect = ImageController.getInstance().tryGet("/img/effect/rubberCollision.png");
+        delay = new Delay(5);
     }
 
     @Override
@@ -68,6 +69,7 @@ public class Rubber extends GameObject{
                 if (delay.count()) {
                     count++;
                 }
+                System.out.println(count);
                 g.drawImage(imgEffect, painter().left(), painter().top(), painter().right(), painter().bottom(),
                         count * Global.UNIT_X64,
                         count/5 * Global.UNIT_X64,
