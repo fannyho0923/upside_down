@@ -3,7 +3,6 @@ package game.menu.scene;
 import java.awt.*;
 import java.awt.event.MouseEvent;
 import java.util.ArrayList;
-import java.util.HashMap;
 
 import game.controller.AudioResourceController;
 import game.controller.ImageController;
@@ -14,7 +13,6 @@ import game.menu.menu.Label;
 import game.menu.menu.impl.MouseTriggerImpl;
 import game.scene.BasicScene;
 import game.scene.Scene;
-//import game.scene.TestGame;
 import game.utils.CommandSolver;
 import game.utils.Delay;
 import game.utils.Global;
@@ -80,7 +78,7 @@ public class SelectActorPopScene extends Scene {
         start.setClickedActionPerformed((int x, int y) -> {
             for (int i = 1; i <= arrayList.size(); i++) {
                 if (arrayList.get(i-1).getIsFocus()) {
-                    SceneController.getInstance().change(new BasicScene(i));
+                    SceneController.getInstance().change(new ModeScene(i));
                     return;
                 }
             }
@@ -124,7 +122,6 @@ public class SelectActorPopScene extends Scene {
     @Override
     public CommandSolver.MouseListener mouseListener() {
         return (MouseEvent e, CommandSolver.MouseState state, long trigTime) -> {
-
             MouseTriggerImpl.mouseTrig(start, e, state);
             MouseTriggerImpl.mouseTrig(back, e, state);
             MouseTriggerImpl.mouseTrig(a1, e, state);

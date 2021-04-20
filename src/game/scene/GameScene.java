@@ -3,16 +3,22 @@ package game.scene;
 import game.camera.Camera;
 import game.camera.MapInformation;
 import game.controller.AudioResourceController;
+import game.controller.SceneController;
 import game.gameobj.*;
 import game.maploader.MapInfo;
 import game.maploader.MapLoader;
+import game.menu.scene.MenuScene;
+import game.menu.scene.PopupWindowScene;
 import game.utils.CommandSolver;
 import game.utils.Global;
 import game.utils.Velocity;
 
 import javax.sound.sampled.Clip;
+import javax.swing.plaf.synth.SynthOptionPaneUI;
 import java.awt.*;
+import java.awt.event.KeyEvent;
 import java.io.IOException;
+import java.sql.SQLOutput;
 import java.util.ArrayList;
 
 
@@ -36,11 +42,30 @@ public abstract class GameScene extends Scene {
     private String mapTxtPath;
     private Spikes spikesUp;
     private Spikes spikesDown;
+    private PopupWindowScene testPop;
+
 
     public GameScene(String mapBmpPath, String mapTxtPath, Actor actor, GameObject background,
                      int cameraWidth, int cameraHeight, int cameraVelocityX, int cameraVelocityY,
-                     boolean actorTrigCamera){
+                     boolean actorTrigCamera) {
 
+        testPop = new PopupWindowScene(Global.WINDOW_WIDTH / 2 - 325, Global.WINDOW_HEIGHT / 2 - 225,
+                650, 450);
+        testPop.setRestartClicked((int x, int y) -> {
+            init(mapBmpPath,mapTxtPath,actor,background,
+                    cameraWidth,cameraHeight,cameraVelocityX,cameraVelocityY,
+                    actorTrigCamera);
+            this.testPop.hide();
+        });
+        testPop.setCancelable();
+        init(mapBmpPath,mapTxtPath,actor,background,
+                cameraWidth,cameraHeight,cameraVelocityX,cameraVelocityY,
+                actorTrigCamera);
+    }
+
+    public void init(String mapBmpPath, String mapTxtPath, Actor actor, GameObject background,
+                     int cameraWidth, int cameraHeight, int cameraVelocityX, int cameraVelocityY,
+                     boolean actorTrigCamera){
         gameObjects = new ArrayList<>();
         orinBrokenRoads = new ArrayList<>();
         movePlatform = new ArrayList<>();
@@ -52,20 +77,20 @@ public abstract class GameScene extends Scene {
         this.actor = actor;
 //        frameX_count = gameObjects.get(0).collider().left() / cameraWidth;
 //        frameY_count = gameObjects.get(0).collider().top() / cameraHeight;
-        frameX_count=0;
-        frameY_count=0;
+        frameX_count = 0;
+        frameY_count = 0;
 
 //        actor.setXY(gameObjects.get(0).painter().left(),gameObjects.get(0).painter().top());
-        actor.setXY(370,60);
+        actor.setXY(370, 60);
         actor.setRebornX(actor.painter().left());
         actor.setRebornY(actor.painter().top());
 
         this.background = background;
 
-        int cameraStartX = cameraWidth*frameX_count;
-        int cameraStartY = cameraHeight*frameY_count;
+        int cameraStartX = cameraWidth * frameX_count;
+        int cameraStartY = cameraHeight * frameY_count;
         this.tracker = new Tracker(cameraStartX + (cameraWidth - Global.UNIT) / 2,
-                cameraStartY +(cameraHeight - Global.UNIT)/2, new Velocity(cameraVelocityX,cameraVelocityY,0,0,false));
+                cameraStartY + (cameraHeight - Global.UNIT) / 2, new Velocity(cameraVelocityX, cameraVelocityY, 0, 0, false));
         this.actorTrigCamera = actorTrigCamera;
         camera = new Camera.Builder(cameraWidth, cameraHeight)
                 .setChaseObj(tracker)
@@ -74,12 +99,12 @@ public abstract class GameScene extends Scene {
 
     @Override
     public void sceneBegin() {
-        AudioResourceController.getInstance().loop("/sound/Battle-Dawn-crop-reduce.wav",50);
+        AudioResourceController.getInstance().loop("/sound/Battle-Dawn-crop-reduce.wav", 50);
 
         brokenRoads = (ArrayList) orinBrokenRoads.clone();
 
         MapInformation.getInstance().setMapInfo(this.background);
-        if(actorTrigCamera){
+        if (actorTrigCamera) {
             tracker.velocity().stop();
         }
 //        spikesDown = new Spikes(camera.painter().left(),camera.painter().top(),camera.painter().width(), 32, 2 );
@@ -110,9 +135,18 @@ public abstract class GameScene extends Scene {
                         actor.rightSpeedUp(true);
                         break;
                     case Global.VK_SPACE:
-                        if(actor.canReverse()){
+                        if (actor.canReverse()) {
                             actor.velocity().gravityReverse();
                             actor.setCanReverse(false);
+                        }
+                        break;
+                    case Global.VK_SHIFT:
+                        if (testPop.isShow()) {
+                            testPop.hide();
+                            testPop.sceneEnd();
+                        } else {
+                            testPop.sceneBegin();
+                            testPop.show();
                         }
                         break;
                 }
@@ -136,13 +170,18 @@ public abstract class GameScene extends Scene {
 
             @Override
             public void keyTyped(char c, long trigTime) {
+
             }
         };
     }
 
     @Override
     public CommandSolver.MouseListener mouseListener() {
-        return null;
+        return (e, state, trigTime) -> {
+            if (testPop.isShow()) {
+                testPop.mouseListener().mouseTrig(e,state,trigTime);
+            }
+        };
     }
 
     @Override
@@ -177,90 +216,97 @@ public abstract class GameScene extends Scene {
 
         camera.paint(g);
         camera.end(g);
+
+        if (testPop.isShow()) {
+            testPop.paint(g);
+        }
     }
 
     @Override
     public void update() {
-        actor.update();
-
-        for (int i = 0; i < brokenRoads.size(); i++) {
-            GameObject obj = brokenRoads.get(i);
-            if (actor.isCollision(obj)) {
-                obj.collisionEffect(actor);
-            }
-            obj.update();
-            if(!obj.isExist()){
-                obj.setExist(true);
-                brokenRoads.remove(i);
-            }
-        }
-
-        boolean planCollision = false;
-        for (int i = 0; i < movePlatform.size(); i++){
-            GameObject obj = movePlatform.get(i);
-            if (actor.isCollision(obj)) {
-                obj.collisionEffect(actor);
-            }
-            if(actor.collider().isOverlap(obj.secondCollider())){
-                planCollision = true;
-            }
-            if(i==movePlatform.size()-1){
-                if(planCollision){
-                    obj.secondCollisionEffect(actor);
+        if (!testPop.isShow()) {
+            actor.update();
+            for (int i = 0; i < brokenRoads.size(); i++) {
+                GameObject obj = brokenRoads.get(i);
+                if (actor.isCollision(obj)) {
+                    obj.collisionEffect(actor);
+                }
+                obj.update();
+                if (!obj.isExist()) {
+                    obj.setExist(true);
+                    brokenRoads.remove(i);
                 }
             }
-            obj.update();
-        }
-
-        for (int i = 0; i < gameObjects.size(); i++) {
-            GameObject obj = gameObjects.get(i);
-            if (actor.isCollision(obj)) {
-                obj.collisionEffect(actor);
+            boolean planCollision = false;
+            for (int i = 0; i < movePlatform.size(); i++) {
+                GameObject obj = movePlatform.get(i);
+                if (actor.isCollision(obj)) {
+                    obj.collisionEffect(actor);
+                }
+                if (actor.collider().isOverlap(obj.secondCollider())) {
+                    planCollision = true;
+                }
+                if (i == movePlatform.size() - 1) {
+                    if (planCollision) {
+                        obj.secondCollisionEffect(actor);
+                    }
+                }
+                obj.update();
             }
-            obj.update();
-            if(!obj.isExist()){
-                gameObjects.remove(i);
+
+
+            for (int i = 0; i < gameObjects.size(); i++) {
+                GameObject obj = gameObjects.get(i);
+                if (actor.isCollision(obj)) {
+                    obj.collisionEffect(actor);
+                }
+                obj.update();
+                if (!obj.isExist()) {
+                    gameObjects.remove(i);
+                }
             }
-        }
 
-        actor.shift();
-
-        camera.update();
+            actor.shift();
+            camera.update();
 //        cameraBack.setXY(camera.painter().left(),camera.painter().top());
-        // 瞬間移動, 暫時還沒用到tracker 的速度
-        if(actorTrigCamera){
-            if (actor.painter().centerX() < camera.painter().left()) {       // 左
-                frameX_count--;
-                brokenRoads = (ArrayList) orinBrokenRoads.clone();
-            }
-            if (actor.painter().centerY() < camera.painter().top()) {        // 上
-                frameY_count--;
-                brokenRoads = (ArrayList) orinBrokenRoads.clone();
-            }
-            if (actor.painter().centerX() > camera.painter().right()) {     // 右
-                frameX_count++;
-                brokenRoads = (ArrayList) orinBrokenRoads.clone();
-            }
-            if (actor.painter().centerY() > camera.painter().bottom()) {   // 下
-                frameY_count++;
-                brokenRoads = (ArrayList) orinBrokenRoads.clone();
-            }
-            tracker.setX( (camera.painter().width() - Global.UNIT) / 2 +
-                    (camera.painter().width()*frameX_count));
-            tracker.setY( (camera.painter().height() - Global.UNIT) / 2 +
-                    camera.painter().height()*frameY_count);
-        }else{
-            tracker.update();
-            if (actor.collider().right() <= camera.collider().left()) {//work left
-                actor.setXY(camera.collider().right() - 1, actor.painter().top());
-                return;
-            }
-            if (actor.collider().left() >= camera.collider().right()) {
-                actor.setXY(camera.collider().left() - actor.painter().width() + 1, actor.painter().top());
-                return;
-            }
+            // 瞬間移動, 暫時還沒用到tracker 的速度
+            if (actorTrigCamera) {
+                if (actor.painter().centerX() < camera.painter().left()) {       // 左
+                    frameX_count--;
+                    brokenRoads = (ArrayList) orinBrokenRoads.clone();
+                }
+                if (actor.painter().centerY() < camera.painter().top()) {        // 上
+                    frameY_count--;
+                    brokenRoads = (ArrayList) orinBrokenRoads.clone();
+                }
+                if (actor.painter().centerX() > camera.painter().right()) {     // 右
+                    frameX_count++;
+                    brokenRoads = (ArrayList) orinBrokenRoads.clone();
+                }
+                if (actor.painter().centerY() > camera.painter().bottom()) {   // 下
+                    frameY_count++;
+                    brokenRoads = (ArrayList) orinBrokenRoads.clone();
+                }
+                tracker.setX((camera.painter().width() - Global.UNIT) / 2 +
+                        (camera.painter().width() * frameX_count));
+                tracker.setY((camera.painter().height() - Global.UNIT) / 2 +
+                        camera.painter().height() * frameY_count);
+            } else {
+                tracker.update();
+                if (actor.collider().right() <= camera.collider().left()) {//work left
+                    actor.setXY(camera.collider().right() - 1, actor.painter().top());
+                    return;
+                }
+                if (actor.collider().left() >= camera.collider().right()) {
+                    actor.setXY(camera.collider().left() - actor.painter().width() + 1, actor.painter().top());
+                    return;
+                }
 //            spikesDown.painter().setXY(camera.painter().left(),camera.painter().top()-5); // 為什麼會不貼邊??
 //            spikesUp.painter().setXY(camera.painter().left(),camera.painter().top() + camera.painter().height() - spikesUp.painter().height());
+            }
+        }
+        else {
+            testPop.update();
         }
     }
 

@@ -69,4 +69,52 @@ public class MouseTriggerImpl {
             }
         }
     }
+    public static void mouseTrig(Label obj, MouseEvent e, int offsetX, int offsetY, CommandSolver.MouseState state) {
+        boolean isOval = (obj.getPaintStyle() instanceof Style.StyleOval);
+        if(e == null){
+            return;
+        }
+        int x = e.getX() - offsetX;
+        int y = e.getY() - offsetY;
+        if (state == CommandSolver.MouseState.RELEASED && (obj instanceof Button)) {
+            obj.unFocus();
+        }
+        if (state == CommandSolver.MouseState.MOVED) {
+            if (isOval) {
+                if (ovalOverlap(obj, x, y)) {
+                    obj.isHover();
+                } else {
+                    obj.unHover();
+                }
+            } else {
+                if (rectOverlap(obj, x, y)) {
+                    obj.isHover();
+                } else {
+                    obj.unHover();
+                }
+            }
+        }
+
+        if (state == CommandSolver.MouseState.PRESSED) {
+            if (isOval) {
+                if (ovalOverlap(obj, x, y)) {
+                    obj.isFocus();
+                    if (obj.getClickedAction() != null) {
+                        obj.clickedActionPerformed();
+                    }
+                } else {
+                    obj.unFocus();
+                }
+            } else {
+                if (rectOverlap(obj, x, y)) {
+                    obj.isFocus();
+                    if (obj.getClickedAction() != null) {
+                        obj.clickedActionPerformed();
+                    }
+                } else {
+                    obj.unFocus();
+                }
+            }
+        }
+    }
 }

@@ -8,8 +8,8 @@ public class Global {
     //測試模式
     public static final boolean IS_DEBUG = true;
     //視窗大小
-    public static final int WINDOW_WIDTH = 1024;//960
-    public static final int WINDOW_HEIGHT = 760;//672
+    public static final int WINDOW_WIDTH = 960;//9601024
+    public static final int WINDOW_HEIGHT = 640;//672760
     //資料刷新時間
     public static final int UPDATE_TIMES_PER_SEC = 60;// 每秒更新60次遊戲邏輯
     public static final long NANOSECOND_PER_UPDATE = 1000000000 / UPDATE_TIMES_PER_SEC;// 每一次更新要花費的奈秒數
@@ -25,11 +25,12 @@ public class Global {
     // 連跳次數, 寫好玩的, 不會用到
     public static final int continueJump = 2;
 
-    public static final int VK_ENTER = 100;
+    public static final int VK_ENTER = 100;//100是極限
     public static final int VK_LEFT = 1;
     public static final int VK_RIGHT = 2;
     public static final int VK_SPACE = 3;
     public static final int VK_A = 4;
+    public static final int VK_SHIFT = 20;
 
     //人物大小單位
     public static int UNIT_X32=32;

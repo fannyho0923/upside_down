@@ -129,8 +129,6 @@ public abstract class GameObject implements GameKernel.UpdateInterface, GameKern
         return this.collider.bottom() >= MapInformation.getInstance().bottom();
     }
 
-
-
     public boolean isExist(){
         return isExist;
     }

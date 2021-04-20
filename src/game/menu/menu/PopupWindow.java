@@ -11,6 +11,7 @@ import game.menu.scene.MenuScene;
 import game.scene.Scene;
 import game.utils.CommandSolver;
 import game.utils.CommandSolver.MouseListener;
+import game.menu.menu.impl.MouseTriggerImpl;
 
 public abstract class PopupWindow extends Scene {
 
@@ -57,7 +58,7 @@ public abstract class PopupWindow extends Scene {
 
     @Override
     public final void paint(Graphics g) {
-        g.drawImage(ImageController.getInstance().tryGet("/img/mmm.png"), 0,0,1024, 760,null);
+        g.drawImage(ImageController.getInstance().tryGet("/img/taskBackground.png"), 0,0,1024, 760,null);
         Graphics2D g2d = (Graphics2D) g;
         AffineTransform tf = g2d.getTransform();
         g2d.translate(x, y);
@@ -101,7 +102,7 @@ public abstract class PopupWindow extends Scene {
     public abstract void update();
 
     @Override
-    public final MouseListener mouseListener() {
+    public  CommandSolver.MouseListener mouseListener() {
         return (MouseEvent e, CommandSolver.MouseState state, long trigTime) -> {
             if (e == null) {
                 return;
@@ -110,7 +111,7 @@ public abstract class PopupWindow extends Scene {
                 isCancelableHide(e, state, trigTime);
             }
             e.translatePoint(-x, -y);
-            mouseTrig(e, state, trigTime);
+//            mouseTrig(e, state, trigTime);
             if (isShow == false) {
                 sceneEnd();
             }
@@ -126,6 +127,6 @@ public abstract class PopupWindow extends Scene {
         }
     }
 
-    protected abstract void mouseTrig(MouseEvent e, CommandSolver.MouseState state, long trigTime);
+//    protected abstract void mouseTrig(MouseEvent e, CommandSolver.MouseState state, long trigTime);
 
 }

@@ -8,6 +8,9 @@ import game.menu.menu.BackgroundType;
 import game.menu.menu.Style;
 import game.menu.menu.Theme;
 import game.menu.scene.MenuScene;
+import game.menu.scene.ModeScene;
+import game.menu.scene.PopupWindowScene;
+import game.menu.scene.SelectActorPopScene;
 import game.utils.CommandSolver;
 import game.utils.GameKernel;
 import game.utils.Global;
@@ -23,7 +26,7 @@ public class Main {// 資料刷新時間
         initTheme();
         final JFrame jFrame = new JFrame();
         final SceneController sceneController = SceneController.getInstance();
-        sceneController.change(new MenuScene());
+        sceneController.change(new ModeScene(3));
         final GameKernel gameKernel = new GameKernel.Builder()
                 .input(new CommandSolver.BuildStream()
                         .mouseTrack().forceRelease().subscribe(sceneController)
@@ -32,6 +35,7 @@ public class Main {// 資料刷新時間
                         .add(KeyEvent.VK_LEFT, Global.VK_LEFT)
                         .add(KeyEvent.VK_RIGHT, Global.VK_RIGHT)
                         .add(KeyEvent.VK_SPACE, Global.VK_SPACE)
+                        .add(KeyEvent.VK_SHIFT, Global.VK_SHIFT)
                         .add(KeyEvent.VK_A, Global.VK_A)
                         .next().keyTypedMode().subscribe(sceneController)
                 )
@@ -154,5 +158,202 @@ public class Main {// 資料刷新時間
                         .setBorderColor(new Color(231, 8, 37))
                         .setBorderThickness(5)
         ));
+
+        //4
+        //mode1
+        Theme.add(new Theme(new Style.StyleOval(200, 200, true, new BackgroundType.BackgroundColor(Color.YELLOW))
+                        .setTextColor(new Color(128, 128, 128))
+                        .setHaveBorder(true)
+                        .setBorderColor(new Color(255, 215, 0))
+                        .setBorderThickness(5)
+                        .setTextFont(new Font("", Font.TYPE1_FONT, 30))
+                        .setText("lv1"),
+                new Style.StyleOval(200, 200, true, new BackgroundType.BackgroundColor(new Color(184, 134, 11)))
+                        .setTextColor(Color.BLACK)
+                        .setHaveBorder(true)
+                        .setBorderColor(new Color(230, 184, 0))
+                        .setBorderThickness(5)
+                        .setTextFont(new Font("", Font.TYPE1_FONT, 28))
+                        .setText("lv1"),
+                new Style.StyleOval(200, 200, new BackgroundType.BackgroundImage(ImageController.getInstance().tryGet("")))
+                        .setHaveBorder(true)
+                        .setBorderColor(Color.WHITE)
+                        .setBorderThickness(5)
+                        .setTextFont(new Font("", Font.TYPE1_FONT, 30))
+                        .setText("lv1")));
+        //5
+        //mode1
+        Theme.add(new Theme(new Style.StyleOval(200, 200, true, new BackgroundType.BackgroundColor(Color.YELLOW))
+                        .setTextColor(new Color(128, 128, 128))
+                        .setHaveBorder(true)
+                        .setBorderColor(new Color(255, 215, 0))
+                        .setBorderThickness(5)
+                        .setTextFont(new Font("", Font.TYPE1_FONT, 30))
+                        .setText("lv2"),
+                new Style.StyleOval(200, 200, true, new BackgroundType.BackgroundColor(new Color(184, 134, 11)))
+                        .setTextColor(Color.BLACK)
+                        .setHaveBorder(true)
+                        .setBorderColor(new Color(230, 184, 0))
+                        .setBorderThickness(5)
+                        .setTextFont(new Font("", Font.TYPE1_FONT, 28))
+                        .setText("lv2"),
+                new Style.StyleOval(200, 200, new BackgroundType.BackgroundImage(ImageController.getInstance().tryGet("")))
+                        .setHaveBorder(true)
+                        .setBorderColor(Color.WHITE)
+                        .setBorderThickness(5)
+                        .setTextFont(new Font("", Font.TYPE1_FONT, 30))
+                        .setText("lv2")));
+        //6
+        //mode3
+        Theme.add(new Theme(new Style.StyleOval(200, 200, true, new BackgroundType.BackgroundColor(Color.YELLOW))
+                .setTextColor(new Color(128, 128, 128))
+                .setHaveBorder(true)
+                .setBorderColor(new Color(255, 215, 0))
+                .setBorderThickness(5)
+                .setTextFont(new Font("", Font.TYPE1_FONT, 30))
+                .setText("lv3"),
+                new Style.StyleOval(200, 200, true, new BackgroundType.BackgroundColor(new Color(184, 134, 11)))
+                        .setTextColor(Color.BLACK)
+                        .setHaveBorder(true)
+                        .setBorderColor(new Color(230, 184, 0))
+                        .setBorderThickness(5)
+                        .setTextFont(new Font("", Font.TYPE1_FONT, 28))
+                        .setText("lv3"),
+                new Style.StyleOval(200, 200, new BackgroundType.BackgroundImage(ImageController.getInstance().tryGet("")))
+                        .setHaveBorder(true)
+                        .setBorderColor(Color.WHITE)
+                        .setBorderThickness(5)
+                        .setTextFont(new Font("", Font.TYPE1_FONT, 30))
+                        .setText("lv3")));
+        //7
+        //mode4
+        Theme.add(new Theme(new Style.StyleOval(200, 200, true, new BackgroundType.BackgroundColor(Color.YELLOW))
+                .setTextColor(new Color(128, 128, 128))
+                .setHaveBorder(true)
+                .setBorderColor(new Color(255, 215, 0))
+                .setBorderThickness(5)
+                .setTextFont(new Font("", Font.TYPE1_FONT, 30))
+                .setText("lv4"),
+                new Style.StyleOval(200, 200, true, new BackgroundType.BackgroundColor(new Color(184, 134, 11)))
+                        .setTextColor(Color.BLACK)
+                        .setHaveBorder(true)
+                        .setBorderColor(new Color(230, 184, 0))
+                        .setBorderThickness(5)
+                        .setTextFont(new Font("", Font.TYPE1_FONT, 28))
+                        .setText("lv4"),
+                new Style.StyleOval(200, 200, new BackgroundType.BackgroundImage(ImageController.getInstance().tryGet("")))
+                        .setHaveBorder(true)
+                        .setBorderColor(Color.WHITE)
+                        .setBorderThickness(5)
+                        .setTextFont(new Font("", Font.TYPE1_FONT, 30))
+                        .setText("lv4")));
+        //8
+        //mode5
+        Theme.add(new Theme(new Style.StyleOval(200, 200, true, new BackgroundType.BackgroundColor(Color.YELLOW))
+                .setTextColor(new Color(128, 128, 128))
+                .setHaveBorder(true)
+                .setBorderColor(new Color(255, 215, 0))
+                .setBorderThickness(5)
+                .setTextFont(new Font("", Font.TYPE1_FONT, 30))
+                .setText("lv5"),
+                new Style.StyleOval(200, 200, true, new BackgroundType.BackgroundColor(new Color(184, 134, 11)))
+                        .setTextColor(Color.BLACK)
+                        .setHaveBorder(true)
+                        .setBorderColor(new Color(230, 184, 0))
+                        .setBorderThickness(5)
+                        .setTextFont(new Font("", Font.TYPE1_FONT, 28))
+                        .setText("lv5"),
+                new Style.StyleOval(200, 200, new BackgroundType.BackgroundImage(ImageController.getInstance().tryGet("")))
+                        .setHaveBorder(true)
+                        .setBorderColor(Color.WHITE)
+                        .setBorderThickness(5)
+                        .setTextFont(new Font("", Font.TYPE1_FONT, 30))
+                        .setText("lv5")));
+
+        //9
+        //pop back to Menu button
+        Theme.add(new Theme(
+                //normal
+                new Style.StyleRect(100, 50, false, new BackgroundType.BackgroundNull())
+                        .setText("Menu")
+                        .setTextFont(new Font("TimesRoman", Font.BOLD, 30))
+                        .setTextColor(Color.WHITE)
+                        .setHaveBorder(false)
+                        .setBorderColor(new Color(222, 29, 88))
+                        .setBorderThickness(5),
+                //HOVER
+                new Style.StyleRect(100, 50, false, new BackgroundType.BackgroundNull())
+                        .setHaveBorder(false)
+                        .setBorderColor(Color.WHITE)
+                        .setBorderThickness(5)
+                        .setText("Menu")
+                        .setTextColor(new Color(220, 46, 106, 238))
+                        .setTextFont(new Font("TimesRoman", Font.BOLD, 30)),
+                //FOCUS
+                new Style.StyleRect(100, 50, false, new BackgroundType.BackgroundNull())
+                        .setText("Menu")
+                        .setTextFont(new Font("TimesRoman", Font.BOLD, 35))
+                        .setTextColor(new Color(162, 176, 198))
+                        .setHaveBorder(false)
+                        .setBorderColor(new Color(231, 8, 37))
+                        .setBorderThickness(5)
+        ));
+        //10
+        //pop continue button
+        Theme.add(new Theme(
+                //normal
+                new Style.StyleRect(100, 50, false, new BackgroundType.BackgroundNull())
+                        .setText("Continue")
+                        .setTextFont(new Font("TimesRoman", Font.BOLD, 30))
+                        .setTextColor(Color.WHITE)
+                        .setHaveBorder(false)
+                        .setBorderColor(new Color(222, 29, 88))
+                        .setBorderThickness(5),
+                //HOVER
+                new Style.StyleRect(100, 50, false, new BackgroundType.BackgroundNull())
+                        .setHaveBorder(false)
+                        .setBorderColor(Color.WHITE)
+                        .setBorderThickness(5)
+                        .setText("Continue")
+                        .setTextColor(new Color(220, 46, 106, 238))
+                        .setTextFont(new Font("TimesRoman", Font.BOLD, 30)),
+                //FOCUS
+                new Style.StyleRect(100, 50, false, new BackgroundType.BackgroundNull())
+                        .setText("Continue")
+                        .setTextFont(new Font("TimesRoman", Font.BOLD, 35))
+                        .setTextColor(new Color(162, 176, 198))
+                        .setHaveBorder(false)
+                        .setBorderColor(new Color(231, 8, 37))
+                        .setBorderThickness(5)
+        ));
+        //11
+        //pop restart button
+        Theme.add(new Theme(
+                //normal
+                new Style.StyleRect(100, 50, false, new BackgroundType.BackgroundNull())
+                        .setText("Restart")
+                        .setTextFont(new Font("TimesRoman", Font.BOLD, 30))
+                        .setTextColor(Color.WHITE)
+                        .setHaveBorder(false)
+                        .setBorderColor(new Color(222, 29, 88))
+                        .setBorderThickness(5),
+                //HOVER
+                new Style.StyleRect(100, 50, false, new BackgroundType.BackgroundNull())
+                        .setHaveBorder(false)
+                        .setBorderColor(Color.WHITE)
+                        .setBorderThickness(5)
+                        .setText("Restart")
+                        .setTextColor(new Color(220, 46, 106, 238))
+                        .setTextFont(new Font("TimesRoman", Font.BOLD, 30)),
+                //FOCUS
+                new Style.StyleRect(100, 50, false, new BackgroundType.BackgroundNull())
+                        .setText("Restart")
+                        .setTextFont(new Font("TimesRoman", Font.BOLD, 35))
+                        .setTextColor(new Color(162, 176, 198))
+                        .setHaveBorder(false)
+                        .setBorderColor(new Color(231, 8, 37))
+                        .setBorderThickness(5)
+        ));
+
     }
 }

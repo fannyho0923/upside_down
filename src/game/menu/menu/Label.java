@@ -11,7 +11,7 @@ public class Label implements GameKernel.UpdateInterface, GameKernel.PaintInterf
     }
     private ClickedAction clickAction;
 
-    public void setClickedActionPerformed(ClickedAction a) {
+    public void  setClickedActionPerformed(ClickedAction a) {
         clickAction = a;
     }
 
