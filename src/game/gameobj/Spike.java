@@ -5,9 +5,12 @@ import game.controller.ImageController;
 import game.utils.Delay;
 import game.utils.Global;
 import java.awt.*;
+import java.util.ArrayList;
 
 public class Spike extends GameObject{
     private Type type;
+    private boolean isTouch;
+    private ArrayList<Image> imageArrayList;
 
     public enum Type{
         left("/img/gameObj/spike/spike_left.png"),
@@ -22,10 +25,20 @@ public class Spike extends GameObject{
     }
 
     private Delay delay;
+    private int count;
+    private Delay delayEach;
     public Spike(int top, int left, Type type) {
         super(top,left, Global.UNIT,Global.UNIT);
         this.type = type;
         delay = new Delay(5);
+        count = 0;
+        //delayEach = new Delay(3);
+        isTouch = false;
+        imageArrayList = new ArrayList<>();
+        imageArrayList.add(ImageController.getInstance().tryGet("/img/effect/spikeBlood_1.png"));
+        imageArrayList.add(ImageController.getInstance().tryGet("/img/effect/spikeBlood_2.png"));
+        imageArrayList.add(ImageController.getInstance().tryGet("/img/effect/spikeBlood_3.png"));
+        imageArrayList.add(ImageController.getInstance().tryGet("/img/effect/spikeBlood_4.png"));
 
         switch (type){
             case left:
@@ -52,6 +65,8 @@ public class Spike extends GameObject{
         if(actor.getState() == Actor.State.ALIVE){
             AudioResourceController.getInstance().shot("/sound/spike.wav");
             actor.dead();
+            isTouch=true;
+            delay.loop();
         }
     }
 
@@ -60,10 +75,21 @@ public class Spike extends GameObject{
         g.drawImage(type.img, painter().left(), painter().top(), null);
         g.setColor(Color.RED);
         g.drawRect(collider().left(),collider().top(),collider().width(),collider().height());
+        if (isTouch){
+            if(count < 4) {
+                g.drawImage(imageArrayList.get(count), painter().left(), painter().top(), null);
+                if (delay.count()) {
+                    count++;
+                }
+            }else {
+                delay.pause();
+                count = 0;
+                isTouch = false;
+            }
+        }
     }
 
     @Override
     public void update() {
-
     }
 }
