@@ -193,7 +193,7 @@ public class Actor extends GameObject {
 
     public void dead() {
         if (state == State.ALIVE) {
-            AudioResourceController.getInstance().play("/sound/dead.wav");
+//            AudioResourceController.getInstance().play("/sound/dead.wav");
             state = State.DEAD;
         }
     }

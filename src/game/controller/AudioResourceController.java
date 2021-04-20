@@ -5,6 +5,7 @@ import java.io.IOException;
 import java.net.URISyntaxException;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.logging.FileHandler;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.sound.sampled.AudioInputStream;
@@ -59,6 +60,10 @@ public class AudioResourceController {
 
     public void shot(final String fileName) {
         new ClipThread(fileName, 1, this.finishHandler).start();
+    }
+
+    public void shot(final String fileName, ClipThread.FinishHandler finishHandler) {
+        new ClipThread(fileName, 1, finishHandler).start();
     }
 
     public void loop(final String fileName, final int count) {

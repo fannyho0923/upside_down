@@ -4,6 +4,8 @@ import game.controller.AudioResourceController;
 import game.controller.ImageController;
 import game.utils.Delay;
 import game.utils.Global;
+
+import javax.sound.sampled.Clip;
 import java.awt.*;
 import java.util.ArrayList;
 
@@ -29,7 +31,7 @@ public class Spike extends GameObject{
     public Spike(int top, int left, Type type) {
         super(top,left, Global.UNIT,Global.UNIT);
         this.type = type;
-        delay = new Delay(5);
+        delay = new Delay(10);
         count = 0;
         isTouch = false;
         imageArrayList = new ArrayList<>();
@@ -60,9 +62,15 @@ public class Spike extends GameObject{
 
     @Override
     public void collisionEffect(Actor actor) {
+        AudioResourceController.getInstance().shot("/sound/blood.wav");
         if(actor.getState() == Actor.State.ALIVE){
-            AudioResourceController.getInstance().shot("/sound/spike.wav");
             actor.dead();
+//            isTouch=true;
+//            delay.loop();
+        }
+        if (actor.getState()==Actor.State.DEAD){
+//            AudioResourceController.getInstance().shot("/sound/spike.wav");
+//            AudioResourceController.getInstance().shot("/sound/blood.wav");
             isTouch=true;
             delay.loop();
         }
@@ -74,7 +82,6 @@ public class Spike extends GameObject{
         g.setColor(Color.RED);
         g.drawRect(collider().left(),collider().top(),collider().width(),collider().height());
         if (isTouch){
-            AudioResourceController.getInstance().shot("/sound/blood.wav");
             if(count < 4) {
                 g.drawImage(imageArrayList.get(count), painter().left(), painter().top(), null);
                 if (delay.count()) {
