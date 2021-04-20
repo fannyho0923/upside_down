@@ -46,7 +46,7 @@ public class Rubber extends GameObject{
     @Override
     public void collisionEffect(Actor actor) {
         if(actor.getState() == Actor.State.ALIVE) {
-            AudioResourceController.getInstance().shot("/sound/rubber.wav");
+            AudioResourceController.getInstance().shot("/sound/rubber_reduce.wav");
         }
         if(type.dir == Direction.horizontal){
             if(actor.velocity().y() < 0){ //up
