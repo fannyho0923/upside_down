@@ -1,5 +1,6 @@
 package game.gameobj;
 
+import game.controller.AudioResourceController;
 import game.controller.ImageController;
 import game.utils.Global;
 import game.utils.Delay;
@@ -44,6 +45,9 @@ public class Rubber extends GameObject{
 
     @Override
     public void collisionEffect(Actor actor) {
+        if(actor.getState() == Actor.State.ALIVE) {
+            AudioResourceController.getInstance().shot("/sound/rubber.wav");
+        }
         if(type.dir == Direction.horizontal){
             if(actor.velocity().y() < 0){ //up
                 actor.setY(this.collider().bottom()+1);
