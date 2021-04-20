@@ -74,6 +74,7 @@ public class Spike extends GameObject{
         g.setColor(Color.RED);
         g.drawRect(collider().left(),collider().top(),collider().width(),collider().height());
         if (isTouch){
+            AudioResourceController.getInstance().shot("/sound/blood.wav");
             if(count < 4) {
                 g.drawImage(imageArrayList.get(count), painter().left(), painter().top(), null);
                 if (delay.count()) {

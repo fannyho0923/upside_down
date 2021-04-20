@@ -87,6 +87,10 @@ public class MenuScene extends Scene {
             MouseTriggerImpl.mouseTrig(button2, e, state);
             MouseTriggerImpl.mouseTrig(rankButton, e, state);
 
+            playConfirm(button1);
+            playConfirm(button2);
+            playConfirm(rankButton);
+
             if((button1.getIsHover())&&(!isPlayed1)){
                 AudioResourceController.getInstance().shot("/sound/tab.wav");
                 isPlayed1=true;
@@ -111,9 +115,6 @@ public class MenuScene extends Scene {
                 isPlayed3=false;
             }
 
-            playConfirm(button1);
-            playConfirm(button2);
-            playConfirm(rankButton);
         };
     }
 
