@@ -201,10 +201,14 @@ public abstract class GameScene extends Scene {
         camera.paint(g);
         camera.end(g);
 
+        midPaint(g);
+
         if (testPop.isShow()) {
             testPop.paint(g);
         }
     }
+
+    public void midPaint(Graphics g){}
 
     @Override
     public void update() {
