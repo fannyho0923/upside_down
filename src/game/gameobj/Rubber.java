@@ -9,7 +9,6 @@ import java.awt.*;
 public class Rubber extends GameObject{
 
     private Type type;
-    private boolean isTouch;
 
     public enum Type{
         h1("/img/gameObj/rubber/rubber_h1.png",Direction.horizontal),
@@ -34,7 +33,6 @@ public class Rubber extends GameObject{
     public Rubber(int left, int top, Type type) {
         super(left, top, Global.UNIT, Global.UNIT);
         this.type = type;
-        isTouch = false;
     }
 
     @Override
