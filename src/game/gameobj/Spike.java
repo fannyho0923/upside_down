@@ -26,7 +26,6 @@ public class Spike extends GameObject{
 
     private Delay delay;
     private int count;
-    private Delay delayEach;
     public Spike(int top, int left, Type type) {
         super(top,left, Global.UNIT,Global.UNIT);
         this.type = type;

@@ -9,6 +9,10 @@ import java.awt.*;
 public class Rubber extends GameObject{
 
     private Type type;
+    private boolean isTouch;
+    private Delay delay;
+    private int count;
+    private Image imgEffect;
 
     public enum Type{
         h1("/img/gameObj/rubber/rubber_h1.png",Direction.horizontal),
@@ -33,6 +37,8 @@ public class Rubber extends GameObject{
     public Rubber(int left, int top, Type type) {
         super(left, top, Global.UNIT, Global.UNIT);
         this.type = type;
+        isTouch = false;
+        imgEffect = ImageController.getInstance().tryGet("/img/effect/rubberCollision.png");
     }
 
     @Override
@@ -50,11 +56,29 @@ public class Rubber extends GameObject{
             // actor.velocity().gravityReverse();
             actor.setCanReverse(true);
         }
+        isTouch=true;
+        delay.loop();
     }
 
     @Override
     public void paint(Graphics g) {
         g.drawImage(type.img, painter().left(), painter().top(), null);
+        if (isTouch){
+            if(count < 10) {
+                if (delay.count()) {
+                    count++;
+                }
+                g.drawImage(imgEffect, painter().left(), painter().top(), painter().right(), painter().bottom(),
+                        count * Global.UNIT_X64,
+                        count/5 * Global.UNIT_X64,
+                        count * Global.UNIT_X64 + Global.UNIT_X64,
+                        count/5 * Global.UNIT_X64 + Global.UNIT_Y64, null);
+            }else {
+                delay.pause();
+                count = 0;
+                isTouch = false;
+            }
+        }
     }
 
     @Override
