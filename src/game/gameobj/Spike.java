@@ -4,12 +4,9 @@ import game.controller.AudioResourceController;
 import game.controller.ImageController;
 import game.utils.Delay;
 import game.utils.Global;
-
 import java.awt.*;
 
 public class Spike extends GameObject{
-
-
     private Type type;
 
     public enum Type{
@@ -19,7 +16,6 @@ public class Spike extends GameObject{
         down("/img/gameObj/spike/spike_down.png");
 
         private Image img;
-
         Type(String path){
             this.img = ImageController.getInstance().tryGet(path);
         }
@@ -30,6 +26,25 @@ public class Spike extends GameObject{
         super(top,left, Global.UNIT,Global.UNIT);
         this.type = type;
         delay = new Delay(5);
+
+        switch (type){
+            case left:
+                collider().offsetWidth(-15);
+                break;
+            case top:
+                collider().offsetHeight(-15);
+                break;
+            case right:
+                collider().offsetX(15);
+                collider().offsetWidth(-15);
+                break;
+            case down:
+                collider().offsetY(15);
+                collider().offsetHeight(-15);
+                break;
+        }
+
+
     }
 
     @Override
@@ -43,6 +58,8 @@ public class Spike extends GameObject{
     @Override
     public void paint(Graphics g) {
         g.drawImage(type.img, painter().left(), painter().top(), null);
+        g.setColor(Color.RED);
+        g.drawRect(collider().left(),collider().top(),collider().width(),collider().height());
     }
 
     @Override

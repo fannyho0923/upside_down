@@ -2,6 +2,7 @@ package game.gameobj;
 
 import game.controller.ImageController;
 import game.utils.Global;
+import game.utils.Delay;
 
 import java.awt.*;
 
@@ -24,7 +25,6 @@ public class Rubber extends GameObject{
             this.dir = dir;
         }
     }
-
     private enum Direction{
         horizontal,
         vertical;
@@ -34,6 +34,7 @@ public class Rubber extends GameObject{
         super(left, top, Global.UNIT, Global.UNIT);
         this.type = type;
     }
+
     @Override
     public void collisionEffect(Actor actor) {
         if(type.dir == Direction.horizontal){
@@ -45,8 +46,8 @@ public class Rubber extends GameObject{
             actor.velocity().stopY();
             actor.velocity().gravityReverse();
         }else if(type.dir == Direction.vertical){
-            // stopX??
-            // 那離開不可以翻??
+            // 幫忙翻一次 / 要怎麼分辨是不是同一個?
+            // actor.velocity().gravityReverse();
             actor.setCanReverse(true);
         }
     }

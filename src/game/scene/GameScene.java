@@ -67,7 +67,6 @@ public abstract class GameScene extends Scene {
     @Override
     public void sceneBegin() {
         AudioResourceController.getInstance().loop("/sound/Battle-Dawn-crop-reduce.wav",50);
-
         brokenRoads = (ArrayList) orinBrokenRoads.clone();
         MapInformation.getInstance().setMapInfo(this.background);
         if(actorTrigCamera){
@@ -161,7 +160,6 @@ public abstract class GameScene extends Scene {
     @Override
     public void update() {
         actor.update();
-
         for (int i = 0; i < brokenRoads.size(); i++) {
             GameObject obj = brokenRoads.get(i);
             if (actor.isCollision(obj)) {
@@ -172,23 +170,6 @@ public abstract class GameScene extends Scene {
                 obj.setExist(true);
                 brokenRoads.remove(i);
             }
-        }
-
-        boolean planCollision = false;
-        for (int i = 0; i < movePlatform.size(); i++){
-            GameObject obj = movePlatform.get(i);
-            if (actor.isCollision(obj)) {
-                obj.collisionEffect(actor);
-            }
-            if(actor.collider().isOverlap(obj.secondCollider())){
-                planCollision = true;
-            }
-            if(i==movePlatform.size()-1){
-                if(planCollision){
-                    obj.secondCollisionEffect(actor);
-                }
-            }
-            obj.update();
         }
 
         for (int i = 0; i < gameObjects.size(); i++) {
@@ -628,6 +609,39 @@ public abstract class GameScene extends Scene {
                 }
                 return null;
             }));
+
+            // monster
+
+//            monster_240,-52327,D:\newMap\img\monster\tile_0240.png,1,1
+//            monster_260,-52225,D:\newMap\img\monster\tile_0260.png,1,1
+//            monster_280,-52276,D:\newMap\img\monster\tile_0280.png,1,1
+//            monster_300,-3394561,D:\newMap\img\monster\tile_0300.png,1,1
+//            monster_320,-6736897,D:\newMap\img\monster\tile_0320.png,1,1
+//            monster_340,-10079233,D:\newMap\img\monster\tile_0340.png,1,1
+//            monster_380,-13421569,D:\newMap\img\monster\tile_0380.png,1,1
+
+            this.gameObjects.addAll(mapLoader.createObjectArray("monster_240", Global.UNIT, mapInfoArr, (gameObject, name, mapInfo, size) -> {
+                final GameObject tmp;
+                if (gameObject.equals(name)) {
+                    tmp = new Monster(mapInfo.getX() * size, mapInfo.getY() * size,
+                            mapInfo.getSizeX()*size,mapInfo.getSizeY()*size, Monster.Type.monster_240);
+                    return tmp;
+                }
+                return null;
+            }));
+
+            this.gameObjects.addAll(mapLoader.createObjectArray("monster_260", Global.UNIT, mapInfoArr, (gameObject, name, mapInfo, size) -> {
+                final GameObject tmp;
+                if (gameObject.equals(name)) {
+                    tmp = new Monster(mapInfo.getX() * size, mapInfo.getY() * size,
+                            mapInfo.getSizeX()*size,mapInfo.getSizeY()*size, Monster.Type.monster_260);
+                    return tmp;
+                }
+                return null;
+            }));
+
+
+
 
             // rubber
 

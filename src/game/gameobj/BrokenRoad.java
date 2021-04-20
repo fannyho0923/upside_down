@@ -28,7 +28,7 @@ public class BrokenRoad extends GameObject{
         super(left, top, Global.UNIT,Global.UNIT);
         this.type = type;
 
-        delay = new Delay(20);
+        delay = new Delay(15);
         isTouched = false;
     }
 

@@ -6,7 +6,6 @@ import game.utils.Global;
 import game.utils.Delay;
 import game.utils.Velocity;
 
-
 import java.awt.*;
 import java.awt.geom.AffineTransform;
 import java.awt.image.AffineTransformOp;

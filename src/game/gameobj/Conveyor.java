@@ -9,7 +9,7 @@ import java.awt.*;
 public class Conveyor extends GameObject{
     // 另外載入, 不要放在GameObj Arr, 鏡頭轉換時要重新創建
 
-    private static final int SHIFT = 2;
+    private static final int SHIFT = 1;
     private Type type;
 
     public enum Type{

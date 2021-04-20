@@ -54,14 +54,6 @@ public abstract class GameObject implements GameKernel.UpdateInterface, GameKern
         return this.painter;
     }
 
-    public void setSecondCollider(Rect rect){
-        this.secondCollider = rect;
-    }
-
-    public Rect secondCollider(){
-        return secondCollider;
-    }
-
     public boolean isCollision(final GameObject gameObject) {
         return this.collider.isOverlap(gameObject.collider());
     }
