@@ -10,7 +10,6 @@ import game.utils.CommandSolver;
 import game.utils.Global;
 import game.utils.Velocity;
 
-import javax.sound.sampled.Clip;
 import java.awt.*;
 import java.io.IOException;
 import java.util.ArrayList;
@@ -34,10 +33,7 @@ public abstract class GameScene extends Scene {
 
     private String mapBmpPath;
     private String mapTxtPath;
-    private Spikes spikesUp;
-    private Spikes spikesDown;
-
-    public GameScene(String mapBmpPath, String mapTxtPath, Actor actor, GameObject background,
+    public GameScene(String mapBmpPath, Actor actor, GameObject background,
                      int cameraWidth, int cameraHeight, int cameraVelocityX, int cameraVelocityY,
                      boolean actorTrigCamera){
 
@@ -46,27 +42,18 @@ public abstract class GameScene extends Scene {
         movePlatform = new ArrayList<>();
 
         this.mapBmpPath = mapBmpPath;
-        this.mapTxtPath = mapTxtPath;
-
+        this.mapTxtPath = "/map/genMap.txt";
         mapInit();
+
         this.actor = actor;
-//        frameX_count = gameObjects.get(0).collider().left() / cameraWidth;
-//        frameY_count = gameObjects.get(0).collider().top() / cameraHeight;
-        frameX_count=0;
-        frameY_count=0;
 
 //        actor.setXY(gameObjects.get(0).painter().left(),gameObjects.get(0).painter().top());
-<<<<<<< HEAD
 
-        actor.setXY(370,60);
+        frameX_count = gameObjects.get(0).collider().left() / cameraWidth;
+        frameY_count = gameObjects.get(0).collider().top() / cameraHeight;
+        actor.setXY(gameObjects.get(0).painter().left(),gameObjects.get(0).painter().top());
+
         actor.setReborn(actor.painter().left(),actor.painter().top(),false);
-
-
-=======
-        actor.setXY(1000,1500);
-        actor.setRebornX(actor.painter().left());
-        actor.setRebornY(actor.painter().top());
->>>>>>> imageMap
 
         this.background = background;
 
@@ -89,7 +76,6 @@ public abstract class GameScene extends Scene {
         AudioResourceController.getInstance().loop("/sound/Battle-Dawn-crop-reduce.wav",50);
 
         brokenRoads = (ArrayList) orinBrokenRoads.clone();
-
         MapInformation.getInstance().setMapInfo(this.background);
         if(actorTrigCamera){
             tracker.velocity().stop();
@@ -137,8 +123,6 @@ public abstract class GameScene extends Scene {
                     case Global.VK_RIGHT:
                         actor.velocity().stopX();
                         break;
-                    case Global.VK_A: //jump
-                        //actor.jump();
                 }
             }
 
@@ -169,12 +153,6 @@ public abstract class GameScene extends Scene {
                 a.paint(g);
             }
         });
-
-//        movePlatform.forEach(a -> {
-//            if (camera.isCollision(a)){
-//                a.paint(g);
-//            }
-//        });
 
         if (camera.isCollision(this.actor)) {
             this.actor.paint(g);
@@ -232,8 +210,6 @@ public abstract class GameScene extends Scene {
         }
 
         camera.update();
-//        cameraBack.setXY(camera.painter().left(),camera.painter().top());
-        // 瞬間移動, 暫時還沒用到tracker 的速度
         if(actorTrigCamera){
             if (actor.painter().centerX() < camera.painter().left()) {       // 左
                 frameX_count--;
@@ -297,16 +273,15 @@ public abstract class GameScene extends Scene {
                 return null;
             }));
 
-
             // 出生點，存第一個
-//            this.gameObjects.addAll(mapLoader.createObjectArray("born", Global.UNIT, mapInfoArr, (gameObject, name, mapInfo, size) -> {
-//                final GameObject tmp;
-//                if (gameObject.equals(name)) {
-//                    tmp = new Born(mapInfo.getX() * size, mapInfo.getY() * size);
-//                    return tmp;
-//                }
-//                return null;
-//            }));
+            this.gameObjects.addAll(mapLoader.createObjectArray("born", Global.UNIT, mapInfoArr, (gameObject, name, mapInfo, size) -> {
+                final GameObject tmp;
+                if (gameObject.equals(name)) {
+                    tmp = new Born(mapInfo.getX() * size, mapInfo.getY() * size);
+                    return tmp;
+                }
+                return null;
+            }));
 
             this.gameObjects.addAll(mapLoader.createObjectArray("back1", Global.UNIT, mapInfoArr, (gameObject, name, mapInfo, size) -> {
                 final GameObject tmp;

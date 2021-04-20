@@ -39,8 +39,8 @@ public class Rubber extends GameObject{
         if(type.dir == Direction.horizontal){
             if(actor.velocity().y() < 0){ //up
                 actor.setY(this.collider().bottom()+1);
-            }else if (actor.velocity().y() > 0){
-                actor.offsetY(this.collider().top() -actor.collider().height() -1);
+            }else if (actor.velocity().y() > 0){ //down
+                actor.setY(this.collider().top() -actor.collider().height() -1);
             }
             actor.velocity().stopY();
             actor.velocity().gravityReverse();
@@ -49,7 +49,6 @@ public class Rubber extends GameObject{
             // 那離開不可以翻??
             actor.setCanReverse(true);
         }
-
     }
 
     @Override

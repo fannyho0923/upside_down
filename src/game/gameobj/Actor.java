@@ -29,13 +29,13 @@ public class Actor extends GameObject {
     private Image imgLeft;
     private Image imgRightRev;
     private Image imgLeftRev;
+
     private Image img;
     private Image imgRev;
 
     private int rebornX;
     private int rebornY;
     private boolean rebornState;
-    private int keyCount;
 
     private State state;
     private Delay rebornDelay;
@@ -52,14 +52,15 @@ public class Actor extends GameObject {
         state = State.ALIVE;
 
         setReborn(x,y,velocity.isReverse());
-
-        keyCount = 0;
         canReverse = false;
 
         splashDelay = new Delay(3);
         rebornDelay = new Delay(90);
-
         splashDelay.loop(); //??
+    }
+
+    public State getState() {
+        return state;
     }
 
     @Override
@@ -115,13 +116,6 @@ public class Actor extends GameObject {
         }
     }
 
-    private Image paintReverse(Image img) {
-        AffineTransform tx = AffineTransform.getScaleInstance(1, -1);
-        tx.translate(0, -img.getHeight(null));
-        AffineTransformOp op = new AffineTransformOp(tx, AffineTransformOp.TYPE_NEAREST_NEIGHBOR);
-        return op.filter((BufferedImage) img, null);
-    }
-
     // 人物動畫
     private class ActionAnimator {
         private int count;
@@ -146,10 +140,17 @@ public class Actor extends GameObject {
     }
 
     public void setImage(int num) {
-        this.imgRight = ImageController.getInstance().tryGet("/img/actor_" + num + ".png");
-        this.imgLeft = ImageController.getInstance().tryGet("/img/actor_" + num + "_l.png");
+        this.imgRight = ImageController.getInstance().tryGet("/img/actor/actor_" + num + "R.png");
+        this.imgLeft = ImageController.getInstance().tryGet("/img/actor/actor_" + num + "L.png");
         this.imgRightRev = paintReverse(imgRight);
         this.imgLeftRev = paintReverse(imgLeft);
+    }
+
+    private Image paintReverse(Image img) {
+        AffineTransform tx = AffineTransform.getScaleInstance(1, -1);
+        tx.translate(0, -img.getHeight(null));
+        AffineTransformOp op = new AffineTransformOp(tx, AffineTransformOp.TYPE_NEAREST_NEIGHBOR);
+        return op.filter((BufferedImage) img, null);
     }
 
     // 移動
@@ -165,7 +166,6 @@ public class Actor extends GameObject {
     public void move() {
         offsetX(velocity.x());
         offsetY(velocity.y());
-        System.out.println(velocity.y());
         if(velocity.x() > 0){
             this.img = imgRight;
             this.imgRev = imgRightRev;
@@ -183,16 +183,13 @@ public class Actor extends GameObject {
         offsetY(velocity.y());
     }
 
+    // 場景物件效果
     public boolean canReverse() {
         return canReverse;
     }
 
     public void setCanReverse(boolean canReverse) {
         this.canReverse = canReverse;
-    }
-
-    public State getState() {
-        return state;
     }
 
     public void dead() {
@@ -202,7 +199,6 @@ public class Actor extends GameObject {
         }
     }
 
-    // 場景物件效果
     public void setReborn(int rebornX, int rebornY, boolean rebornState) {
         this.rebornX = rebornX;
         this.rebornY = rebornY;
@@ -227,9 +223,5 @@ public class Actor extends GameObject {
                 this.collider().top() == obj.collider().bottom()) {
             this.moveX();
         }
-    }
-
-    public void getKey() {
-        this.keyCount++;
     }
 }

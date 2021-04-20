@@ -1,7 +1,5 @@
 package game.utils;
 
-import game.utils.Global;
-
 public class Velocity {
     private int x;
     private int y;
@@ -73,5 +71,4 @@ public class Velocity {
             offsetY(1);
         }
     }
-
 }

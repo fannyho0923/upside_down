@@ -20,20 +20,19 @@ import java.util.ArrayList;
 public class BasicScene extends GameScene {
     private Label labelBorn, labelDir, labelDirImg, labelSpace, labelSpaceImg, labelOK, labelMon1, labelMon2, labelBR,
             labelConveyor, labelRubber, labelDone, labelEnd;
-    private Button buttonMenu;
 
     public BasicScene(int num) {
-        super("/map/basicMap0419.bmp", "/map/Packour/genMap.txt",
-                new Actor(0,0,num), new Background(),
+        super("/map/basicMap0419.bmp",
+                new Actor(0, 0, num), new Background(1920, 1920),
                 //real 1300,1500 //plat test 150,2000
-                960, 640, 0, 10,true);
+                960, 640, 0, 0, true);
         labelBorn = new Label(50, 100,
                 new Style.StyleRect(190, 40, true, new BackgroundType.BackgroundColor(new Color(22, 34, 52)))
-                .setText("“...得快點想辦法逃離這裡!”")
-                .setTextFont(new Font("TimesRoman", Font.BOLD, 14))
-                .setTextColor(Color.WHITE)
-                .setHaveBorder(true)
-                .setBorderColor(new Color(253, 253, 253)));
+                        .setText("“...得快點想辦法逃離這裡!”")
+                        .setTextFont(new Font("TimesRoman", Font.BOLD, 14))
+                        .setTextColor(Color.WHITE)
+                        .setHaveBorder(true)
+                        .setBorderColor(new Color(253, 253, 253)));
         labelDir = new Label(100, 80,
                 new Style.StyleRect(150, 40, true, new BackgroundType.BackgroundColor(new Color(22, 34, 52)))
                         .setText("控制方向鍵左右移動")
@@ -114,76 +113,76 @@ public class BasicScene extends GameScene {
     }
 
     @Override
-    public void paint(Graphics g){
+    public void paint(Graphics g) {
         super.paint(g);
-        if(labelBorn!=null) {
+        if (labelBorn != null) {
             labelBorn.paint(g);
         }
-        if (labelBorn==null && labelDir!= null) {
+        if (labelBorn == null && labelDir != null) {
             labelDir.paint(g);
             labelDirImg.paint(g);
         }
 
-        if(labelDir == null && labelSpace!=null){
+        if (labelDir == null && labelSpace != null) {
             labelSpace.paint(g);
             labelSpaceImg.paint(g);
         }
 
-        if (labelSpace == null && labelOK!=null){
+        if (labelSpace == null && labelOK != null) {
             labelOK.paint(g);
         }
 
-        if (labelOK==null&&getActor().painter().left()<1750 && getActor().painter().bottom()<400 && labelMon1!=null){
+        if (labelOK == null && getActor().painter().left() < 1750 && getActor().painter().bottom() < 400 && labelMon1 != null) {
             labelMon1.paint(g);
             labelMon2.paint(g);
         }
-        if (labelMon1==null&&labelBR!=null&&getActor().painter().left()<200&&getActor().painter().top()>700){
+        if (labelMon1 == null && labelBR != null && getActor().painter().left() < 200 && getActor().painter().top() > 700) {
             labelBR.paint(g);
         }
-        if (labelBR==null&&labelConveyor!=null&&getActor().painter().left()>970){
+        if (labelBR == null && labelConveyor != null && getActor().painter().left() > 970) {
             labelConveyor.paint(g);
         }
-        if (labelConveyor==null && labelRubber!=null && getActor().painter().bottom()>900){
+        if (labelConveyor == null && labelRubber != null && getActor().painter().bottom() > 900) {
             labelRubber.paint(g);
         }
-        if (labelRubber==null && labelDone!=null && getActor().painter().left()<1200){
+        if (labelRubber == null && labelDone != null && getActor().painter().left() < 1200) {
             labelDone.paint(g);
         }
-        if (labelDone==null && labelEnd!=null && getActor().painter().right()>810 && getActor().painter().bottom()>1820){
+        if (labelDone == null && labelEnd != null && getActor().painter().right() > 810 && getActor().painter().bottom() > 1820) {
             labelEnd.paint(g);
         }
     }
 
     @Override
-    public void update(){
+    public void update() {
         super.update();
-        if(getActor().painter().left()>1050){
-            labelBorn=null;
+        if (getActor().painter().left() > 1050) {
+            labelBorn = null;
         }
-        if(labelBorn==null&&getActor().painter().left()>1160){
-            labelDir=null;
+        if (labelBorn == null && getActor().painter().left() > 1160) {
+            labelDir = null;
         }
-        if (labelDir==null&&getActor().painter().left()>1250){
-            labelSpace=null;
+        if (labelDir == null && getActor().painter().left() > 1250) {
+            labelSpace = null;
         }
-        if (labelSpace==null && getActor().painter().left()>1500){
-            labelOK=null;
+        if (labelSpace == null && getActor().painter().left() > 1500) {
+            labelOK = null;
         }
-        if (getActor().painter().left()<1650&&getActor().painter().top()<300){
-            labelMon1=null;
-            labelMon2=null;
+        if (getActor().painter().left() < 1650 && getActor().painter().top() < 300) {
+            labelMon1 = null;
+            labelMon2 = null;
         }
-        if (labelMon1==null && getActor().painter().left()>300 && getActor().painter().top()>700){
-            labelBR=null;
+        if (labelMon1 == null && getActor().painter().left() > 300 && getActor().painter().top() > 700) {
+            labelBR = null;
         }
-        if (labelBR==null && getActor().painter().right()>1160){
-            labelConveyor=null;
+        if (labelBR == null && getActor().painter().right() > 1160) {
+            labelConveyor = null;
         }
-        if (labelConveyor==null && getActor().painter().left()<1500 && getActor().painter().bottom()>900){
-            labelRubber=null;
+        if (labelConveyor == null && getActor().painter().left() < 1500 && getActor().painter().bottom() > 900) {
+            labelRubber = null;
         }
-        if (labelRubber==null&&getActor().painter().left()<980){
-            labelDone=null;
+        if (labelRubber == null && getActor().painter().left() < 980) {
+            labelDone = null;
         }
     }
 

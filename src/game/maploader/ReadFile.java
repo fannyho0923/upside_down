@@ -22,6 +22,7 @@ public class ReadFile {
         tmp.forEach(new Consumer() {
             @Override
             public void accept(final Object a) {
+                System.out.println(a);
                 final String[] tmp = new String[4];
                 tmp[0] = ((String) a).split(",")[0];
                 tmp[1] = ((String) a).split(",")[1];
