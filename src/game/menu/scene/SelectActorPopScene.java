@@ -3,7 +3,6 @@ package game.menu.scene;
 import java.awt.*;
 import java.awt.event.MouseEvent;
 import java.util.ArrayList;
-import java.util.HashMap;
 
 import game.controller.AudioResourceController;
 import game.controller.ImageController;

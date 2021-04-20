@@ -9,6 +9,7 @@ import game.gameobj.Spikes;
 import game.menu.menu.BackgroundType;
 import game.menu.menu.Label;
 import game.menu.menu.Style;
+import game.menu.menu.Theme;
 import game.utils.CommandSolver;
 import game.utils.Global;
 
@@ -18,7 +19,8 @@ import java.util.ArrayList;
 
 public class BasicScene extends GameScene {
     private Label labelBorn, labelDir, labelDirImg, labelSpace, labelSpaceImg, labelOK, labelMon1, labelMon2, labelBR,
-            labelConveyor, labelRubber, labelDone;
+            labelConveyor, labelRubber, labelDone, labelEnd;
+    private Button buttonMenu;
 
     public BasicScene(int num) {
         super("/map/basicMap0419.bmp", "/map/Packour/genMap.txt",
@@ -32,14 +34,14 @@ public class BasicScene extends GameScene {
                 .setTextColor(Color.WHITE)
                 .setHaveBorder(true)
                 .setBorderColor(new Color(253, 253, 253)));
-        labelDir = new Label(100, 100,
+        labelDir = new Label(100, 80,
                 new Style.StyleRect(150, 40, true, new BackgroundType.BackgroundColor(new Color(22, 34, 52)))
                         .setText("控制方向鍵左右移動")
                         .setTextFont(new Font("TimesRoman", Font.BOLD, 14))
                         .setTextColor(Color.WHITE)
                         .setHaveBorder(true)
                         .setBorderColor(new Color(253, 253, 253)));
-        labelDirImg = new Label(125, 150,
+        labelDirImg = new Label(125, 130,
                 new Style.StyleRect(80, 40, true,
                         new BackgroundType.BackgroundImage(ImageController.getInstance().tryGet("/img/arrow_white.png"))));
         labelSpace = new Label(250, 100,
@@ -80,8 +82,8 @@ public class BasicScene extends GameScene {
                         .setTextColor(Color.WHITE)
                         .setHaveBorder(true)
                         .setBorderColor(new Color(253, 253, 253)));
-        labelConveyor = new Label(100, 100,
-                new Style.StyleRect(210, 40, true, new BackgroundType.BackgroundColor(new Color(22, 34, 52)))
+        labelConveyor = new Label(60, 100,
+                new Style.StyleRect(230, 40, true, new BackgroundType.BackgroundColor(new Color(22, 34, 52)))
                         .setText("傳輸帶會帶動人物往特定方向前進。")
                         .setTextFont(new Font("TimesRoman", Font.BOLD, 14))
                         .setTextColor(Color.WHITE)
@@ -97,6 +99,14 @@ public class BasicScene extends GameScene {
         labelDone = new Label(10, 330,
                 new Style.StyleRect(190, 40, true, new BackgroundType.BackgroundColor(new Color(22, 34, 52)))
                         .setText("利用學習到的內容通關吧!")
+                        .setTextFont(new Font("TimesRoman", Font.BOLD, 14))
+                        .setTextColor(Color.WHITE)
+                        .setHaveBorder(true)
+                        .setBorderColor(new Color(253, 253, 253)));
+
+        labelEnd = new Label(710, 350,
+                new Style.StyleRect(190, 40, true, new BackgroundType.BackgroundColor(new Color(22, 34, 52)))
+                        .setText("恭喜你完成了教學關卡!")
                         .setTextFont(new Font("TimesRoman", Font.BOLD, 14))
                         .setTextColor(Color.WHITE)
                         .setHaveBorder(true)
@@ -123,14 +133,14 @@ public class BasicScene extends GameScene {
             labelOK.paint(g);
         }
 
-        if (getActor().painter().left()<1750 && labelMon1!=null){
+        if (labelOK==null&&getActor().painter().left()<1750 && getActor().painter().bottom()<400 && labelMon1!=null){
             labelMon1.paint(g);
             labelMon2.paint(g);
         }
-        if (labelBR!=null){
+        if (labelMon1==null&&labelBR!=null&&getActor().painter().left()<200&&getActor().painter().top()>700){
             labelBR.paint(g);
         }
-        if (labelConveyor!=null){
+        if (labelBR==null&&labelConveyor!=null&&getActor().painter().left()>970){
             labelConveyor.paint(g);
         }
         if (labelConveyor==null && labelRubber!=null && getActor().painter().bottom()>900){
@@ -138,6 +148,9 @@ public class BasicScene extends GameScene {
         }
         if (labelRubber==null && labelDone!=null && getActor().painter().left()<1200){
             labelDone.paint(g);
+        }
+        if (labelDone==null && labelEnd!=null && getActor().painter().right()>810 && getActor().painter().bottom()>1820){
+            labelEnd.paint(g);
         }
     }
 
@@ -147,31 +160,31 @@ public class BasicScene extends GameScene {
         if(getActor().painter().left()>1050){
             labelBorn=null;
         }
-        if(getActor().painter().left()>1160){
+        if(labelBorn==null&&getActor().painter().left()>1160){
             labelDir=null;
         }
-        if (getActor().painter().left()>1190){
+        if (labelDir==null&&getActor().painter().left()>1250){
             labelSpace=null;
         }
-        if (getActor().painter().left()>1300){
+        if (labelSpace==null && getActor().painter().left()>1500){
             labelOK=null;
         }
-        if (getActor().painter().left()<1650){
+        if (getActor().painter().left()<1650&&getActor().painter().top()<300){
             labelMon1=null;
             labelMon2=null;
         }
-        if (getActor().painter().right()>200){
+        if (labelMon1==null && getActor().painter().left()>300 && getActor().painter().top()>700){
             labelBR=null;
         }
-        if (getActor().painter().right()>1160){
+        if (labelBR==null && getActor().painter().right()>1160){
             labelConveyor=null;
         }
-        if (getActor().painter().left()<1500){
+        if (labelConveyor==null && getActor().painter().left()<1500 && getActor().painter().bottom()>900){
             labelRubber=null;
         }
-//        if (getActor().painter().left()<1800){
-//            labelDone=null;
-//        }
+        if (labelRubber==null&&getActor().painter().left()<980){
+            labelDone=null;
+        }
     }
 
 }
