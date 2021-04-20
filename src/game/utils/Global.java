@@ -21,7 +21,7 @@ public class Global {
 
     public static int UNIT = 32;
     // 重力係數
-    public static final float GRAVITY = 0.1f;
+    public static final float GRAVITY = 0.5f;
     // 連跳次數, 寫好玩的, 不會用到
     public static final int continueJump = 2;
 
@@ -37,9 +37,6 @@ public class Global {
     public static int UNIT_Y32=32;
     public static int UNIT_X64=64;
     public static int UNIT_Y64=64;
-
-
-
 
     public static int random(final int min, final int max) {
         return (int) (Math.random() * (max - min + 1) + min);

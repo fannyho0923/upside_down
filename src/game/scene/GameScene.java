@@ -13,8 +13,6 @@ import game.utils.CommandSolver;
 import game.utils.Global;
 import game.utils.Velocity;
 
-import javax.sound.sampled.Clip;
-import javax.swing.plaf.synth.SynthOptionPaneUI;
 import java.awt.*;
 import java.awt.event.KeyEvent;
 import java.io.IOException;
@@ -44,65 +42,63 @@ public abstract class GameScene extends Scene {
     private Spikes spikesDown;
     private PopupWindowScene testPop;
 
-
-    public GameScene(String mapBmpPath, String mapTxtPath, Actor actor, GameObject background,
+    public GameScene(String mapBmpPath, Actor actor, GameObject background,
                      int cameraWidth, int cameraHeight, int cameraVelocityX, int cameraVelocityY,
                      boolean actorTrigCamera) {
 
         testPop = new PopupWindowScene(Global.WINDOW_WIDTH / 2 - 325, Global.WINDOW_HEIGHT / 2 - 225,
                 650, 450);
         testPop.setRestartClicked((int x, int y) -> {
-            init(mapBmpPath,mapTxtPath,actor,background,
-                    cameraWidth,cameraHeight,cameraVelocityX,cameraVelocityY,
+            init(mapBmpPath, actor, background,
+                    cameraWidth, cameraHeight, cameraVelocityX, cameraVelocityY,
                     actorTrigCamera);
             this.testPop.hide();
         });
         testPop.setCancelable();
-        init(mapBmpPath,mapTxtPath,actor,background,
-                cameraWidth,cameraHeight,cameraVelocityX,cameraVelocityY,
+        init(mapBmpPath, actor, background,
+                cameraWidth, cameraHeight, cameraVelocityX, cameraVelocityY,
                 actorTrigCamera);
     }
 
-    public void init(String mapBmpPath, String mapTxtPath, Actor actor, GameObject background,
+    public void init(String mapBmpPath, Actor actor, GameObject background,
                      int cameraWidth, int cameraHeight, int cameraVelocityX, int cameraVelocityY,
-                     boolean actorTrigCamera){
+                     boolean actorTrigCamera) {
         gameObjects = new ArrayList<>();
         orinBrokenRoads = new ArrayList<>();
         movePlatform = new ArrayList<>();
 
         this.mapBmpPath = mapBmpPath;
-        this.mapTxtPath = mapTxtPath;
-
+        this.mapTxtPath = "/map/genMap.txt";
         mapInit();
-        this.actor = actor;
-//        frameX_count = gameObjects.get(0).collider().left() / cameraWidth;
-//        frameY_count = gameObjects.get(0).collider().top() / cameraHeight;
-        frameX_count = 0;
-        frameY_count = 0;
 
-//        actor.setXY(gameObjects.get(0).painter().left(),gameObjects.get(0).painter().top());
-        actor.setXY(370, 60);
-        actor.setRebornX(actor.painter().left());
-        actor.setRebornY(actor.painter().top());
+        this.actor = actor;
+
+        frameX_count = gameObjects.get(0).collider().left() / cameraWidth;
+        frameY_count = gameObjects.get(0).collider().top() / cameraHeight;
+        actor.setXY(gameObjects.get(0).painter().left(), gameObjects.get(0).painter().top());
+
+        actor.setReborn(actor.painter().left(), actor.painter().top(), false);
 
         this.background = background;
 
         int cameraStartX = cameraWidth * frameX_count;
         int cameraStartY = cameraHeight * frameY_count;
         this.tracker = new Tracker(cameraStartX + (cameraWidth - Global.UNIT) / 2,
-                cameraStartY + (cameraHeight - Global.UNIT) / 2, new Velocity(cameraVelocityX, cameraVelocityY, 0, 0, false));
+                cameraStartY + (cameraHeight - Global.UNIT) / 2, new Velocity(cameraVelocityX, cameraVelocityY, false));
         this.actorTrigCamera = actorTrigCamera;
         camera = new Camera.Builder(cameraWidth, cameraHeight)
                 .setChaseObj(tracker)
                 .gen();
     }
 
+    public Actor getActor() {
+        return actor;
+    }
+
     @Override
     public void sceneBegin() {
         AudioResourceController.getInstance().loop("/sound/Battle-Dawn-crop-reduce.wav", 50);
-
         brokenRoads = (ArrayList) orinBrokenRoads.clone();
-
         MapInformation.getInstance().setMapInfo(this.background);
         if (actorTrigCamera) {
             tracker.velocity().stop();
@@ -128,11 +124,9 @@ public abstract class GameScene extends Scene {
                 switch (commandCode) {
                     case Global.VK_LEFT:
                         actor.velocity().setX(-Actor.WALK_SPEED);
-                        actor.leftSpeedUp(true);
                         break;
                     case Global.VK_RIGHT:
                         actor.velocity().setX(Actor.WALK_SPEED);
-                        actor.rightSpeedUp(true);
                         break;
                     case Global.VK_SPACE:
                         if (actor.canReverse()) {
@@ -156,15 +150,11 @@ public abstract class GameScene extends Scene {
             public void keyReleased(int commandCode, long trigTime) {
                 switch (commandCode) {
                     case Global.VK_LEFT:
-                        actor.leftSpeedUp(false);
                         actor.velocity().stopX();
                         break;
                     case Global.VK_RIGHT:
-                        actor.rightSpeedUp(false);
                         actor.velocity().stopX();
                         break;
-                    case Global.VK_A: //jump
-                        actor.jump();
                 }
             }
 
@@ -179,7 +169,7 @@ public abstract class GameScene extends Scene {
     public CommandSolver.MouseListener mouseListener() {
         return (e, state, trigTime) -> {
             if (testPop.isShow()) {
-                testPop.mouseListener().mouseTrig(e,state,trigTime);
+                testPop.mouseListener().mouseTrig(e, state, trigTime);
             }
         };
     }
@@ -200,12 +190,6 @@ public abstract class GameScene extends Scene {
                 a.paint(g);
             }
         });
-
-//        movePlatform.forEach(a -> {
-//            if (camera.isCollision(a)){
-//                a.paint(g);
-//            }
-//        });
 
         if (camera.isCollision(this.actor)) {
             this.actor.paint(g);
@@ -237,23 +221,6 @@ public abstract class GameScene extends Scene {
                     brokenRoads.remove(i);
                 }
             }
-            boolean planCollision = false;
-            for (int i = 0; i < movePlatform.size(); i++) {
-                GameObject obj = movePlatform.get(i);
-                if (actor.isCollision(obj)) {
-                    obj.collisionEffect(actor);
-                }
-                if (actor.collider().isOverlap(obj.secondCollider())) {
-                    planCollision = true;
-                }
-                if (i == movePlatform.size() - 1) {
-                    if (planCollision) {
-                        obj.secondCollisionEffect(actor);
-                    }
-                }
-                obj.update();
-            }
-
 
             for (int i = 0; i < gameObjects.size(); i++) {
                 GameObject obj = gameObjects.get(i);
@@ -266,10 +233,7 @@ public abstract class GameScene extends Scene {
                 }
             }
 
-            actor.shift();
             camera.update();
-//        cameraBack.setXY(camera.painter().left(),camera.painter().top());
-            // 瞬間移動, 暫時還沒用到tracker 的速度
             if (actorTrigCamera) {
                 if (actor.painter().centerX() < camera.painter().left()) {       // 左
                     frameX_count--;
@@ -304,8 +268,7 @@ public abstract class GameScene extends Scene {
 //            spikesDown.painter().setXY(camera.painter().left(),camera.painter().top()-5); // 為什麼會不貼邊??
 //            spikesUp.painter().setXY(camera.painter().left(),camera.painter().top() + camera.painter().height() - spikesUp.painter().height());
             }
-        }
-        else {
+        } else {
             testPop.update();
         }
     }
@@ -337,16 +300,15 @@ public abstract class GameScene extends Scene {
                 return null;
             }));
 
-
             // 出生點，存第一個
-//            this.gameObjects.addAll(mapLoader.createObjectArray("born", Global.UNIT, mapInfoArr, (gameObject, name, mapInfo, size) -> {
-//                final GameObject tmp;
-//                if (gameObject.equals(name)) {
-//                    tmp = new Born(mapInfo.getX() * size, mapInfo.getY() * size);
-//                    return tmp;
-//                }
-//                return null;
-//            }));
+            this.gameObjects.addAll(mapLoader.createObjectArray("born", Global.UNIT, mapInfoArr, (gameObject, name, mapInfo, size) -> {
+                final GameObject tmp;
+                if (gameObject.equals(name)) {
+                    tmp = new Born(mapInfo.getX() * size, mapInfo.getY() * size);
+                    return tmp;
+                }
+                return null;
+            }));
 
             this.gameObjects.addAll(mapLoader.createObjectArray("back1", Global.UNIT, mapInfoArr, (gameObject, name, mapInfo, size) -> {
                 final GameObject tmp;
@@ -700,6 +662,37 @@ public abstract class GameScene extends Scene {
                 }
                 return null;
             }));
+
+            // monster
+
+//            monster_240,-52327,D:\newMap\img\monster\tile_0240.png,1,1
+//            monster_260,-52225,D:\newMap\img\monster\tile_0260.png,1,1
+//            monster_280,-52276,D:\newMap\img\monster\tile_0280.png,1,1
+//            monster_300,-3394561,D:\newMap\img\monster\tile_0300.png,1,1
+//            monster_320,-6736897,D:\newMap\img\monster\tile_0320.png,1,1
+//            monster_340,-10079233,D:\newMap\img\monster\tile_0340.png,1,1
+//            monster_380,-13421569,D:\newMap\img\monster\tile_0380.png,1,1
+
+            this.gameObjects.addAll(mapLoader.createObjectArray("monster_240", Global.UNIT, mapInfoArr, (gameObject, name, mapInfo, size) -> {
+                final GameObject tmp;
+                if (gameObject.equals(name)) {
+                    tmp = new Monster(mapInfo.getX() * size, mapInfo.getY() * size,
+                            mapInfo.getSizeX() * size, mapInfo.getSizeY() * size, Monster.Type.monster_240);
+                    return tmp;
+                }
+                return null;
+            }));
+
+            this.gameObjects.addAll(mapLoader.createObjectArray("monster_260", Global.UNIT, mapInfoArr, (gameObject, name, mapInfo, size) -> {
+                final GameObject tmp;
+                if (gameObject.equals(name)) {
+                    tmp = new Monster(mapInfo.getX() * size, mapInfo.getY() * size,
+                            mapInfo.getSizeX() * size, mapInfo.getSizeY() * size, Monster.Type.monster_260);
+                    return tmp;
+                }
+                return null;
+            }));
+
 
             // rubber
 

@@ -5,16 +5,12 @@ import game.controller.ImageController;
 import java.awt.*;
 
 public class Background extends GameObject{
-    private Image img;
-
-    public Background(){
-        super(0,0, 3840,9600);//2560
-        img = ImageController.getInstance().tryGet("/img/background.png");
+    public Background(int width, int height){
+        super(0,0,width,height);
     }
 
     @Override
     public void paint(Graphics g) {
-        g.drawImage(img,painter().left(),painter().top(),null);
     }
 
     @Override

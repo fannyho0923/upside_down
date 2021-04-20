@@ -10,30 +10,26 @@ import java.awt.*;
 
 
 public class BrokenRoad extends GameObject{
-    private Image img;
     private boolean isTouched;
     private Delay delay;
     private Type type;
 
-    public static enum Type{
-        A,
-        B;
+    public enum Type{
+        A("/img/gameObj/broken/broken1.png"),
+        B("/img/gameObj/broken/broken2.png");
+
+        private Image img;
+        Type(String path){
+            img = ImageController.getInstance().tryGet(path);
+        }
     }
 
     public BrokenRoad(int left, int top, Type type) {
         super(left, top, Global.UNIT,Global.UNIT);
-        img = ImageController.getInstance().tryGet("/img/tile_0071.png");
+        this.type = type;
 
-        delay = new Delay(20);
-
+        delay = new Delay(15);
         isTouched = false;
-        switch (type){
-            case A:
-                img = ImageController.getInstance().tryGet("/img/gameObj/broken/broken1.png");
-                break;
-            case B:
-                img = ImageController.getInstance().tryGet("/img/gameObj/broken/broken2.png");
-        }
     }
 
     @Override
@@ -45,7 +41,7 @@ public class BrokenRoad extends GameObject{
 
     @Override
     public void paint(Graphics g) {
-        g.drawImage(img, painter().left(), painter().top(), null);
+        g.drawImage(type.img, painter().left(), painter().top(), null);
     }
 
     @Override

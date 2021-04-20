@@ -62,7 +62,6 @@ public class EditText extends Label {
     }
 
 
-    //fanny
     // 使用者更改游標閃爍速度
     public void setCursorSpeed(int frame) {
         cursorSpeed.setCountLimit(frame);

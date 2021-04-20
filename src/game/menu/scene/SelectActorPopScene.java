@@ -12,6 +12,7 @@ import game.menu.menu.Button;
 import game.menu.menu.Label;
 import game.menu.menu.impl.MouseTriggerImpl;
 import game.scene.BasicScene;
+import game.scene.Parkour;
 import game.scene.Scene;
 import game.utils.CommandSolver;
 import game.utils.Delay;
@@ -44,12 +45,12 @@ public class SelectActorPopScene extends Scene {
     public void sceneBegin() {
         menuBackground = ImageController.getInstance().tryGet("/img/menuPic.jpeg");
         bk = ImageController.getInstance().tryGet("/img/bk.png");
-        actor1 = ImageController.getInstance().tryGet("/img/imgActor/actorFront1.png");
-        actor2 = ImageController.getInstance().tryGet("/img/imgActor/actorFront2.png");
-        actor3 = ImageController.getInstance().tryGet("/img/imgActor/actorFront3.png");
-        actor4 = ImageController.getInstance().tryGet("/img/imgActor/actorFront4.png");
-        actor5 = ImageController.getInstance().tryGet("/img/imgActor/actorFront5.png");
-        actor6 = ImageController.getInstance().tryGet("/img/imgActor/actorFront6.png");
+        actor1 = ImageController.getInstance().tryGet("/img/actor/actorFront1.png");
+        actor2 = ImageController.getInstance().tryGet("/img/actor/actorFront2.png");
+        actor3 = ImageController.getInstance().tryGet("/img/actor/actorFront3.png");
+        actor4 = ImageController.getInstance().tryGet("/img/actor/actorFront4.png");
+        actor5 = ImageController.getInstance().tryGet("/img/actor/actorFront5.png");
+        actor6 = ImageController.getInstance().tryGet("/img/actor/actorFront6.png");
         Style style = new Style.StyleRect(60, 114, false, new BackgroundType.BackgroundNull())
                 .setTextFont(new Font("TimesRoman", Font.BOLD, 30))
                 .setTextColor(Color.WHITE)
@@ -79,6 +80,7 @@ public class SelectActorPopScene extends Scene {
             for (int i = 1; i <= arrayList.size(); i++) {
                 if (arrayList.get(i-1).getIsFocus()) {
                     SceneController.getInstance().change(new ModeScene(i));
+//                    SceneController.getInstance().change(new Parkour(i));
                     return;
                 }
             }
