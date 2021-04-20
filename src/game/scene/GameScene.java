@@ -47,11 +47,14 @@ public abstract class GameScene extends Scene {
 
         this.actor = actor;
 
+//        actor.setXY(gameObjects.get(0).painter().left(),gameObjects.get(0).painter().top());
+
         frameX_count = gameObjects.get(0).collider().left() / cameraWidth;
         frameY_count = gameObjects.get(0).collider().top() / cameraHeight;
         actor.setXY(gameObjects.get(0).painter().left(),gameObjects.get(0).painter().top());
 
         actor.setReborn(actor.painter().left(),actor.painter().top(),false);
+
         this.background = background;
 
         int cameraStartX = cameraWidth*frameX_count;
@@ -62,6 +65,10 @@ public abstract class GameScene extends Scene {
         camera = new Camera.Builder(cameraWidth, cameraHeight)
                 .setChaseObj(tracker)
                 .gen();
+    }
+
+    public Actor getActor() {
+        return actor;
     }
 
     @Override

@@ -4,13 +4,15 @@ import javax.imageio.ImageIO;
 import java.awt.*;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Map;
 
 public class ImageController {
     private static ImageController imageController;
-    private final ArrayList<KeyPair> keyPairs;
+    private Map<String, Image> imageMap;
 
     private ImageController() {
-        this.keyPairs = new ArrayList<>();
+        imageMap = new HashMap<>();
     }
 
     public static ImageController getInstance() {
@@ -21,14 +23,12 @@ public class ImageController {
     }
 
     public void clear() {
-        this.keyPairs.clear();
+        imageMap.clear();
     }
 
     public Image tryGet(final String path) {
-        for (int i = 0; i < this.keyPairs.size(); i++) {
-            if (this.keyPairs.get(i).path.equals(path)) {
-                return this.keyPairs.get(i).img;
-            }
+        if (imageMap.containsKey(path)) {
+            return imageMap.get(path);
         }
         return add(path);
     }
@@ -37,20 +37,10 @@ public class ImageController {
         Image img = null;
         try {
             img = ImageIO.read(getClass().getResource(path));
-            this.keyPairs.add(new KeyPair(path, img));
+            imageMap.put(path, img);
         } catch (final IOException e) {
             e.printStackTrace();
         }
         return img;
-    }
-
-    private static class KeyPair {
-        private final String path;
-        private final Image img;
-
-        public KeyPair(final String path, final Image img) {
-            this.path = path;
-            this.img = img;
-        }
     }
 }
