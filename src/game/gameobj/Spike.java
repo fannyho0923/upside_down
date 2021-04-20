@@ -32,7 +32,6 @@ public class Spike extends GameObject{
         this.type = type;
         delay = new Delay(5);
         count = 0;
-        //delayEach = new Delay(3);
         isTouch = false;
         imageArrayList = new ArrayList<>();
         imageArrayList.add(ImageController.getInstance().tryGet("/img/effect/spikeBlood_1.png"));
