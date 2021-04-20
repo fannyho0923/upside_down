@@ -62,3 +62,6 @@ monster_300,-3394561,D:\newMap\img\monster\tile_0300.png,1,1
 monster_320,-6736897,D:\newMap\img\monster\tile_0320.png,1,1
 monster_340,-10079233,D:\newMap\img\monster\tile_0340.png,1,1
 monster_380,-13421569,D:\newMap\img\monster\tile_0380.png,1,1
+back3-2,-13421773,D:\newMap\img\background\back3-2.jpg,30,20
+back3-3,-16764109,D:\newMap\img\background\back3-3.jpg,30,20
+back3-4,-16764160,D:\newMap\img\background\back3-4.jpg,30,20

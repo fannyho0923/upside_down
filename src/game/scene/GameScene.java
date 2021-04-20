@@ -56,11 +56,17 @@ public abstract class GameScene extends Scene {
         frameY_count=0;
 
 //        actor.setXY(gameObjects.get(0).painter().left(),gameObjects.get(0).painter().top());
+<<<<<<< HEAD
 
         actor.setXY(370,60);
         actor.setReborn(actor.painter().left(),actor.painter().top(),false);
 
 
+=======
+        actor.setXY(1000,1500);
+        actor.setRebornX(actor.painter().left());
+        actor.setRebornY(actor.painter().top());
+>>>>>>> imageMap
 
         this.background = background;
 
@@ -72,6 +78,10 @@ public abstract class GameScene extends Scene {
         camera = new Camera.Builder(cameraWidth, cameraHeight)
                 .setChaseObj(tracker)
                 .gen();
+    }
+
+    public Actor getActor() {
+        return actor;
     }
 
     @Override
