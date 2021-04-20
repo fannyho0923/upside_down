@@ -73,8 +73,8 @@ public class Monster extends GameObject{
 
     @Override
     public void collisionEffect(Actor actor) {
+        AudioResourceController.getInstance().shot("/sound/dead_short.wav");
         if (actor.getState() == Actor.State.ALIVE){
-            AudioResourceController.getInstance().shot("/sound/dead_short.wav");
             actor.dead();
         }
     }
