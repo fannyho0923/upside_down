@@ -1,5 +1,6 @@
 package game.gameobj;
 
+import game.controller.AudioResourceController;
 import game.controller.ImageController;
 import game.utils.Global;
 import game.utils.Delay;
@@ -73,6 +74,7 @@ public class Monster extends GameObject{
     @Override
     public void collisionEffect(Actor actor) {
         if (actor.getState() == Actor.State.ALIVE){
+            AudioResourceController.getInstance().shot("/sound/dead_short.wav");
             actor.dead();
         }
     }

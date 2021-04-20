@@ -39,6 +39,7 @@ public class Actor extends GameObject {
     private State state;
     private Delay rebornDelay;
     private Delay splashDelay;
+    private Delay deadDelay;
 
     public Actor(int x, int y, int num) {
         super(x, y, Global.UNIT_X32, Global.UNIT_Y32);
@@ -55,6 +56,7 @@ public class Actor extends GameObject {
 
         splashDelay = new Delay(3);
         rebornDelay = new Delay(90);
+        deadDelay = new Delay(20);
         splashDelay.loop(); //??
     }
 
