@@ -134,7 +134,7 @@ public abstract class GameScene extends Scene {
                             actor.setCanReverse(false);
                         }
                         break;
-                    case Global.VK_SHIFT:
+                    case Global.VK_ESCAPE:
                         if (testPop.isShow()) {
                             testPop.hide();
                             testPop.sceneEnd();
