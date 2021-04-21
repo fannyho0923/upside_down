@@ -26,7 +26,7 @@ public class Main {// 資料刷新時間
         initTheme();
         final JFrame jFrame = new JFrame();
         final SceneController sceneController = SceneController.getInstance();
-        sceneController.change(new ModeScene(3));
+        sceneController.change(new MenuScene());
         final GameKernel gameKernel = new GameKernel.Builder()
                 .input(new CommandSolver.BuildStream()
                         .mouseTrack().forceRelease().subscribe(sceneController)
@@ -35,7 +35,7 @@ public class Main {// 資料刷新時間
                         .add(KeyEvent.VK_LEFT, Global.VK_LEFT)
                         .add(KeyEvent.VK_RIGHT, Global.VK_RIGHT)
                         .add(KeyEvent.VK_SPACE, Global.VK_SPACE)
-                        .add(KeyEvent.VK_SHIFT, Global.VK_SHIFT)
+                        .add(KeyEvent.VK_ESCAPE, Global.VK_ESCAPE)
                         .add(KeyEvent.VK_A, Global.VK_A)
                         .next().keyTypedMode().subscribe(sceneController)
                 )

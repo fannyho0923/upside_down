@@ -46,7 +46,7 @@ public class Rubber extends GameObject{
     @Override
     public void collisionEffect(Actor actor) {
         if(actor.getState() == Actor.State.ALIVE) {
-            AudioResourceController.getInstance().shot("/sound/rubber.wav");
+            AudioResourceController.getInstance().shot("/sound/rubber_reduce.wav");
         }
         if(type.dir == Direction.horizontal){
             if(actor.velocity().y() < 0){ //up
@@ -73,7 +73,6 @@ public class Rubber extends GameObject{
                 if (delay.count()) {
                     count++;
                 }
-                System.out.println(count);
                 g.drawImage(imgEffect, painter().left(), painter().top(), painter().right(), painter().bottom(),
                         count * Global.UNIT_X64,
                         count/5 * Global.UNIT_X64,

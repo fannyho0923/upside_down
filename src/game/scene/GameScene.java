@@ -75,6 +75,8 @@ public abstract class GameScene extends Scene {
         actor.setXY(savePoint.get(0).painter().left(), savePoint.get(0).painter().top());
         actor.setReborn(actor.painter().left(), actor.painter().top(), false);
         saveNum = 0;
+        System.out.println(actor.painter().left());
+        System.out.println(actor.painter().top());
 
         this.background = background;
         int cameraStartX = cameraWidth * frameX_count;
@@ -99,6 +101,8 @@ public abstract class GameScene extends Scene {
         MapInformation.getInstance().setMapInfo(this.background);
         if (actorTrigCamera) {
             tracker.velocity().stop();
+        }else {
+            tracker.offsetY(320);
         }
 //        spikesDown = new Spikes(camera.painter().left(),camera.painter().top(),camera.painter().width(), 32, 2 );
 //        spikesUp = new Spikes(camera.painter().left(),camera.painter().bottom()-32,  camera.painter().width(), 32, 1);
@@ -131,7 +135,7 @@ public abstract class GameScene extends Scene {
                             actor.setCanReverse(false);
                         }
                         break;
-                    case Global.VK_SHIFT:
+                    case Global.VK_ESCAPE:
                         if (testPop.isShow()) {
                             testPop.hide();
                             testPop.sceneEnd();
@@ -269,6 +273,9 @@ public abstract class GameScene extends Scene {
                 if (actor.collider().left() >= camera.collider().right()) {
                     actor.setXY(camera.collider().left() - actor.painter().width() + 1, actor.painter().top());
                     return;
+                }
+                if(actor.getState()== Actor.State.REBORN){
+                    tracker.setY(actor.painter().bottom()-200);
                 }
 //            spikesDown.painter().setXY(camera.painter().left(),camera.painter().top()-5); // 為什麼會不貼邊??
 //            spikesUp.painter().setXY(camera.painter().left(),camera.painter().top() + camera.painter().height() - spikesUp.painter().height());

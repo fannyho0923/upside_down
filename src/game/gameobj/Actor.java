@@ -56,7 +56,7 @@ public class Actor extends GameObject {
 
         splashDelay = new Delay(3);
         rebornDelay = new Delay(90);
-        deadDelay = new Delay(60);
+        deadDelay = new Delay(20);
         splashDelay.loop(); //??
     }
 
@@ -208,8 +208,8 @@ public class Actor extends GameObject {
     public void dead() {
         if (state == State.ALIVE) {
             deadDelay.play();
-            AudioResourceController.getInstance().play("/sound/dead.wav");
             state = State.DEAD;
+            AudioResourceController.getInstance().play("/sound/dead.wav");
         }
     }
 
