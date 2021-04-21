@@ -42,6 +42,9 @@ public abstract class GameScene extends Scene {
     private Spikes spikesDown;
     private PopupWindowScene testPop;
 
+    private long startTime;
+    private long gameTime;
+
     public GameScene(String mapBmpPath, Actor actor, GameObject background,
                      int cameraWidth, int cameraHeight, int cameraVelocityX, int cameraVelocityY,
                      boolean actorTrigCamera) {
@@ -103,12 +106,15 @@ public abstract class GameScene extends Scene {
         if (actorTrigCamera) {
             tracker.velocity().stop();
         }
-//        spikesDown = new Spikes(camera.painter().left(),camera.painter().top(),camera.painter().width(), 32, 2 );
-//        spikesUp = new Spikes(camera.painter().left(),camera.painter().bottom()-32,  camera.painter().width(), 32, 1);
+        startTime = System.nanoTime();
+        System.out.println(startTime);
     }
 
     @Override
     public void sceneEnd() {
+        gameTime = System.nanoTime()-startTime;
+        System.out.println(gameTime);
+
         AudioResourceController.getInstance().stop("/sound/Battle-Dawn-crop-reduce.wav");
         this.background = null;
         this.actor = null;
