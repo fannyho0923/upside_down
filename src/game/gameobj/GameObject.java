@@ -4,6 +4,8 @@ import game.camera.MapInformation;
 import game.utils.GameKernel;
 import game.utils.Vector;
 
+import java.awt.*;
+
 public abstract class GameObject implements GameKernel.UpdateInterface, GameKernel.PaintInterface {
     private final Rect collider; //物件的碰撞方塊
     private final Rect painter;  //物件的繪圖方塊
@@ -131,6 +133,6 @@ public abstract class GameObject implements GameKernel.UpdateInterface, GameKern
 
     public void collisionEffect(Actor actor){}
 
-    public void secondCollisionEffect(Actor actor){}
+    public void savePointPaint(Graphics g, boolean get){}
 
 }

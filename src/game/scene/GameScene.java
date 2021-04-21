@@ -3,20 +3,16 @@ package game.scene;
 import game.camera.Camera;
 import game.camera.MapInformation;
 import game.controller.AudioResourceController;
-import game.controller.SceneController;
 import game.gameobj.*;
 import game.maploader.MapInfo;
 import game.maploader.MapLoader;
-import game.menu.scene.MenuScene;
 import game.menu.scene.PopupWindowScene;
 import game.utils.CommandSolver;
 import game.utils.Global;
 import game.utils.Velocity;
 
 import java.awt.*;
-import java.awt.event.KeyEvent;
 import java.io.IOException;
-import java.sql.SQLOutput;
 import java.util.ArrayList;
 
 
@@ -27,11 +23,12 @@ public abstract class GameScene extends Scene {
     private ArrayList<GameObject> gameObjects;
     private ArrayList<GameObject> orinBrokenRoads; // 分開加入, 鏡頭改變時要重新加入
     private ArrayList<GameObject> brokenRoads;
-    private ArrayList<GameObject> movePlatform;
+    private ArrayList<GameObject> savePoint;
 
     private Camera camera;
     private Tracker tracker;
     private boolean actorTrigCamera;
+    private int saveNum;
 
     private int frameX_count;
     private int frameY_count;
@@ -65,7 +62,7 @@ public abstract class GameScene extends Scene {
                      boolean actorTrigCamera) {
         gameObjects = new ArrayList<>();
         orinBrokenRoads = new ArrayList<>();
-        movePlatform = new ArrayList<>();
+        savePoint = new ArrayList<>();
 
         this.mapBmpPath = mapBmpPath;
         this.mapTxtPath = "/map/genMap.txt";
@@ -73,16 +70,16 @@ public abstract class GameScene extends Scene {
 
         this.actor = actor;
 
-        frameX_count = gameObjects.get(0).collider().left() / cameraWidth;
-        frameY_count = gameObjects.get(0).collider().top() / cameraHeight;
-        actor.setXY(gameObjects.get(0).painter().left(), gameObjects.get(0).painter().top());
-
+        frameX_count = savePoint.get(0).collider().left() / cameraWidth;
+        frameY_count = savePoint.get(0).collider().top() / cameraHeight;
+        actor.setXY(savePoint.get(0).painter().left(), savePoint.get(0).painter().top());
         actor.setReborn(actor.painter().left(), actor.painter().top(), false);
+        saveNum = 0;
 
         this.background = background;
-
         int cameraStartX = cameraWidth * frameX_count;
         int cameraStartY = cameraHeight * frameY_count;
+
         this.tracker = new Tracker(cameraStartX + (cameraWidth - Global.UNIT) / 2,
                 cameraStartY + (cameraHeight - Global.UNIT) / 2, new Velocity(cameraVelocityX, cameraVelocityY, false));
         this.actorTrigCamera = actorTrigCamera;
@@ -177,24 +174,25 @@ public abstract class GameScene extends Scene {
     @Override
     public void paint(Graphics g) {
         camera.start(g);
-        background.paint(g);
-
         gameObjects.forEach(a -> {
             if (camera.isCollision(a)) {
                 a.paint(g);
             }
         });
 
+        for (int i = 0; i < savePoint.size();i++){
+            if(camera.isCollision(savePoint.get(i))){
+                savePoint.get(i).savePointPaint(g,i == saveNum);
+            }
+        }
         brokenRoads.forEach(a -> {
             if (camera.isCollision(a)) {
                 a.paint(g);
             }
         });
-
         if (camera.isCollision(this.actor)) {
             this.actor.paint(g);
         }
-
 //        spikesUp.paint(g);
 //        spikesDown.paint(g);
 
@@ -202,7 +200,6 @@ public abstract class GameScene extends Scene {
         camera.end(g);
 
         midPaint(g);
-
         if (testPop.isShow()) {
             testPop.paint(g);
         }
@@ -225,16 +222,20 @@ public abstract class GameScene extends Scene {
                     brokenRoads.remove(i);
                 }
             }
+            for (int i = 0; i < savePoint.size(); i++){
+                GameObject obj = savePoint.get(i);
+                if (actor.isCollision(obj)) {
+                    obj.collisionEffect(actor);
+                    saveNum = i;
+                }
 
+            }
             for (int i = 0; i < gameObjects.size(); i++) {
                 GameObject obj = gameObjects.get(i);
                 if (actor.isCollision(obj)) {
                     obj.collisionEffect(actor);
                 }
                 obj.update();
-                if (!obj.isExist()) {
-                    gameObjects.remove(i);
-                }
             }
 
             camera.update();
@@ -277,14 +278,11 @@ public abstract class GameScene extends Scene {
         }
     }
 
-
     public void mapInit() {
         try {
             final MapLoader mapLoader = new MapLoader(mapBmpPath, mapTxtPath);
             final ArrayList<MapInfo> mapInfoArr = mapLoader.combineInfo();
 
-//          /*移動平台------------------------------------------------*/
-//            因為有兩個碰撞框要update, 要分開存
             // 易碎地, 要分開存!!
             this.orinBrokenRoads.addAll(mapLoader.createObjectArray("broken1", Global.UNIT, mapInfoArr, (gameObject, name, mapInfo, size) -> {
                 final GameObject tmp;
@@ -305,14 +303,25 @@ public abstract class GameScene extends Scene {
             }));
 
             // 出生點，存第一個
-            this.gameObjects.addAll(mapLoader.createObjectArray("born", Global.UNIT, mapInfoArr, (gameObject, name, mapInfo, size) -> {
+            this.savePoint.addAll(mapLoader.createObjectArray("born", Global.UNIT, mapInfoArr, (gameObject, name, mapInfo, size) -> {
                 final GameObject tmp;
                 if (gameObject.equals(name)) {
-                    tmp = new Born(mapInfo.getX() * size, mapInfo.getY() * size);
+                    tmp = new SavePoint(mapInfo.getX() * size, mapInfo.getY() * size);
                     return tmp;
                 }
                 return null;
             }));
+
+            this.savePoint.addAll(mapLoader.createObjectArray("savePoint", Global.UNIT, mapInfoArr, (gameObject, name, mapInfo, size) -> {
+                final GameObject tmp;
+                if (gameObject.equals(name)) {
+                    tmp = new SavePoint(mapInfo.getX() * size, mapInfo.getY() * size);
+                    return tmp;
+                }
+                return null;
+            }));
+
+
 
             this.gameObjects.addAll(mapLoader.createObjectArray("back1", Global.UNIT, mapInfoArr, (gameObject, name, mapInfo, size) -> {
                 final GameObject tmp;
@@ -503,15 +512,6 @@ public abstract class GameScene extends Scene {
                 return null;
             }));
 
-            this.gameObjects.addAll(mapLoader.createObjectArray("savePoint", Global.UNIT, mapInfoArr, (gameObject, name, mapInfo, size) -> {
-                final GameObject tmp;
-                if (gameObject.equals(name)) {
-                    tmp = new SavePoint(mapInfo.getX() * size, mapInfo.getY() * size);
-                    return tmp;
-                }
-                return null;
-            }));
-
             //tiles
             this.gameObjects.addAll(mapLoader.createObjectArray("tile_0195", Global.UNIT, mapInfoArr, (gameObject, name, mapInfo, size) -> {
                 final GameObject tmp;
@@ -669,14 +669,6 @@ public abstract class GameScene extends Scene {
 
             // monster
 
-//            monster_240,-52327,D:\newMap\img\monster\tile_0240.png,1,1
-//            monster_260,-52225,D:\newMap\img\monster\tile_0260.png,1,1
-//            monster_280,-52276,D:\newMap\img\monster\tile_0280.png,1,1
-//            monster_300,-3394561,D:\newMap\img\monster\tile_0300.png,1,1
-//            monster_320,-6736897,D:\newMap\img\monster\tile_0320.png,1,1
-//            monster_340,-10079233,D:\newMap\img\monster\tile_0340.png,1,1
-//            monster_380,-13421569,D:\newMap\img\monster\tile_0380.png,1,1
-
             this.gameObjects.addAll(mapLoader.createObjectArray("monster_240", Global.UNIT, mapInfoArr, (gameObject, name, mapInfo, size) -> {
                 final GameObject tmp;
                 if (gameObject.equals(name)) {
@@ -699,7 +691,6 @@ public abstract class GameScene extends Scene {
 
 
             // rubber
-
             this.gameObjects.addAll(mapLoader.createObjectArray("rubber_h1", Global.UNIT, mapInfoArr, (gameObject, name, mapInfo, size) -> {
                 final GameObject tmp;
                 if (gameObject.equals(name)) {
