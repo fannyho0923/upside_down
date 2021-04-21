@@ -79,8 +79,10 @@ public class SelectActorPopScene extends Scene {
         start.setClickedActionPerformed((int x, int y) -> {
             for (int i = 1; i <= arrayList.size(); i++) {
                 if (arrayList.get(i-1).getIsFocus()) {
+
                     SceneController.getInstance().change(new ModeScene(i));
 //                    SceneController.getInstance().change(new Parkour(i));
+
                     return;
                 }
             }
