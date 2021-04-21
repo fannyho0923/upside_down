@@ -7,10 +7,7 @@ import game.controller.SceneController;
 import game.menu.menu.*;
 import game.menu.menu.Button;
 import game.menu.menu.impl.MouseTriggerImpl;
-import game.scene.BasicScene;
-import game.scene.Parkour;
-import game.scene.Scene;
-import game.scene.SpeedRun;
+import game.scene.*;
 import game.utils.CommandSolver;
 
 public class ModeScene extends Scene {
@@ -47,7 +44,7 @@ public class ModeScene extends Scene {
         b1.setClickedActionPerformed((int x, int y) -> SceneController.getInstance().change(new BasicScene(actorNum)));
         b2.setClickedActionPerformed((int x, int y) -> SceneController.getInstance().change(new SpeedRun(actorNum)));
         b3.setClickedActionPerformed((int x, int y) -> SceneController.getInstance().change(new Parkour(actorNum)));
-        b4.setClickedActionPerformed((int x, int y) -> SceneController.getInstance().change(new BasicScene(actorNum)));
+        b4.setClickedActionPerformed((int x, int y) -> SceneController.getInstance().change(new CountDown(actorNum)));
         b5.setClickedActionPerformed((int x, int y) -> SceneController.getInstance().change(new BasicScene(actorNum)));
         back.setClickedActionPerformed((int x, int y) -> SceneController.getInstance().change((new SelectActorPopScene())));
 
@@ -110,7 +107,6 @@ public class ModeScene extends Scene {
         b4.paint(g);
         b5.paint(g);
 
-//        label.paint(g);
         back.paint(g);
     }
 

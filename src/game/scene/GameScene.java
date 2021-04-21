@@ -181,7 +181,7 @@ public abstract class GameScene extends Scene {
             }
         });
 
-        for (int i = 0; i < savePoint.size();i++){
+        for (int i = 1; i < savePoint.size();i++){
             if(camera.isCollision(savePoint.get(i))){
                 savePoint.get(i).savePointPaint(g,i == saveNum);
             }
@@ -290,6 +290,10 @@ public abstract class GameScene extends Scene {
         } else {
             testPop.update();
         }
+    }
+
+    public Camera getCamera(){
+        return this.camera;
     }
 
     public void mapInit() {

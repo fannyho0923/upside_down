@@ -5,7 +5,7 @@ public class Velocity {
     private int y;
     private boolean gravityReverse;
 
-    private final int MAX_Y = 5;
+    private final int MAX_Y = 6;
 
     public Velocity(int x,int y, boolean gravityReverse){
         this.x = x;

@@ -69,5 +69,5 @@ back3-2,-13421773,D:\newMap\img\background\back3-2.jpg,30,20
 back3-3,-16764109,D:\newMap\img\background\back3-3.jpg,30,20
 back3-4,-16764160,D:\newMap\img\background\back3-4.jpg,30,20
 born,-10092289,D:\newMap\img\startPoint.png,1,1
-born,-16737997,C:\Users\anne\Desktop\éŠæˆ²ç´ æ\æš«å®šç´ æ_è«‹ç”¨æ­¤ç•«åœ°åœ–\pass_1x1.png,1,1
+born,-16737997,C:\Users\anne\Desktop\??Šæˆ²ç´ æ?\?š«å®šç? æ?_è«‹ç”¨æ­¤ç•«?œ°??–\pass_1x1.png,1,1
 born,-3381760,/Users/heweihan/New/img/savePoint/born.png,1,1
