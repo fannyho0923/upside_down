@@ -39,6 +39,7 @@ public class Actor extends GameObject {
     private State state;
     private Delay rebornDelay;
     private Delay splashDelay;
+    private Delay deadDelay;
 
     public Actor(int x, int y, int num) {
         super(x, y, Global.UNIT_X32, Global.UNIT_Y32);
@@ -55,6 +56,7 @@ public class Actor extends GameObject {
 
         splashDelay = new Delay(3);
         rebornDelay = new Delay(90);
+        deadDelay = new Delay(60);
         splashDelay.loop(); //??
     }
 
@@ -71,11 +73,15 @@ public class Actor extends GameObject {
                 move();
                 break;
             case DEAD:
-                this.setXY(rebornX, rebornY);
-                velocity.setGravityReverse(rebornState);
-                velocity().stop();
-                state = State.REBORN;
-                rebornDelay.play();
+                velocity.update();
+                moveY();
+                if(deadDelay.count()){
+                    this.setXY(rebornX, rebornY);
+                    velocity.setGravityReverse(rebornState);
+                    velocity().stop();
+                    state = State.REBORN;
+                    rebornDelay.play();
+                }
                 break;
             case REBORN:
                 velocity.update();
@@ -99,6 +105,14 @@ public class Actor extends GameObject {
                             painter().right(), painter().bottom());
                 }
                 break;
+            case DEAD:
+                if (velocity.isReverse()) {
+                    actionAnimator.paint(g, this.imgRev, painter().left(), painter().top(),
+                            painter().right(), painter().bottom());
+                } else {
+                    actionAnimator.paint(g, this.img, painter().left(), painter().top(),
+                            painter().right(), painter().bottom());
+                }
             case REBORN:
                 if (rebornDelay.isPlaying()) {
                     if (splashDelay.count()) {
@@ -193,6 +207,7 @@ public class Actor extends GameObject {
 
     public void dead() {
         if (state == State.ALIVE) {
+            deadDelay.play();
             AudioResourceController.getInstance().play("/sound/dead.wav");
             state = State.DEAD;
         }
