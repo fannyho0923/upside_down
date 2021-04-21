@@ -3,21 +3,20 @@ package game.scene;
 import game.camera.Camera;
 import game.camera.MapInformation;
 import game.controller.AudioResourceController;
-import game.controller.SceneController;
 import game.gameobj.*;
 import game.maploader.MapInfo;
 import game.maploader.MapLoader;
-import game.menu.scene.MenuScene;
 import game.menu.scene.PopupWindowScene;
 import game.utils.CommandSolver;
 import game.utils.Global;
+import game.utils.RankResult;
 import game.utils.Velocity;
 
 import java.awt.*;
-import java.awt.event.KeyEvent;
 import java.io.IOException;
-import java.sql.SQLOutput;
-import java.util.ArrayList;
+import java.text.SimpleDateFormat;
+import java.util.*;
+import java.util.concurrent.TimeUnit;
 
 
 public abstract class GameScene extends Scene {
@@ -38,16 +37,25 @@ public abstract class GameScene extends Scene {
 
     private String mapBmpPath;
     private String mapTxtPath;
-    private Spikes spikesUp;
-    private Spikes spikesDown;
     private PopupWindowScene testPop;
 
     private long startTime;
     private long gameTime;
+    private String gt;
+    private Ranking ranking;
+    Map<String, String> rankMap;
+    private ArrayList<RankResult> rankResults;
 
     public GameScene(String mapBmpPath, Actor actor, GameObject background,
                      int cameraWidth, int cameraHeight, int cameraVelocityX, int cameraVelocityY,
                      boolean actorTrigCamera) {
+        try {
+            ranking = new Ranking("/test1.txt");
+        }catch (IOException e){
+            System.out.println(e);
+        }
+        rankMap = new HashMap<>();
+        rankResults = new ArrayList<>();
 
         testPop = new PopupWindowScene(Global.WINDOW_WIDTH / 2 - 325, Global.WINDOW_HEIGHT / 2 - 225,
                 650, 450);
@@ -114,6 +122,40 @@ public abstract class GameScene extends Scene {
     public void sceneEnd() {
         gameTime = System.nanoTime()-startTime;
         System.out.println(gameTime);
+        gameTime = TimeUnit.NANOSECONDS.toMillis(gameTime);
+        gt = new SimpleDateFormat("mm:ss:SSS", Locale.TAIWAN).format(new Date(gameTime));
+//        System.out.println(gt);
+
+//        rankMap.put("Anne",gt);
+
+        //讀目前的排行
+        ArrayList<String> ar = ranking.readL();
+        ar.forEach(System.out::println);
+
+//        if (ar.size()>9){
+//            ar.forEach(System.out::println);
+//        }else{
+//            ranking.writeOut("NAME"+Global.random(0,9), gameTime);
+//        }
+
+//        for (int i=0; i<ar.size()-1;i=i+2){
+//            rankMap.put(ar.get(i),ar.get(i+1));
+//        }
+
+        for (int i=0; i<ar.size()-1;i=i+2){
+            rankResults.add(new RankResult(ar.get(i),Long.parseLong(ar.get(i+1))));
+        }
+
+        rankResults.add(new RankResult("Name", gameTime));
+
+        for (int i=0; i<rankResults.size(); i++){
+            //11個全部排序一次，取前十個writeout
+        }
+
+        for (int i=0; i<rankResults.size(); i++){
+            System.out.println(rankResults.get(i).getTime());
+        }
+
 
         AudioResourceController.getInstance().stop("/sound/Battle-Dawn-crop-reduce.wav");
         this.background = null;
