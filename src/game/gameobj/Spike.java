@@ -7,6 +7,9 @@ import game.utils.Global;
 
 import javax.sound.sampled.Clip;
 import java.awt.*;
+import java.awt.geom.AffineTransform;
+import java.awt.image.AffineTransformOp;
+import java.awt.image.BufferedImage;
 import java.util.ArrayList;
 
 public class Spike extends GameObject{
@@ -80,7 +83,12 @@ public class Spike extends GameObject{
         g.drawRect(collider().left(),collider().top(),collider().width(),collider().height());
         if (isTouch){
             if(count < 4) {
-                g.drawImage(imageArrayList.get(count), painter().left(), painter().top(), null);
+                if (type==Type.down) {
+                    g.drawImage(imageArrayList.get(count), painter().left(), painter().top(), null);
+                }
+                if (type==Type.top){
+                    g.drawImage(paintReverse(imageArrayList.get(count)), painter().left(), painter().top(), null);
+                }
                 if (delay.count()) {
                     count++;
                 }
@@ -94,5 +102,12 @@ public class Spike extends GameObject{
 
     @Override
     public void update() {
+    }
+
+    private Image paintReverse(Image img) {
+        AffineTransform tx = AffineTransform.getScaleInstance(1, -1);
+        tx.translate(0, -img.getHeight(null));
+        AffineTransformOp op = new AffineTransformOp(tx, AffineTransformOp.TYPE_NEAREST_NEIGHBOR);
+        return op.filter((BufferedImage) img, null);
     }
 }
