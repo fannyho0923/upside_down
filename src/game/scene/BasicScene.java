@@ -19,7 +19,7 @@ import java.util.ArrayList;
 
 public class BasicScene extends GameScene {
     private Label labelBorn, labelDir, labelDirImg, labelSpace, labelSpaceImg, labelOK, labelMon1, labelMon2, labelBR,
-            labelConveyor, labelRubber, labelDone, labelEnd;
+            labelConveyor, labelRubber, labelDone, labelEnd, labelIns;
 
     public BasicScene(int num) {
         super("/map/basicMap0420.bmp",
@@ -119,6 +119,13 @@ public class BasicScene extends GameScene {
                         .setTextColor(Color.WHITE)
                         .setHaveBorder(true)
                         .setBorderColor(new Color(253, 253, 253)));
+        labelIns = new Label(715, 400,
+                new Style.StyleRect(190, 40, true, new BackgroundType.BackgroundColor(new Color(22, 34, 52)))
+                        .setText("請按ESC選擇下一步")
+                        .setTextFont(new Font("TimesRoman", Font.BOLD, 14))
+                        .setTextColor(Color.WHITE)
+                        .setHaveBorder(true)
+                        .setBorderColor(new Color(253, 253, 253)));
     }
 
     @Override
@@ -144,7 +151,7 @@ public class BasicScene extends GameScene {
             labelMon1.paint(g);
             labelMon2.paint(g);
         }
-        if (labelMon1 == null && labelBR != null && getActor().painter().left() < 200 && getActor().painter().top() > 700) {
+        if (labelMon1 == null && labelBR != null && getActor().painter().left() < 250 && getActor().painter().top() > 700) {
             labelBR.paint(g);
         }
         if (labelBR == null && labelConveyor != null && getActor().painter().left() > 970) {
@@ -158,6 +165,7 @@ public class BasicScene extends GameScene {
         }
         if (labelDone == null && labelEnd != null && getActor().painter().right() > 810 && getActor().painter().bottom() > 1820) {
             labelEnd.paint(g);
+            labelIns.paint(g);
         }
     }
 
