@@ -1,21 +1,14 @@
 package game.scene;
 
-import game.camera.MapInformation;
-import game.controller.AudioResourceController;
 import game.controller.ImageController;
 import game.gameobj.Actor;
 import game.gameobj.Background;
 import game.gameobj.GameObject;
-import game.gameobj.Spikes;
 import game.menu.menu.BackgroundType;
 import game.menu.menu.Label;
 import game.menu.menu.Style;
-import game.menu.menu.Theme;
-import game.utils.CommandSolver;
-import game.utils.Global;
 
 import java.awt.*;
-import java.util.ArrayList;
 
 public class BasicScene extends GameScene {
     private Label labelBorn, labelDir, labelDirImg, labelSpace, labelSpaceImg, labelOK, labelMon1, labelMon2, labelBR,

@@ -1,31 +1,40 @@
 package game.gameobj;
 
+import game.controller.AudioResourceController;
 import game.controller.ImageController;
+import game.utils.Global;
 
 import java.awt.*;
 
 public class Spikes extends GameObject{
-    Image img;
-    public Spikes(int top, int left, int width, int height, int num) {
-        super(top, left, width, height);
-        switch (num){
-            case 1:
-                img = ImageController.getInstance().tryGet("/img/spikesUp.png");
-                break;
-            case 2:
-                img = ImageController.getInstance().tryGet("/img/spikesDown.png");
-                break;
+
+    private Type type;
+    public enum Type{
+        topSpikes("/img/gameObj/spike/spike_top.png"),
+        downSpikes("/img/gameObj/spike/spike_down.png");
+        private Image img;
+        Type(String path){
+            this.img = ImageController.getInstance().tryGet(path);
+        }
+    }
+    public Spikes(int x, int y, int width, Type type){
+        super(x,y,width, Global.UNIT);
+        this.type = type;
+    }
+
+    @Override
+    public void collisionEffect(Actor actor){
+        if(actor.getState() == Actor.State.ALIVE){
+            AudioResourceController.getInstance().shot("/sound/spike.wav");
+            actor.dead();
         }
     }
 
     @Override
-    public void collisionEffect(Actor actor) {
-
-    }
-
-    @Override
     public void paint(Graphics g) {
-        g.drawImage(img, painter().left(), painter().top(), this.painter().width(), this.painter().height(), null);
+        for (int i=0;i < painter().width()/Global.UNIT;i++){
+            g.drawImage(type.img, i*Global.UNIT,painter().top(),null);
+        }
     }
 
     @Override

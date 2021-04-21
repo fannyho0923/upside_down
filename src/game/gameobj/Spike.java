@@ -16,6 +16,7 @@ public class Spike extends GameObject{
     private Type type;
     private boolean isTouch;
     private ArrayList<Image> imageArrayList;
+    private boolean soundPlayed;
 
     public enum Type{
         left("/img/gameObj/spike/spike_left.png"),
@@ -34,6 +35,7 @@ public class Spike extends GameObject{
     public Spike(int top, int left, Type type) {
         super(top,left, Global.UNIT,Global.UNIT);
         this.type = type;
+        this.soundPlayed = false;
         delay = new Delay(10);
         count = 0;
         isTouch = false;
@@ -68,19 +70,19 @@ public class Spike extends GameObject{
         if(actor.getState() == Actor.State.ALIVE){
 //            AudioResourceController.getInstance().shot("/sound/spike.wav");
             actor.dead();
+            soundPlayed =false;
         }
         if (actor.getState()==Actor.State.DEAD){
-            AudioResourceController.getInstance().shot("/sound/blood_crop.wav");
+            AudioResourceController.getInstance().play("/sound/blood_crop.wav");
             isTouch=true;
             delay.loop();
+            soundPlayed = true;
         }
     }
 
     @Override
     public void paint(Graphics g) {
         g.drawImage(type.img, painter().left(), painter().top(), null);
-        g.setColor(Color.RED);
-        g.drawRect(collider().left(),collider().top(),collider().width(),collider().height());
         if (isTouch){
             if(count < 4) {
                 if (type==Type.down) {

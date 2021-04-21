@@ -69,14 +69,11 @@ public abstract class GameScene extends Scene {
         mapInit();
 
         this.actor = actor;
-
         frameX_count = savePoint.get(0).collider().left() / cameraWidth;
         frameY_count = savePoint.get(0).collider().top() / cameraHeight;
         actor.setXY(savePoint.get(0).painter().left(), savePoint.get(0).painter().top());
         actor.setReborn(actor.painter().left(), actor.painter().top(), false);
         saveNum = 0;
-        System.out.println(actor.painter().left());
-        System.out.println(actor.painter().top());
 
         this.background = background;
         int cameraStartX = cameraWidth * frameX_count;
@@ -103,9 +100,9 @@ public abstract class GameScene extends Scene {
             tracker.velocity().stop();
         }else {
             tracker.offsetY(320);
+            spikesUp = new Spikes(camera.painter().left(),camera.painter().top(),camera.painter().width(), Spikes.Type.topSpikes);
+            spikesDown = new Spikes(camera.painter().left(),camera.painter().bottom()-32,  camera.painter().width(), Spikes.Type.downSpikes);
         }
-//        spikesDown = new Spikes(camera.painter().left(),camera.painter().top(),camera.painter().width(), 32, 2 );
-//        spikesUp = new Spikes(camera.painter().left(),camera.painter().bottom()-32,  camera.painter().width(), 32, 1);
     }
 
     @Override
@@ -197,12 +194,17 @@ public abstract class GameScene extends Scene {
         if (camera.isCollision(this.actor)) {
             this.actor.paint(g);
         }
-//        spikesUp.paint(g);
-//        spikesDown.paint(g);
 
+        if(!actorTrigCamera){
+            spikesUp.paint(g);
+            spikesDown.paint(g);
+        }
+
+        if(actor.getState() == Actor.State.DEAD){
+
+        }
         camera.paint(g);
         camera.end(g);
-
         midPaint(g);
         if (testPop.isShow()) {
             testPop.paint(g);
@@ -232,7 +234,6 @@ public abstract class GameScene extends Scene {
                     obj.collisionEffect(actor);
                     saveNum = i;
                 }
-
             }
             for (int i = 0; i < gameObjects.size(); i++) {
                 GameObject obj = gameObjects.get(i);
@@ -266,7 +267,7 @@ public abstract class GameScene extends Scene {
                         camera.painter().height() * frameY_count);
             } else {
                 tracker.update();
-                if (actor.collider().right() <= camera.collider().left()) {//work left
+                if (actor.collider().right() <= camera.collider().left()) {//walk left
                     actor.setXY(camera.collider().right() - 1, actor.painter().top());
                     return;
                 }
@@ -277,8 +278,14 @@ public abstract class GameScene extends Scene {
                 if(actor.getState()== Actor.State.REBORN){
                     tracker.setY(actor.painter().bottom()-200);
                 }
-//            spikesDown.painter().setXY(camera.painter().left(),camera.painter().top()-5); // 為什麼會不貼邊??
-//            spikesUp.painter().setXY(camera.painter().left(),camera.painter().top() + camera.painter().height() - spikesUp.painter().height());
+                if(spikesUp.isCollision(actor)){
+                    spikesUp.collisionEffect(actor);
+                }
+                if(spikesDown.isCollision(actor)){
+                    spikesDown.collisionEffect(actor);
+                }
+                spikesUp.setXY(camera.painter().left(),camera.painter().top()-5); // 為什麼會不貼邊??
+                spikesDown.setXY(camera.painter().left(),camera.painter().bottom() -32);
             }
         } else {
             testPop.update();
