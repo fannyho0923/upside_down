@@ -43,7 +43,7 @@ public class SelectActorPopScene extends Scene {
 
     @Override
     public void sceneBegin() {
-        menuBackground = ImageController.getInstance().tryGet("/img/menuPic.jpeg");
+        menuBackground = ImageController.getInstance().tryGet("/img/background/actorbackground.png");
         bk = ImageController.getInstance().tryGet("/img/bk.png");
         actor1 = ImageController.getInstance().tryGet("/img/actor/actorFront1.png");
         actor2 = ImageController.getInstance().tryGet("/img/actor/actorFront2.png");
@@ -70,7 +70,7 @@ public class SelectActorPopScene extends Scene {
         arrayList.add(a5);
         arrayList.add(a6);
         label = new Label(385, 320, new Style.StyleRect(200, 80, new BackgroundType.BackgroundNull())
-                .setText("請選擇角色人物"));
+                .setText("CHOOSE and CLICK the Actor"));
 
 
         actionAnimator = new ActionAnimator();//90, 100, 650, 450
@@ -140,7 +140,7 @@ public class SelectActorPopScene extends Scene {
     @Override
     public void paint(Graphics g) {//90, 100, 650, 450
         g.drawImage(menuBackground, 0, 0, 1024, 760, null);//1024,760
-        g.drawImage(bk, 200, 280, 570, 350, null);//bk, 90, 100, 650, 450, null
+//        g.drawImage(bk, 200, 280, 570, 350, null);//bk, 90, 100, 650, 450, null
         label.paint(g);
         start.paint(g);
         back.paint(g);
