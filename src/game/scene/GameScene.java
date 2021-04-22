@@ -296,7 +296,7 @@ public abstract class GameScene extends Scene {
                     return;
                 }
                 if(actor.getState()== Actor.State.REBORN){
-                    tracker.setY(actor.painter().bottom()-200);
+                    tracker.setY(actor.painter().bottom()); //
                 }
                 if(spikesUp.isCollision(actor)){
                     spikesUp.collisionEffect(actor);

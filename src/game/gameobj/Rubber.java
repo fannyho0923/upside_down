@@ -43,8 +43,8 @@ public class Rubber extends GameObject{
         delay = new Delay(5);
 
         if (type.dir == Direction.horizontal){
-            this.collider().offsetHeight(20);
-            this.collider().offsetY(-10);
+            this.collider().offsetHeight(-20);
+            this.collider().offsetY(10);
         }
     }
 
