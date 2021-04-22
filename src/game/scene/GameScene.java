@@ -7,10 +7,7 @@ import game.gameobj.*;
 import game.maploader.MapInfo;
 import game.maploader.MapLoader;
 import game.menu.scene.PopupWindowScene;
-import game.utils.CommandSolver;
-import game.utils.Global;
-import game.utils.RankResult;
-import game.utils.Velocity;
+import game.utils.*;
 
 import java.awt.*;
 import java.io.IOException;
@@ -43,18 +40,16 @@ public abstract class GameScene extends Scene {
     private long gameTime;
     private String gt;
     private Ranking ranking;
-    Map<String, String> rankMap;
     private ArrayList<RankResult> rankResults;
 
     public GameScene(String mapBmpPath, Actor actor, GameObject background,
                      int cameraWidth, int cameraHeight, int cameraVelocityX, int cameraVelocityY,
                      boolean actorTrigCamera) {
         try {
-            ranking = new Ranking("/test1.txt");
+            ranking = new Ranking("test1.txt");
         }catch (IOException e){
             System.out.println(e);
         }
-        rankMap = new HashMap<>();
         rankResults = new ArrayList<>();
 
         testPop = new PopupWindowScene(Global.WINDOW_WIDTH / 2 - 325, Global.WINDOW_HEIGHT / 2 - 225,
@@ -115,46 +110,78 @@ public abstract class GameScene extends Scene {
             tracker.velocity().stop();
         }
         startTime = System.nanoTime();
-        System.out.println(startTime);
+//        System.out.println(startTime);
     }
 
     @Override
     public void sceneEnd() {
         gameTime = System.nanoTime()-startTime;
-        System.out.println(gameTime);
+//        System.out.println(gameTime);
         gameTime = TimeUnit.NANOSECONDS.toMillis(gameTime);
+        int gtInt = (int)gameTime;
         gt = new SimpleDateFormat("mm:ss:SSS", Locale.TAIWAN).format(new Date(gameTime));
-//        System.out.println(gt);
 
-//        rankMap.put("Anne",gt);
+        RankResult newResult = new RankResult("user1", gtInt);
 
         //讀目前的排行
         ArrayList<String> ar = ranking.readL();
-        ar.forEach(System.out::println);
+//        ar.forEach(System.out::println);
 
-//        if (ar.size()>9){
-//            ar.forEach(System.out::println);
-//        }else{
-//            ranking.writeOut("NAME"+Global.random(0,9), gameTime);
-//        }
-
-//        for (int i=0; i<ar.size()-1;i=i+2){
-//            rankMap.put(ar.get(i),ar.get(i+1));
-//        }
-
-        for (int i=0; i<ar.size()-1;i=i+2){
-            rankResults.add(new RankResult(ar.get(i),Long.parseLong(ar.get(i+1))));
+        if (ar.size()>0) {
+            //把檔案內容轉成arraylist
+            for (int i = 0; i < ar.size() - 1; i = i + 2) {
+                rankResults.add(new RankResult(ar.get(i), Integer.valueOf(ar.get(i + 1))));
+                System.out.println("IN");
+            }
         }
 
-        rankResults.add(new RankResult("Name", gameTime));
+        System.out.println("new: "+gtInt);
 
-        for (int i=0; i<rankResults.size(); i++){
-            //11個全部排序一次，取前十個writeout
-        }
-
-        for (int i=0; i<rankResults.size(); i++){
+        System.out.println("Unsorted");
+        for (int i = 0; i < rankResults.size(); i++) {
+            System.out.println(rankResults.get(i).getName());
             System.out.println(rankResults.get(i).getTime());
+            System.out.println("-----------");
         }
+
+        //如果目前榜上資料超過9筆，要進行比對，有進榜單資格的話，就add，排序後取前10輸出
+        //不超過9筆就直接加入榜單後，排序輸出
+        if (rankResults.size()>2) {
+            for (int i=0; i<rankResults.size(); i++){
+                if (rankResults.get(i).compareTo(newResult)){
+                    //有資格進榜單，讓使用者輸入名字
+//                    newResult.setName("");
+                    rankResults.add(newResult);
+                    break;
+                }
+            }
+        }else {
+            rankResults.add(newResult);
+        }
+
+        //排序
+        Collections.sort(rankResults, new RankSort());
+
+        System.out.println("\nSort");
+        for (int i = 0; i < rankResults.size(); i++) {
+            System.out.println(rankResults.get(i).getName());
+            System.out.println(rankResults.get(i).getTime());
+            System.out.println("-----------");
+        }
+
+        //取前10名轉回一串字串輸出
+        String output = "";
+//        if (rankResults.size()<4){
+//            for (int i = 0; i < rankResults.size(); i++) {
+//                output += rankResults.get(i).getName() + "," + rankResults.get(i).getTime() + ",";
+//            }
+//        }else {
+//            for (int i = 0; i < 3; i++) {
+//                output += rankResults.get(i).getName() + "," + rankResults.get(i).getTime() + ",";
+//            }
+//        }
+        rankResults.clear();
+        ranking.writeOut(output);
 
 
         AudioResourceController.getInstance().stop("/sound/Battle-Dawn-crop-reduce.wav");

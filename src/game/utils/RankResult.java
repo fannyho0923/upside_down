@@ -2,14 +2,31 @@ package game.utils;
 
 public class RankResult {
     private String name;
-    private long time;
+    private int time;
 
-    public RankResult(String name, long time){
+    public RankResult(String name, int time){
         this.name = name;
         this.time = time;
     }
 
-    public long getTime() {
+    public int getTime() {
         return time;
     }
+
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    public boolean compareTo(RankResult rankResult){
+        if (rankResult.getTime()<this.time) {
+            return true;
+        } else {
+            return false;
+        }
+    }
+
 }

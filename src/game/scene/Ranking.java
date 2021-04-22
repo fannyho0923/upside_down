@@ -4,21 +4,26 @@ import java.security.KeyPair;
 import java.util.*;
 
 public class Ranking {
-        FileWriter fileWriter;
-        BufferedWriter bufferedWriter;
-        String fileName;
-        Map<String, String> rankMap;
+//    public static void main(String[] args){
+//        try {
+//            Ranking ranking = new Ranking("test1.txt");
+//            ranking.writeOut("testtest");
+//            ranking.readL();
+//        } catch (IOException e) {
+//            e.printStackTrace();
+//        }
+//    }
+        String filePath;
 
-    public Ranking(String filepath) throws IOException {
-        this.fileName= getClass().getResource(filepath).getFile();
-        fileWriter = new FileWriter(fileName, true);
-        bufferedWriter = new BufferedWriter(fileWriter);
-        rankMap = new HashMap<>();
+    public Ranking(String filePath) throws IOException {
+        this.filePath = filePath;
     }
 
-    public void writeOut(String Name, long time){
+    public void writeOut(String output){
         try {
-            bufferedWriter.write(Name+","+time+","); //寫入字串
+            FileWriter fileWriter = new FileWriter(filePath);
+            BufferedWriter bufferedWriter = new BufferedWriter(fileWriter);
+            bufferedWriter.write(output); //寫入字串
 //            bufferedWriter.write(Name);
 //            bufferedWriter.newLine(); //換行
 //            bufferedWriter.write(time);
@@ -33,7 +38,7 @@ public class Ranking {
         public ArrayList<String> readL(){
             ArrayList<String> strings=new ArrayList<>();
             try {
-                FileReader fr=new FileReader(fileName);    //建立檔案內容丟到實體fr
+                FileReader fr=new FileReader(filePath);    //建立檔案內容丟到實體fr
                 BufferedReader br=new BufferedReader(fr); //將實體fr丟到讀取器br
                 String line;
                 while ((line=br.readLine()) != null) {    //若檔案內容不為null就執行
@@ -41,8 +46,6 @@ public class Ranking {
                     //read: 讀取檔案一次一個字元傳回為int，因此如果要秀出內容還要做強制轉型為char，System.out.print((char)a)
                     strings = new ArrayList<>(Arrays.asList(line.split(",")));
                 }
-//                String[] anArray = line.split("\\s*,\\s*");
-//                System.out.println(anArray[0]);
                 br.close();
             }
             catch (IOException e) {System.out.println(e);} //出錯就秀出錯誤
