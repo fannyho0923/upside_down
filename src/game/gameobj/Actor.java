@@ -12,7 +12,7 @@ import java.awt.image.AffineTransformOp;
 import java.awt.image.BufferedImage;
 
 public class Actor extends GameObject {
-    public static final int WALK_SPEED = 3;
+    public static final int WALK_SPEED = 4;
 
     private Velocity velocity;
     public enum State {

@@ -34,7 +34,6 @@ public class Monster extends GameObject{
 
     private Type type;
     private Tour tour;
-
     public Monster(int top, int left, int width, int height, Type type) {
         super(top, left, width, height);
         this.type = type;

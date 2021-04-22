@@ -72,7 +72,6 @@ public class SelectActorPopScene extends Scene {
         label = new Label(385, 320, new Style.StyleRect(200, 80, new BackgroundType.BackgroundNull())
                 .setText("CHOOSE and CLICK the Actor"));
 
-
         actionAnimator = new ActionAnimator();//90, 100, 650, 450
         start = new Button(480 + 125, 650 - 130, Theme.get(0));//Button(bk.getX() + getWidth() - 150, this.getY() + getHeight() - 130, Theme.get(0))
         back = new Button(480 - 200, 650 - 105, Theme.get(3));

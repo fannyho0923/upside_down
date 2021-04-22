@@ -174,15 +174,7 @@ public abstract class Style {
     }
 
 
-
-
-
-
     public abstract void paint(Graphics g, int x, int y);
-
-
-
-
 
     //建構子
     public Style() {
