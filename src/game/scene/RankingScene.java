@@ -1,6 +1,7 @@
 package game.scene;
 
 import game.utils.CommandSolver;
+import game.utils.Ranking;
 
 import java.awt.*;
 import java.io.IOException;

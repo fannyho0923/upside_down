@@ -8,14 +8,19 @@ import java.awt.*;
 
 public class Pass extends GameObject{
     Image img;
+    boolean isPlayed;
     public Pass(int left, int top) {
         super(left, top, Global.UNIT, Global.UNIT);
         img = ImageController.getInstance().tryGet("/img/tile_0007.png");
+        isPlayed=false;
     }
 
     @Override
     public void collisionEffect(Actor actor) {
-//        actor.pass();
+        if(!isPlayed) {
+            AudioResourceController.getInstance().shot("/sound/victory1.wav");
+            isPlayed=true;
+        }
     }
 
     @Override

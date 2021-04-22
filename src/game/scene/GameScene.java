@@ -12,7 +12,6 @@ import game.utils.*;
 import java.awt.*;
 import java.io.IOException;
 import java.util.ArrayList;
-import java.text.SimpleDateFormat;
 import java.util.*;
 import java.util.concurrent.TimeUnit;
 
@@ -42,42 +41,42 @@ public abstract class GameScene extends Scene {
 
     private long startTime;
     private long gameTime;
-    private String gt;
     private Ranking ranking;
     private ArrayList<RankResult> rankResults;
 
     public GameScene(String mapBmpPath, Actor actor, GameObject background,
                      int cameraWidth, int cameraHeight, int cameraVelocityX, int cameraVelocityY,
-                     boolean actorTrigCamera) {
-        try {
-            ranking = new Ranking("test1.txt");
-        }catch (IOException e){
-            System.out.println(e);
-        }
-        rankResults = new ArrayList<>();
-
+                     boolean actorTrigCamera, String filePath) {
         testPop = new PopupWindowScene(Global.WINDOW_WIDTH / 2 - 325, Global.WINDOW_HEIGHT / 2 - 225,
                 650, 450);
         testPop.setRestartClicked((int x, int y) -> {
             init(mapBmpPath, actor, background,
                     cameraWidth, cameraHeight, cameraVelocityX, cameraVelocityY,
-                    actorTrigCamera);
+                    actorTrigCamera, filePath);
             this.testPop.hide();
         });
         testPop.setCancelable();
+
         init(mapBmpPath, actor, background,
                 cameraWidth, cameraHeight, cameraVelocityX, cameraVelocityY,
-                actorTrigCamera);
+                actorTrigCamera, filePath);
     }
 
     public void init(String mapBmpPath, Actor actor, GameObject background,
                      int cameraWidth, int cameraHeight, int cameraVelocityX, int cameraVelocityY,
-                     boolean actorTrigCamera) {
+                     boolean actorTrigCamera, String filePath) {
         gameObjects = new ArrayList<>();
         orinBrokenRoads = new ArrayList<>();
         savePoint = new ArrayList<>();
         movePlatform = new ArrayList<>();
         passPoint = new ArrayList<>();
+        rankResults = new ArrayList<>();
+
+        try {
+            ranking = new Ranking(filePath);
+        }catch (IOException e){
+            System.out.println(e);
+        }
 
         this.mapBmpPath = mapBmpPath;
         this.mapTxtPath = "/map/genMap.txt";
@@ -87,7 +86,7 @@ public abstract class GameScene extends Scene {
 
         frameX_count = savePoint.get(0).collider().left() / cameraWidth;
         frameY_count = savePoint.get(0).collider().top() / cameraHeight;
-        actor.setXY(savePoint.get(0).painter().left(), savePoint.get(0).painter().top());
+        actor.setXY(savePoint.get(5).painter().left(), savePoint.get(5).painter().top());
         actor.setReborn(actor.painter().left(), actor.painter().top(), false);
         saveNum = 0;
         System.out.println(actor.painter().left());
@@ -119,79 +118,14 @@ public abstract class GameScene extends Scene {
         }else {
             tracker.offsetY(320);
         }
+
+        //遊戲開始計時
         startTime = System.nanoTime();
 //        System.out.println(startTime);
     }
 
     @Override
     public void sceneEnd() {
-        gameTime = System.nanoTime()-startTime;
-//        System.out.println(gameTime);
-        gameTime = TimeUnit.NANOSECONDS.toMillis(gameTime);
-        int gtInt = (int)gameTime;
-        gt = new SimpleDateFormat("mm:ss:SSS", Locale.TAIWAN).format(new Date(gameTime));
-
-        RankResult newResult = new RankResult("user5", gtInt);
-
-        //讀目前的排行
-        ArrayList<String> ar = ranking.readL();
-//        ar.forEach(System.out::println);
-
-        if (ar.size()>0) {
-            //把檔案內容轉成arraylist
-            for (int i = 0; i < ar.size() - 1; i = i + 2) {
-                rankResults.add(new RankResult(ar.get(i), Integer.valueOf(ar.get(i + 1))));
-                System.out.println("IN");
-            }
-        }
-
-        System.out.println("new: "+gtInt);
-
-        System.out.println("Unsorted");
-        for (int i = 0; i < rankResults.size(); i++) {
-            System.out.println(rankResults.get(i).getName());
-            System.out.println(rankResults.get(i).getTime());
-            System.out.println("-----------");
-        }
-
-        //如果目前榜上資料超過9筆，要進行比對，有進榜單資格的話，就add，排序後取前10輸出
-        //不超過9筆就直接加入榜單後，排序輸出
-        if (rankResults.size()>2) {
-            for (int i=0; i<rankResults.size(); i++){
-                if (rankResults.get(i).compareTo(newResult)){
-                    //有資格進榜單，讓使用者輸入名字
-//                    newResult.setName("");
-                    rankResults.add(newResult);
-                    break;
-                }
-            }
-        }else {
-            rankResults.add(newResult);
-        }
-
-        //排序
-        Collections.sort(rankResults, new RankSort());
-
-        System.out.println("\nSort");
-        for (int i = 0; i < rankResults.size(); i++) {
-            System.out.println(rankResults.get(i).getName());
-            System.out.println(rankResults.get(i).getTime());
-            System.out.println("-----------");
-        }
-
-        //取前10名轉回一串字串輸出
-        String output = "";
-        if (rankResults.size()>3){
-            rankResults.remove(3);
-        }
-        for (int i = 0; i < rankResults.size(); i++) {
-            output += rankResults.get(i).getName() + "," + rankResults.get(i).getTime() + ",";
-        }
-
-//        rankResults.clear();
-        ranking.writeOut(output);
-
-
         AudioResourceController.getInstance().stop("/sound/Battle-Dawn-crop-reduce.wav");
         this.background = null;
         this.actor = null;
@@ -276,6 +210,8 @@ public abstract class GameScene extends Scene {
                 a.paint(g);
             }
         });
+
+        passPoint.get(0).paint(g);
         if (camera.isCollision(this.actor)) {
             this.actor.paint(g);
         }
@@ -324,6 +260,12 @@ public abstract class GameScene extends Scene {
                 obj.update();
             }
 
+            if (actor.isCollision(passPoint.get(0))){
+                passPoint.get(0).collisionEffect(actor); //for音效
+                pass();
+            }
+
+
             camera.update();
             if (actorTrigCamera) {
                 if (actor.painter().centerX() < camera.painter().left()) {       // 左
@@ -359,12 +301,79 @@ public abstract class GameScene extends Scene {
                 if(actor.getState()== Actor.State.REBORN){
                     tracker.setY(actor.painter().bottom()-200);
                 }
-//            spikesDown.painter().setXY(camera.painter().left(),camera.painter().top()-5); // 為什麼會不貼邊??
-//            spikesUp.painter().setXY(camera.painter().left(),camera.painter().top() + camera.painter().height() - spikesUp.painter().height());
             }
-        } else {
+        } else if (testPop.isShow()){
             testPop.update();
         }
+    }
+
+    public void pass(){
+        gameTime = System.nanoTime()-startTime;
+//        System.out.println(gameTime);
+        gameTime = TimeUnit.NANOSECONDS.toMillis(gameTime);
+        int gtInt = (int)gameTime;
+        //到時畫面印出排行榜需要轉換的格式
+//        gt = new SimpleDateFormat("mm:ss:SSS", Locale.TAIWAN).format(new Date(gameTime));
+
+        RankResult newResult = new RankResult("Player", gtInt);
+
+        //讀目前的排行
+        ArrayList<String> ar = ranking.readL();
+
+        if (ar.size()>0) {
+            //把檔案內容轉成arraylist
+            for (int i = 0; i < ar.size() - 1; i = i + 2) {
+                rankResults.add(new RankResult(ar.get(i), Integer.parseInt(ar.get(i + 1))));
+                System.out.println("IN");
+            }
+        }
+
+        System.out.println("new: "+gtInt);
+
+        System.out.println("Unsorted");
+        for (int i = 0; i < rankResults.size(); i++) {
+            System.out.println(rankResults.get(i).getName());
+            System.out.println(rankResults.get(i).getTime());
+            System.out.println("-----------");
+        }
+
+        //如果目前榜上資料超過9筆，要進行比對，有進榜單資格的話，就add，排序後取前10輸出
+        //不超過9筆就直接加入榜單後，排序輸出
+        if (rankResults.size()>2) {
+            for (int i=0; i<rankResults.size(); i++){
+                if (rankResults.get(i).compareTo(newResult)){
+                    //有資格進榜單，讓使用者輸入名字
+//                    newResult.setName("");
+                    rankResults.add(newResult);
+                    break;
+                }
+            }
+        }else {
+            rankResults.add(newResult);
+        }
+
+        //排序
+        Collections.sort(rankResults, new RankSort());
+
+        System.out.println("\nSort");
+        for (int i = 0; i < rankResults.size(); i++) {
+            System.out.println(rankResults.get(i).getName());
+            System.out.println(rankResults.get(i).getTime());
+            System.out.println("-----------");
+        }
+
+        //取前10名轉回一串字串輸出
+        String output = "";
+        if (rankResults.size()>3){
+            rankResults.remove(3);
+        }
+        for (int i = 0; i < rankResults.size(); i++) {
+            output += rankResults.get(i).getName() + "," + rankResults.get(i).getTime() + ",";
+        }
+//清資料用
+//        rankResults.clear();
+        ranking.writeOut(output);
+
     }
 
     public void mapInit() {
@@ -944,7 +953,7 @@ public abstract class GameScene extends Scene {
             }));
 
             //通關點
-            this.gameObjects.addAll(mapLoader.createObjectArray("passPoint", Global.UNIT, mapInfoArr, (gameObject, name, mapInfo, size) -> {
+            this.passPoint.addAll(mapLoader.createObjectArray("passPoint", Global.UNIT, mapInfoArr, (gameObject, name, mapInfo, size) -> {
                 final GameObject tmp;
                 if (gameObject.equals(name)) {
                     tmp = new Pass(mapInfo.getX() * size, mapInfo.getY() * size);
@@ -952,15 +961,6 @@ public abstract class GameScene extends Scene {
                 }
                 return null;
             }));
-
-//            this.passPoint.addAll(mapLoader.createObjectArray("passPoint", Global.UNIT, mapInfoArr, (gameObject, name, mapInfo, size) -> {
-//                final GameObject tmp;
-//                if (gameObject.equals(name)) {
-//                    tmp = new Pass(mapInfo.getX() * size, mapInfo.getY() * size);
-//                    return tmp;
-//                }
-//                return null;
-//            }));
 
             // monster
         } catch (final IOException e) {

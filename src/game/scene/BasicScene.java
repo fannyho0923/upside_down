@@ -13,8 +13,10 @@ import game.menu.menu.Style;
 import game.menu.menu.Theme;
 import game.utils.CommandSolver;
 import game.utils.Global;
+import game.utils.Ranking;
 
 import java.awt.*;
+import java.io.IOException;
 import java.util.ArrayList;
 
 public class BasicScene extends GameScene {
@@ -25,16 +27,17 @@ public class BasicScene extends GameScene {
         super("/map/basicMap0420.bmp",
                 new Actor(0, 0, num), new Background(1920, 1920),
                 //real 1300,1500 //plat test 150,2000
-                960, 640, 0, 0, true);
+                960, 640, 0, 0,
+                true, "basic.txt");
     }
 
     @Override
     public void init(String mapBmpPath, Actor actor, GameObject background,
                      int cameraWidth, int cameraHeight, int cameraVelocityX, int cameraVelocityY,
-                     boolean actorTrigCamera){
+                     boolean actorTrigCamera, String filePath){
         super.init(mapBmpPath, actor, background,
                 cameraWidth, cameraHeight, cameraVelocityX, cameraVelocityY,
-                actorTrigCamera);
+                actorTrigCamera, filePath);
         labelBorn = new Label(50, 100,
                 new Style.StyleRect(190, 40, true, new BackgroundType.BackgroundColor(new Color(22, 34, 52)))
                         .setText("“...得快點想辦法逃離這裡!”")

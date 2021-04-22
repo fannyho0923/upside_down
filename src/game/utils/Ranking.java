@@ -1,4 +1,4 @@
-package game.scene;
+package game.utils;
 import java.io.*;
 import java.security.KeyPair;
 import java.util.*;
