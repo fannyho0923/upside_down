@@ -121,7 +121,7 @@ public abstract class GameScene extends Scene {
         int gtInt = (int)gameTime;
         gt = new SimpleDateFormat("mm:ss:SSS", Locale.TAIWAN).format(new Date(gameTime));
 
-        RankResult newResult = new RankResult("user1", gtInt);
+        RankResult newResult = new RankResult("user5", gtInt);
 
         //讀目前的排行
         ArrayList<String> ar = ranking.readL();
@@ -171,16 +171,14 @@ public abstract class GameScene extends Scene {
 
         //取前10名轉回一串字串輸出
         String output = "";
-//        if (rankResults.size()<4){
-//            for (int i = 0; i < rankResults.size(); i++) {
-//                output += rankResults.get(i).getName() + "," + rankResults.get(i).getTime() + ",";
-//            }
-//        }else {
-//            for (int i = 0; i < 3; i++) {
-//                output += rankResults.get(i).getName() + "," + rankResults.get(i).getTime() + ",";
-//            }
-//        }
-        rankResults.clear();
+        if (rankResults.size()>3){
+            rankResults.remove(3);
+        }
+        for (int i = 0; i < rankResults.size(); i++) {
+            output += rankResults.get(i).getName() + "," + rankResults.get(i).getTime() + ",";
+        }
+        
+//        rankResults.clear();
         ranking.writeOut(output);
 
 
