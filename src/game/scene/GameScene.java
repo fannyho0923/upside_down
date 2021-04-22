@@ -177,7 +177,7 @@ public abstract class GameScene extends Scene {
         for (int i = 0; i < rankResults.size(); i++) {
             output += rankResults.get(i).getName() + "," + rankResults.get(i).getTime() + ",";
         }
-        
+
 //        rankResults.clear();
         ranking.writeOut(output);
 
@@ -387,6 +387,7 @@ public abstract class GameScene extends Scene {
                 return null;
             }));
 
+            
             this.gameObjects.addAll(mapLoader.createObjectArray("back1", Global.UNIT, mapInfoArr, (gameObject, name, mapInfo, size) -> {
                 final GameObject tmp;
                 if (gameObject.equals(name)) {
