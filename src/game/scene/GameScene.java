@@ -8,6 +8,7 @@ import game.maploader.MapInfo;
 import game.maploader.MapLoader;
 import game.menu.scene.PopupWindowScene;
 import game.utils.CommandSolver;
+import game.utils.Delay;
 import game.utils.Global;
 import game.utils.Velocity;
 
@@ -39,6 +40,7 @@ public abstract class GameScene extends Scene {
     private Spikes spikesUp;
     private Spikes spikesDown;
     private PopupWindowScene testPop;
+    private Delay delay;
 
     public GameScene(String mapBmpPath, Actor actor, GameObject background,
                      int cameraWidth, int cameraHeight, int cameraVelocityX, int cameraVelocityY,
@@ -69,6 +71,8 @@ public abstract class GameScene extends Scene {
         this.mapBmpPath = mapBmpPath;
         this.mapTxtPath = "/map/genMap.txt";
         mapInit();
+        delay = new Delay(10);
+        delay.loop();
 
         this.actor = actor;
         frameX_count = savePoint.get(0).collider().left() / cameraWidth;
@@ -225,8 +229,21 @@ public abstract class GameScene extends Scene {
     public void update() {
         if (!testPop.isShow()) {
             actor.update();
-            if(actor.velocity().x()!=0){
-                effect.add(new WalkAnimation(actor.painter().centerX(),actor.painter().centerY()));
+            if(actor.velocity().x()!=0&&delay.count()){
+                if(!actor.velocity().isReverse()){
+                    if(actor.velocity().x() > 0){ // 正面向右
+                        effect.add(new WalkAnimation(actor.painter().centerX()-actor.painter().width(),actor.painter().centerY()));
+                    }else{// 正面向左
+                        effect.add(new WalkAnimation(actor.painter().centerX(),actor.painter().centerY()));
+                    }
+                }else {
+                    if(actor.velocity().x() > 0){ // 反面向右
+                        effect.add(new WalkAnimation(actor.painter().centerX()-actor.painter().width(),actor.painter().centerY()-actor.painter().height()));
+                    }else{// 反面向左
+                        effect.add(new WalkAnimation(actor.painter().centerX(),actor.painter().centerY()-actor.painter().height()));
+                    }
+                }
+
             }
 
             for (int i = 0; i < brokenRoads.size(); i++) {
