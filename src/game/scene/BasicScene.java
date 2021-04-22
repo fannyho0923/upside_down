@@ -15,7 +15,7 @@ public class BasicScene extends GameScene {
             labelConveyor, labelRubber, labelDone, labelEnd, labelIns;
 
     public BasicScene(int num) {
-        super("/map/basicMap0420.bmp",
+        super("/map/basicMap.bmp",
                 new Actor(0, 0, num), new Background(1920, 1920),
                 //real 1300,1500 //plat test 150,2000
                 960, 640, 0, 0, true);

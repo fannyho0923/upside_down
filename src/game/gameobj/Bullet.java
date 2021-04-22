@@ -3,6 +3,7 @@ package game.gameobj;
 import game.controller.AudioResourceController;
 import game.controller.ImageController;
 import game.utils.Delay;
+import game.utils.Vector;
 import game.utils.Global;
 
 import java.awt.*;
@@ -13,8 +14,13 @@ public class Bullet extends GameObject{
     private Dir dir;
     private Type type;
     public enum Dir{
-        left,
-        right;
+        left(new Vector(-5,-2)),
+        right(new Vector(5,2));
+
+        private Vector velocity;
+        Dir(Vector v){
+            this.velocity = v;
+        }
     }
     public enum Type{
         A("/img/gameObj/bullet/a.png"), B("/img/gameObj/bullet/b.png"), C("/img/gameObj/bullet/c.png"),
@@ -53,11 +59,7 @@ public class Bullet extends GameObject{
 
     @Override
     public void update() {
-        if (dir==Dir.left){
-            offsetX(-speed);
-        }else if (dir == Dir.right){
-            offsetX(speed);
-        }
+        offset((int)dir.velocity.x(),(int)dir.velocity.y());
         if(type.delay.count()){
             type.count = ++type.count % type.countMax;
         }
@@ -69,5 +71,9 @@ public class Bullet extends GameObject{
         if (actor.getState() == Actor.State.ALIVE){
             actor.dead();
         }
+    }
+
+    public Vector getVelocity(){
+        return this.dir.velocity;
     }
 }

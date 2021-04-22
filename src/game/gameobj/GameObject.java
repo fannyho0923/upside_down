@@ -133,6 +133,8 @@ public abstract class GameObject implements GameKernel.UpdateInterface, GameKern
 
     public void collisionEffect(Actor actor){}
 
+    public void collisionEffect(Bullet bullet){}
+
     public void savePointPaint(Graphics g, boolean get){}
 
 }

@@ -24,6 +24,7 @@ public abstract class GameScene extends Scene {
     private ArrayList<GameObject> orinBrokenRoads; // 分開加入, 鏡頭改變時要重新加入
     private ArrayList<GameObject> brokenRoads;
     private ArrayList<GameObject> savePoint;
+    private ArrayList<GameObject> effect;
 
     private Camera camera;
     private Tracker tracker;
@@ -63,6 +64,7 @@ public abstract class GameScene extends Scene {
         gameObjects = new ArrayList<>();
         orinBrokenRoads = new ArrayList<>();
         savePoint = new ArrayList<>();
+        effect = new ArrayList<>();
 
         this.mapBmpPath = mapBmpPath;
         this.mapTxtPath = "/map/genMap.txt";
@@ -89,6 +91,10 @@ public abstract class GameScene extends Scene {
 
     public Actor getActor() {
         return actor;
+    }
+
+    public ArrayList<GameObject> getGameObjects() {
+        return gameObjects;
     }
 
     @Override
@@ -155,7 +161,6 @@ public abstract class GameScene extends Scene {
                         break;
                 }
             }
-
             @Override
             public void keyTyped(char c, long trigTime) {
 
@@ -175,11 +180,14 @@ public abstract class GameScene extends Scene {
     @Override
     public void paint(Graphics g) {
         camera.start(g);
+
         gameObjects.forEach(a -> {
             if (camera.isCollision(a)) {
                 a.paint(g);
             }
         });
+
+        effect.forEach(a->a.paint(g));
 
         for (int i = 1; i < savePoint.size();i++){
             if(camera.isCollision(savePoint.get(i))){
@@ -217,6 +225,10 @@ public abstract class GameScene extends Scene {
     public void update() {
         if (!testPop.isShow()) {
             actor.update();
+            if(actor.velocity().x()!=0){
+                effect.add(new WalkAnimation(actor.painter().centerX(),actor.painter().centerY()));
+            }
+
             for (int i = 0; i < brokenRoads.size(); i++) {
                 GameObject obj = brokenRoads.get(i);
                 if (actor.isCollision(obj)) {
@@ -226,6 +238,7 @@ public abstract class GameScene extends Scene {
                 if (!obj.isExist()) {
                     obj.setExist(true);
                     brokenRoads.remove(i);
+                    i--;
                 }
             }
             for (int i = 0; i < savePoint.size(); i++){
@@ -241,6 +254,13 @@ public abstract class GameScene extends Scene {
                     obj.collisionEffect(actor);
                 }
                 obj.update();
+            }
+            for (int i = 0; i < effect.size(); i++){
+                effect.get(i).update();
+                if(!effect.get(i).isExist()){
+                    effect.remove(i);
+                    i--;
+                }
             }
 
             camera.update();
@@ -702,6 +722,61 @@ public abstract class GameScene extends Scene {
                 if (gameObject.equals(name)) {
                     tmp = new Monster(mapInfo.getX() * size, mapInfo.getY() * size,
                             mapInfo.getSizeX() * size, mapInfo.getSizeY() * size, Monster.Type.monster_260);
+                    return tmp;
+                }
+                return null;
+            }));
+
+//            monster_280("/img/gameObj/monster/light3.png",0,1),
+//                    monster_300("/img/gameObj/monster/light4.png",0,1),
+//                    monster_320("/img/gameObj/monster/light5.png",0,1),
+//                    monster_340("/img/gameObj/monster/light6.png",0,1),
+//                    monster_380("/img/gameObj/monster/light7.png",0,1);
+            this.gameObjects.addAll(mapLoader.createObjectArray("monster_280", Global.UNIT, mapInfoArr, (gameObject, name, mapInfo, size) -> {
+                final GameObject tmp;
+                if (gameObject.equals(name)) {
+                    tmp = new Monster(mapInfo.getX() * size, mapInfo.getY() * size,
+                            mapInfo.getSizeX() * size, mapInfo.getSizeY() * size, Monster.Type.monster_280);
+                    return tmp;
+                }
+                return null;
+            }));
+
+            this.gameObjects.addAll(mapLoader.createObjectArray("monster_300", Global.UNIT, mapInfoArr, (gameObject, name, mapInfo, size) -> {
+                final GameObject tmp;
+                if (gameObject.equals(name)) {
+                    tmp = new Monster(mapInfo.getX() * size, mapInfo.getY() * size,
+                            mapInfo.getSizeX() * size, mapInfo.getSizeY() * size, Monster.Type.monster_300);
+                    return tmp;
+                }
+                return null;
+            }));
+
+            this.gameObjects.addAll(mapLoader.createObjectArray("monster_320", Global.UNIT, mapInfoArr, (gameObject, name, mapInfo, size) -> {
+                final GameObject tmp;
+                if (gameObject.equals(name)) {
+                    tmp = new Monster(mapInfo.getX() * size, mapInfo.getY() * size,
+                            mapInfo.getSizeX() * size, mapInfo.getSizeY() * size, Monster.Type.monster_320);
+                    return tmp;
+                }
+                return null;
+            }));
+
+            this.gameObjects.addAll(mapLoader.createObjectArray("monster_340", Global.UNIT, mapInfoArr, (gameObject, name, mapInfo, size) -> {
+                final GameObject tmp;
+                if (gameObject.equals(name)) {
+                    tmp = new Monster(mapInfo.getX() * size, mapInfo.getY() * size,
+                            mapInfo.getSizeX() * size, mapInfo.getSizeY() * size, Monster.Type.monster_340);
+                    return tmp;
+                }
+                return null;
+            }));
+
+            this.gameObjects.addAll(mapLoader.createObjectArray("monster_380", Global.UNIT, mapInfoArr, (gameObject, name, mapInfo, size) -> {
+                final GameObject tmp;
+                if (gameObject.equals(name)) {
+                    tmp = new Monster(mapInfo.getX() * size, mapInfo.getY() * size,
+                            mapInfo.getSizeX() * size, mapInfo.getSizeY() * size, Monster.Type.monster_380);
                     return tmp;
                 }
                 return null;

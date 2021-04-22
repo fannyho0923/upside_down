@@ -1,10 +1,7 @@
 package game.scene;
 
 import game.controller.ImageController;
-import game.gameobj.Actor;
-import game.gameobj.Background;
-import game.gameobj.Bullet;
-import game.gameobj.GameObject;
+import game.gameobj.*;
 import game.utils.Global;
 import game.utils.NumberFig;
 import game.utils.Delay;
@@ -19,16 +16,17 @@ public class CountDown extends GameScene{
     private Delay shootDelay;
     private int timeCount;
     private int shootPosition;
-    private static int timeMax = 10;
+    private static int timeMax = 30;
     private int rebornTime;
     private int rebornShoot;
     private Image[] passBlood;
     private Image pass;
     private Delay passDelay;
     private int passCount;
+    //private WalkAnimation test;
 
     public CountDown(int num) {
-        super("/map/genMap.bmp", new Actor(0, 0, num), new Background(960, 640),
+        super("/map/countDown.bmp", new Actor(0, 0, num), new Background(960, 640),
                 960, 640, 0, 0, true);
         // 不要寫東西!!
     }
@@ -40,6 +38,8 @@ public class CountDown extends GameScene{
         super.init(mapBmpPath, actor, background,
                 cameraWidth, cameraHeight, cameraVelocityX, cameraVelocityY,
                 actorTrigCamera);
+        //test = new WalkAnimation(300,60);
+
         secDelay = new Delay(Global.UPDATE_TIMES_PER_SEC);
         secDelay.loop();
         timeCount = timeMax;
@@ -83,11 +83,14 @@ public class CountDown extends GameScene{
             g.drawImage(pass,160,80,null );
             // 加音效
         }
+        //test.paint(g);
     }
 
     @Override
     public void update() {
         super.update();
+        //test.update();
+
         if(shootDelay.count()){
             if(timeCount > timeMax - 8){
                 if (shootPosition %2 ==0){
@@ -121,12 +124,20 @@ public class CountDown extends GameScene{
                 }
             }
         }
+        ArrayList<GameObject> objs = getGameObjects();
         for(int i = 0; i < bullets.size(); i++){
             Bullet bullet = bullets.get(i);
+            for (int j = 0; j < objs.size(); j++){
+                if(bullet.isCollision(objs.get(j))){
+                    objs.get(j).collisionEffect(bullet);
+                }
+            }
             bullet.update();
             if (bullet.isCollision(getActor())){
                 //bullet.collisionEffect(getActor());
             }
+
+
             if(!bullet.isCollision(getCamera())){
                 bullets.remove(i);
                 i--;
