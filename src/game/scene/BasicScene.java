@@ -119,7 +119,7 @@ public class BasicScene extends GameScene {
                         .setTextColor(Color.WHITE)
                         .setHaveBorder(true)
                         .setBorderColor(new Color(253, 253, 253)));
-        labelIns = new Label(715, 400,
+        labelIns = new Label(710, 400,
                 new Style.StyleRect(190, 40, true, new BackgroundType.BackgroundColor(new Color(22, 34, 52)))
                         .setText("請按ESC選擇下一步")
                         .setTextFont(new Font("TimesRoman", Font.BOLD, 14))

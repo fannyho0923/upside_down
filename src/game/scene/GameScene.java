@@ -24,6 +24,7 @@ public abstract class GameScene extends Scene {
     private ArrayList<GameObject> orinBrokenRoads; // 分開加入, 鏡頭改變時要重新加入
     private ArrayList<GameObject> brokenRoads;
     private ArrayList<GameObject> movePlatform;
+    private ArrayList<GameObject> passPoint;
 
     private Camera camera;
     private Tracker tracker;
@@ -72,6 +73,7 @@ public abstract class GameScene extends Scene {
         gameObjects = new ArrayList<>();
         orinBrokenRoads = new ArrayList<>();
         movePlatform = new ArrayList<>();
+        passPoint = new ArrayList<>();
 
         this.mapBmpPath = mapBmpPath;
         this.mapTxtPath = "/map/genMap.txt";
@@ -83,7 +85,7 @@ public abstract class GameScene extends Scene {
         frameY_count = gameObjects.get(0).collider().top() / cameraHeight;
         actor.setXY(gameObjects.get(0).painter().left(), gameObjects.get(0).painter().top());
 
-        actor.setReborn(actor.painter().left(), actor.painter().top(), false);
+        actor.setReborn(actor.painter().left(), actor.painter().top(), true);
 
         this.background = background;
 
@@ -387,7 +389,6 @@ public abstract class GameScene extends Scene {
                 return null;
             }));
 
-            
             this.gameObjects.addAll(mapLoader.createObjectArray("back1", Global.UNIT, mapInfoArr, (gameObject, name, mapInfo, size) -> {
                 final GameObject tmp;
                 if (gameObject.equals(name)) {
@@ -936,6 +937,25 @@ public abstract class GameScene extends Scene {
                 }
                 return null;
             }));
+
+            //通關點
+            this.gameObjects.addAll(mapLoader.createObjectArray("passPoint", Global.UNIT, mapInfoArr, (gameObject, name, mapInfo, size) -> {
+                final GameObject tmp;
+                if (gameObject.equals(name)) {
+                    tmp = new Pass(mapInfo.getX() * size, mapInfo.getY() * size);
+                    return tmp;
+                }
+                return null;
+            }));
+
+//            this.passPoint.addAll(mapLoader.createObjectArray("passPoint", Global.UNIT, mapInfoArr, (gameObject, name, mapInfo, size) -> {
+//                final GameObject tmp;
+//                if (gameObject.equals(name)) {
+//                    tmp = new Pass(mapInfo.getX() * size, mapInfo.getY() * size);
+//                    return tmp;
+//                }
+//                return null;
+//            }));
 
             // monster
         } catch (final IOException e) {
