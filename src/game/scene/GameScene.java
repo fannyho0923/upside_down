@@ -340,15 +340,15 @@ public abstract class GameScene extends Scene {
         //如果目前榜上資料超過9筆，要進行比對，有進榜單資格的話，就add，排序後取前10輸出
         //不超過9筆就直接加入榜單後，排序輸出
         if (rankResults.size()>2) {
-            for (int i=0; i<rankResults.size(); i++){
-                if (rankResults.get(i).compareTo(newResult)){
+                if (rankResults.get(rankResults.size()-1).compareTo(newResult)){
                     //有資格進榜單，讓使用者輸入名字
 //                    newResult.setName("");
                     rankResults.add(newResult);
-                    break;
                 }
-            }
+
         }else {
+            //有資格進榜單，讓使用者輸入名字
+            //newResult.setName("");
             rankResults.add(newResult);
         }
 
@@ -373,7 +373,6 @@ public abstract class GameScene extends Scene {
 //清資料用
 //        rankResults.clear();
         ranking.writeOut(output);
-
     }
 
     public void mapInit() {
