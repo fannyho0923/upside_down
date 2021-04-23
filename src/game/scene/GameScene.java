@@ -106,7 +106,7 @@ public abstract class GameScene extends Scene {
         this.actor = actor;
         frameX_count = savePoint.get(0).collider().left() / cameraWidth;
         frameY_count = savePoint.get(0).collider().top() / cameraHeight;
-        actor.setXY(savePoint.get(5).painter().left(), savePoint.get(5).painter().top());
+        actor.setXY(savePoint.get(0).painter().left(), savePoint.get(0).painter().top());
         actor.setReborn(actor.painter().left(), actor.painter().top(), false);
         saveNum = 0;
 
@@ -249,7 +249,9 @@ public abstract class GameScene extends Scene {
             }
         });
 
-        passPoint.get(0).paint(g);
+        if (passPoint.size()>0) {
+            passPoint.get(0).paint(g);
+        }
         if (camera.isCollision(this.actor)) {
             this.actor.paint(g);
         }
@@ -307,9 +309,11 @@ public abstract class GameScene extends Scene {
                 obj.update();
             }
 
-            if (actor.isCollision(passPoint.get(0))){
-                passPoint.get(0).collisionEffect(actor); //for音效
-                pass();
+            if (passPoint.size()>0) {
+                if (actor.isCollision(passPoint.get(0))) {
+                    passPoint.get(0).collisionEffect(actor); //for音效
+                    pass();
+                }
             }
 
 

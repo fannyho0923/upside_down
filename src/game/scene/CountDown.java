@@ -28,7 +28,7 @@ public class CountDown extends GameScene{
     private int passCount;
 
     public CountDown(int num) {
-        super("/map/genMap.bmp", new Actor(0, 0, num), new Background(960, 640),
+        super("/map/countDown.bmp", new Actor(0, 0, num), new Background(960, 640),
                 960, 640, 0, 0, true, "countdown.txt");
         // 不要寫東西!!
     }
