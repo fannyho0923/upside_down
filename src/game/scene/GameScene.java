@@ -120,17 +120,20 @@ public abstract class GameScene extends Scene {
         this.actor = actor;
         frameX_count = savePoint.get(0).collider().left() / cameraWidth;
         frameY_count = savePoint.get(0).collider().top() / cameraHeight;
-        actor.setXY(savePoint.get(0).painter().left(), savePoint.get(0).painter().top());
+        actor.setXY(savePoint.get(0).painter().centerX(), savePoint.get(0).painter().centerY());
         actor.setReborn(actor.painter().left(), actor.painter().top(), false);
         saveNum = 0;
 
-        savePoint.forEach(a->
-        {if (a instanceof SavePoint) {
-            System.out.println("//////////////");
-            System.out.println(a.painter().left());
-            System.out.println(a.painter().top());
-        }}
-        );
+        System.out.println(savePoint.get(0).painter().left());
+        System.out.println(savePoint.get(0).painter().top());
+
+//        savePoint.forEach(a->
+//        {if (a instanceof SavePoint) {
+//            System.out.println("//////////////");
+//            System.out.println(a.painter().left());
+//            System.out.println(a.painter().top());
+//        }}
+//        );
 
         this.background = background;
         int cameraStartX = cameraWidth * frameX_count;
@@ -548,6 +551,14 @@ public abstract class GameScene extends Scene {
                 }
                 return null;
             }));
+
+            savePoint.forEach(a->
+                    {if (a instanceof SavePoint) {
+                        System.out.println("//////////////");
+                        System.out.println(a.painter().left());
+                        System.out.println(a.painter().top());
+                    }}
+            );
 
             this.savePoint.addAll(mapLoader.createObjectArray("savePoint", Global.UNIT, mapInfoArr, (gameObject, name, mapInfo, size) -> {
                 final GameObject tmp;
