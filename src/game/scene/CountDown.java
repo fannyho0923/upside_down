@@ -29,17 +29,17 @@ public class CountDown extends GameScene{
 
     public CountDown(int num) {
         super("/map/genMap.bmp", new Actor(0, 0, num), new Background(960, 640),
-                960, 640, 0, 0, true);
+                960, 640, 0, 0, true, "countdown.txt");
         // 不要寫東西!!
     }
 
     @Override
     public void init(String mapBmpPath, Actor actor, GameObject background,
                      int cameraWidth, int cameraHeight, int cameraVelocityX, int cameraVelocityY,
-                     boolean actorTrigCamera) {
+                     boolean actorTrigCamera, String filepath) {
         super.init(mapBmpPath, actor, background,
                 cameraWidth, cameraHeight, cameraVelocityX, cameraVelocityY,
-                actorTrigCamera);
+                actorTrigCamera, filepath);
         secDelay = new Delay(Global.UPDATE_TIMES_PER_SEC);
         secDelay.loop();
         timeCount = timeMax;
