@@ -41,7 +41,8 @@ public class Tile extends GameObject{
             ImageController.getInstance().tryGet("/img/gameObj/tile/test2.png"),
             ImageController.getInstance().tryGet("/img/gameObj/tile/test5.png"),
             ImageController.getInstance().tryGet("/img/gameObj/tile/test6.png"),
-            ImageController.getInstance().tryGet("/img/gameObj/tile/test11.png"),
+            ImageController.getInstance().tryGet("/img/gameObj/tile/test14.png")
+//            ImageController.getInstance().tryGet("/img/gameObj/tile/test11.png"),
 //            ImageController.getInstance().tryGet("/img/gameObj/tile/test7.png"),
 //            ImageController.getInstance().tryGet("/img/gameObj/tile/test8.png"),
 //            ImageController.getInstance().tryGet("/img/gameObj/tile/test9.png"),
@@ -55,7 +56,7 @@ public class Tile extends GameObject{
 
     public Tile(int top, int left){
         super(top, left, Global.UNIT,Global.UNIT);
-        num = Global.random(0,3);
+        num = Global.random(0,imgs.length-1);
     }
 
     @Override
@@ -67,8 +68,12 @@ public class Tile extends GameObject{
     public void paint(Graphics g) {
         if(type == null){
             g.drawImage(imgs[num],painter().left(), painter().top(), null);
+            if(num == 5){
+                g.drawImage(imgs[4],painter().left(),painter().top(),null);
+            }
         }else {
             g.drawImage(type.img, painter().left(), painter().top(), null);
+
         }
 
     }
