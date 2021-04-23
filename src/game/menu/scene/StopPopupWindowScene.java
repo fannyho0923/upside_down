@@ -13,7 +13,7 @@ import game.scene.GameScene;
 import game.utils.CommandSolver;
 
 
-public class PopupWindowScene extends PopupWindow {
+public class StopPopupWindowScene extends PopupWindow {
 
     private Label stopTitle;
     private Button continueGame;
@@ -21,7 +21,7 @@ public class PopupWindowScene extends PopupWindow {
     public Button back;
     private Label.ClickedAction clickedAction;
 
-    public PopupWindowScene(int x, int y, int width, int height) {
+    public StopPopupWindowScene(int x, int y, int width, int height) {
         super(x, y, width, height);
     }
 

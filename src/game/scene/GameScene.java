@@ -6,7 +6,9 @@ import game.controller.AudioResourceController;
 import game.gameobj.*;
 import game.maploader.MapInfo;
 import game.maploader.MapLoader;
-import game.menu.scene.PopupWindowScene;
+import game.menu.scene.RankPopupWindowScene;
+import game.menu.scene.RankScene;
+import game.menu.scene.StopPopupWindowScene;
 import game.utils.CommandSolver;
 import game.utils.Global;
 import game.utils.Velocity;
@@ -14,9 +16,21 @@ import game.utils.Velocity;
 import java.awt.*;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.LinkedList;
+import java.util.Scanner;
 
 
 public abstract class GameScene extends Scene {
+    public static class Player {
+        String name;
+        int score;
+
+        public Player(String name, int score) {
+            this.name = name;
+            this.score = score;
+        }
+    }
 
     private GameObject background;
     private Actor actor;
@@ -24,6 +38,7 @@ public abstract class GameScene extends Scene {
     private ArrayList<GameObject> orinBrokenRoads; // 分開加入, 鏡頭改變時要重新加入
     private ArrayList<GameObject> brokenRoads;
     private ArrayList<GameObject> savePoint;
+    private ArrayList<Player> rankList;
 
     private Camera camera;
     private Tracker tracker;
@@ -37,13 +52,14 @@ public abstract class GameScene extends Scene {
     private String mapTxtPath;
     private Spikes spikesUp;
     private Spikes spikesDown;
-    private PopupWindowScene testPop;
+    private StopPopupWindowScene testPop;
+    private RankPopupWindowScene rankPop;
 
     public GameScene(String mapBmpPath, Actor actor, GameObject background,
                      int cameraWidth, int cameraHeight, int cameraVelocityX, int cameraVelocityY,
                      boolean actorTrigCamera) {
 
-        testPop = new PopupWindowScene(Global.WINDOW_WIDTH / 2 - 325, Global.WINDOW_HEIGHT / 2 - 225,
+        testPop = new StopPopupWindowScene(Global.WINDOW_WIDTH / 2 - 325, Global.WINDOW_HEIGHT / 2 - 225,
                 650, 450);
         testPop.setRestartClicked((int x, int y) -> {
             init(mapBmpPath, actor, background,
@@ -51,7 +67,10 @@ public abstract class GameScene extends Scene {
                     actorTrigCamera);
             this.testPop.hide();
         });
+        rankPop = new RankPopupWindowScene(Global.WINDOW_WIDTH / 2 - 325, Global.WINDOW_HEIGHT / 2 - 225,
+                650, 450);
         testPop.setCancelable();
+        rankPop.setCancelable();
         init(mapBmpPath, actor, background,
                 cameraWidth, cameraHeight, cameraVelocityX, cameraVelocityY,
                 actorTrigCamera);
@@ -93,15 +112,16 @@ public abstract class GameScene extends Scene {
 
     @Override
     public void sceneBegin() {
+        rankPop.isShow();
         AudioResourceController.getInstance().loop("/sound/Battle-Dawn-crop-reduce.wav", 50);
         brokenRoads = (ArrayList) orinBrokenRoads.clone();
         MapInformation.getInstance().setMapInfo(this.background);
         if (actorTrigCamera) {
             tracker.velocity().stop();
-        }else {
+        } else {
             tracker.offsetY(320);
-            spikesUp = new Spikes(camera.painter().left(),camera.painter().top(),camera.painter().width(), Spikes.Type.topSpikes);
-            spikesDown = new Spikes(camera.painter().left(),camera.painter().bottom()-32,  camera.painter().width(), Spikes.Type.downSpikes);
+            spikesUp = new Spikes(camera.painter().left(), camera.painter().top(), camera.painter().width(), Spikes.Type.topSpikes);
+            spikesDown = new Spikes(camera.painter().left(), camera.painter().bottom() - 32, camera.painter().width(), Spikes.Type.downSpikes);
         }
     }
 
@@ -141,6 +161,15 @@ public abstract class GameScene extends Scene {
                             testPop.show();
                         }
                         break;
+                    case Global.VK_R:
+                        if (rankPop.isShow()) {
+                            rankPop.hide();
+                            rankPop.sceneEnd();
+                        } else {
+                            rankPop.sceneBegin();
+                            rankPop.show();
+                        }
+                        break;
                 }
             }
 
@@ -158,6 +187,10 @@ public abstract class GameScene extends Scene {
 
             @Override
             public void keyTyped(char c, long trigTime) {
+                if (rankPop.isShow()) {
+                    rankPop.getEditText().keyTyped(c);
+                    System.out.println(rankPop.getEditText().getEditText());
+                }
 
             }
         };
@@ -169,6 +202,10 @@ public abstract class GameScene extends Scene {
             if (testPop.isShow()) {
                 testPop.mouseListener().mouseTrig(e, state, trigTime);
             }
+            if (rankPop.isShow()) {
+                rankPop.mouseListener().mouseTrig(e, state, trigTime);
+            }
+
         };
     }
 
@@ -181,9 +218,9 @@ public abstract class GameScene extends Scene {
             }
         });
 
-        for (int i = 1; i < savePoint.size();i++){
-            if(camera.isCollision(savePoint.get(i))){
-                savePoint.get(i).savePointPaint(g,i == saveNum);
+        for (int i = 1; i < savePoint.size(); i++) {
+            if (camera.isCollision(savePoint.get(i))) {
+                savePoint.get(i).savePointPaint(g, i == saveNum);
             }
         }
         brokenRoads.forEach(a -> {
@@ -195,12 +232,12 @@ public abstract class GameScene extends Scene {
             this.actor.paint(g);
         }
 
-        if(!actorTrigCamera){
+        if (!actorTrigCamera) {
             spikesUp.paint(g);
             spikesDown.paint(g);
         }
 
-        if(actor.getState() == Actor.State.DEAD){
+        if (actor.getState() == Actor.State.DEAD) {
 
         }
         camera.paint(g);
@@ -209,9 +246,13 @@ public abstract class GameScene extends Scene {
         if (testPop.isShow()) {
             testPop.paint(g);
         }
+        if (rankPop.isShow()) {
+            rankPop.paint(g);
+        }
     }
 
-    public void midPaint(Graphics g){}
+    public void midPaint(Graphics g) {
+    }
 
     @Override
     public void update() {
@@ -226,9 +267,10 @@ public abstract class GameScene extends Scene {
                 if (!obj.isExist()) {
                     obj.setExist(true);
                     brokenRoads.remove(i);
+                    i--;
                 }
             }
-            for (int i = 0; i < savePoint.size(); i++){
+            for (int i = 0; i < savePoint.size(); i++) {
                 GameObject obj = savePoint.get(i);
                 if (actor.isCollision(obj)) {
                     obj.collisionEffect(actor);
@@ -275,24 +317,29 @@ public abstract class GameScene extends Scene {
                     actor.setXY(camera.collider().left() - actor.painter().width() + 1, actor.painter().top());
                     return;
                 }
-                if(actor.getState()== Actor.State.REBORN){
-                    tracker.setY(actor.painter().bottom()-200);
+                if (actor.getState() == Actor.State.REBORN) {
+                    tracker.setY(actor.painter().bottom() - 200);
                 }
-                if(spikesUp.isCollision(actor)){
+                if (spikesUp.isCollision(actor)) {
                     spikesUp.collisionEffect(actor);
                 }
-                if(spikesDown.isCollision(actor)){
+                if (spikesDown.isCollision(actor)) {
                     spikesDown.collisionEffect(actor);
                 }
-                spikesUp.setXY(camera.painter().left(),camera.painter().top()-5); // 為什麼會不貼邊??
-                spikesDown.setXY(camera.painter().left(),camera.painter().bottom() -32);
+                spikesUp.setXY(camera.painter().left(), camera.painter().top() - 5); // 為什麼會不貼邊??
+                spikesDown.setXY(camera.painter().left(), camera.painter().bottom() - 32);
             }
+        } else if (rankPop.isShow()) {
+            rankPop.update();
         } else {
             testPop.update();
         }
     }
 
-    public Camera getCamera(){
+
+
+
+    public Camera getCamera() {
         return this.camera;
     }
 
@@ -338,7 +385,6 @@ public abstract class GameScene extends Scene {
                 }
                 return null;
             }));
-
 
 
             this.gameObjects.addAll(mapLoader.createObjectArray("back1", Global.UNIT, mapInfoArr, (gameObject, name, mapInfo, size) -> {

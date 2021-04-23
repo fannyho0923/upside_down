@@ -46,7 +46,7 @@ public class ModeScene extends Scene {
         b3.setClickedActionPerformed((int x, int y) -> SceneController.getInstance().change(new Parkour(actorNum)));
         b4.setClickedActionPerformed((int x, int y) -> SceneController.getInstance().change(new CountDown(actorNum)));
         b5.setClickedActionPerformed((int x, int y) -> SceneController.getInstance().change(new BasicScene(actorNum)));
-        back.setClickedActionPerformed((int x, int y) -> SceneController.getInstance().change((new SelectActorPopScene())));
+        back.setClickedActionPerformed((int x, int y) -> SceneController.getInstance().change((new SelectActorScene())));
 
     }
 

@@ -18,7 +18,7 @@ import game.utils.CommandSolver;
 import game.utils.Delay;
 import game.utils.Global;
 
-public class SelectActorPopScene extends Scene {
+public class SelectActorScene extends Scene {
 
     private Button start;
     private Button back;
