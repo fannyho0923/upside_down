@@ -14,8 +14,8 @@ public class Bullet extends GameObject{
     private Dir dir;
     private Type type;
     public enum Dir{
-        left(new Vector(-5,-2)),
-        right(new Vector(5,2));
+        left(new Vector(-5,0)),//
+        right(new Vector(5,0));
 
         private Vector velocity;
         Dir(Vector v){

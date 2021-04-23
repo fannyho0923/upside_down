@@ -21,17 +21,41 @@ public class Tile extends GameObject{
         tile_0257("/img/gameObj/tile/tile_0257.png"),
         tile_999("/img/gameObj/tile/tile_999.png");
 
+
         private Image img;
         Type(String path){
             img = ImageController.getInstance().tryGet(path);
         }
     }
 
+
     private Type type;
+    private int num;
+    private static Image[] imgs = {
+//            ImageController.getInstance().tryGet("/img/gameObj/tile/t1.png"),
+//            ImageController.getInstance().tryGet("/img/gameObj/tile/t2.png"),
+//            ImageController.getInstance().tryGet("/img/gameObj/tile/t3.png"),
+//            ImageController.getInstance().tryGet("/img/gameObj/tile/t4.png"),
+//            ImageController.getInstance().tryGet("/img/gameObj/tile/t5.png"),
+//            ImageController.getInstance().tryGet("/img/gameObj/tile/t7.png"),
+            ImageController.getInstance().tryGet("/img/gameObj/tile/test2.png"),
+            ImageController.getInstance().tryGet("/img/gameObj/tile/test5.png"),
+            ImageController.getInstance().tryGet("/img/gameObj/tile/test6.png"),
+            ImageController.getInstance().tryGet("/img/gameObj/tile/test11.png"),
+//            ImageController.getInstance().tryGet("/img/gameObj/tile/test7.png"),
+//            ImageController.getInstance().tryGet("/img/gameObj/tile/test8.png"),
+//            ImageController.getInstance().tryGet("/img/gameObj/tile/test9.png"),
+//            ImageController.getInstance().tryGet("/img/gameObj/tile/test10.png"),
+    };
 
     public Tile(int top, int left, Type type) {
         super(top, left, Global.UNIT, Global.UNIT);
         this.type = type;
+    }
+
+    public Tile(int top, int left){
+        super(top, left, Global.UNIT,Global.UNIT);
+        num = Global.random(0,3);
     }
 
     @Override
@@ -41,7 +65,12 @@ public class Tile extends GameObject{
 
     @Override
     public void paint(Graphics g) {
-        g.drawImage(type.img, painter().left(), painter().top(), null);
+        if(type == null){
+            g.drawImage(imgs[num],painter().left(), painter().top(), null);
+        }else {
+            g.drawImage(type.img, painter().left(), painter().top(), null);
+        }
+
     }
 
     @Override

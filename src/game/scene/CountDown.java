@@ -127,16 +127,15 @@ public class CountDown extends GameScene{
         ArrayList<GameObject> objs = getGameObjects();
         for(int i = 0; i < bullets.size(); i++){
             Bullet bullet = bullets.get(i);
-            for (int j = 0; j < objs.size(); j++){
-                if(bullet.isCollision(objs.get(j))){
-                    objs.get(j).collisionEffect(bullet);
-                }
-            }
+//            for (int j = 0; j < objs.size(); j++){
+//                if(bullet.isCollision(objs.get(j))){
+//                    objs.get(j).collisionEffect(bullet);
+//                }
+//            }
             bullet.update();
             if (bullet.isCollision(getActor())){
-                //bullet.collisionEffect(getActor());
+                bullet.collisionEffect(getActor());
             }
-
 
             if(!bullet.isCollision(getCamera())){
                 bullets.remove(i);
