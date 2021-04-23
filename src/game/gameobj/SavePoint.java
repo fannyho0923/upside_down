@@ -1,5 +1,6 @@
 package game.gameobj;
 
+import game.controller.AudioResourceController;
 import game.controller.ImageController;
 import game.utils.Global;
 import game.utils.Delay;
@@ -54,8 +55,8 @@ public class SavePoint extends GameObject{
 
     @Override
     public void collisionEffect(Actor actor) {
+//        AudioResourceController.getInstance().shot("/sound/savePoint.wav");
         actor.setReborn(this.collider().left(),this.collider().bottom()-actor.collider().height(),false);
-
     }
 
     @Override

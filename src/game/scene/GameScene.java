@@ -6,18 +6,31 @@ import game.controller.AudioResourceController;
 import game.gameobj.*;
 import game.maploader.MapInfo;
 import game.maploader.MapLoader;
-import game.menu.scene.PopupWindowScene;
+import game.menu.scene.RankPopupWindowScene;
+import game.menu.scene.StopPopupWindowScene;
 import game.utils.CommandSolver;
 import game.utils.Delay;
 import game.utils.Global;
 import game.utils.Velocity;
+import game.utils.*;
 
 import java.awt.*;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.*;
+import java.util.concurrent.TimeUnit;
 
 
 public abstract class GameScene extends Scene {
+    public static class Player {
+        String name;
+        int score;
+
+        public Player(String name, int score) {
+            this.name = name;
+            this.score = score;
+        }
+    }
 
     private GameObject background;
     private Actor actor;
@@ -27,6 +40,10 @@ public abstract class GameScene extends Scene {
     private ArrayList<GameObject> brokenRoads;
     private ArrayList<GameObject> savePoint;
     private ArrayList<GameObject> effect;
+
+    private ArrayList<Player> rankList;
+    private ArrayList<GameObject> movePlatform;
+    private ArrayList<GameObject> passPoint;
 
     private Camera camera;
     private Tracker tracker;
@@ -40,37 +57,59 @@ public abstract class GameScene extends Scene {
     private String mapTxtPath;
     private Spikes spikesUp;
     private Spikes spikesDown;
-    private PopupWindowScene testPop;
+
+//    private PopupWindowScene testPop;
     private Delay delay;
 
     private ArrayList<GameObject> backEffects;
 
+    private StopPopupWindowScene testPop;
+    private RankPopupWindowScene rankPop;
+
+    private long startTime;
+    private long gameTime;
+    private Ranking ranking;
+    private ArrayList<RankResult> rankResults;
+
     public GameScene(String mapBmpPath, Actor actor, GameObject background,
                      int cameraWidth, int cameraHeight, int cameraVelocityX, int cameraVelocityY,
-                     boolean actorTrigCamera) {
-
-        testPop = new PopupWindowScene(Global.WINDOW_WIDTH / 2 - 325, Global.WINDOW_HEIGHT / 2 - 225,
+                     boolean actorTrigCamera, String filePath) {
+        testPop = new StopPopupWindowScene(Global.WINDOW_WIDTH / 2 - 325, Global.WINDOW_HEIGHT / 2 - 225,
                 650, 450);
         testPop.setRestartClicked((int x, int y) -> {
             init(mapBmpPath, actor, background,
                     cameraWidth, cameraHeight, cameraVelocityX, cameraVelocityY,
-                    actorTrigCamera);
+                    actorTrigCamera, filePath);
             this.testPop.hide();
         });
+        rankPop = new RankPopupWindowScene(Global.WINDOW_WIDTH / 2 - 325, Global.WINDOW_HEIGHT / 2 - 225,
+                650, 450);
         testPop.setCancelable();
+
         init(mapBmpPath, actor, background,
                 cameraWidth, cameraHeight, cameraVelocityX, cameraVelocityY,
-                actorTrigCamera);
+                actorTrigCamera, filePath);
     }
 
     public void init(String mapBmpPath, Actor actor, GameObject background,
                      int cameraWidth, int cameraHeight, int cameraVelocityX, int cameraVelocityY,
-                     boolean actorTrigCamera) {
+                     boolean actorTrigCamera, String filePath) {
         backgrounds = new ArrayList<>();
         gameObjects = new ArrayList<>();
         brokenRoads = new ArrayList<>();
         savePoint = new ArrayList<>();
+
         effect = new ArrayList<>();
+
+        movePlatform = new ArrayList<>();
+        passPoint = new ArrayList<>();
+        rankResults = new ArrayList<>();
+
+        try {
+            ranking = new Ranking(filePath);
+        }catch (IOException e){
+            System.out.println(e);
+        }
 
         this.mapBmpPath = mapBmpPath;
         this.mapTxtPath = "/map/genMap.txt";
@@ -84,6 +123,14 @@ public abstract class GameScene extends Scene {
         actor.setXY(savePoint.get(0).painter().left(), savePoint.get(0).painter().top());
         actor.setReborn(actor.painter().left(), actor.painter().top(), false);
         saveNum = 0;
+
+        savePoint.forEach(a->
+        {if (a instanceof SavePoint) {
+            System.out.println("//////////////");
+            System.out.println(a.painter().left());
+            System.out.println(a.painter().top());
+        }}
+        );
 
         this.background = background;
         int cameraStartX = cameraWidth * frameX_count;
@@ -107,21 +154,26 @@ public abstract class GameScene extends Scene {
 
     @Override
     public void sceneBegin() {
+        rankPop.isShow();
         AudioResourceController.getInstance().loop("/sound/Battle-Dawn-crop-reduce.wav", 50);
         brokenRoads.forEach(a->a.setExist(true));
         MapInformation.getInstance().setMapInfo(this.background);
         if (actorTrigCamera) {
             tracker.velocity().stop();
-        }else {
+        } else {
             tracker.offsetY(320);
-            spikesUp = new Spikes(camera.painter().left(),camera.painter().top(),camera.painter().width(), Spikes.Type.topSpikes);
-            spikesDown = new Spikes(camera.painter().left(),camera.painter().bottom()-32,  camera.painter().width(), Spikes.Type.downSpikes);
+            spikesUp = new Spikes(camera.painter().left(), camera.painter().top(), camera.painter().width(), Spikes.Type.topSpikes);
+            spikesDown = new Spikes(camera.painter().left(), camera.painter().bottom() - 32, camera.painter().width(), Spikes.Type.downSpikes);
         }
 
         backEffects = new ArrayList<>();
 //        backEffects.add(new BackEffect1(10,50));
         backEffects.add(new BackEffect2(10,200));
 //        backEffects.add(new BackEffect3(10,400));
+        //遊戲開始計時
+        startTime = System.nanoTime();
+//        System.out.println(startTime);
+
     }
 
     @Override
@@ -160,6 +212,15 @@ public abstract class GameScene extends Scene {
                             testPop.show();
                         }
                         break;
+                    case Global.VK_R:
+                        if (rankPop.isShow()) {
+                            rankPop.hide();
+                            rankPop.sceneEnd();
+                        } else {
+                            rankPop.sceneBegin();
+                            rankPop.show();
+                        }
+                        break;
                 }
             }
 
@@ -176,6 +237,10 @@ public abstract class GameScene extends Scene {
             }
             @Override
             public void keyTyped(char c, long trigTime) {
+                if (rankPop.isShow()) {
+                    rankPop.getEditText().keyTyped(c);
+                    System.out.println(rankPop.getEditText().getEditText());
+                }
 
             }
         };
@@ -187,6 +252,10 @@ public abstract class GameScene extends Scene {
             if (testPop.isShow()) {
                 testPop.mouseListener().mouseTrig(e, state, trigTime);
             }
+            if (rankPop.isShow()) {
+                rankPop.mouseListener().mouseTrig(e, state, trigTime);
+            }
+
         };
     }
 
@@ -208,11 +277,13 @@ public abstract class GameScene extends Scene {
             }
         });
 
+
         effect.forEach(a->a.paint(g));
 
         for (int i = 1; i < savePoint.size();i++){
             if(camera.isCollision(savePoint.get(i))){
                 savePoint.get(i).savePointPaint(g,i == saveNum);
+
             }
         }
         brokenRoads.forEach(a -> {
@@ -220,16 +291,20 @@ public abstract class GameScene extends Scene {
                 a.paint(g);
             }
         });
+
+        if (passPoint.size()>0) {
+            passPoint.get(0).paint(g);
+        }
         if (camera.isCollision(this.actor)) {
             this.actor.paint(g);
         }
 
-        if(!actorTrigCamera){
+        if (!actorTrigCamera) {
             spikesUp.paint(g);
             spikesDown.paint(g);
         }
 
-        if(actor.getState() == Actor.State.DEAD){
+        if (actor.getState() == Actor.State.DEAD) {
 
         }
         camera.paint(g);
@@ -238,13 +313,17 @@ public abstract class GameScene extends Scene {
         if (testPop.isShow()) {
             testPop.paint(g);
         }
+        if (rankPop.isShow()) {
+            rankPop.paint(g);
+        }
     }
 
-    public void midPaint(Graphics g){}
+    public void midPaint(Graphics g) {
+    }
 
     @Override
     public void update() {
-        if (!testPop.isShow()) {
+        if ((!testPop.isShow())&&(!rankPop.isShow())) {
             actor.update();
             if(actor.velocity().x()!=0&&delay.count()){
                 if(!actor.velocity().isReverse()){
@@ -283,7 +362,7 @@ public abstract class GameScene extends Scene {
                 }
                 obj.update();
             }
-            for (int i = 0; i < savePoint.size(); i++){
+            for (int i = 0; i < savePoint.size(); i++) {
                 GameObject obj = savePoint.get(i);
                 if (actor.isCollision(obj)) {
                     obj.collisionEffect(actor);
@@ -304,6 +383,14 @@ public abstract class GameScene extends Scene {
                     i--;
                 }
             }
+
+            if (passPoint.size()>0) {
+                if (actor.isCollision(passPoint.get(0))) {
+                    passPoint.get(0).collisionEffect(actor); //for音效
+                    pass();
+                }
+            }
+
 
             camera.update();
             if (actorTrigCamera) {
@@ -340,22 +427,92 @@ public abstract class GameScene extends Scene {
                 if(actor.getState()== Actor.State.REBORN){
                     tracker.setY(actor.painter().bottom()); //
                 }
-                if(spikesUp.isCollision(actor)){
+                if (spikesUp.isCollision(actor)) {
                     spikesUp.collisionEffect(actor);
                 }
-                if(spikesDown.isCollision(actor)){
+                if (spikesDown.isCollision(actor)) {
                     spikesDown.collisionEffect(actor);
                 }
-                spikesUp.setXY(camera.painter().left(),camera.painter().top()-5); // 為什麼會不貼邊??
-                spikesDown.setXY(camera.painter().left(),camera.painter().bottom() -32);
+                spikesUp.setXY(camera.painter().left(), camera.painter().top() - 5); // 為什麼會不貼邊??
+                spikesDown.setXY(camera.painter().left(), camera.painter().bottom() - 32);
             }
-        } else {
+        } if (rankPop.isShow()) {
+            rankPop.update();
+        } if (testPop.isShow()) {
             testPop.update();
         }
     }
 
-    public Camera getCamera(){
+    public Camera getCamera() {
         return this.camera;
+    }
+
+    public void pass(){
+        gameTime = System.nanoTime()-startTime;
+//        System.out.println(gameTime);
+        gameTime = TimeUnit.NANOSECONDS.toMillis(gameTime);
+        int gtInt = (int)gameTime;
+        //到時畫面印出排行榜需要轉換的格式
+//        gt = new SimpleDateFormat("mm:ss:SSS", Locale.TAIWAN).format(new Date(gameTime));
+
+        RankResult newResult = new RankResult("Player", gtInt);
+
+        //讀目前的排行
+        ArrayList<String> ar = ranking.readL();
+
+        if (ar.size()>0) {
+            //把檔案內容轉成arraylist
+            for (int i = 0; i < ar.size() - 1; i = i + 2) {
+                rankResults.add(new RankResult(ar.get(i), Integer.parseInt(ar.get(i + 1))));
+                System.out.println("IN");
+            }
+        }
+
+        System.out.println("new: "+gtInt);
+
+        System.out.println("Unsorted");
+        for (int i = 0; i < rankResults.size(); i++) {
+            System.out.println(rankResults.get(i).getName());
+            System.out.println(rankResults.get(i).getTime());
+            System.out.println("-----------");
+        }
+
+        //如果目前榜上資料超過9筆，要進行比對，有進榜單資格的話，就add，排序後取前10輸出
+        //不超過9筆就直接加入榜單後，排序輸出
+        if (rankResults.size()>2) {
+                if (rankResults.get(rankResults.size()-1).compareTo(newResult)){
+                    //有資格進榜單，讓使用者輸入名字
+//                    newResult.setName("");
+                    rankResults.add(newResult);
+                }
+
+        }else {
+            //有資格進榜單，讓使用者輸入名字
+            //newResult.setName("");
+            rankResults.add(newResult);
+        }
+
+        //排序
+        Collections.sort(rankResults, new RankSort());
+
+        System.out.println("\nSort");
+        for (int i = 0; i < rankResults.size(); i++) {
+            System.out.println(rankResults.get(i).getName());
+            System.out.println(rankResults.get(i).getTime());
+            System.out.println("-----------");
+        }
+
+        //取前10名轉回一串字串輸出
+        String output = "";
+        if (rankResults.size()>3){
+            rankResults.remove(3);
+        }
+        for (int i = 0; i < rankResults.size(); i++) {
+            output += rankResults.get(i).getName() + "," + rankResults.get(i).getTime() + ",";
+        }
+//清資料用
+//        rankResults.clear();
+        ranking.writeOut(output);
     }
 
     public void mapInit() {
@@ -400,8 +557,6 @@ public abstract class GameScene extends Scene {
                 }
                 return null;
             }));
-
-
 
             this.backgrounds.addAll(mapLoader.createObjectArray("back1", Global.UNIT, mapInfoArr, (gameObject, name, mapInfo, size) -> {
                 final GameObject tmp;
@@ -997,6 +1152,16 @@ public abstract class GameScene extends Scene {
                 final GameObject tmp;
                 if (gameObject.equals(name)) {
                     tmp = new Conveyor(mapInfo.getX() * size, mapInfo.getY() * size, Conveyor.Type.DownR3);
+                    return tmp;
+                }
+                return null;
+            }));
+
+            //通關點
+            this.passPoint.addAll(mapLoader.createObjectArray("passPoint", Global.UNIT, mapInfoArr, (gameObject, name, mapInfo, size) -> {
+                final GameObject tmp;
+                if (gameObject.equals(name)) {
+                    tmp = new Pass(mapInfo.getX() * size, mapInfo.getY() * size);
                     return tmp;
                 }
                 return null;

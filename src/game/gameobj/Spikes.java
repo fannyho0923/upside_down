@@ -25,7 +25,7 @@ public class Spikes extends GameObject{
     @Override
     public void collisionEffect(Actor actor){
         if(actor.getState() == Actor.State.ALIVE){
-            AudioResourceController.getInstance().shot("/sound/spike.wav");
+            AudioResourceController.getInstance().play("/sound/spike.wav");
             actor.dead();
         }
     }

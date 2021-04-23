@@ -30,6 +30,7 @@ public class Global {
     public static final int VK_RIGHT = 2;
     public static final int VK_SPACE = 3;
     public static final int VK_A = 4;
+    public static final int VK_R = 9;
     public static final int VK_ESCAPE = 20;
 
     //人物大小單位

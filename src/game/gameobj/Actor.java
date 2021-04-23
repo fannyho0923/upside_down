@@ -41,7 +41,7 @@ public class Actor extends GameObject {
     private Delay deadDelay;
 
     public Actor(int x, int y, int num) {
-        super(x, y, Global.UNIT_X32, Global.UNIT_Y32);
+        super(x, y, 40, 40);
         velocity = new Velocity(0,0, false);
 
         actionAnimator = new ActionAnimator();

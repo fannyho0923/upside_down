@@ -40,7 +40,6 @@ public class BackEffect2 extends GameObject{
         if(play){
             if(delay.count()){
                 count = ++count%COUNT_MAX;
-                System.out.println(count);
             }
             if(count == 0){
                 play = false;
