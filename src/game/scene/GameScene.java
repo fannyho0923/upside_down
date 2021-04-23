@@ -23,15 +23,7 @@ import java.util.concurrent.TimeUnit;
 
 
 public abstract class GameScene extends Scene {
-    public static class Player {
-        String name;
-        int score;
 
-        public Player(String name, int score) {
-            this.name = name;
-            this.score = score;
-        }
-    }
 
     private GameObject background;
     private Actor actor;
@@ -39,7 +31,6 @@ public abstract class GameScene extends Scene {
     private ArrayList<GameObject> orinBrokenRoads; // 分開加入, 鏡頭改變時要重新加入
     private ArrayList<GameObject> brokenRoads;
     private ArrayList<GameObject> savePoint;
-    private ArrayList<Player> rankList;
     private ArrayList<GameObject> movePlatform;
     private ArrayList<GameObject> passPoint;
 
@@ -62,6 +53,7 @@ public abstract class GameScene extends Scene {
     private long gameTime;
     private Ranking ranking;
     private ArrayList<RankResult> rankResults;
+    private String playerName;
 
     public GameScene(String mapBmpPath, Actor actor, GameObject background,
                      int cameraWidth, int cameraHeight, int cameraVelocityX, int cameraVelocityY,
@@ -76,12 +68,15 @@ public abstract class GameScene extends Scene {
         });
         rankPop = new RankPopupWindowScene(Global.WINDOW_WIDTH / 2 - 325, Global.WINDOW_HEIGHT / 2 - 225,
                 650, 450);
+        rankPop.setCancelable();
         testPop.setCancelable();
-
+this.playerName="";
         init(mapBmpPath, actor, background,
                 cameraWidth, cameraHeight, cameraVelocityX, cameraVelocityY,
                 actorTrigCamera, filePath);
     }
+
+
 
     public void init(String mapBmpPath, Actor actor, GameObject background,
                      int cameraWidth, int cameraHeight, int cameraVelocityX, int cameraVelocityY,
@@ -128,7 +123,6 @@ public abstract class GameScene extends Scene {
 
     @Override
     public void sceneBegin() {
-        rankPop.isShow();
         AudioResourceController.getInstance().loop("/sound/Battle-Dawn-crop-reduce.wav", 50);
         brokenRoads = (ArrayList) orinBrokenRoads.clone();
         MapInformation.getInstance().setMapInfo(this.background);
@@ -143,6 +137,7 @@ public abstract class GameScene extends Scene {
         //遊戲開始計時
         startTime = System.nanoTime();
 //        System.out.println(startTime);
+
     }
 
     @Override
@@ -209,7 +204,8 @@ public abstract class GameScene extends Scene {
             public void keyTyped(char c, long trigTime) {
                 if (rankPop.isShow()) {
                     rankPop.getEditText().keyTyped(c);
-                    System.out.println(rankPop.getEditText().getEditText());
+                    playerName=rankPop.getEditText().getEditText();
+                    System.out.println(playerName);
                 }
 
             }
@@ -379,18 +375,20 @@ public abstract class GameScene extends Scene {
 //        System.out.println(gameTime);
         gameTime = TimeUnit.NANOSECONDS.toMillis(gameTime);
         int gtInt = (int)gameTime;
+
+
         //到時畫面印出排行榜需要轉換的格式
 //        gt = new SimpleDateFormat("mm:ss:SSS", Locale.TAIWAN).format(new Date(gameTime));
 
         RankResult newResult = new RankResult("Player", gtInt);
 
         //讀目前的排行
-        ArrayList<String> ar = ranking.readL();
+        ArrayList<String> arr = ranking.readL();
 
-        if (ar.size()>0) {
+        if (arr.size()>0) {
             //把檔案內容轉成arraylist
-            for (int i = 0; i < ar.size() - 1; i = i + 2) {
-                rankResults.add(new RankResult(ar.get(i), Integer.parseInt(ar.get(i + 1))));
+            for (int i = 0; i < arr.size() - 1; i = i + 2) {
+                rankResults.add(new RankResult(arr.get(i), Integer.parseInt(arr.get(i + 1))));
                 System.out.println("IN");
             }
         }
@@ -406,16 +404,22 @@ public abstract class GameScene extends Scene {
 
         //如果目前榜上資料超過9筆，要進行比對，有進榜單資格的話，就add，排序後取前10輸出
         //不超過9筆就直接加入榜單後，排序輸出
+
         if (rankResults.size()>2) {
                 if (rankResults.get(rankResults.size()-1).compareTo(newResult)){
                     //有資格進榜單，讓使用者輸入名字
 //                    newResult.setName("");
+                    rankPop.sceneBegin();
+                    rankPop.show();
+                    newResult.setName(playerName);
                     rankResults.add(newResult);
                 }
 
         }else {
-            //有資格進榜單，讓使用者輸入名字
-            //newResult.setName("");
+            //榜單未滿，自動加入
+            rankPop.sceneBegin();
+            rankPop.show();
+            newResult.setName(playerName);
             rankResults.add(newResult);
         }
 

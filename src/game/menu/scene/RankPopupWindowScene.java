@@ -34,9 +34,8 @@ public EditText getEditText(){
         rankTitle = new Label(getWidth() / 2 - 150, 30, new Style.StyleRect(300, 100, new BackgroundType.BackgroundNull())
                 .setText("-Rank-").setHaveBorder(false).setBorderColor(Color.black).setTextFont(new Font("TimesRoman", Font.BOLD, 100)));
 
-        confirm = new Button(this.getWidth() / 2 - 50, 250, Theme.get(11));
+        confirm = new Button(this.getWidth() / 2 - 50, 250, Theme.get(12));
         confirm.setClickedActionPerformed(clickedAction);
-        confirm.setClickedActionPerformed((int x, int y) -> this.hide());
         Style et = new Style.StyleRect(200, 50, true, new BackgroundType.BackgroundColor(Color.YELLOW))
                 .setHaveBorder(true)
                 .setTextColor(Color.BLACK)
@@ -65,9 +64,12 @@ public EditText getEditText(){
         editText.setStyleHover(eHover);
         editText.setStyleFocus(et);
         editText.setEditLimit(10);   //設定文字輸入長度限制
+        confirm.setClickedActionPerformed((int x, int y) -> System.out.println());
 
 
     }
+
+
 
     @Override
     public void sceneEnd() {
