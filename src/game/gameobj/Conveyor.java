@@ -13,18 +13,19 @@ public class Conveyor extends GameObject{
     private Type type;
 
     public enum Type{
-        TopL1("/img/gameObj/conveyor/conveyor_top_L1.png",Global.Direction.LEFT),
-        TopL2("/img/gameObj/conveyor/conveyor_top_L2.png",Global.Direction.LEFT),
-        TopL3("/img/gameObj/conveyor/conveyor_top_L3.png",Global.Direction.LEFT),
-        DownL1("/img/gameObj/conveyor/conveyor_down_L1.png",Global.Direction.LEFT),
-        DownL2("/img/gameObj/conveyor/conveyor_down_L2.png",Global.Direction.LEFT),
-        DownL3("/img/gameObj/conveyor/conveyor_down_L3.png",Global.Direction.LEFT),
-        TopR1("/img/gameObj/conveyor/conveyor_top_R1.png",Global.Direction.RIGHT),
-        TopR2("/img/gameObj/conveyor/conveyor_top_R2.png",Global.Direction.RIGHT),
-        TopR3("/img/gameObj/conveyor/conveyor_top_R3.png",Global.Direction.RIGHT),
-        DownR1("/img/gameObj/conveyor/conveyor_down_R1.png",Global.Direction.RIGHT),
-        DownR2("/img/gameObj/conveyor/conveyor_down_R2.png",Global.Direction.RIGHT),
-        DownR3("/img/gameObj/conveyor/conveyor_down_R3.png",Global.Direction.RIGHT);
+
+        TopL1("/img/gameObj/conveyor/up.png",Global.Direction.LEFT),
+        TopL2("/img/gameObj/conveyor/up.png",Global.Direction.LEFT),
+        TopL3("/img/gameObj/conveyor/up.png",Global.Direction.LEFT),
+        DownL1("/img/gameObj/conveyor/down.png",Global.Direction.LEFT),
+        DownL2("/img/gameObj/conveyor/down.png",Global.Direction.LEFT),
+        DownL3("/img/gameObj/conveyor/down.png",Global.Direction.LEFT),
+        TopR1("/img/gameObj/conveyor/up.png",Global.Direction.RIGHT),
+        TopR2("/img/gameObj/conveyor/up.png",Global.Direction.RIGHT),
+        TopR3("/img/gameObj/conveyor/up.png",Global.Direction.RIGHT),
+        DownR1("/img/gameObj/conveyor/down.png",Global.Direction.RIGHT),
+        DownR2("/img/gameObj/conveyor/down.png",Global.Direction.RIGHT),
+        DownR3("/img/gameObj/conveyor/down.png",Global.Direction.RIGHT);
 
         private Image img;
         private Global.Direction dir;

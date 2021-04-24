@@ -32,17 +32,15 @@ public abstract class GameScene extends Scene {
         }
     }
 
+    private int level;
+
     private GameObject background;
     private Actor actor;
+    private ArrayList<GameObject> effect;
     private ArrayList<GameObject> backgrounds;
     private ArrayList<GameObject> gameObjects;
-//    private ArrayList<GameObject> orinBrokenRoads; // 分開加入, 鏡頭改變時要重新加入
     private ArrayList<GameObject> brokenRoads;
     private ArrayList<GameObject> savePoint;
-    private ArrayList<GameObject> effect;
-
-    private ArrayList<Player> rankList;
-    private ArrayList<GameObject> movePlatform;
     private ArrayList<GameObject> passPoint;
 
     private Camera camera;
@@ -58,10 +56,8 @@ public abstract class GameScene extends Scene {
     private Spikes spikesUp;
     private Spikes spikesDown;
 
-//    private PopupWindowScene testPop;
     private Delay delay;
-
-    private ArrayList<GameObject> backEffects;
+    private BackEffect backEffect;
 
     private StopPopupWindowScene testPop;
     private RankPopupWindowScene rankPop;
@@ -71,13 +67,13 @@ public abstract class GameScene extends Scene {
     private Ranking ranking;
     private ArrayList<RankResult> rankResults;
 
-    public GameScene(String mapBmpPath, Actor actor, GameObject background,
+    public GameScene(int level, String mapBmpPath, Actor actor, GameObject background,
                      int cameraWidth, int cameraHeight, int cameraVelocityX, int cameraVelocityY,
                      boolean actorTrigCamera, String filePath) {
         testPop = new StopPopupWindowScene(Global.WINDOW_WIDTH / 2 - 325, Global.WINDOW_HEIGHT / 2 - 225,
                 650, 450);
         testPop.setRestartClicked((int x, int y) -> {
-            init(mapBmpPath, actor, background,
+            init(level,mapBmpPath, actor, background,
                     cameraWidth, cameraHeight, cameraVelocityX, cameraVelocityY,
                     actorTrigCamera, filePath);
             this.testPop.hide();
@@ -86,14 +82,16 @@ public abstract class GameScene extends Scene {
                 650, 450);
         testPop.setCancelable();
 
-        init(mapBmpPath, actor, background,
+        init(level, mapBmpPath, actor, background,
                 cameraWidth, cameraHeight, cameraVelocityX, cameraVelocityY,
                 actorTrigCamera, filePath);
     }
 
-    public void init(String mapBmpPath, Actor actor, GameObject background,
+    public void init(int level, String mapBmpPath, Actor actor, GameObject background,
                      int cameraWidth, int cameraHeight, int cameraVelocityX, int cameraVelocityY,
                      boolean actorTrigCamera, String filePath) {
+        this.level = level;
+
         backgrounds = new ArrayList<>();
         gameObjects = new ArrayList<>();
         brokenRoads = new ArrayList<>();
@@ -101,7 +99,6 @@ public abstract class GameScene extends Scene {
 
         effect = new ArrayList<>();
 
-        movePlatform = new ArrayList<>();
         passPoint = new ArrayList<>();
         rankResults = new ArrayList<>();
 
@@ -124,17 +121,6 @@ public abstract class GameScene extends Scene {
         actor.setReborn(actor.painter().left(), actor.painter().top(), false);
         saveNum = 0;
 
-        System.out.println(savePoint.get(0).painter().left());
-        System.out.println(savePoint.get(0).painter().top());
-
-//        savePoint.forEach(a->
-//        {if (a instanceof SavePoint) {
-//            System.out.println("//////////////");
-//            System.out.println(a.painter().left());
-//            System.out.println(a.painter().top());
-//        }}
-//        );
-
         this.background = background;
         int cameraStartX = cameraWidth * frameX_count;
         int cameraStartY = cameraHeight * frameY_count;
@@ -150,7 +136,6 @@ public abstract class GameScene extends Scene {
     public Actor getActor() {
         return actor;
     }
-
     public ArrayList<GameObject> getGameObjects() {
         return gameObjects;
     }
@@ -169,10 +154,7 @@ public abstract class GameScene extends Scene {
             spikesDown = new Spikes(camera.painter().left(), camera.painter().bottom() - 32, camera.painter().width(), Spikes.Type.downSpikes);
         }
 
-        backEffects = new ArrayList<>();
-//        backEffects.add(new BackEffect1(10,50));
-        backEffects.add(new BackEffect2(10,200));
-//        backEffects.add(new BackEffect3(10,400));
+        backEffect = new BackEffect(10,200);
         //遊戲開始計時
         startTime = System.nanoTime();
 //        System.out.println(startTime);
@@ -271,15 +253,13 @@ public abstract class GameScene extends Scene {
                 a.paint(g);
             }
         });
-
-        backEffects.forEach(a->a.paint(g));
+        backEffect.paint(g);
 
         gameObjects.forEach(a -> {
             if (camera.isCollision(a)) {
                 a.paint(g);
             }
         });
-
 
         effect.forEach(a->a.paint(g));
 
@@ -328,7 +308,7 @@ public abstract class GameScene extends Scene {
     public void update() {
         if ((!testPop.isShow())&&(!rankPop.isShow())) {
             actor.update();
-            if(actor.velocity().x()!=0&&delay.count()){
+            if(actor.velocity().x() != 0 && delay.count()){
                 if(!actor.velocity().isReverse()){
                     if(actor.velocity().x() > 0){   // 正面向右
                         effect.add(new WalkAnimation(actor.painter().centerX()-actor.painter().width(),actor.painter().centerY()));
@@ -344,18 +324,15 @@ public abstract class GameScene extends Scene {
                 }
             }
 
-            backEffects.forEach(a->{
-                a.update();
-                if(!a.isExist()){
-                    a.setXY(camera.painter().left()+Global.random(0,Global.WINDOW_WIDTH),camera.painter().top()+Global.random(0,Global.WINDOW_HEIGHT));
-                    a.setExist(true);
-                }
-            });
-
-            savePoint.forEach(a->a.update());
+            backEffect.update();
+            if (!backEffect.isExist()){
+                backEffect.setXY(camera.painter().left()+Global.random(0,Global.WINDOW_WIDTH),camera.painter().top()+Global.random(0,Global.WINDOW_HEIGHT));
+                backEffect.setExist(true);
+            }
+            savePoint.forEach(a -> a.update());
 
             if(actor.getState() == Actor.State.DEAD){
-                brokenRoads.forEach(a->a.setExist(true));
+                brokenRoads.forEach(a -> a.setExist(true));
             }
 
             for (int i = 0; i < brokenRoads.size(); i++) {
@@ -365,6 +342,7 @@ public abstract class GameScene extends Scene {
                 }
                 obj.update();
             }
+
             for (int i = 0; i < savePoint.size(); i++) {
                 GameObject obj = savePoint.get(i);
                 if (actor.isCollision(obj)) {
@@ -393,7 +371,6 @@ public abstract class GameScene extends Scene {
                     pass();
                 }
             }
-
 
             camera.update();
             if (actorTrigCamera) {
@@ -428,7 +405,7 @@ public abstract class GameScene extends Scene {
                     return;
                 }
                 if(actor.getState()== Actor.State.REBORN){
-                    tracker.setY(actor.painter().bottom()); //
+                    tracker.setY(actor.painter().bottom() - 200); //
                 }
                 if (spikesUp.isCollision(actor)) {
                     spikesUp.collisionEffect(actor);
@@ -568,6 +545,9 @@ public abstract class GameScene extends Scene {
                 }
                 return null;
             }));
+
+
+
 
             this.backgrounds.addAll(mapLoader.createObjectArray("back1", Global.UNIT, mapInfoArr, (gameObject, name, mapInfo, size) -> {
                 final GameObject tmp;
@@ -758,12 +738,32 @@ public abstract class GameScene extends Scene {
                 return null;
             }));
 
+            if(level == 2) {
+                this.backgrounds.add(
+                        new CameraBackground(0, 7680, CameraBackground.Type.Fanny14));
+                this.backgrounds.add(
+                        new CameraBackground(0, 5120, CameraBackground.Type.Fanny16));
+                this.backgrounds.add(
+                        new CameraBackground(0, 5760, CameraBackground.Type.Fanny19));
+            }
+
+            Tile.Type type;
+            if(level == 1){
+                type = Tile.Type.GRAY;
+            }else if(level == 2){
+                type = Tile.Type.BROWN;
+            }else if(level == 3){
+                type = Tile.Type.COLOR;
+            }else{
+                type = Tile.Type.BROWN;
+            }
+
             //tiles
             this.gameObjects.addAll(mapLoader.createObjectArray("tile_0195", Global.UNIT, mapInfoArr, (gameObject, name, mapInfo, size) -> {
                 final GameObject tmp;
                 if (gameObject.equals(name)) {
 //                    tmp = new Tile(mapInfo.getX() * size, mapInfo.getY() * size, Tile.Type.tile_0195);
-                    tmp = new Tile(mapInfo.getX() * size, mapInfo.getY() * size);
+                    tmp = new Tile(mapInfo.getX() * size, mapInfo.getY() * size,type);
                     return tmp;
                 }
                 return null;
@@ -773,7 +773,7 @@ public abstract class GameScene extends Scene {
                 final GameObject tmp;
                 if (gameObject.equals(name)) {
 //                    tmp = new Tile(mapInfo.getX() * size, mapInfo.getY() * size, Tile.Type.tile_0196);
-                    tmp = new Tile(mapInfo.getX() * size, mapInfo.getY() * size);
+                    tmp = new Tile(mapInfo.getX() * size, mapInfo.getY() * size,type);
                     return tmp;
                 }
                 return null;
@@ -783,7 +783,7 @@ public abstract class GameScene extends Scene {
                 final GameObject tmp;
                 if (gameObject.equals(name)) {
 //                    tmp = new Tile(mapInfo.getX() * size, mapInfo.getY() * size, Tile.Type.tile_0197);
-                    tmp = new Tile(mapInfo.getX() * size, mapInfo.getY() * size);
+                    tmp = new Tile(mapInfo.getX() * size, mapInfo.getY() * size,type);
                     return tmp;
                 }
                 return null;
@@ -793,7 +793,7 @@ public abstract class GameScene extends Scene {
                 final GameObject tmp;
                 if (gameObject.equals(name)) {
 //                    tmp = new Tile(mapInfo.getX() * size, mapInfo.getY() * size, Tile.Type.tile_0198);
-                    tmp = new Tile(mapInfo.getX() * size, mapInfo.getY() * size);
+                    tmp = new Tile(mapInfo.getX() * size, mapInfo.getY() * size,type);
                     return tmp;
                 }
                 return null;
@@ -803,7 +803,7 @@ public abstract class GameScene extends Scene {
                 final GameObject tmp;
                 if (gameObject.equals(name)) {
 //                    tmp = new Tile(mapInfo.getX() * size, mapInfo.getY() * size, Tile.Type.tile_0215);
-                    tmp = new Tile(mapInfo.getX() * size, mapInfo.getY() * size);
+                    tmp = new Tile(mapInfo.getX() * size, mapInfo.getY() * size,type);
                     return tmp;
                 }
                 return null;
@@ -813,7 +813,7 @@ public abstract class GameScene extends Scene {
                 final GameObject tmp;
                 if (gameObject.equals(name)) {
 //                    tmp = new Tile(mapInfo.getX() * size, mapInfo.getY() * size, Tile.Type.tile_0235);
-                    tmp = new Tile(mapInfo.getX() * size, mapInfo.getY() * size);
+                    tmp = new Tile(mapInfo.getX() * size, mapInfo.getY() * size,type);
                     return tmp;
                 }
                 return null;
@@ -823,7 +823,7 @@ public abstract class GameScene extends Scene {
                 final GameObject tmp;
                 if (gameObject.equals(name)) {
 //                    tmp = new Tile(mapInfo.getX() * size, mapInfo.getY() * size, Tile.Type.tile_0236);
-                    tmp = new Tile(mapInfo.getX() * size, mapInfo.getY() * size);
+                    tmp = new Tile(mapInfo.getX() * size, mapInfo.getY() * size,type);
                     return tmp;
                 }
                 return null;
@@ -833,7 +833,7 @@ public abstract class GameScene extends Scene {
                 final GameObject tmp;
                 if (gameObject.equals(name)) {
 //                    tmp = new Tile(mapInfo.getX() * size, mapInfo.getY() * size, Tile.Type.tile_0237);
-                    tmp = new Tile(mapInfo.getX() * size, mapInfo.getY() * size);
+                    tmp = new Tile(mapInfo.getX() * size, mapInfo.getY() * size,type);
                     return tmp;
                 }
                 return null;
@@ -843,7 +843,7 @@ public abstract class GameScene extends Scene {
                 final GameObject tmp;
                 if (gameObject.equals(name)) {
 //                    tmp = new Tile(mapInfo.getX() * size, mapInfo.getY() * size, Tile.Type.tile_0238);
-                    tmp = new Tile(mapInfo.getX() * size, mapInfo.getY() * size);
+                    tmp = new Tile(mapInfo.getX() * size, mapInfo.getY() * size,type);
                     return tmp;
                 }
                 return null;
@@ -853,7 +853,7 @@ public abstract class GameScene extends Scene {
                 final GameObject tmp;
                 if (gameObject.equals(name)) {
 //                    tmp = new Tile(mapInfo.getX() * size, mapInfo.getY() * size, Tile.Type.tile_0255);
-                    tmp = new Tile(mapInfo.getX() * size, mapInfo.getY() * size);
+                    tmp = new Tile(mapInfo.getX() * size, mapInfo.getY() * size,type);
                     return tmp;
                 }
                 return null;
@@ -863,7 +863,7 @@ public abstract class GameScene extends Scene {
                 final GameObject tmp;
                 if (gameObject.equals(name)) {
 //                    tmp = new Tile(mapInfo.getX() * size, mapInfo.getY() * size, Tile.Type.tile_0256);
-                    tmp = new Tile(mapInfo.getX() * size, mapInfo.getY() * size);
+                    tmp = new Tile(mapInfo.getX() * size, mapInfo.getY() * size,type);
                     return tmp;
                 }
                 return null;
@@ -873,7 +873,7 @@ public abstract class GameScene extends Scene {
                 final GameObject tmp;
                 if (gameObject.equals(name)) {
 //                    tmp = new Tile(mapInfo.getX() * size, mapInfo.getY() * size, Tile.Type.tile_0257);
-                    tmp = new Tile(mapInfo.getX() * size, mapInfo.getY() * size);
+                    tmp = new Tile(mapInfo.getX() * size, mapInfo.getY() * size,type);
                     return tmp;
                 }
                 return null;
@@ -883,7 +883,7 @@ public abstract class GameScene extends Scene {
                 final GameObject tmp;
                 if (gameObject.equals(name)) {
 //                    tmp = new Tile(mapInfo.getX() * size, mapInfo.getY() * size, Tile.Type.tile_999);
-                    tmp = new Tile(mapInfo.getX() * size, mapInfo.getY() * size);
+                    tmp = new Tile(mapInfo.getX() * size, mapInfo.getY() * size,type);
                     return tmp;
                 }
                 return null;
@@ -948,11 +948,6 @@ public abstract class GameScene extends Scene {
                 return null;
             }));
 
-//            monster_280("/img/gameObj/monster/light3.png",0,1),
-//                    monster_300("/img/gameObj/monster/light4.png",0,1),
-//                    monster_320("/img/gameObj/monster/light5.png",0,1),
-//                    monster_340("/img/gameObj/monster/light6.png",0,1),
-//                    monster_380("/img/gameObj/monster/light7.png",0,1);
             this.gameObjects.addAll(mapLoader.createObjectArray("monster_280", Global.UNIT, mapInfoArr, (gameObject, name, mapInfo, size) -> {
                 final GameObject tmp;
                 if (gameObject.equals(name)) {

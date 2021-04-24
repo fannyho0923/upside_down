@@ -26,17 +26,17 @@ public class CountDown extends GameScene{
     //private WalkAnimation test;
 
     public CountDown(int num) {
-        super("/map/countDown.bmp", new Actor(0, 0, num), new Background(960, 640),
+        super(4,"/map/countDown.bmp", new Actor(0, 0, num), new Background(960, 640),
                 960, 640, 0, 0, true, "countdown.txt");
 
         // 不要寫東西!!
     }
 
     @Override
-    public void init(String mapBmpPath, Actor actor, GameObject background,
+    public void init(int level,String mapBmpPath, Actor actor, GameObject background,
                      int cameraWidth, int cameraHeight, int cameraVelocityX, int cameraVelocityY,
                      boolean actorTrigCamera, String filepath) {
-        super.init(mapBmpPath, actor, background,
+        super.init(level,mapBmpPath, actor, background,
                 cameraWidth, cameraHeight, cameraVelocityX, cameraVelocityY,
                 actorTrigCamera, filepath);
 
