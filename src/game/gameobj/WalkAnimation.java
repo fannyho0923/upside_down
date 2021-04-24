@@ -31,7 +31,6 @@ public class WalkAnimation extends GameObject{
     @Override
     public void update() {
         if(delay.count()){
-//            count = ++count%countMax;
             count++;
         }
         if(count == countMax) {

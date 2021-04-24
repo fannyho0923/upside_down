@@ -529,14 +529,6 @@ public abstract class GameScene extends Scene {
                 return null;
             }));
 
-            savePoint.forEach(a->
-                    {if (a instanceof SavePoint) {
-                        System.out.println("//////////////");
-                        System.out.println(a.painter().left());
-                        System.out.println(a.painter().top());
-                    }}
-            );
-
             this.savePoint.addAll(mapLoader.createObjectArray("savePoint", Global.UNIT, mapInfoArr, (gameObject, name, mapInfo, size) -> {
                 final GameObject tmp;
                 if (gameObject.equals(name)) {
@@ -545,10 +537,7 @@ public abstract class GameScene extends Scene {
                 }
                 return null;
             }));
-
-
-
-
+        //background
             this.backgrounds.addAll(mapLoader.createObjectArray("back1", Global.UNIT, mapInfoArr, (gameObject, name, mapInfo, size) -> {
                 final GameObject tmp;
                 if (gameObject.equals(name)) {
@@ -745,6 +734,42 @@ public abstract class GameScene extends Scene {
                         new CameraBackground(0, 5120, CameraBackground.Type.Fanny16));
                 this.backgrounds.add(
                         new CameraBackground(0, 5760, CameraBackground.Type.Fanny19));
+
+                this.gameObjects.addAll(mapLoader.createObjectArray("cmoney_I", Global.UNIT, mapInfoArr, (gameObject, name, mapInfo, size) -> {
+                    final GameObject tmp;
+                    if (gameObject.equals(name)) {
+                        tmp = new CMoney(mapInfo.getX() * size, mapInfo.getY() * size, CMoney.Word.I);
+                        return tmp;
+                    }
+                    return null;
+                }));
+
+                this.gameObjects.addAll(mapLoader.createObjectArray("Love", Global.UNIT, mapInfoArr, (gameObject, name, mapInfo, size) -> {
+                    final GameObject tmp;
+                    if (gameObject.equals(name)) {
+                        tmp = new CMoney(mapInfo.getX() * size, mapInfo.getY() * size, CMoney.Word.Love);
+                        return tmp;
+                    }
+                    return null;
+                }));
+
+                this.gameObjects.addAll(mapLoader.createObjectArray("Cmoney_C", Global.UNIT, mapInfoArr, (gameObject, name, mapInfo, size) -> {
+                    final GameObject tmp;
+                    if (gameObject.equals(name)) {
+                        tmp = new CMoney(mapInfo.getX() * size, mapInfo.getY() * size, CMoney.Word.CMY);
+                        return tmp;
+                    }
+                    return null;
+                }));
+
+                this.gameObjects.addAll(mapLoader.createObjectArray("Money", Global.UNIT, mapInfoArr, (gameObject, name, mapInfo, size) -> {
+                    final GameObject tmp;
+                    if (gameObject.equals(name)) {
+                        tmp = new CMoney(mapInfo.getX() * size, mapInfo.getY() * size, CMoney.Word.ONE);
+                        return tmp;
+                    }
+                    return null;
+                }));
             }
 
             Tile.Type type;
@@ -812,7 +837,6 @@ public abstract class GameScene extends Scene {
             this.gameObjects.addAll(mapLoader.createObjectArray("tile_0235", Global.UNIT, mapInfoArr, (gameObject, name, mapInfo, size) -> {
                 final GameObject tmp;
                 if (gameObject.equals(name)) {
-//                    tmp = new Tile(mapInfo.getX() * size, mapInfo.getY() * size, Tile.Type.tile_0235);
                     tmp = new Tile(mapInfo.getX() * size, mapInfo.getY() * size,type);
                     return tmp;
                 }
@@ -822,7 +846,6 @@ public abstract class GameScene extends Scene {
             this.gameObjects.addAll(mapLoader.createObjectArray("tile_0236", Global.UNIT, mapInfoArr, (gameObject, name, mapInfo, size) -> {
                 final GameObject tmp;
                 if (gameObject.equals(name)) {
-//                    tmp = new Tile(mapInfo.getX() * size, mapInfo.getY() * size, Tile.Type.tile_0236);
                     tmp = new Tile(mapInfo.getX() * size, mapInfo.getY() * size,type);
                     return tmp;
                 }
@@ -832,7 +855,6 @@ public abstract class GameScene extends Scene {
             this.gameObjects.addAll(mapLoader.createObjectArray("tile_0237", Global.UNIT, mapInfoArr, (gameObject, name, mapInfo, size) -> {
                 final GameObject tmp;
                 if (gameObject.equals(name)) {
-//                    tmp = new Tile(mapInfo.getX() * size, mapInfo.getY() * size, Tile.Type.tile_0237);
                     tmp = new Tile(mapInfo.getX() * size, mapInfo.getY() * size,type);
                     return tmp;
                 }
@@ -842,7 +864,6 @@ public abstract class GameScene extends Scene {
             this.gameObjects.addAll(mapLoader.createObjectArray("tile_0238", Global.UNIT, mapInfoArr, (gameObject, name, mapInfo, size) -> {
                 final GameObject tmp;
                 if (gameObject.equals(name)) {
-//                    tmp = new Tile(mapInfo.getX() * size, mapInfo.getY() * size, Tile.Type.tile_0238);
                     tmp = new Tile(mapInfo.getX() * size, mapInfo.getY() * size,type);
                     return tmp;
                 }
@@ -852,7 +873,6 @@ public abstract class GameScene extends Scene {
             this.gameObjects.addAll(mapLoader.createObjectArray("tile_0255", Global.UNIT, mapInfoArr, (gameObject, name, mapInfo, size) -> {
                 final GameObject tmp;
                 if (gameObject.equals(name)) {
-//                    tmp = new Tile(mapInfo.getX() * size, mapInfo.getY() * size, Tile.Type.tile_0255);
                     tmp = new Tile(mapInfo.getX() * size, mapInfo.getY() * size,type);
                     return tmp;
                 }
@@ -862,7 +882,6 @@ public abstract class GameScene extends Scene {
             this.gameObjects.addAll(mapLoader.createObjectArray("tile_0256", Global.UNIT, mapInfoArr, (gameObject, name, mapInfo, size) -> {
                 final GameObject tmp;
                 if (gameObject.equals(name)) {
-//                    tmp = new Tile(mapInfo.getX() * size, mapInfo.getY() * size, Tile.Type.tile_0256);
                     tmp = new Tile(mapInfo.getX() * size, mapInfo.getY() * size,type);
                     return tmp;
                 }
@@ -872,7 +891,6 @@ public abstract class GameScene extends Scene {
             this.gameObjects.addAll(mapLoader.createObjectArray("tile_0257", Global.UNIT, mapInfoArr, (gameObject, name, mapInfo, size) -> {
                 final GameObject tmp;
                 if (gameObject.equals(name)) {
-//                    tmp = new Tile(mapInfo.getX() * size, mapInfo.getY() * size, Tile.Type.tile_0257);
                     tmp = new Tile(mapInfo.getX() * size, mapInfo.getY() * size,type);
                     return tmp;
                 }
@@ -882,7 +900,6 @@ public abstract class GameScene extends Scene {
             this.gameObjects.addAll(mapLoader.createObjectArray("tile_999", Global.UNIT, mapInfoArr, (gameObject, name, mapInfo, size) -> {
                 final GameObject tmp;
                 if (gameObject.equals(name)) {
-//                    tmp = new Tile(mapInfo.getX() * size, mapInfo.getY() * size, Tile.Type.tile_999);
                     tmp = new Tile(mapInfo.getX() * size, mapInfo.getY() * size,type);
                     return tmp;
                 }

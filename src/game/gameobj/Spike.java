@@ -22,10 +22,6 @@ public class Spike extends GameObject{
             ImageController.getInstance().tryGet("/img/effect/spikeBlood_4.png"),
             ImageController.getInstance().tryGet("/img/effect/spike_R.png"),
             ImageController.getInstance().tryGet("/img/effect/spike_L.png")
-//            ImageController.getInstance().tryGet("/img/effect/3.png"),
-//            ImageController.getInstance().tryGet("/img/effect/13.png"),
-//            ImageController.getInstance().tryGet("/img/effect/17.png"),
-//            ImageController.getInstance().tryGet("/img/effect/29.png"),
     };
     private boolean soundPlayed;
 
@@ -90,9 +86,6 @@ public class Spike extends GameObject{
                     g.drawImage(bloodImage[count], painter().left(), painter().top(), null);
                 }else if (type==Type.top) {
                     g.drawImage(paintReverse(bloodImage[count]), painter().left(), painter().top(), null);
-//                }else {
-//                    g.drawImage(bloodImage[4+count], painter().left(),painter().top(),null);
-//                }
                 }else if (type == Type.left){
                     g.drawImage(bloodImage[4],
                             painter().left(), painter().top(), painter().left()+Global.UNIT_X64,painter().top()+Global.UNIT_X64,
@@ -103,8 +96,6 @@ public class Spike extends GameObject{
                             count*Global.UNIT_X64,0,(count*Global.UNIT_X64)+Global.UNIT_X64
                             ,Global.UNIT_X64,null);
                 }
-                System.out.println(count);
-                System.out.println(256-Global.UNIT-(count*Global.UNIT));
 
                 if (delay.count()) {
                     count++;

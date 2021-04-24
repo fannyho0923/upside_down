@@ -42,7 +42,7 @@ public class Main {// 資料刷新時間
                 .gen();
 
         jFrame.setTitle("Upside Down");
-        jFrame.setSize(Global.WINDOW_WIDTH, Global.WINDOW_HEIGHT);
+        jFrame.setSize(Global.WINDOW_WIDTH+12, Global.WINDOW_HEIGHT+32);
         jFrame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 
         jFrame.add(gameKernel);
