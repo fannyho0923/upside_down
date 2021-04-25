@@ -3,9 +3,12 @@ package game.scene;
 import game.camera.Camera;
 import game.camera.MapInformation;
 import game.controller.AudioResourceController;
+import game.controller.ImageController;
+import game.controller.SceneController;
 import game.gameobj.*;
 import game.maploader.MapInfo;
 import game.maploader.MapLoader;
+import game.menu.menu.EditText;
 import game.menu.scene.RankPopupWindowScene;
 import game.menu.scene.RankScene;
 import game.menu.scene.StopPopupWindowScene;
@@ -53,11 +56,16 @@ public abstract class GameScene extends Scene {
     private long gameTime;
     private Ranking ranking;
     private ArrayList<RankResult> rankResults;
+    private RankResult result;
+    private Boolean rankShowed;
+    private String filePath;
+    private boolean isPlayed;
     private String playerName;
 
     public GameScene(String mapBmpPath, Actor actor, GameObject background,
-                     int cameraWidth, int cameraHeight, int cameraVelocityX, int cameraVelocityY,
-                     boolean actorTrigCamera, String filePath) {
+                     int cameraWidth, int cameraHeight, int cameraVelocityX,
+                     int cameraVelocityY, boolean actorTrigCamera, String filePath) {
+        this.filePath=filePath;
         testPop = new StopPopupWindowScene(Global.WINDOW_WIDTH / 2 - 325, Global.WINDOW_HEIGHT / 2 - 225,
                 650, 450);
         testPop.setRestartClicked((int x, int y) -> {
@@ -70,12 +78,10 @@ public abstract class GameScene extends Scene {
                 650, 450);
         rankPop.setCancelable();
         testPop.setCancelable();
-this.playerName="";
         init(mapBmpPath, actor, background,
                 cameraWidth, cameraHeight, cameraVelocityX, cameraVelocityY,
                 actorTrigCamera, filePath);
     }
-
 
 
     public void init(String mapBmpPath, Actor actor, GameObject background,
@@ -90,7 +96,7 @@ this.playerName="";
 
         try {
             ranking = new Ranking(filePath);
-        }catch (IOException e){
+        } catch (IOException e) {
             System.out.println(e);
         }
 
@@ -123,6 +129,7 @@ this.playerName="";
 
     @Override
     public void sceneBegin() {
+        rankShowed = false;
         AudioResourceController.getInstance().loop("/sound/Battle-Dawn-crop-reduce.wav", 50);
         brokenRoads = (ArrayList) orinBrokenRoads.clone();
         MapInformation.getInstance().setMapInfo(this.background);
@@ -136,8 +143,7 @@ this.playerName="";
 
         //遊戲開始計時
         startTime = System.nanoTime();
-//        System.out.println(startTime);
-
+        //System.out.println(startTime);
     }
 
     @Override
@@ -205,7 +211,7 @@ this.playerName="";
                 if (rankPop.isShow()) {
                     rankPop.getEditText().keyTyped(c);
                     playerName=rankPop.getEditText().getEditText();
-                    System.out.println(playerName);
+                    rankPop.setPlayerName(playerName);
                 }
 
             }
@@ -218,7 +224,7 @@ this.playerName="";
             if (testPop.isShow()) {
                 testPop.mouseListener().mouseTrig(e, state, trigTime);
             }
-            if (rankPop.isShow()) {
+             if (rankPop.isShow()) {
                 rankPop.mouseListener().mouseTrig(e, state, trigTime);
             }
 
@@ -245,7 +251,7 @@ this.playerName="";
             }
         });
 
-        if (passPoint.size()>0) {
+        if (passPoint.size() > 0) {
             passPoint.get(0).paint(g);
         }
         if (camera.isCollision(this.actor)) {
@@ -276,7 +282,7 @@ this.playerName="";
 
     @Override
     public void update() {
-        if ((!testPop.isShow())&&(!rankPop.isShow())) {
+        if ((!testPop.isShow()) && (!rankPop.isShow())&&(!rankShowed)&&(!isPlayed)) {
             actor.update();
             for (int i = 0; i < brokenRoads.size(); i++) {
                 GameObject obj = brokenRoads.get(i);
@@ -305,14 +311,12 @@ this.playerName="";
                 obj.update();
             }
 
-            if (passPoint.size()>0) {
+            if (passPoint.size() > 0) {
                 if (actor.isCollision(passPoint.get(0))) {
                     passPoint.get(0).collisionEffect(actor); //for音效
-                    pass();
+                    rankShowed = true;
                 }
             }
-
-
             camera.update();
             if (actorTrigCamera) {
                 if (actor.painter().centerX() < camera.painter().left()) {       // 左
@@ -357,94 +361,107 @@ this.playerName="";
                 spikesUp.setXY(camera.painter().left(), camera.painter().top() - 5); // 為什麼會不貼邊??
                 spikesDown.setXY(camera.painter().left(), camera.painter().bottom() - 32);
             }
-        } if (rankPop.isShow()) {
+        }
+        if (rankShowed) {
+            rankPop.sceneBegin();
             rankPop.update();
-        } if (testPop.isShow()) {
+            gameTime = System.nanoTime() - startTime;
+            gameTime = TimeUnit.NANOSECONDS.toMillis(gameTime);
+            int gtInt = (int) gameTime;
+            result = new RankResult(playerName, gtInt);
+            if (!rankPop.setPlayer(result,filePath)) {
+                SceneController.getInstance().change(new RankScene());
+            }
+            else {
+                rankPop.show();
+                rankShowed=false;
+            }
+            isPlayed=true;
+        }
+        if (testPop.isShow()) {
             testPop.update();
         }
     }
-
 
 
     public Camera getCamera() {
         return this.camera;
     }
 
-    public void pass(){
-        gameTime = System.nanoTime()-startTime;
-//        System.out.println(gameTime);
-        gameTime = TimeUnit.NANOSECONDS.toMillis(gameTime);
-        int gtInt = (int)gameTime;
-
-
-        //到時畫面印出排行榜需要轉換的格式
-//        gt = new SimpleDateFormat("mm:ss:SSS", Locale.TAIWAN).format(new Date(gameTime));
-
-        RankResult newResult = new RankResult("Player", gtInt);
-
-        //讀目前的排行
-        ArrayList<String> arr = ranking.readL();
-
-        if (arr.size()>0) {
-            //把檔案內容轉成arraylist
-            for (int i = 0; i < arr.size() - 1; i = i + 2) {
-                rankResults.add(new RankResult(arr.get(i), Integer.parseInt(arr.get(i + 1))));
-                System.out.println("IN");
-            }
-        }
-
-        System.out.println("new: "+gtInt);
-
-        System.out.println("Unsorted");
-        for (int i = 0; i < rankResults.size(); i++) {
-            System.out.println(rankResults.get(i).getName());
-            System.out.println(rankResults.get(i).getTime());
-            System.out.println("-----------");
-        }
-
-        //如果目前榜上資料超過9筆，要進行比對，有進榜單資格的話，就add，排序後取前10輸出
-        //不超過9筆就直接加入榜單後，排序輸出
-
-        if (rankResults.size()>2) {
-                if (rankResults.get(rankResults.size()-1).compareTo(newResult)){
-                    //有資格進榜單，讓使用者輸入名字
-//                    newResult.setName("");
-                    rankPop.sceneBegin();
-                    rankPop.show();
-                    newResult.setName(playerName);
-                    rankResults.add(newResult);
-                }
-
-        }else {
-            //榜單未滿，自動加入
-            rankPop.sceneBegin();
-            rankPop.show();
-            newResult.setName(playerName);
-            rankResults.add(newResult);
-        }
-
-        //排序
-        Collections.sort(rankResults, new RankSort());
-
-        System.out.println("\nSort");
-        for (int i = 0; i < rankResults.size(); i++) {
-            System.out.println(rankResults.get(i).getName());
-            System.out.println(rankResults.get(i).getTime());
-            System.out.println("-----------");
-        }
-
-        //取前10名轉回一串字串輸出
-        String output = "";
-        if (rankResults.size()>3){
-            rankResults.remove(3);
-        }
-        for (int i = 0; i < rankResults.size(); i++) {
-            output += rankResults.get(i).getName() + "," + rankResults.get(i).getTime() + ",";
-        }
-//清資料用
-//        rankResults.clear();
-        ranking.writeOut(output);
-    }
+//    public void pass() {
+//        gameTime = System.nanoTime() - startTime;
+////        System.out.println(gameTime);
+//        gameTime = TimeUnit.NANOSECONDS.toMillis(gameTime);
+//        int gtInt = (int) gameTime;
+//
+//
+//        //到時畫面印出排行榜需要轉換的格式
+////        gt = new SimpleDateFormat("mm:ss:SSS", Locale.TAIWAN).format(new Date(gameTime));
+//
+//        RankResult newResult = new RankResult("Player", gtInt);
+//
+//        //讀目前的排行
+//        ArrayList<String> arr = ranking.readL();
+//
+//        if (arr.size() > 0) {
+//            //把檔案內容轉成arraylist
+//            for (int i = 0; i < arr.size() - 1; i = i + 2) {
+//                rankResults.add(new RankResult(arr.get(i), Integer.parseInt(arr.get(i + 1))));
+//            }
+//        }
+//
+//        System.out.println("new: " + gtInt);
+//
+//        System.out.println("Unsorted");
+//        for (int i = 0; i < rankResults.size(); i++) {
+//            System.out.println(rankResults.get(i).getName());
+//            System.out.println(rankResults.get(i).getTime());
+//            System.out.println("-----------");
+//        }
+//
+//        //如果目前榜上資料超過9筆，要進行比對，有進榜單資格的話，就add，排序後取前10輸出
+//        //不超過9筆就直接加入榜單後，排序輸出
+//
+//        if (rankResults.size() > 2) {
+//            if (rankResults.get(rankResults.size() - 1).compareTo(newResult)) {
+//                //有資格進榜單，讓使用者輸入名字
+////                    newResult.setName("");
+//                rankPop.sceneBegin();
+//                rankPop.show();
+////                newResult.setName(playerName);
+//                rankResults.add(newResult);
+//            }
+//
+//        } else {
+//            //榜單未滿，自動加入
+//            rankPop.sceneBegin();
+//            rankPop.show();
+////            newResult.setName(playerName);
+//            rankResults.add(newResult);
+//        }
+//
+//        //排序
+//        Collections.sort(rankResults, new RankSort());
+//
+//        System.out.println("\nSort");
+//        for (int i = 0; i < rankResults.size(); i++) {
+//            System.out.println(rankResults.get(i).getName());
+//            System.out.println(rankResults.get(i).getTime());
+//            System.out.println("-----------");
+//        }
+//
+//        //取前10名轉回一串字串輸出
+//        String output = "";
+//        if (rankResults.size() > 3) {
+//            rankResults.remove(3);
+//        }
+//        for (int i = 0; i < rankResults.size(); i++) {
+//            output += rankResults.get(i).getName() + "," + rankResults.get(i).getTime() + ",";
+//        }
+////清資料用
+////        rankResults.clear();
+//        ranking.writeOut(output);
+//    }
 
     public void mapInit() {
         try {

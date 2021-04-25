@@ -376,7 +376,7 @@ public class Main {// 資料刷新時間
                 new Style.StyleRect(100, 50, false, new BackgroundType.BackgroundNull())
                         .setText("confirm")
                         .setTextFont(new Font("TimesRoman", Font.BOLD, 35))
-                        .setTextColor(new Color(162, 176, 198))
+                        .setTextColor(new Color(184, 162, 198))
                         .setHaveBorder(false)
                         .setBorderColor(new Color(231, 8, 37))
                         .setBorderThickness(5)
