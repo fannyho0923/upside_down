@@ -13,6 +13,11 @@ public class Bullet extends GameObject{
     private static final int speed = 5;
     private Dir dir;
     private Type type;
+
+    private Image imgDied;
+    private Delay diedDelay;
+    private int diedCount;
+
     public enum Dir{
         left(new Vector(-5,0)),//
         right(new Vector(5,0));
@@ -35,7 +40,6 @@ public class Bullet extends GameObject{
             delay.loop();
             count = 0;
         }
-
     }
     public Bullet(int i, Type type, Dir dir){
 
@@ -49,12 +53,18 @@ public class Bullet extends GameObject{
         this.collider().offset(32,32);
         this.collider().offsetWidth(16);
         this.collider().offsetHeight(16);
+
+        this.imgDied = ImageController.getInstance().tryGet("/img/gameObj/monster/actorDied.png");
+        this.diedDelay = new Delay(3);
+        this.diedCount = 0;
     }
 
     @Override
     public void paint(Graphics g) {
         g.drawImage(type.img,painter().left(), painter().top(),painter().left()+ 96,painter().top()+96,
                 type.count*96,type.count*96,type.count*96+96,type.count*96+96,null);
+        g.drawImage(imgDied,collider().left()-48,collider().top()-48,collider().right()+16,collider().bottom()+16,
+                (diedCount%4) *128, (diedCount/4) *128,(diedCount%4) *128 +128,(diedCount/4) *128+128,null);
     }
 
     @Override
@@ -63,6 +73,13 @@ public class Bullet extends GameObject{
         if(type.delay.count()){
             type.count = ++type.count % type.countMax;
         }
+        if(diedDelay.count()){
+            diedCount = ++diedCount;
+            if(diedCount == 8){
+                diedDelay.stop();
+                diedCount = 0;
+            }
+        }
     }
 
     @Override
@@ -70,6 +87,7 @@ public class Bullet extends GameObject{
         AudioResourceController.getInstance().play("/sound/dead_short.wav");
         if (actor.getState() == Actor.State.ALIVE){
             actor.dead();
+            diedDelay.loop();
         }
     }
 

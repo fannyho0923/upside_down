@@ -18,7 +18,6 @@ public class Monster extends GameObject{
         monster_320("/img/gameObj/monster/light5.png",10,5),
         monster_340("/img/gameObj/monster/light6.png",10,5),
         monster_380("/img/gameObj/monster/light7.png",10,5);
-
         private Image img;
         private Delay delay;
         private int count;
@@ -34,6 +33,15 @@ public class Monster extends GameObject{
 
     private Type type;
     private Tour tour;
+    private Image img;
+    private Delay batDelay;
+    private int batCount;
+
+    private Image imgDied;
+    private Delay diedDelay;
+    private int diedCount;
+
+
     public Monster(int top, int left, int width, int height, Type type) {
         super(top, left, width, height);
         this.type = type;
@@ -64,6 +72,15 @@ public class Monster extends GameObject{
                 tour = new Tour(this, -3 ,0,150,0);
                 break;
         }
+        this.img = ImageController.getInstance().tryGet("/img/gameObj/monster/bat.png");
+        batDelay = new Delay(10);
+        batDelay.loop();
+        batCount = 0;
+
+        this.imgDied = ImageController.getInstance().tryGet("/img/gameObj/monster/actorDied.png");
+        diedDelay = new Delay(3);
+        diedCount = 0;
+
     }
 
     @Override
@@ -71,6 +88,7 @@ public class Monster extends GameObject{
         AudioResourceController.getInstance().play("/sound/dead_short.wav");
         if (actor.getState() == Actor.State.ALIVE){
             actor.dead();
+            diedDelay.loop();
         }
     }
 
@@ -78,15 +96,25 @@ public class Monster extends GameObject{
     public void paint(Graphics g) {
         g.drawImage(type.img,painter().left(), painter().top(),painter().left()+ 192,painter().top()+192,
                 type.count*192,type.count*192,type.count*192+192,type.count*192+192,null);
-        g.setColor(Color.RED);
-        g.drawRect(collider().left(),collider().top(),collider().width(),collider().width());
-
-
+        g.drawImage(img,collider().left()-14,collider().top(),collider().left()+92-14,collider().top()+60,
+                batCount*92,0,batCount*92+92,60,null);
+        g.drawImage(imgDied,collider().left()-32,collider().top()-32,collider().right()+32,collider().bottom()+32,
+                (diedCount%4) *128, (diedCount/4) *128,(diedCount%4) *128 +128,(diedCount/4) *128+128,null);
     }
 
     @Override
     public void update() {
         tour.update();
+        if(diedDelay.count()){
+            diedCount = ++diedCount;
+            if(diedCount == 8){
+                diedDelay.stop();
+                diedCount = 0;
+            }
+        }
+        if(batDelay.count()){
+            batCount = ++batCount %7;
+        }
         if(type.delay.count()){
             type.count = ++type.count % type.countMax;
         }

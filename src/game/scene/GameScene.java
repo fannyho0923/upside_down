@@ -727,6 +727,11 @@ public abstract class GameScene extends Scene {
                 return null;
             }));
 
+            if(level == 3){
+                this.backgrounds.add(
+                        new CameraBackground(2880, 0, CameraBackground.Type.D3));
+            }
+
             if(level == 2) {
                 this.backgrounds.add(
                         new CameraBackground(0, 7680, CameraBackground.Type.Fanny14));
@@ -738,7 +743,7 @@ public abstract class GameScene extends Scene {
                 this.gameObjects.addAll(mapLoader.createObjectArray("cmoney_I", Global.UNIT, mapInfoArr, (gameObject, name, mapInfo, size) -> {
                     final GameObject tmp;
                     if (gameObject.equals(name)) {
-                        tmp = new CMoney(mapInfo.getX() * size, mapInfo.getY() * size, CMoney.Word.I);
+                        tmp = new CMoney(mapInfo.getX() * size, mapInfo.getY() * size, CMoney.Color.pink);
                         return tmp;
                     }
                     return null;
@@ -747,7 +752,7 @@ public abstract class GameScene extends Scene {
                 this.gameObjects.addAll(mapLoader.createObjectArray("Love", Global.UNIT, mapInfoArr, (gameObject, name, mapInfo, size) -> {
                     final GameObject tmp;
                     if (gameObject.equals(name)) {
-                        tmp = new CMoney(mapInfo.getX() * size, mapInfo.getY() * size, CMoney.Word.Love);
+                        tmp = new CMoney(mapInfo.getX() * size, mapInfo.getY() * size, CMoney.Color.PINK);
                         return tmp;
                     }
                     return null;
@@ -756,7 +761,7 @@ public abstract class GameScene extends Scene {
                 this.gameObjects.addAll(mapLoader.createObjectArray("Cmoney_C", Global.UNIT, mapInfoArr, (gameObject, name, mapInfo, size) -> {
                     final GameObject tmp;
                     if (gameObject.equals(name)) {
-                        tmp = new CMoney(mapInfo.getX() * size, mapInfo.getY() * size, CMoney.Word.CMY);
+                        tmp = new CMoney(mapInfo.getX() * size, mapInfo.getY() * size, CMoney.Color.YELLOW);
                         return tmp;
                     }
                     return null;
@@ -765,7 +770,7 @@ public abstract class GameScene extends Scene {
                 this.gameObjects.addAll(mapLoader.createObjectArray("Money", Global.UNIT, mapInfoArr, (gameObject, name, mapInfo, size) -> {
                     final GameObject tmp;
                     if (gameObject.equals(name)) {
-                        tmp = new CMoney(mapInfo.getX() * size, mapInfo.getY() * size, CMoney.Word.ONE);
+                        tmp = new CMoney(mapInfo.getX() * size, mapInfo.getY() * size, CMoney.Color.yellow);
                         return tmp;
                     }
                     return null;
@@ -1075,7 +1080,7 @@ public abstract class GameScene extends Scene {
             this.gameObjects.addAll(mapLoader.createObjectArray("c-top-L1", Global.UNIT, mapInfoArr, (gameObject, name, mapInfo, size) -> {
                 final GameObject tmp;
                 if (gameObject.equals(name)) {
-                    tmp = new Conveyor(mapInfo.getX() * size, mapInfo.getY() * size, Conveyor.Type.TopL1);
+                    tmp = new Conveyor(mapInfo.getX() * size, mapInfo.getY() * size, Conveyor.Type.TopL);
                     return tmp;
                 }
                 return null;
@@ -1084,7 +1089,7 @@ public abstract class GameScene extends Scene {
             this.gameObjects.addAll(mapLoader.createObjectArray("c-top-L2", Global.UNIT, mapInfoArr, (gameObject, name, mapInfo, size) -> {
                 final GameObject tmp;
                 if (gameObject.equals(name)) {
-                    tmp = new Conveyor(mapInfo.getX() * size, mapInfo.getY() * size, Conveyor.Type.TopL2);
+                    tmp = new Conveyor(mapInfo.getX() * size, mapInfo.getY() * size, Conveyor.Type.TopL);
                     return tmp;
                 }
                 return null;
@@ -1093,7 +1098,7 @@ public abstract class GameScene extends Scene {
             this.gameObjects.addAll(mapLoader.createObjectArray("c-top-L3", Global.UNIT, mapInfoArr, (gameObject, name, mapInfo, size) -> {
                 final GameObject tmp;
                 if (gameObject.equals(name)) {
-                    tmp = new Conveyor(mapInfo.getX() * size, mapInfo.getY() * size, Conveyor.Type.TopL3);
+                    tmp = new Conveyor(mapInfo.getX() * size, mapInfo.getY() * size, Conveyor.Type.TopL);
                     return tmp;
                 }
                 return null;
@@ -1102,7 +1107,7 @@ public abstract class GameScene extends Scene {
             this.gameObjects.addAll(mapLoader.createObjectArray("c-down-L1", Global.UNIT, mapInfoArr, (gameObject, name, mapInfo, size) -> {
                 final GameObject tmp;
                 if (gameObject.equals(name)) {
-                    tmp = new Conveyor(mapInfo.getX() * size, mapInfo.getY() * size, Conveyor.Type.DownL1);
+                    tmp = new Conveyor(mapInfo.getX() * size, mapInfo.getY() * size, Conveyor.Type.DownL);
                     return tmp;
                 }
                 return null;
@@ -1111,7 +1116,7 @@ public abstract class GameScene extends Scene {
             this.gameObjects.addAll(mapLoader.createObjectArray("c-down-L2", Global.UNIT, mapInfoArr, (gameObject, name, mapInfo, size) -> {
                 final GameObject tmp;
                 if (gameObject.equals(name)) {
-                    tmp = new Conveyor(mapInfo.getX() * size, mapInfo.getY() * size, Conveyor.Type.DownL2);
+                    tmp = new Conveyor(mapInfo.getX() * size, mapInfo.getY() * size, Conveyor.Type.DownL);
                     return tmp;
                 }
                 return null;
@@ -1120,7 +1125,7 @@ public abstract class GameScene extends Scene {
             this.gameObjects.addAll(mapLoader.createObjectArray("c-down-L3", Global.UNIT, mapInfoArr, (gameObject, name, mapInfo, size) -> {
                 final GameObject tmp;
                 if (gameObject.equals(name)) {
-                    tmp = new Conveyor(mapInfo.getX() * size, mapInfo.getY() * size, Conveyor.Type.DownL3);
+                    tmp = new Conveyor(mapInfo.getX() * size, mapInfo.getY() * size, Conveyor.Type.DownL);
                     return tmp;
                 }
                 return null;
@@ -1129,7 +1134,7 @@ public abstract class GameScene extends Scene {
             this.gameObjects.addAll(mapLoader.createObjectArray("c-top-R1", Global.UNIT, mapInfoArr, (gameObject, name, mapInfo, size) -> {
                 final GameObject tmp;
                 if (gameObject.equals(name)) {
-                    tmp = new Conveyor(mapInfo.getX() * size, mapInfo.getY() * size, Conveyor.Type.TopR1);
+                    tmp = new Conveyor(mapInfo.getX() * size, mapInfo.getY() * size, Conveyor.Type.TopR);
                     return tmp;
                 }
                 return null;
@@ -1138,7 +1143,7 @@ public abstract class GameScene extends Scene {
             this.gameObjects.addAll(mapLoader.createObjectArray("c-top-R2", Global.UNIT, mapInfoArr, (gameObject, name, mapInfo, size) -> {
                 final GameObject tmp;
                 if (gameObject.equals(name)) {
-                    tmp = new Conveyor(mapInfo.getX() * size, mapInfo.getY() * size, Conveyor.Type.TopR2);
+                    tmp = new Conveyor(mapInfo.getX() * size, mapInfo.getY() * size, Conveyor.Type.TopR);
                     return tmp;
                 }
                 return null;
@@ -1147,7 +1152,7 @@ public abstract class GameScene extends Scene {
             this.gameObjects.addAll(mapLoader.createObjectArray("c-top-R3", Global.UNIT, mapInfoArr, (gameObject, name, mapInfo, size) -> {
                 final GameObject tmp;
                 if (gameObject.equals(name)) {
-                    tmp = new Conveyor(mapInfo.getX() * size, mapInfo.getY() * size, Conveyor.Type.TopR3);
+                    tmp = new Conveyor(mapInfo.getX() * size, mapInfo.getY() * size, Conveyor.Type.TopR);
                     return tmp;
                 }
                 return null;
@@ -1156,7 +1161,7 @@ public abstract class GameScene extends Scene {
             this.gameObjects.addAll(mapLoader.createObjectArray("c-down-R1", Global.UNIT, mapInfoArr, (gameObject, name, mapInfo, size) -> {
                 final GameObject tmp;
                 if (gameObject.equals(name)) {
-                    tmp = new Conveyor(mapInfo.getX() * size, mapInfo.getY() * size, Conveyor.Type.DownR1);
+                    tmp = new Conveyor(mapInfo.getX() * size, mapInfo.getY() * size, Conveyor.Type.DownR);
                     return tmp;
                 }
                 return null;
@@ -1165,7 +1170,7 @@ public abstract class GameScene extends Scene {
             this.gameObjects.addAll(mapLoader.createObjectArray("c-down-R2", Global.UNIT, mapInfoArr, (gameObject, name, mapInfo, size) -> {
                 final GameObject tmp;
                 if (gameObject.equals(name)) {
-                    tmp = new Conveyor(mapInfo.getX() * size, mapInfo.getY() * size, Conveyor.Type.DownR2);
+                    tmp = new Conveyor(mapInfo.getX() * size, mapInfo.getY() * size, Conveyor.Type.DownR);
                     return tmp;
                 }
                 return null;
@@ -1174,7 +1179,7 @@ public abstract class GameScene extends Scene {
             this.gameObjects.addAll(mapLoader.createObjectArray("c-down-R3", Global.UNIT, mapInfoArr, (gameObject, name, mapInfo, size) -> {
                 final GameObject tmp;
                 if (gameObject.equals(name)) {
-                    tmp = new Conveyor(mapInfo.getX() * size, mapInfo.getY() * size, Conveyor.Type.DownR3);
+                    tmp = new Conveyor(mapInfo.getX() * size, mapInfo.getY() * size, Conveyor.Type.DownR);
                     return tmp;
                 }
                 return null;

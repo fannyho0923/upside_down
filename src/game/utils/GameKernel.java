@@ -30,7 +30,7 @@ public final class GameKernel extends Canvas {
         }
 
         final Graphics g = bs.getDrawGraphics();// 從BufferStrategy中取出Graphics 緩衝機制會自行判斷並進行Cache處理
-//        g.fillRect(0, 0, this.getWidth(), this.getHeight());// 先畫一個跟畫布一樣大小的區塊
+        g.fillRect(0, 0, this.getWidth(), this.getHeight());// 先畫一個跟畫布一樣大小的區塊
 
         // 利用 Graphics 進行繪圖
         if (this.pi != null) {
