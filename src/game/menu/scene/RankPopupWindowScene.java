@@ -27,15 +27,20 @@ public class RankPopupWindowScene extends PopupWindow {
     private boolean isWrote;
     private String playerName;
     private int currentRankPage;
+    private Label scoreLabel;
+    private Label scoreLabelDescribe;
+    private int costTime;
+
 
     public void setPlayerName(String playerName) {
         this.playerName = playerName;
     }
 
-    public boolean setPlayer(RankResult result, String filePath,int currentRankPage) {
+    public boolean setPlayer(RankResult result, String filePath, int currentRankPage) {
         this.player = result;
+        this.costTime = result.getTime();
         this.filePath = filePath;
-        this.currentRankPage=currentRankPage;
+        this.currentRankPage = currentRankPage;
         if (pass(player)) {
             isPassScore = true;
         } else {
@@ -65,10 +70,13 @@ public class RankPopupWindowScene extends PopupWindow {
         } catch (IOException e) {
             System.out.println(e);
         }
+        scoreLabel = new Label(this.getWidth() / 2 - 150, 150, new Style.StyleRect(300, 100, new BackgroundType.BackgroundNull())
+                .setText("Cost Time:").setHaveBorder(false).setBorderColor(Color.black).setTextFont(new Font("TimesRoman", Font.BOLD, 30)));
+        scoreLabelDescribe = new Label(this.getWidth() / 2 - 150, 165, new Style.StyleRect(300, 100, new BackgroundType.BackgroundNull())
+                .setText("").setHaveBorder(false).setBorderColor(Color.black).setTextFont(new Font("TimesRoman", Font.BOLD, 30)));
         rankTitle = new Label(this.getWidth() / 2 - 150, 30, new Style.StyleRect(300, 100, new BackgroundType.BackgroundNull())
                 .setText("-Congratulations-").setHaveBorder(false).setBorderColor(Color.black).setTextFont(new Font("TimesRoman", Font.BOLD, 50)));
-
-        confirm = new Button(this.getWidth() / 2 - 50, 300, Theme.get(12));
+        confirm = new Button(this.getWidth() / 2 - 50, 400, Theme.get(12));
         confirm.setClickedActionPerformed(clickedAction);
         Style et = new Style.StyleRect(200, 50, true, new BackgroundType.BackgroundColor(Color.YELLOW))
                 .setHaveBorder(true)
@@ -93,7 +101,7 @@ public class RankPopupWindowScene extends PopupWindow {
                 .setBorderColor(Color.WHITE)
                 .setBorderThickness(5);
 
-        this.editText = new EditText(this.getWidth()/2-100, 200, "請在此輸入");
+        this.editText = new EditText(this.getWidth() / 2 - 100, 300, "請在此輸入");
         editText.setStyleNormal(eNormal);
         editText.setStyleHover(eHover);
         editText.setStyleFocus(et);
@@ -114,6 +122,7 @@ public class RankPopupWindowScene extends PopupWindow {
         rankTitle = null;
         editText = null;
         confirm = null;
+        scoreLabel = null;
     }
 
     @Override
@@ -123,7 +132,12 @@ public class RankPopupWindowScene extends PopupWindow {
         rankTitle.paint(g);
         editText.paint(g);
         confirm.paint(g);
-
+        if (costTime > 0) {
+            scoreLabel.paint(g);
+            scoreLabelDescribe = new Label(this.getWidth() / 2 - 150, 200, new Style.StyleRect(300, 100, new BackgroundType.BackgroundNull())
+                    .setText(""+costTime).setHaveBorder(false).setBorderColor(Color.black).setTextFont(new Font("TimesRoman", Font.BOLD, 30)));
+scoreLabelDescribe.paint(g);
+        }
     }
 
     @Override

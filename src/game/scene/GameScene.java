@@ -103,9 +103,9 @@ public abstract class GameScene extends Scene {
             delay.loop();
 
             this.actor = actor;
-            frameX_count = savePoint.get(0).collider().left() / cameraWidth;
-            frameY_count = savePoint.get(0).collider().top() / cameraHeight;
-            actor.setXY(savePoint.get(0).painter().centerX(), savePoint.get(0).painter().centerY());
+            frameX_count = savePoint.get(5).collider().left() / cameraWidth;
+            frameY_count = savePoint.get(5).collider().top() / cameraHeight;
+            actor.setXY(savePoint.get(5).painter().centerX(), savePoint.get(5).painter().centerY());
             actor.setReborn(actor.painter().left(), actor.painter().top(), false);
             saveNum = 0;
 

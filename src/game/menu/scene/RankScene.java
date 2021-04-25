@@ -130,9 +130,10 @@ public class RankScene extends Scene {
                 .setHaveBorder(false)
                 .setBorderColor(new Color(162, 176, 198))
                 .setBorderThickness(5);
-        label = new Label(100, 60, new Style.StyleRect(200, 100, new BackgroundType.BackgroundNull())
-                .setTextFont(new Font("TimesRoman", Font.BOLD, 100))
-                .setText("Rank"));
+        label = new Label(100, 60, new Style.StyleRect(100, 100, new BackgroundType.BackgroundNull())
+                .setTextFont(new Font("TimesRoman", Font.BOLD, 90))
+                .setText("Rank")
+                .setTextColor(new Color(231, 17, 110, 255)));
         back = new Button(50, 650 - 105, Theme.get(3));
         next = new Button(250, 650 - 105, Theme.get(13));
         back.setClickedActionPerformed((int x, int y) -> {
@@ -151,19 +152,24 @@ public class RankScene extends Scene {
         });
         label1 = new Label(15, 200, new Style.StyleRect(50, 50, new BackgroundType.BackgroundNull())
                 .setTextFont(new Font("TimesRoman", Font.BOLD, 30))
-                .setText("1."));
+                .setText("1.")
+                .setTextColor(new Color(241, 18, 18)));
         label2 = new Label(15, 250, new Style.StyleRect(50, 50, new BackgroundType.BackgroundNull())
                 .setTextFont(new Font("TimesRoman", Font.BOLD, 30))
-                .setText("2."));
+                .setText("2.")
+                .setTextColor(new Color(234, 75, 16)));
         label3 = new Label(15, 300, new Style.StyleRect(50, 50, new BackgroundType.BackgroundNull())
                 .setTextFont(new Font("TimesRoman", Font.BOLD, 30))
-                .setText("3."));
+                .setText("3.")
+                .setTextColor(new Color(246, 224, 16)));
         label4 = new Label(15, 350, new Style.StyleRect(50, 50, new BackgroundType.BackgroundNull())
                 .setTextFont(new Font("TimesRoman", Font.BOLD, 30))
-                .setText("4."));
+                .setText("4.")
+                .setTextColor(new Color(77, 241, 18)));
         label5 = new Label(15, 400, new Style.StyleRect(50, 50, new BackgroundType.BackgroundNull())
                 .setTextFont(new Font("TimesRoman", Font.BOLD, 30))
-                .setText("5."));
+                .setText("5.")
+                .setTextColor(new Color(34, 53, 220)));
 
     }
 
@@ -192,9 +198,6 @@ public class RankScene extends Scene {
 
     @Override
     public void update() {
-        label = new Label(100, 60, new Style.StyleRect(100, 100, new BackgroundType.BackgroundNull())
-                .setTextFont(new Font("TimesRoman", Font.BOLD, 90))
-                .setText("Rank"));
         if (currentRankPage == 1) {
             describe = "(SpeedRun)";
         } else if (currentRankPage == 2) {
@@ -206,40 +209,51 @@ public class RankScene extends Scene {
         }
         title = new Label(320, 65, new Style.StyleRect(100, 100, new BackgroundType.BackgroundNull())
                 .setTextFont(new Font("TimesRoman", Font.BOLD, 40))
-                .setText(describe));
+                .setText(describe)
+                .setTextColor(new Color(216, 80, 226)));
 //name
         label6 = new Label(100, 200, new Style.StyleRect(100, 50, new BackgroundType.BackgroundNull())
                 .setTextFont(new Font("TimesRoman", Font.BOLD, 30))
-                .setText(getName(allRank.get(currentRankPage), 0)));
+                .setText(getName(allRank.get(currentRankPage), 0))
+                .setTextColor(new Color(241, 18, 18)));
         label7 = new Label(100, 250, new Style.StyleRect(100, 50, new BackgroundType.BackgroundNull())
                 .setTextFont(new Font("TimesRoman", Font.BOLD, 30))
-                .setText(getName(allRank.get(currentRankPage), 1)));
+                .setText(getName(allRank.get(currentRankPage), 1))
+                .setTextColor(new Color(234, 75, 16)));
         label8 = new Label(100, 300, new Style.StyleRect(100, 50, new BackgroundType.BackgroundNull())
                 .setTextFont(new Font("TimesRoman", Font.BOLD, 30))
-                .setText(getName(allRank.get(currentRankPage), 2)));
+                .setText(getName(allRank.get(currentRankPage), 2))
+                .setTextColor(new Color(246, 224, 16)));
         label9 = new Label(100, 350, new Style.StyleRect(100, 50, new BackgroundType.BackgroundNull())
                 .setTextFont(new Font("TimesRoman", Font.BOLD, 30))
-                .setText(getName(allRank.get(currentRankPage), 3)));
+                .setText(getName(allRank.get(currentRankPage), 3))
+                .setTextColor(new Color(77, 241, 18)));
         label10 = new Label(100, 400, new Style.StyleRect(100, 50, new BackgroundType.BackgroundNull())
                 .setTextFont(new Font("TimesRoman", Font.BOLD, 30))
-                .setText(getName(allRank.get(currentRankPage), 4)));
+                .setText(getName(allRank.get(currentRankPage), 4))
+                .setTextColor(new Color(34, 53, 220)));
 
         //score
-        label11 = new Label(200, 200, new Style.StyleRect(100, 50, new BackgroundType.BackgroundNull())
+        label11 = new Label(250, 200, new Style.StyleRect(100, 50, new BackgroundType.BackgroundNull())
                 .setTextFont(new Font("TimesRoman", Font.BOLD, 30))
-                .setText("" + getTime(allRank.get(currentRankPage), 0)));
-        label12 = new Label(200, 250, new Style.StyleRect(100, 50, new BackgroundType.BackgroundNull())
+                .setText("" + getTime(allRank.get(currentRankPage), 0))
+                .setTextColor(new Color(241, 18, 18)));
+        label12 = new Label(250, 250, new Style.StyleRect(100, 50, new BackgroundType.BackgroundNull())
                 .setTextFont(new Font("TimesRoman", Font.BOLD, 30))
-                .setText("" + getTime(allRank.get(currentRankPage), 1)));
-        label13 = new Label(200, 300, new Style.StyleRect(100, 50, new BackgroundType.BackgroundNull())
+                .setText("" + getTime(allRank.get(currentRankPage), 1))
+                .setTextColor(new Color(234, 75, 16)));
+        label13 = new Label(250, 300, new Style.StyleRect(100, 50, new BackgroundType.BackgroundNull())
                 .setTextFont(new Font("TimesRoman", Font.BOLD, 30))
-                .setText("" + getTime(allRank.get(currentRankPage), 2)));
-        label14 = new Label(200, 350, new Style.StyleRect(100, 50, new BackgroundType.BackgroundNull())
+                .setText("" + getTime(allRank.get(currentRankPage), 2))
+                .setTextColor(new Color(246, 224, 16)));
+        label14 = new Label(250, 350, new Style.StyleRect(100, 50, new BackgroundType.BackgroundNull())
                 .setTextFont(new Font("TimesRoman", Font.BOLD, 30))
-                .setText("" + getTime(allRank.get(currentRankPage), 3)));
-        label15 = new Label(200, 400, new Style.StyleRect(100, 50, new BackgroundType.BackgroundNull())
+                .setText("" + getTime(allRank.get(currentRankPage), 3))
+                .setTextColor(new Color(77, 241, 18)));
+        label15 = new Label(250, 400, new Style.StyleRect(100, 50, new BackgroundType.BackgroundNull())
                 .setTextFont(new Font("TimesRoman", Font.BOLD, 30))
-                .setText("" + getTime(allRank.get(currentRankPage), 4)));
+                .setText("" + getTime(allRank.get(currentRankPage), 4))
+                .setTextColor(new Color(34, 53, 220)));
     }
 
 

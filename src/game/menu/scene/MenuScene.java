@@ -44,6 +44,7 @@ public class MenuScene extends Scene {
         label = new Label(380, 100, new Style.StyleRect(200, 100, new BackgroundType.BackgroundNull())
                 .setTextFont(new Font("TimesRoman", Font.ITALIC, 100))
                 .setText("Upside Down")
+                .setTextColor(new Color(248, 238, 62, 190))
         );
         button1 = new Button(Global.WINDOW_WIDTH / 2 - 100, 400);
         rankButton = new Button(Global.WINDOW_WIDTH / 2 - 100, 480, Theme.get(2));
