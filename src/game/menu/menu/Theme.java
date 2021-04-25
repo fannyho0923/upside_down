@@ -11,7 +11,7 @@ public class Theme {
     public static final Theme DEFAULT_THEME = new Theme(
             //normal
             new Style.StyleRect(200, 50, true, new BackgroundType.BackgroundImage(ImageController.getInstance().tryGet("/img/buttonNor.png")))
-                    .setText("單人模式")
+                    .setText("READY")
                     .setTextFont(new Font("TimesRoman", Font.BOLD, 30))
                     .setTextColor(Color.WHITE)
                     .setHaveBorder(false)
@@ -22,12 +22,12 @@ public class Theme {
                     .setHaveBorder(false)
                     .setBorderColor(Color.WHITE)
                     .setBorderThickness(5)
-                    .setText("準備")
+                    .setText("START")
                     .setTextColor(Color.WHITE)
                     .setTextFont(new Font("TimesRoman", Font.BOLD, 30)),
             //FOCUS
             new Style.StyleRect(200, 50, true, new BackgroundType.BackgroundImage(ImageController.getInstance().tryGet("/img/button.png")))
-                    .setText("開始")
+                    .setText("START")
                     .setTextFont(new Font("TimesRoman", Font.BOLD, 35))
                     .setTextColor(new Color(162, 176, 198))
                     .setHaveBorder(false)

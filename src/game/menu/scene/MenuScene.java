@@ -21,35 +21,34 @@ import game.utils.Global;
 public class MenuScene extends Scene {
     private Label label;
     private Button button1;
-    private Button button2;
     private Button rankButton;
     private Image image;
     private Image star;
     private boolean isPlayed1;
-    private boolean isPlayed2;
     private boolean isPlayed3;
     private ArrayList<StarObj> starObj;
-
+    private Image astronaut;
+    private Image ast1;
+    private Image ast2;
 
     @Override
     public void sceneBegin() {
         isPlayed1 = false;
-        isPlayed2 = false;
         isPlayed3 = false;
         AudioResourceController.getInstance().play("/sound/Epilogue.wav");
         image = ImageController.getInstance().tryGet("/img/background/menu419.png");
-        star = ImageController.getInstance().tryGet("/img/star-3.png");
+        astronaut = ImageController.getInstance().tryGet("/img/background/astronaut.png");
+        ast1 = ImageController.getInstance().tryGet("/img/background/ast1.png");
+        ast2 = ImageController.getInstance().tryGet("/img/background/ast2.png");
+        star = ImageController.getInstance().tryGet("/img/starButton.png");
         label = new Label(380, 100, new Style.StyleRect(200, 100, new BackgroundType.BackgroundNull())
                 .setTextFont(new Font("TimesRoman", Font.ITALIC, 100))
-                .setText("Upside Down"));
-        button1 = new Button(Global.WINDOW_WIDTH / 2 - 100, 340);//430,122
-        button2 = new Button(Global.WINDOW_WIDTH / 2 - 100, 410, Theme.get(1));//430,410
-        rankButton = new Button(Global.WINDOW_WIDTH / 2 - 100, 480, Theme.get(2));//430,410
+                .setText("Upside Down")
+        );
+        button1 = new Button(Global.WINDOW_WIDTH / 2 - 100, 400);
+        rankButton = new Button(Global.WINDOW_WIDTH / 2 - 100, 480, Theme.get(2));
 
         button1.setClickedActionPerformed((int x, int y) -> {
-            SceneController.getInstance().change(new SelectActorScene());
-        });
-        button2.setClickedActionPerformed((int x, int y) -> {
             SceneController.getInstance().change(new SelectActorScene());
         });
         rankButton.setClickedActionPerformed((int x, int y) -> {
@@ -65,23 +64,24 @@ public class MenuScene extends Scene {
 
     @Override
     public void paint(Graphics g) {
-        g.drawImage(image, 0, 0, Global.WINDOW_WIDTH, Global.WINDOW_HEIGHT, null);//1024,760
+        g.drawImage(image, 0, 0, Global.WINDOW_WIDTH + 35, Global.WINDOW_HEIGHT, null);//1024,760
+        g.drawImage(ast1, button1.right() + 20, button1.getY() , null);
+        g.drawImage(ast1, rankButton.right() + 20, rankButton.getY() , null);
         if (button1.getIsHover()) {
-            g.drawImage(star, button1.right() + 20, button1.getY() + 10, null);
-        }
-        if (button2.getIsHover()) {
-            g.drawImage(star, button2.right() + 20, button2.getY() + 10, null);
+            g.drawImage(ast2, button1.right() + 20, button1.getY() , null);
         }
         if (rankButton.getIsHover()) {
-            g.drawImage(star, rankButton.right() + 20, rankButton.getY() + 10, null);
+            g.drawImage(ast2, rankButton.right() + 20, rankButton.getY() , null);
         }
         label.paint(g);
         for (int i = 0; i < starObj.size(); i++) {
             starObj.get(i).paint(g);
         }
         button1.paint(g);
-        button2.paint(g);
         rankButton.paint(g);
+        if(button1.getIsHover()||rankButton.getIsHover()){
+            g.drawImage(astronaut,Global.WINDOW_WIDTH/2+120,175,null);
+        }
     }
 
     @Override
@@ -91,7 +91,7 @@ public class MenuScene extends Scene {
         }
         for (int i = 0; i < starObj.size(); i++) {
             starObj.get(i).update();
-            if (!starObj.get(i).isExist()){
+            if (!starObj.get(i).isExist()) {
                 starObj.remove(i);
                 i--;
                 continue;
@@ -104,11 +104,9 @@ public class MenuScene extends Scene {
         return (MouseEvent e, CommandSolver.MouseState state, long trigTime) -> {
 
             MouseTriggerImpl.mouseTrig(button1, e, state);
-            MouseTriggerImpl.mouseTrig(button2, e, state);
             MouseTriggerImpl.mouseTrig(rankButton, e, state);
 
             playConfirm(button1);
-            playConfirm(button2);
             playConfirm(rankButton);
 
             if ((button1.getIsHover()) && (!isPlayed1)) {
@@ -119,15 +117,6 @@ public class MenuScene extends Scene {
             if (!button1.getIsHover()) {
                 isPlayed1 = false;
             }
-
-            if ((button2.getIsHover()) && (!isPlayed2)) {
-                AudioResourceController.getInstance().shot("/sound/tab.wav");
-                isPlayed2 = true;
-            }
-            if (!button2.getIsHover()) {
-                isPlayed2 = false;
-            }
-
             if ((rankButton.getIsHover()) && (!isPlayed3)) {
                 AudioResourceController.getInstance().shot("/sound/tab.wav");
                 isPlayed3 = true;

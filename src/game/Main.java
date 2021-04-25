@@ -54,7 +54,7 @@ public class Main {// 資料刷新時間
         //0
         //start button
         Style hover = new Style.StyleOval(100, 100, true, new BackgroundType.BackgroundNull())
-                .setTextColor(new Color(128, 128, 128))
+                .setTextColor(new Color(213, 9, 131))
                 .setHaveBorder(false)
                 .setBorderColor(new Color(0, 157, 230))
                 .setBorderThickness(5)
@@ -65,7 +65,7 @@ public class Main {// 資料刷新時間
                 .setHaveBorder(false)
                 .setBorderColor(new Color(0, 157, 230))
                 .setBorderThickness(5)
-                .setTextFont(new Font("", Font.TYPE1_FONT, 28))
+                .setTextFont(new Font("", Font.TYPE1_FONT, 30))
                 .setText("Start");
         Style normal = new Style.StyleOval(100, 100, false, new BackgroundType.BackgroundNull())
                 .setHaveBorder(false)
@@ -75,7 +75,7 @@ public class Main {// 資料刷新時間
                 .setText("Ready");
 
         Theme.add(new Theme(normal, hover, focus));
-//1
+//1已在menuScene刪除
         Theme.add(new Theme(
                 //normal
                 new Style.StyleRect(200, 50, true, new BackgroundType.BackgroundImage(ImageController.getInstance().tryGet("/img/buttonNor.png")))
@@ -103,10 +103,11 @@ public class Main {// 資料刷新時間
                         .setBorderThickness(5)
         ));
         //2
+        //rank button in menu
         Theme.add(new Theme(
                 //normal
                 new Style.StyleRect(200, 50, true, new BackgroundType.BackgroundImage(ImageController.getInstance().tryGet("/img/buttonNor.png")))
-                        .setText("排行榜")
+                        .setText("RANK")
                         .setTextFont(new Font("TimesRoman", Font.BOLD, 30))
                         .setTextColor(Color.WHITE)
                         .setHaveBorder(false)
@@ -117,12 +118,12 @@ public class Main {// 資料刷新時間
                         .setHaveBorder(false)
                         .setBorderColor(Color.WHITE)
                         .setBorderThickness(5)
-                        .setText("查看")
+                        .setText("LOOK")
                         .setTextColor(Color.WHITE)
                         .setTextFont(new Font("TimesRoman", Font.BOLD, 30)),
                 //FOCUS
                 new Style.StyleRect(200, 50, true, new BackgroundType.BackgroundImage(ImageController.getInstance().tryGet("/img/button.png")))
-                        .setText("開始")
+                        .setText("LOOK")
                         .setTextFont(new Font("TimesRoman", Font.BOLD, 35))
                         .setTextColor(new Color(162, 176, 198))
                         .setHaveBorder(false)
@@ -166,20 +167,20 @@ public class Main {// 資料刷新時間
                 .setBorderColor(new Color(147, 147, 138))
                 .setBorderThickness(5)
                 .setTextFont(new Font("", Font.TYPE1_FONT, 30))
-                .setText("lv1"),
+                .setText("practice"),
                 new Style.StyleOval(200, 200, true, new BackgroundType.BackgroundImage(ImageController.getInstance().tryGet("/img/mode/mode_1.png")))
-                        .setTextColor(Color.BLACK)
+                        .setTextColor(new Color(30, 70, 118))
                         .setHaveBorder(true)
-                        .setBorderColor(new Color(147, 147, 138))
+                        .setBorderColor(new Color(30, 70, 118))
                         .setBorderThickness(5)
                         .setTextFont(new Font("", Font.TYPE1_FONT, 28))
-                        .setText("lv1"),
+                        .setText("practice"),
                 new Style.StyleOval(200, 200, new BackgroundType.BackgroundImage(ImageController.getInstance().tryGet("/img/mode/mode_1.png")))
                         .setHaveBorder(true)
                         .setBorderColor(new Color(147, 147, 138))
                         .setBorderThickness(5)
                         .setTextFont(new Font("", Font.TYPE1_FONT, 30))
-                        .setText("lv1")));
+                        .setText("practice")));
         //5
         //mode2
         Theme.add(new Theme(new Style.StyleOval(200, 200, true, new BackgroundType.BackgroundImage(ImageController.getInstance().tryGet("/img/mode/mode_2.png")))
@@ -188,20 +189,20 @@ public class Main {// 資料刷新時間
                 .setBorderColor(new Color(147, 147, 138))
                 .setBorderThickness(5)
                 .setTextFont(new Font("", Font.TYPE1_FONT, 30))
-                .setText("lv2"),
+                .setText("SpeedRun"),
                 new Style.StyleOval(200, 200, true, new BackgroundType.BackgroundImage(ImageController.getInstance().tryGet("/img/mode/mode_2.png")))
-                        .setTextColor(Color.BLACK)
+                        .setTextColor(new Color(30, 70, 118))
                         .setHaveBorder(true)
-                        .setBorderColor(new Color(147, 147, 138))
+                        .setBorderColor(new Color(30, 70, 118))
                         .setBorderThickness(5)
                         .setTextFont(new Font("", Font.TYPE1_FONT, 28))
-                        .setText("lv2"),
+                        .setText("SpeedRun"),
                 new Style.StyleOval(200, 200, new BackgroundType.BackgroundImage(ImageController.getInstance().tryGet("/img/mode/mode_2.png")))
                         .setHaveBorder(true)
                         .setBorderColor(new Color(147, 147, 138))
                         .setBorderThickness(5)
                         .setTextFont(new Font("", Font.TYPE1_FONT, 30))
-                        .setText("lv2")));
+                        .setText("SpeedRun")));
         //6
         //mode3
         Theme.add(new Theme(new Style.StyleOval(200, 200, true, new BackgroundType.BackgroundImage(ImageController.getInstance().tryGet("/img/mode/mode_3.png")))
@@ -210,20 +211,20 @@ public class Main {// 資料刷新時間
                 .setBorderColor(new Color(147, 147, 138))
                 .setBorderThickness(5)
                 .setTextFont(new Font("", Font.TYPE1_FONT, 30))
-                .setText("lv3"),
+                .setText("Parkour"),
                 new Style.StyleOval(200, 200, true, new BackgroundType.BackgroundImage(ImageController.getInstance().tryGet("/img/mode/mode_3.png")))
-                        .setTextColor(Color.BLACK)
+                        .setTextColor(new Color(30, 70, 118))
                         .setHaveBorder(true)
-                        .setBorderColor(new Color(147, 147, 138))
+                        .setBorderColor(new Color(30, 70, 118))
                         .setBorderThickness(5)
                         .setTextFont(new Font("", Font.TYPE1_FONT, 28))
-                        .setText("lv3"),
+                        .setText("Parkour"),
                 new Style.StyleOval(200, 200, new BackgroundType.BackgroundImage(ImageController.getInstance().tryGet("/img/mode/mode_3.png")))
                         .setHaveBorder(true)
                         .setBorderColor(Color.WHITE)
                         .setBorderThickness(5)
                         .setTextFont(new Font("", Font.TYPE1_FONT, 30))
-                        .setText("lv3")));
+                        .setText("Parkour")));
         //7
         //mode4
         Theme.add(new Theme(new Style.StyleOval(200, 200, true, new BackgroundType.BackgroundImage(ImageController.getInstance().tryGet("/img/mode/mode_4.png")))
@@ -232,20 +233,20 @@ public class Main {// 資料刷新時間
                 .setBorderColor(new Color(147, 147, 138))
                 .setBorderThickness(5)
                 .setTextFont(new Font("", Font.TYPE1_FONT, 30))
-                .setText("lv4"),
+                .setText("stamina"),
                 new Style.StyleOval(200, 200, true, new BackgroundType.BackgroundImage(ImageController.getInstance().tryGet("/img/mode/mode_4.png")))
-                        .setTextColor(Color.BLACK)
+                        .setTextColor(new Color(30, 70, 118))
                         .setHaveBorder(true)
-                        .setBorderColor(new Color(147, 147, 138))
+                        .setBorderColor(new Color(30, 70, 118))
                         .setBorderThickness(5)
                         .setTextFont(new Font("", Font.TYPE1_FONT, 28))
-                        .setText("lv4"),
+                        .setText("stamina"),
                 new Style.StyleOval(200, 200, new BackgroundType.BackgroundImage(ImageController.getInstance().tryGet("/img/mode/mode_4.png")))
                         .setHaveBorder(true)
                         .setBorderColor(Color.WHITE)
                         .setBorderThickness(5)
                         .setTextFont(new Font("", Font.TYPE1_FONT, 30))
-                        .setText("lv4")));
+                        .setText("stamina")));
         //8
         //mode5
         Theme.add(new Theme(new Style.StyleOval(200, 200, true, new BackgroundType.BackgroundImage(ImageController.getInstance().tryGet("/img/mode/mode_5.png")))
@@ -254,20 +255,20 @@ public class Main {// 資料刷新時間
                 .setBorderColor(new Color(147, 147, 138))
                 .setBorderThickness(5)
                 .setTextFont(new Font("", Font.TYPE1_FONT, 30))
-                .setText("lv5"),
+                .setText("Story"),
                 new Style.StyleOval(200, 200, true, new BackgroundType.BackgroundImage(ImageController.getInstance().tryGet("/img/mode/mode_5.png")))
-                        .setTextColor(Color.BLACK)
+                        .setTextColor(new Color(30, 70, 118))
                         .setHaveBorder(true)
-                        .setBorderColor(new Color(147, 147, 138))
+                        .setBorderColor(new Color(30, 70, 118))
                         .setBorderThickness(5)
                         .setTextFont(new Font("", Font.TYPE1_FONT, 28))
-                        .setText("lv5"),
+                        .setText("Story"),
                 new Style.StyleOval(200, 200, new BackgroundType.BackgroundImage(ImageController.getInstance().tryGet("/img/mode/mode_5.png")))
                         .setHaveBorder(true)
                         .setBorderColor(Color.WHITE)
                         .setBorderThickness(5)
                         .setTextFont(new Font("", Font.TYPE1_FONT, 30))
-                        .setText("lv5")));
+                        .setText("Story")));
 
         //9
         //pop back to Menu button
@@ -404,6 +405,34 @@ public class Main {// 資料刷新時間
                 new Style.StyleRect(100, 50, false, new BackgroundType.BackgroundNull())
                         .setText("Next")
                         .setTextFont(new Font("TimesRoman", Font.BOLD, 35))
+                        .setTextColor(new Color(162, 176, 198))
+                        .setHaveBorder(false)
+                        .setBorderColor(new Color(231, 8, 37))
+                        .setBorderThickness(5)
+        ));
+        //14
+        //back button in mode
+        Theme.add(new Theme(
+                //normal
+                new Style.StyleRect(50, 50, false, new BackgroundType.BackgroundNull())
+                        .setText("Back")
+                        .setTextFont(new Font("TimesRoman", Font.TYPE1_FONT, 30))
+                        .setTextColor(Color.WHITE)
+                        .setHaveBorder(false)
+                        .setBorderColor(new Color(162, 176, 198))
+                        .setBorderThickness(5),
+                //HOVER
+                new Style.StyleRect(50, 50, false, new BackgroundType.BackgroundNull())
+                        .setHaveBorder(false)
+                        .setBorderColor(Color.WHITE)
+                        .setBorderThickness(5)
+                        .setText("Back")
+                        .setTextColor(new Color(30, 70, 118))
+                        .setTextFont(new Font("TimesRoman", Font.TYPE1_FONT, 30)),
+                //FOCUS
+                new Style.StyleRect(50, 50, false, new BackgroundType.BackgroundNull())
+                        .setText("Back")
+                        .setTextFont(new Font("TimesRoman", Font.TYPE1_FONT, 30))
                         .setTextColor(new Color(162, 176, 198))
                         .setHaveBorder(false)
                         .setBorderColor(new Color(231, 8, 37))

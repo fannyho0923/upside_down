@@ -19,7 +19,6 @@ public class ModeScene extends Scene {
     private Button b5;
     private Button back;
     private Image modeBackground;
-//    private Label label;
 
     public ModeScene(int actorNum){
         this.actorNum=actorNum;
@@ -40,7 +39,7 @@ public class ModeScene extends Scene {
         b3 = new Button(670 , 30, Theme.get(6));
         b4 = new Button(235 , 280, Theme.get(7));
         b5 = new Button(525 , 280, Theme.get(8));
-        back = new Button(800, 650 - 105, Theme.get(3));
+        back = new Button(800, 650 - 105, Theme.get(14));
         b1.setClickedActionPerformed((int x, int y) -> SceneController.getInstance().change(new BasicScene(actorNum)));
         b2.setClickedActionPerformed((int x, int y) -> SceneController.getInstance().change(new SpeedRun(actorNum)));
         b3.setClickedActionPerformed((int x, int y) -> SceneController.getInstance().change(new Parkour(actorNum)));
@@ -63,7 +62,6 @@ public class ModeScene extends Scene {
 
     @Override
     public void update() {
-
     }
 
 
@@ -106,7 +104,6 @@ public class ModeScene extends Scene {
         b3.paint(g);
         b4.paint(g);
         b5.paint(g);
-
         back.paint(g);
     }
 

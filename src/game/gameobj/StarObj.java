@@ -11,7 +11,7 @@ public class StarObj extends GameObject {
 
     public StarObj(int x, int y, int width, int height) {
         super(x, y, width, height);
-        image = ImageController.getInstance().tryGet("/img/background/star4.png");
+        image = ImageController.getInstance().tryGet("/img/background/stars.png");
         delay = new Delay(50);
         delay.play();
     }
