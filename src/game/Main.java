@@ -369,7 +369,7 @@ public class Main {// 資料刷新時間
                         .setHaveBorder(false)
                         .setBorderColor(Color.WHITE)
                         .setBorderThickness(5)
-                        .setText("confirm")
+                        .setText("SEND")
                         .setTextColor(new Color(220, 46, 106, 238))
                         .setTextFont(new Font("TimesRoman", Font.BOLD, 30)),
                 //FOCUS
@@ -377,6 +377,34 @@ public class Main {// 資料刷新時間
                         .setText("confirm")
                         .setTextFont(new Font("TimesRoman", Font.BOLD, 35))
                         .setTextColor(new Color(184, 162, 198))
+                        .setHaveBorder(false)
+                        .setBorderColor(new Color(231, 8, 37))
+                        .setBorderThickness(5)
+        ));
+        //13
+        //"next" button in RankScene
+        Theme.add(new Theme(
+                //normal
+                new Style.StyleRect(100, 50, false, new BackgroundType.BackgroundNull())
+                        .setText("Next")
+                        .setTextFont(new Font("TimesRoman", Font.BOLD, 30))
+                        .setTextColor(Color.WHITE)
+                        .setHaveBorder(false)
+                        .setBorderColor(new Color(222, 29, 88))
+                        .setBorderThickness(5),
+                //HOVER
+                new Style.StyleRect(100, 50, false, new BackgroundType.BackgroundNull())
+                        .setHaveBorder(false)
+                        .setBorderColor(Color.WHITE)
+                        .setBorderThickness(5)
+                        .setText("Next")
+                        .setTextColor(new Color(220, 46, 106, 238))
+                        .setTextFont(new Font("TimesRoman", Font.BOLD, 30)),
+                //FOCUS
+                new Style.StyleRect(100, 50, false, new BackgroundType.BackgroundNull())
+                        .setText("Next")
+                        .setTextFont(new Font("TimesRoman", Font.BOLD, 35))
+                        .setTextColor(new Color(162, 176, 198))
                         .setHaveBorder(false)
                         .setBorderColor(new Color(231, 8, 37))
                         .setBorderThickness(5)

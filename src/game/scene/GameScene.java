@@ -3,25 +3,21 @@ package game.scene;
 import game.camera.Camera;
 import game.camera.MapInformation;
 import game.controller.AudioResourceController;
-import game.controller.ImageController;
 import game.controller.SceneController;
 import game.gameobj.*;
 import game.maploader.MapInfo;
 import game.maploader.MapLoader;
-import game.menu.menu.EditText;
 import game.menu.scene.RankPopupWindowScene;
 import game.menu.scene.RankScene;
 import game.menu.scene.StopPopupWindowScene;
 import game.utils.CommandSolver;
 import game.utils.Global;
 import game.utils.Velocity;
-import game.menu.scene.StopPopupWindowScene;
 import game.utils.*;
 
 import java.awt.*;
 import java.io.IOException;
 import java.util.ArrayList;
-import java.util.*;
 import java.util.concurrent.TimeUnit;
 
 
@@ -49,13 +45,11 @@ public abstract class GameScene extends Scene {
     private String mapTxtPath;
     private Spikes spikesUp;
     private Spikes spikesDown;
-    private StopPopupWindowScene testPop;
+    private StopPopupWindowScene stopPop;
     private RankPopupWindowScene rankPop;
 
     private long startTime;
     private long gameTime;
-    private Ranking ranking;
-    private ArrayList<RankResult> rankResults;
     private RankResult result;
     private Boolean rankShowed;
     private String filePath;
@@ -65,19 +59,19 @@ public abstract class GameScene extends Scene {
     public GameScene(String mapBmpPath, Actor actor, GameObject background,
                      int cameraWidth, int cameraHeight, int cameraVelocityX,
                      int cameraVelocityY, boolean actorTrigCamera, String filePath) {
-        this.filePath=filePath;
-        testPop = new StopPopupWindowScene(Global.WINDOW_WIDTH / 2 - 325, Global.WINDOW_HEIGHT / 2 - 225,
+        this.filePath = filePath;
+        stopPop = new StopPopupWindowScene(Global.WINDOW_WIDTH / 2 - 325, Global.WINDOW_HEIGHT / 2 - 225,
                 650, 450);
-        testPop.setRestartClicked((int x, int y) -> {
+        stopPop.setRestartClicked((int x, int y) -> {
             init(mapBmpPath, actor, background,
                     cameraWidth, cameraHeight, cameraVelocityX, cameraVelocityY,
                     actorTrigCamera, filePath);
-            this.testPop.hide();
+            this.stopPop.hide();
         });
         rankPop = new RankPopupWindowScene(Global.WINDOW_WIDTH / 2 - 325, Global.WINDOW_HEIGHT / 2 - 225,
                 650, 450);
         rankPop.setCancelable();
-        testPop.setCancelable();
+        stopPop.setCancelable();
         init(mapBmpPath, actor, background,
                 cameraWidth, cameraHeight, cameraVelocityX, cameraVelocityY,
                 actorTrigCamera, filePath);
@@ -92,14 +86,6 @@ public abstract class GameScene extends Scene {
         savePoint = new ArrayList<>();
         movePlatform = new ArrayList<>();
         passPoint = new ArrayList<>();
-        rankResults = new ArrayList<>();
-
-        try {
-            ranking = new Ranking(filePath);
-        } catch (IOException e) {
-            System.out.println(e);
-        }
-
         this.mapBmpPath = mapBmpPath;
         this.mapTxtPath = "/map/genMap.txt";
         mapInit();
@@ -174,12 +160,12 @@ public abstract class GameScene extends Scene {
                         }
                         break;
                     case Global.VK_ESCAPE:
-                        if (testPop.isShow()) {
-                            testPop.hide();
-                            testPop.sceneEnd();
+                        if (stopPop.isShow()) {
+                            stopPop.hide();
+                            stopPop.sceneEnd();
                         } else {
-                            testPop.sceneBegin();
-                            testPop.show();
+                            stopPop.sceneBegin();
+                            stopPop.show();
                         }
                         break;
                     case Global.VK_R:
@@ -210,7 +196,7 @@ public abstract class GameScene extends Scene {
             public void keyTyped(char c, long trigTime) {
                 if (rankPop.isShow()) {
                     rankPop.getEditText().keyTyped(c);
-                    playerName=rankPop.getEditText().getEditText();
+                    playerName = rankPop.getEditText().getEditText();
                     rankPop.setPlayerName(playerName);
                 }
 
@@ -221,10 +207,10 @@ public abstract class GameScene extends Scene {
     @Override
     public CommandSolver.MouseListener mouseListener() {
         return (e, state, trigTime) -> {
-            if (testPop.isShow()) {
-                testPop.mouseListener().mouseTrig(e, state, trigTime);
+            if (stopPop.isShow()) {
+                stopPop.mouseListener().mouseTrig(e, state, trigTime);
             }
-             if (rankPop.isShow()) {
+            if (rankPop.isShow()) {
                 rankPop.mouseListener().mouseTrig(e, state, trigTime);
             }
 
@@ -269,8 +255,8 @@ public abstract class GameScene extends Scene {
         camera.paint(g);
         camera.end(g);
         midPaint(g);
-        if (testPop.isShow()) {
-            testPop.paint(g);
+        if (stopPop.isShow()) {
+            stopPop.paint(g);
         }
         if (rankPop.isShow()) {
             rankPop.paint(g);
@@ -282,7 +268,7 @@ public abstract class GameScene extends Scene {
 
     @Override
     public void update() {
-        if ((!testPop.isShow()) && (!rankPop.isShow())&&(!rankShowed)&&(!isPlayed)) {
+        if ((!stopPop.isShow()) && (!rankPop.isShow()) && (!rankShowed) && (!isPlayed)) {
             actor.update();
             for (int i = 0; i < brokenRoads.size(); i++) {
                 GameObject obj = brokenRoads.get(i);
@@ -369,99 +355,22 @@ public abstract class GameScene extends Scene {
             gameTime = TimeUnit.NANOSECONDS.toMillis(gameTime);
             int gtInt = (int) gameTime;
             result = new RankResult(playerName, gtInt);
-            if (!rankPop.setPlayer(result,filePath)) {
+            if (!rankPop.setPlayer(result, filePath)) {
                 SceneController.getInstance().change(new RankScene());
-            }
-            else {
+            } else {
                 rankPop.show();
-                rankShowed=false;
+                rankShowed = false;
             }
-            isPlayed=true;
+            isPlayed = true;
         }
-        if (testPop.isShow()) {
-            testPop.update();
+        if (stopPop.isShow()) {
+            stopPop.update();
         }
     }
-
 
     public Camera getCamera() {
         return this.camera;
     }
-
-//    public void pass() {
-//        gameTime = System.nanoTime() - startTime;
-////        System.out.println(gameTime);
-//        gameTime = TimeUnit.NANOSECONDS.toMillis(gameTime);
-//        int gtInt = (int) gameTime;
-//
-//
-//        //到時畫面印出排行榜需要轉換的格式
-////        gt = new SimpleDateFormat("mm:ss:SSS", Locale.TAIWAN).format(new Date(gameTime));
-//
-//        RankResult newResult = new RankResult("Player", gtInt);
-//
-//        //讀目前的排行
-//        ArrayList<String> arr = ranking.readL();
-//
-//        if (arr.size() > 0) {
-//            //把檔案內容轉成arraylist
-//            for (int i = 0; i < arr.size() - 1; i = i + 2) {
-//                rankResults.add(new RankResult(arr.get(i), Integer.parseInt(arr.get(i + 1))));
-//            }
-//        }
-//
-//        System.out.println("new: " + gtInt);
-//
-//        System.out.println("Unsorted");
-//        for (int i = 0; i < rankResults.size(); i++) {
-//            System.out.println(rankResults.get(i).getName());
-//            System.out.println(rankResults.get(i).getTime());
-//            System.out.println("-----------");
-//        }
-//
-//        //如果目前榜上資料超過9筆，要進行比對，有進榜單資格的話，就add，排序後取前10輸出
-//        //不超過9筆就直接加入榜單後，排序輸出
-//
-//        if (rankResults.size() > 2) {
-//            if (rankResults.get(rankResults.size() - 1).compareTo(newResult)) {
-//                //有資格進榜單，讓使用者輸入名字
-////                    newResult.setName("");
-//                rankPop.sceneBegin();
-//                rankPop.show();
-////                newResult.setName(playerName);
-//                rankResults.add(newResult);
-//            }
-//
-//        } else {
-//            //榜單未滿，自動加入
-//            rankPop.sceneBegin();
-//            rankPop.show();
-////            newResult.setName(playerName);
-//            rankResults.add(newResult);
-//        }
-//
-//        //排序
-//        Collections.sort(rankResults, new RankSort());
-//
-//        System.out.println("\nSort");
-//        for (int i = 0; i < rankResults.size(); i++) {
-//            System.out.println(rankResults.get(i).getName());
-//            System.out.println(rankResults.get(i).getTime());
-//            System.out.println("-----------");
-//        }
-//
-//        //取前10名轉回一串字串輸出
-//        String output = "";
-//        if (rankResults.size() > 3) {
-//            rankResults.remove(3);
-//        }
-//        for (int i = 0; i < rankResults.size(); i++) {
-//            output += rankResults.get(i).getName() + "," + rankResults.get(i).getTime() + ",";
-//        }
-////清資料用
-////        rankResults.clear();
-//        ranking.writeOut(output);
-//    }
 
     public void mapInit() {
         try {
