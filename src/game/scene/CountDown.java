@@ -27,7 +27,7 @@ public class CountDown extends GameScene{
     private Delay diedDelay;
 
     public CountDown(int num) {
-        super(4,"/map/countDown.bmp", new Actor(0, 0, num), new Background(960, 640),
+        super(4, "/map/countDown.bmp", new Actor(0, 0, num), new Background(960, 640),
                 960, 640, 0, 0, true, "countdown.txt");
 
         // 不要寫東西!!

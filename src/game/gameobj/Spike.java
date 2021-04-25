@@ -68,11 +68,12 @@ public class Spike extends GameObject{
         if(actor.getState() == Actor.State.ALIVE){
             actor.dead();
             soundPlayed =false;
+            isTouch=true;
+            delay.loop();
+
         }
         if (actor.getState()==Actor.State.DEAD){
             AudioResourceController.getInstance().play("/sound/blood_crop.wav");
-            isTouch=true;
-            delay.loop();
             soundPlayed = true;
         }
     }
@@ -80,6 +81,7 @@ public class Spike extends GameObject{
     @Override
     public void paint(Graphics g) {
         g.drawImage(type.img, painter().left(), painter().top(), null);
+
         if (isTouch){
             if(count < 4) {
                 if (type==Type.down) {
@@ -96,12 +98,8 @@ public class Spike extends GameObject{
                             count*Global.UNIT_X64,0,(count*Global.UNIT_X64)+Global.UNIT_X64
                             ,Global.UNIT_X64,null);
                 }
-
-                if (delay.count()) {
-                    count++;
-                }
             }else {
-                delay.pause();
+                delay.stop();
                 count = 0;
                 isTouch = false;
             }
@@ -110,6 +108,9 @@ public class Spike extends GameObject{
 
     @Override
     public void update() {
+        if (delay.count()) {
+            count++;
+        }
     }
 
     private Image paintReverse(Image img) {
