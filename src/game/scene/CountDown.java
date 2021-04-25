@@ -1,10 +1,7 @@
 package game.scene;
 
 import game.controller.ImageController;
-import game.gameobj.Actor;
-import game.gameobj.Background;
-import game.gameobj.Bullet;
-import game.gameobj.GameObject;
+import game.gameobj.*;
 import game.utils.Global;
 import game.utils.NumberFig;
 import game.utils.Delay;
@@ -19,7 +16,7 @@ public class CountDown extends GameScene{
     private Delay shootDelay;
     private int timeCount;
     private int shootPosition;
-    private static int timeMax = 10;
+    private static int timeMax = 30;
     private int rebornTime;
     private int rebornShoot;
     private Image[] passBlood;
@@ -27,19 +24,23 @@ public class CountDown extends GameScene{
     private Delay passDelay;
     private int passCount;
 
+    private Delay diedDelay;
+
     public CountDown(int num) {
-        super("/map/countDown.bmp", new Actor(0, 0, num), new Background(960, 640),
+        super(4, "/map/countDown.bmp", new Actor(0, 0, num), new Background(960, 640),
                 960, 640, 0, 0, true, "countdown.txt");
+
         // 不要寫東西!!
     }
 
     @Override
-    public void init(String mapBmpPath, Actor actor, GameObject background,
+    public void init(int level,String mapBmpPath, Actor actor, GameObject background,
                      int cameraWidth, int cameraHeight, int cameraVelocityX, int cameraVelocityY,
                      boolean actorTrigCamera, String filepath) {
-        super.init(mapBmpPath, actor, background,
+        super.init(level,mapBmpPath, actor, background,
                 cameraWidth, cameraHeight, cameraVelocityX, cameraVelocityY,
                 actorTrigCamera, filepath);
+
         secDelay = new Delay(Global.UPDATE_TIMES_PER_SEC);
         secDelay.loop();
         timeCount = timeMax;
@@ -51,6 +52,8 @@ public class CountDown extends GameScene{
         shootDelay = new Delay(60);
         shootDelay.loop();
         shootPosition = 0;
+
+        diedDelay = new Delay(50);
 
         rebornTime = timeMax;
         rebornShoot = shootPosition;
@@ -70,24 +73,27 @@ public class CountDown extends GameScene{
         bullets.forEach(bullet -> bullet.paint(g));
         numFigs[0].paint(g);
         numFigs[1].paint(g);
-        if(timeCount == -1){
-            // level complete
 
-            if(passDelay.count()){
-                passCount++;
-                if(passCount == 3){
-                    passDelay.pause();
-                }
-            }
-            g.drawImage(passBlood[passCount],160,0,null);
-            g.drawImage(pass,160,80,null );
-            // 加音效
-        }
+//        if(timeCount == -1){
+//            // level complete
+//
+//            if(passDelay.count()){
+//                passCount++;
+//                if(passCount == 3){
+//                    passDelay.pause();
+//                }
+//            }
+//            g.drawImage(passBlood[passCount],160,0,null);
+//            g.drawImage(pass,160,80,null );
+//            // 加音效
+//        }
+        //test.paint(g);
     }
 
     @Override
     public void update() {
         super.update();
+
         if(shootDelay.count()){
             if(timeCount > timeMax - 8){
                 if (shootPosition %2 ==0){
@@ -110,7 +116,6 @@ public class CountDown extends GameScene{
                 }else {
                     bullets.add(new Bullet(7-shootPosition, Bullet.Type.E, Bullet.Dir.left));
                 }
-
                 shootPosition++;
           }else if(timeCount > 0){
                 shootPosition--;
@@ -121,38 +126,48 @@ public class CountDown extends GameScene{
                 }
             }
         }
+
         for(int i = 0; i < bullets.size(); i++){
             Bullet bullet = bullets.get(i);
             bullet.update();
             if (bullet.isCollision(getActor())){
-                //bullet.collisionEffect(getActor());
+                bullet.collisionEffect(getActor());
+                diedDelay.play();
             }
             if(!bullet.isCollision(getCamera())){
                 bullets.remove(i);
                 i--;
             }
         }
+
         if(secDelay.count()){
             timeCount--;
             numFigs[0].setNum(timeCount/10);
             numFigs[1].setNum(timeCount%10);
 
             if(timeCount %5 == 0){
+                System.out.println(timeCount);
                 rebornTime = timeCount;
                 rebornShoot = shootPosition;
             }
-            if (timeCount == -1){
-                passDelay.loop();
-                secDelay.pause();
+            if (timeCount == -1){ // win
+//                passDelay.loop();
+//                secDelay.pause();
             }
         }
+
         if (getActor().getState() == Actor.State.DEAD){
-            shootDelay.pause();
-            timeCount = rebornTime;
-            shootPosition = rebornShoot;
+            shootDelay.stop();
+            if(diedDelay.count()){
+                bullets = new ArrayList<>();
+                shootPosition = rebornShoot;
+                timeCount = rebornTime;
+                shootDelay.loop();
+            }
         }
+
         if (getActor().getState() == Actor.State.REBORN){
-            shootDelay.loop();
+
         }
     }
 }

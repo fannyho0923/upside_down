@@ -11,7 +11,6 @@ public abstract class GameObject implements GameKernel.UpdateInterface, GameKern
     private final Rect painter;  //物件的繪圖方塊
     private int id;
     private boolean isExist;
-    private Rect secondCollider;
 
     //預設以(top,left)為物件左上角生成物件
     public GameObject(final int left, final int top, final int width, final int height) {
@@ -132,6 +131,8 @@ public abstract class GameObject implements GameKernel.UpdateInterface, GameKern
     }
 
     public void collisionEffect(Actor actor){}
+
+    public void collisionEffect(Bullet bullet){}
 
     public void savePointPaint(Graphics g, boolean get){}
 

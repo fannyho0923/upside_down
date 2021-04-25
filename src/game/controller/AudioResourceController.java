@@ -21,7 +21,7 @@ import javax.sound.sampled.UnsupportedAudioFileException;
  */
 public class AudioResourceController {
 
-    private static final boolean isMute = true;
+    private static final boolean isMute = false;
     private static AudioResourceController irc;
     private Map<String, ClipThread> soundMap;
     private final ClipThread.FinishHandler finishHandler = (String fileName, Clip clip) -> {

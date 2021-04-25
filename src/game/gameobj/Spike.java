@@ -15,21 +15,26 @@ import java.util.ArrayList;
 public class Spike extends GameObject{
     private Type type;
     private boolean isTouch;
-    private ArrayList<Image> imageArrayList;
+    private static  final Image[] bloodImage = {
+            ImageController.getInstance().tryGet("/img/effect/spikeBlood_1.png"),
+            ImageController.getInstance().tryGet("/img/effect/spikeBlood_2.png"),
+            ImageController.getInstance().tryGet("/img/effect/spikeBlood_3.png"),
+            ImageController.getInstance().tryGet("/img/effect/spikeBlood_4.png"),
+            ImageController.getInstance().tryGet("/img/effect/spike_R.png"),
+            ImageController.getInstance().tryGet("/img/effect/spike_L.png")
+    };
     private boolean soundPlayed;
 
     public enum Type{
-        left("/img/gameObj/spike/spike_left.png"),
-        top("/img/gameObj/spike/spike_top.png"),
-        right("/img/gameObj/spike/spike_right.png"),
-        down("/img/gameObj/spike/spike_down.png");
-
+        left("/img/gameObj/spike/left.png"),
+        top("/img/gameObj/spike/up.png"),
+        right("/img/gameObj/spike/right.png"),
+        down("/img/gameObj/spike/down.png");
         private Image img;
         Type(String path){
             this.img = ImageController.getInstance().tryGet(path);
         }
     }
-
     private Delay delay;
     private int count;
     public Spike(int top, int left, Type type) {
@@ -39,11 +44,6 @@ public class Spike extends GameObject{
         delay = new Delay(10);
         count = 0;
         isTouch = false;
-        imageArrayList = new ArrayList<>();
-        imageArrayList.add(ImageController.getInstance().tryGet("/img/effect/spikeBlood_1.png"));
-        imageArrayList.add(ImageController.getInstance().tryGet("/img/effect/spikeBlood_2.png"));
-        imageArrayList.add(ImageController.getInstance().tryGet("/img/effect/spikeBlood_3.png"));
-        imageArrayList.add(ImageController.getInstance().tryGet("/img/effect/spikeBlood_4.png"));
 
         switch (type){
             case left:
@@ -61,21 +61,19 @@ public class Spike extends GameObject{
                 collider().offsetHeight(-15);
                 break;
         }
-
-
     }
 
     @Override
     public void collisionEffect(Actor actor) {
         if(actor.getState() == Actor.State.ALIVE){
-//            AudioResourceController.getInstance().shot("/sound/spike.wav");
             actor.dead();
             soundPlayed =false;
+            isTouch=true;
+            delay.loop();
+
         }
         if (actor.getState()==Actor.State.DEAD){
             AudioResourceController.getInstance().play("/sound/blood_crop.wav");
-            isTouch=true;
-            delay.loop();
             soundPlayed = true;
         }
     }
@@ -83,19 +81,25 @@ public class Spike extends GameObject{
     @Override
     public void paint(Graphics g) {
         g.drawImage(type.img, painter().left(), painter().top(), null);
+
         if (isTouch){
             if(count < 4) {
                 if (type==Type.down) {
-                    g.drawImage(imageArrayList.get(count), painter().left(), painter().top(), null);
-                }
-                if (type==Type.top){
-                    g.drawImage(paintReverse(imageArrayList.get(count)), painter().left(), painter().top(), null);
-                }
-                if (delay.count()) {
-                    count++;
+                    g.drawImage(bloodImage[count], painter().left(), painter().top(), null);
+                }else if (type==Type.top) {
+                    g.drawImage(paintReverse(bloodImage[count]), painter().left(), painter().top(), null);
+                }else if (type == Type.left){
+                    g.drawImage(bloodImage[4],
+                            painter().left(), painter().top(), painter().left()+Global.UNIT_X64,painter().top()+Global.UNIT_X64,
+                            256-Global.UNIT_X64-(count*Global.UNIT_X64),0,256-(count*Global.UNIT_X64),Global.UNIT_X64,null);
+                }else {
+                    g.drawImage(bloodImage[5],
+                            painter().left()-Global.UNIT_X32, painter().top(), painter().left()+Global.UNIT_X32,painter().top()+Global.UNIT_X64,
+                            count*Global.UNIT_X64,0,(count*Global.UNIT_X64)+Global.UNIT_X64
+                            ,Global.UNIT_X64,null);
                 }
             }else {
-                delay.pause();
+                delay.stop();
                 count = 0;
                 isTouch = false;
             }
@@ -104,6 +108,9 @@ public class Spike extends GameObject{
 
     @Override
     public void update() {
+        if (delay.count()) {
+            count++;
+        }
     }
 
     private Image paintReverse(Image img) {
@@ -112,4 +119,6 @@ public class Spike extends GameObject{
         AffineTransformOp op = new AffineTransformOp(tx, AffineTransformOp.TYPE_NEAREST_NEIGHBOR);
         return op.filter((BufferedImage) img, null);
     }
+
+
 }

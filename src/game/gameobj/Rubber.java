@@ -41,6 +41,11 @@ public class Rubber extends GameObject{
         isTouch = false;
         imgEffect = ImageController.getInstance().tryGet("/img/effect/rubberCollision.png");
         delay = new Delay(5);
+
+        if (type.dir == Direction.horizontal){
+            this.collider().offsetHeight(-20);
+            this.collider().offsetY(10);
+        }
     }
 
     @Override
@@ -63,6 +68,11 @@ public class Rubber extends GameObject{
         }
         isTouch=true;
         delay.loop();
+    }
+
+    @Override
+    public void collisionEffect(Bullet bullet){
+        bullet.getVelocity().setY(-(int)bullet.getVelocity().y());
     }
 
     @Override

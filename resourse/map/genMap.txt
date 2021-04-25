@@ -69,6 +69,8 @@ back3-2,-13421773,D:\newMap\img\background\back3-2.jpg,30,20
 back3-3,-16764109,D:\newMap\img\background\back3-3.jpg,30,20
 back3-4,-16764160,D:\newMap\img\background\back3-4.jpg,30,20
 born,-10092289,D:\newMap\img\startPoint.png,1,1
-born,-16737997,C:\Users\anne\Desktop\遊戲素材\暫定素材_請用此畫地圖\pass_1x1.png,1,1
-born,-3381760,/Users/heweihan/New/img/savePoint/born.png,1,1
-passPoint,-13434880,C:\Users\anne\Desktop\素材\黑白配件\32pixel_transparent\tile_0102.png,1,1
+passPoint,-6750157,D:\newMap\img\passPoint.png,1,1
+cmoney_I,-65536,D:\newMap\img\Cmoney\I.png,1,1
+Love,-3355648,D:\newMap\img\Cmoney\L.png,1,1
+Cmoney_C,-16711885,D:\newMap\img\Cmoney\C.png,1,1
+Money,-10092391,D:\newMap\img\Cmoney\Money.png,1,1

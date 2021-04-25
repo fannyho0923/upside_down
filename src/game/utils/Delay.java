@@ -27,6 +27,10 @@ public class Delay {
         this.isPause = false;
     }
 
+    public int getCount(){
+        return count;
+    }
+
     //fanny
     public void setCountLimit(int countLimit) {
         this.countLimit = countLimit;

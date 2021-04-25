@@ -15,7 +15,7 @@ public class BasicScene extends GameScene {
             labelConveyor, labelRubber, labelDone, labelEnd, labelIns;
 
     public BasicScene(int num) {
-        super("/map/basicMap0420.bmp",
+        super(1,"/map/basicMap.bmp",
                 new Actor(0, 0, num), new Background(1920, 1920),
                 //real 1300,1500 //plat test 150,2000
                 960, 640, 0, 0,
@@ -23,10 +23,10 @@ public class BasicScene extends GameScene {
     }
 
     @Override
-    public void init(String mapBmpPath, Actor actor, GameObject background,
+    public void init(int level,String mapBmpPath, Actor actor, GameObject background,
                      int cameraWidth, int cameraHeight, int cameraVelocityX, int cameraVelocityY,
                      boolean actorTrigCamera, String filePath){
-        super.init(mapBmpPath, actor, background,
+        super.init(level,mapBmpPath, actor, background,
                 cameraWidth, cameraHeight, cameraVelocityX, cameraVelocityY,
                 actorTrigCamera, filePath);
         labelBorn = new Label(50, 100,

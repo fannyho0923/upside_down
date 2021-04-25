@@ -2,6 +2,7 @@ package game.gameobj;
 
 import game.controller.AudioResourceController;
 import game.controller.ImageController;
+import game.utils.Delay;
 import game.utils.Global;
 
 import java.awt.*;
@@ -13,30 +14,30 @@ public class Conveyor extends GameObject{
     private Type type;
 
     public enum Type{
-        TopL1("/img/gameObj/conveyor/conveyor_top_L1.png",Global.Direction.LEFT),
-        TopL2("/img/gameObj/conveyor/conveyor_top_L2.png",Global.Direction.LEFT),
-        TopL3("/img/gameObj/conveyor/conveyor_top_L3.png",Global.Direction.LEFT),
-        DownL1("/img/gameObj/conveyor/conveyor_down_L1.png",Global.Direction.LEFT),
-        DownL2("/img/gameObj/conveyor/conveyor_down_L2.png",Global.Direction.LEFT),
-        DownL3("/img/gameObj/conveyor/conveyor_down_L3.png",Global.Direction.LEFT),
-        TopR1("/img/gameObj/conveyor/conveyor_top_R1.png",Global.Direction.RIGHT),
-        TopR2("/img/gameObj/conveyor/conveyor_top_R2.png",Global.Direction.RIGHT),
-        TopR3("/img/gameObj/conveyor/conveyor_top_R3.png",Global.Direction.RIGHT),
-        DownR1("/img/gameObj/conveyor/conveyor_down_R1.png",Global.Direction.RIGHT),
-        DownR2("/img/gameObj/conveyor/conveyor_down_R2.png",Global.Direction.RIGHT),
-        DownR3("/img/gameObj/conveyor/conveyor_down_R3.png",Global.Direction.RIGHT);
 
-        private Image img;
+        TopL("/img/gameObj/conveyor/up.png","/img/gameObj/conveyor/up2.png",Global.Direction.LEFT),
+        DownL("/img/gameObj/conveyor/down.png","/img/gameObj/conveyor/down2.png",Global.Direction.LEFT),
+        TopR("/img/gameObj/conveyor/up.png","/img/gameObj/conveyor/up2.png",Global.Direction.RIGHT),
+        DownR("/img/gameObj/conveyor/down.png","/img/gameObj/conveyor/down2.png",Global.Direction.RIGHT);
+        private Image[] imgs;
         private Global.Direction dir;
-        Type(String path,Global.Direction dir){
-            this.img = ImageController.getInstance().tryGet(path);
+        Type(String path,String path2,Global.Direction dir){
+            this.imgs = new Image[2];
+            this.imgs[0] = ImageController.getInstance().tryGet(path);
+            this.imgs[1] = ImageController.getInstance().tryGet(path2);
             this.dir = dir;
         }
     }
 
+    private Delay delay;
+    private boolean flag;
+
     public Conveyor(int left, int top, Type type) {
         super(left, top, Global.UNIT, Global.UNIT);
         this.type = type;
+        delay = new Delay(3);
+        delay.loop();
+        flag = true;
     }
 
     @Override
@@ -52,11 +53,18 @@ public class Conveyor extends GameObject{
 
     @Override
     public void paint(Graphics g) {
-        g.drawImage(type.img, painter().left(), painter().top(), null);
+        if(flag){
+            g.drawImage(type.imgs[0], painter().left(), painter().top(), null);
+        }else {
+            g.drawImage(type.imgs[1], painter().left(), painter().top(), null);
+        }
+
     }
 
     @Override
     public void update() {
-
+        if (delay.count()){
+            flag = !flag;
+        }
     }
 }
