@@ -52,13 +52,12 @@ public class RankScene extends Scene {
 
     }
 
-    public RankScene(ArrayList<RankResult> rankResults) {
-        this.rankResults = rankResults;
+    public RankScene(int currentRankPage) {
+        this.currentRankPage = currentRankPage;
     }
 
     @Override
     public void sceneBegin() {
-        currentRankPage = 0;
         System.out.println(currentRankPage);
         allRank = new LinkedList<ArrayList<RankResult>>();
         rankResults = new ArrayList<RankResult>();
@@ -76,7 +75,7 @@ public class RankScene extends Scene {
             }
         }
         allRank.add(rankResults);
-        //SpeedRun
+        //SpeedRun(1)
         rankResults1 = new ArrayList<RankResult>();
         try {
             ranking = new Ranking("speedrun.txt");
@@ -92,7 +91,7 @@ public class RankScene extends Scene {
             }
         }
         allRank.add(rankResults1);
-        //Parkour
+        //Parkour(2)
         rankResults2 = new ArrayList<RankResult>();
         try {
             ranking = new Ranking("parkour.txt");
@@ -104,11 +103,11 @@ public class RankScene extends Scene {
         if (arr.size() > 0) {
             //把檔案內容轉成arraylist
             for (int i = 0; i < arr.size() - 1; i = i + 2) {
-                rankResults1.add(new RankResult(arr.get(i), Integer.parseInt(arr.get(i + 1))));
+                rankResults2.add(new RankResult(arr.get(i), Integer.parseInt(arr.get(i + 1))));
             }
         }
         allRank.add(rankResults2);
-        //CountDown
+        //CountDown(3)
         rankResults3 = new ArrayList<RankResult>();
         try {
             ranking = new Ranking("countdown.txt");
@@ -120,7 +119,7 @@ public class RankScene extends Scene {
         if (arr.size() > 0) {
             //把檔案內容轉成arraylist
             for (int i = 0; i < arr.size() - 1; i = i + 2) {
-                rankResults1.add(new RankResult(arr.get(i), Integer.parseInt(arr.get(i + 1))));
+                rankResults3.add(new RankResult(arr.get(i), Integer.parseInt(arr.get(i + 1))));
             }
         }
         allRank.add(rankResults3);

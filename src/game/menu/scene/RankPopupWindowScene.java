@@ -26,19 +26,22 @@ public class RankPopupWindowScene extends PopupWindow {
     private boolean isPassScore;
     private boolean isWrote;
     private String playerName;
+    private int currentRankPage;
 
     public void setPlayerName(String playerName) {
         this.playerName = playerName;
     }
 
-    public boolean setPlayer(RankResult result, String filePath) {
+    public boolean setPlayer(RankResult result, String filePath,int currentRankPage) {
         this.player = result;
         this.filePath = filePath;
+        this.currentRankPage=currentRankPage;
         if (pass(player)) {
             isPassScore = true;
         } else {
             isPassScore = false;
         }
+
         return isPassScore;
     }
 
@@ -100,10 +103,9 @@ public class RankPopupWindowScene extends PopupWindow {
             player.setName(playerName);
             if (editText.getEditText() != null) {
                 write();
-                SceneController.getInstance().change(new RankScene(rankResults));
+                SceneController.getInstance().change(new RankScene(currentRankPage));
             }
         });
-
 
     }
 

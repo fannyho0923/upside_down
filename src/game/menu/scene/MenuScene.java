@@ -16,14 +16,15 @@ import game.scene.Scene;
 import game.utils.CommandSolver;
 import game.utils.CommandSolver.MouseListener;
 import game.utils.Global;
-
+/**
+ * @author Fanny
+ */
 
 public class MenuScene extends Scene {
     private Label label;
     private Button button1;
     private Button rankButton;
     private Image image;
-    private Image star;
     private boolean isPlayed1;
     private boolean isPlayed3;
     private ArrayList<StarObj> starObj;
@@ -40,7 +41,6 @@ public class MenuScene extends Scene {
         astronaut = ImageController.getInstance().tryGet("/img/background/astronaut.png");
         ast1 = ImageController.getInstance().tryGet("/img/background/ast1.png");
         ast2 = ImageController.getInstance().tryGet("/img/background/ast2.png");
-        star = ImageController.getInstance().tryGet("/img/starButton.png");
         label = new Label(380, 100, new Style.StyleRect(200, 100, new BackgroundType.BackgroundNull())
                 .setTextFont(new Font("TimesRoman", Font.ITALIC, 100))
                 .setText("Upside Down")

@@ -32,6 +32,7 @@ public class Global {
     public static final int VK_A = 4;
     public static final int VK_R = 9;
     public static final int VK_ESCAPE = 20;
+    public static final int VK_SHIFT = 99;
 
     //人物大小單位
     public static int UNIT_X32=32;

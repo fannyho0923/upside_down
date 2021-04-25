@@ -60,6 +60,7 @@ public abstract class GameScene extends Scene {
     private String filePath;
     private boolean isPlayed;
     private String playerName;
+    private int currentRankPage;
 
 
     public GameScene( int level, String mapBmpPath, Actor actor, GameObject background,
@@ -191,6 +192,14 @@ public abstract class GameScene extends Scene {
                                 rankPop.sceneBegin();
                                 rankPop.show();
                             }
+                            break;
+                        case Global.VK_SHIFT:
+                            if (AudioResourceController.getInstance().getMute()==false) {
+                                AudioResourceController.getInstance().setMute(true);
+                            } else {
+                                AudioResourceController.getInstance().setMute(false);
+                            }
+                            System.out.println(AudioResourceController.getInstance().getMute());
                             break;
                     }
                 }
@@ -411,8 +420,20 @@ public abstract class GameScene extends Scene {
                 gameTime = TimeUnit.NANOSECONDS.toMillis(gameTime);
                 int gtInt = (int) gameTime;
                 result = new RankResult(playerName, gtInt);
-                if (!rankPop.setPlayer(result, filePath)) {
-                    SceneController.getInstance().change(new RankScene());
+                if(filePath.equals("basic.txt")){
+                    this.currentRankPage=0;
+                }
+                if(filePath.equals("speedrun.txt")){
+                    this.currentRankPage=1;
+                }
+                if(filePath.equals("parkour.txt")){
+                    this.currentRankPage=2;
+                }
+                if(filePath.equals("countdown.txt")){
+                    this.currentRankPage=3;
+                }
+                if (!rankPop.setPlayer(result, filePath,currentRankPage)) {
+                    SceneController.getInstance().change(new RankScene(currentRankPage));
                 } else {
                     rankPop.show();
                     rankShowed = false;

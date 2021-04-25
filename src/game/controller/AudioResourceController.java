@@ -17,11 +17,16 @@ import javax.sound.sampled.LineUnavailableException;
 import javax.sound.sampled.UnsupportedAudioFileException;
 
 /**
- * @author LSYu
+ * @author Fanny
  */
 public class AudioResourceController {
 
-    private static final boolean isMute = false;
+    public void setMute(boolean isMute){
+        this.isMute=isMute;
+    }public boolean getMute(){
+        return isMute;
+    }
+    public  boolean isMute = true;
     private static AudioResourceController irc;
     private Map<String, ClipThread> soundMap;
     private final ClipThread.FinishHandler finishHandler = (String fileName, Clip clip) -> {
