@@ -266,9 +266,9 @@ public abstract class GameScene extends Scene {
         for (int i = 1; i < savePoint.size();i++){
             if(camera.isCollision(savePoint.get(i))){
                 savePoint.get(i).savePointPaint(g,i == saveNum);
-
             }
         }
+
         brokenRoads.forEach(a -> {
             if (camera.isCollision(a)&& a.isExist()) {
                 a.paint(g);
@@ -278,6 +278,7 @@ public abstract class GameScene extends Scene {
         if (passPoint.size()>0) {
             passPoint.get(0).paint(g);
         }
+
         if (camera.isCollision(this.actor)) {
             this.actor.paint(g);
         }
@@ -287,11 +288,9 @@ public abstract class GameScene extends Scene {
             spikesDown.paint(g);
         }
 
-        if (actor.getState() == Actor.State.DEAD) {
-
-        }
         camera.paint(g);
         camera.end(g);
+
         midPaint(g);
         if (testPop.isShow()) {
             testPop.paint(g);
@@ -308,6 +307,7 @@ public abstract class GameScene extends Scene {
     public void update() {
         if ((!testPop.isShow())&&(!rankPop.isShow())) {
             actor.update();
+
             if(actor.velocity().x() != 0 && delay.count()){
                 if(!actor.velocity().isReverse()){
                     if(actor.velocity().x() > 0){   // 正面向右
@@ -325,12 +325,12 @@ public abstract class GameScene extends Scene {
             }
 
             backEffect.update();
+
             if (!backEffect.isExist()){
                 backEffect.setXY(camera.painter().left()+Global.random(0,Global.WINDOW_WIDTH),camera.painter().top()+Global.random(0,Global.WINDOW_HEIGHT));
                 backEffect.setExist(true);
             }
             savePoint.forEach(a -> a.update());
-
             if(actor.getState() == Actor.State.DEAD){
                 brokenRoads.forEach(a -> a.setExist(true));
             }
@@ -405,7 +405,7 @@ public abstract class GameScene extends Scene {
                     return;
                 }
                 if(actor.getState()== Actor.State.REBORN){
-                    tracker.setY(actor.painter().bottom() - 200); //
+                    tracker.setY(actor.painter().bottom()); //
                 }
                 if (spikesUp.isCollision(actor)) {
                     spikesUp.collisionEffect(actor);
