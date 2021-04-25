@@ -41,7 +41,6 @@ public class RankPopupWindowScene extends PopupWindow {
         } else {
             isPassScore = false;
         }
-
         return isPassScore;
     }
 

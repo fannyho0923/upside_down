@@ -244,7 +244,6 @@ public abstract class GameScene extends Scene {
         @Override
         public void paint (Graphics g){
             camera.start(g);
-
             backgrounds.forEach(a -> {
                 if (camera.isCollision(a)) {
                     a.paint(g);
@@ -413,7 +412,7 @@ public abstract class GameScene extends Scene {
                     spikesDown.setXY(camera.painter().left(), camera.painter().bottom() - 32);
                 }
             }
-            if (rankShowed) {
+            if (rankShowed||Global.fanny) {
                 rankPop.sceneBegin();
                 rankPop.update();
                 gameTime = System.nanoTime() - startTime;
@@ -437,6 +436,7 @@ public abstract class GameScene extends Scene {
                 } else {
                     rankPop.show();
                     rankShowed = false;
+                    Global.fanny=false;
                 }
                 isPlayed = true;
             }
@@ -448,6 +448,37 @@ public abstract class GameScene extends Scene {
         public Camera getCamera () {
             return this.camera;
         }
+
+
+        public void fanny(boolean isFanny){
+        if(isFanny){
+            rankPop.sceneBegin();
+            rankPop.update();
+            gameTime = System.nanoTime() - startTime;
+            gameTime = TimeUnit.NANOSECONDS.toMillis(gameTime);
+            int gtInt = (int) gameTime;
+            result = new RankResult(playerName, gtInt);
+            if(filePath.equals("basic.txt")){
+                this.currentRankPage=0;
+            }
+            if(filePath.equals("speedrun.txt")){
+                this.currentRankPage=1;
+            }
+            if(filePath.equals("parkour.txt")){
+                this.currentRankPage=2;
+            }
+            if(filePath.equals("countdown.txt")){
+                this.currentRankPage=3;
+            }
+            if (!rankPop.setPlayer(result, filePath,currentRankPage)) {
+                SceneController.getInstance().change(new RankScene(currentRankPage));
+            } else {
+                rankPop.show();
+                rankShowed = false;
+                Global.fanny=false;
+            }
+            isPlayed = true;
+        }}
 
         public void mapInit () {
             try {
