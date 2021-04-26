@@ -135,7 +135,7 @@ public class RankPopupWindowScene extends PopupWindow {
         if (costTime > 0) {
             scoreLabel.paint(g);
             scoreLabelDescribe = new Label(this.getWidth() / 2 - 150, 200, new Style.StyleRect(300, 100, new BackgroundType.BackgroundNull())
-                    .setText("" + costTime).setHaveBorder(false).setBorderColor(Color.black).setTextFont(new Font("TimesRoman", Font.BOLD, 30)));
+                    .setText("" + costTime / 1000 / 60 + ":" + costTime / 1000 % 60).setHaveBorder(false).setBorderColor(Color.black).setTextFont(new Font("TimesRoman", Font.BOLD, 30)));
             scoreLabelDescribe.paint(g);
         }
     }
