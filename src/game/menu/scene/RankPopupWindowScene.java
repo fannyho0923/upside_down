@@ -135,8 +135,8 @@ public class RankPopupWindowScene extends PopupWindow {
         if (costTime > 0) {
             scoreLabel.paint(g);
             scoreLabelDescribe = new Label(this.getWidth() / 2 - 150, 200, new Style.StyleRect(300, 100, new BackgroundType.BackgroundNull())
-                    .setText(""+costTime).setHaveBorder(false).setBorderColor(Color.black).setTextFont(new Font("TimesRoman", Font.BOLD, 30)));
-scoreLabelDescribe.paint(g);
+                    .setText("" + costTime).setHaveBorder(false).setBorderColor(Color.black).setTextFont(new Font("TimesRoman", Font.BOLD, 30)));
+            scoreLabelDescribe.paint(g);
         }
     }
 
@@ -222,9 +222,8 @@ scoreLabelDescribe.paint(g);
             }
         }
 
-        //如果目前榜上資料超過5筆，要進行比對，有進榜單資格的話，就add，排序後取前10輸出
+        //如果目前榜上資料超過5筆，要進行比對，有進榜單資格的話，就add，排序後取前5輸出
         //不超過9筆就直接加入榜單後，排序輸出
-        //fanny
         if (rankResults.size() >= 5) {
             if (!(rankResults.get(rankResults.size() - 1).compareTo(player))) {
                 return false;//資料已有五筆且輸給最後一名->未挑戰成功

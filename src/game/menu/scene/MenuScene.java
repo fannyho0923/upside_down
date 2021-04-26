@@ -23,8 +23,6 @@ import game.utils.Global;
  */
 
 public class MenuScene extends Scene {
-    private Label title1;
-    private Label title2;
     private Button button1;
     private Button rankButton;
     private Image image;
@@ -34,7 +32,7 @@ public class MenuScene extends Scene {
     private Image astronaut;
     private Image ast1;
     private Image ast2;
-    private Delay delay;
+    private Image titleImg1;
 
 
     @Override
@@ -46,21 +44,7 @@ public class MenuScene extends Scene {
         astronaut = ImageController.getInstance().tryGet("/img/background/astronaut.png");
         ast1 = ImageController.getInstance().tryGet("/img/background/ast1.png");
         ast2 = ImageController.getInstance().tryGet("/img/background/ast2.png");
-        title1 = new Label(380, 100, new Style.StyleRect(200, 100, new BackgroundType.BackgroundNull())
-                .setTextFont(new Font("TimesRoman", Font.ITALIC, 100))
-                .setText("Upside Down")
-                .setTextColor(new Color(248, 238, 62, 255))
-        );
-        title2 = new Label(380, 100, new Style.StyleRect(200, 100, new BackgroundType.BackgroundNull())
-                .setTextFont(new Font("TimesRoman", Font.ITALIC, 100))
-                .setText("Upside Down")
-                .setTextColor(new Color(248, 62, 99, 131))
-        );
-//        title2 = new Label(380, 100, new Style.StyleRect(200, 100, new BackgroundType.BackgroundNull())
-//                .setTextFont(new Font("TimesRoman", Font.ITALIC, 100))
-//                .setText("Upside Down")
-//                .setTextColor(new Color(248, 238, 62, 190))
-//        );
+        titleImg1 = ImageController.getInstance().tryGet("/img/background/ud1.png");
         button1 = new Button(Global.WINDOW_WIDTH / 2 - 100, 400);
         rankButton = new Button(Global.WINDOW_WIDTH / 2 - 100, 480, Theme.get(2));
 
@@ -71,9 +55,6 @@ public class MenuScene extends Scene {
             SceneController.getInstance().change(new RankScene());
         });
         starObj = new ArrayList<>();
-        delay = new Delay(30);
-        delay.play();
-        delay.loop();
     }
 
     @Override
@@ -92,19 +73,14 @@ public class MenuScene extends Scene {
         if (rankButton.getIsHover()) {
             g.drawImage(ast2, rankButton.right() + 20, rankButton.getY(), null);
         }
-        if (delay.count()) {
-            title1.paint(g);
-        }
-        if (!delay.count()) {
-            title2.paint(g);
-        }
+        g.drawImage(titleImg1, Global.WINDOW_WIDTH / 2 - 307, 100, null);
         for (int i = 0; i < starObj.size(); i++) {
             starObj.get(i).paint(g);
         }
         button1.paint(g);
         rankButton.paint(g);
         if (button1.getIsHover() || rankButton.getIsHover()) {
-            g.drawImage(astronaut, Global.WINDOW_WIDTH / 2 + 120, 175, null);
+            g.drawImage(astronaut, Global.WINDOW_WIDTH / 2 + 100, 178, null);
         }
     }
 

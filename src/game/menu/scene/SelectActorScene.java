@@ -51,7 +51,7 @@ public class SelectActorScene extends Scene {
         actor4 = ImageController.getInstance().tryGet("/img/actor/actorFront4.png");
         actor5 = ImageController.getInstance().tryGet("/img/actor/actorFront5.png");
         actor6 = ImageController.getInstance().tryGet("/img/actor/actorFront6.png");
-        Style style = new Style.StyleRect(60, 114, false, new BackgroundType.BackgroundColor(Color.white))
+        Style style = new Style.StyleRect(62, 114, false, new BackgroundType.BackgroundColor(Color.white))
                 .setTextFont(new Font("TimesRoman", Font.BOLD, 30))
                 .setHaveBorder(false)
                 .setBorderColor(new Color(162, 176, 198))
@@ -77,10 +77,7 @@ public class SelectActorScene extends Scene {
         start.setClickedActionPerformed((int x, int y) -> {
             for (int i = 1; i <= arrayList.size(); i++) {
                 if (arrayList.get(i - 1).getIsFocus()) {
-
                     SceneController.getInstance().change(new ModeScene(i));
-//                    SceneController.getInstance().change(new Parkour(i));
-
                     return;
                 }
             }

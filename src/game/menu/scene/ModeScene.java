@@ -34,17 +34,17 @@ public class ModeScene extends Scene {
                 .setBorderColor(new Color(162, 176, 198))
                 .setBorderThickness(5);
 
-        b1 = new Button(90 , 30, Theme.get(4));
-        b2 = new Button(380 , 30, Theme.get(5));
-        b3 = new Button(670 , 30, Theme.get(6));
-        b4 = new Button(235 , 280, Theme.get(7));
-        b5 = new Button(525 , 280, Theme.get(8));
+        b1 = new Button(235 , 30, Theme.get(7));
+        b2 = new Button(525 , 30, Theme.get(8));
+        b3 = new Button(90 , 280, Theme.get(4));
+        b4 = new Button(380 , 280, Theme.get(5));
+        b5 = new Button(670 , 280, Theme.get(6));
         back = new Button(800, 650 - 105, Theme.get(14));
         b1.setClickedActionPerformed((int x, int y) -> SceneController.getInstance().change(new BasicScene(actorNum)));
         b2.setClickedActionPerformed((int x, int y) -> SceneController.getInstance().change(new SpeedRun(actorNum)));
-        b3.setClickedActionPerformed((int x, int y) -> SceneController.getInstance().change(new Parkour(actorNum)));
-        b4.setClickedActionPerformed((int x, int y) -> SceneController.getInstance().change(new CountDown(actorNum)));
-        b5.setClickedActionPerformed((int x, int y) -> SceneController.getInstance().change(new BasicScene(actorNum)));
+        b3.setClickedActionPerformed((int x, int y) -> SceneController.getInstance().change(new SpeedRun(actorNum)));
+        b4.setClickedActionPerformed((int x, int y) -> SceneController.getInstance().change(new Parkour(actorNum)));
+        b5.setClickedActionPerformed((int x, int y) -> SceneController.getInstance().change(new CountDown(actorNum)));
         back.setClickedActionPerformed((int x, int y) -> SceneController.getInstance().change((new SelectActorScene())));
 
     }

@@ -23,7 +23,7 @@ public class Main {// 資料刷新時間
         initTheme();
         final JFrame jFrame = new JFrame();
         final SceneController sceneController = SceneController.getInstance();
-        sceneController.change(new SelectActorScene());
+        sceneController.change(new MenuScene());
         final GameKernel gameKernel = new GameKernel.Builder()
                 .input(new CommandSolver.BuildStream()
                         .mouseTrack().forceRelease().subscribe(sceneController)
@@ -161,95 +161,95 @@ public class Main {// 資料刷新時間
         ));
 
         //4
-        //mode1
+        //mode4
         Theme.add(new Theme(new Style.StyleOval(200, 200, true, new BackgroundType.BackgroundImage(ImageController.getInstance().tryGet("/img/mode/mode_1.png")))
                 .setTextColor(new Color(128, 128, 128))
                 .setHaveBorder(true)
                 .setBorderColor(new Color(147, 147, 138))
                 .setBorderThickness(5)
                 .setTextFont(new Font("", Font.TYPE1_FONT, 30))
-                .setText("Practice"),
+                .setText("SpeedRun"),
                 new Style.StyleOval(200, 200, true, new BackgroundType.BackgroundImage(ImageController.getInstance().tryGet("/img/mode/mode_1.png")))
                         .setTextColor(new Color(30, 70, 118))
                         .setHaveBorder(true)
                         .setBorderColor(new Color(30, 70, 118))
                         .setBorderThickness(5)
                         .setTextFont(new Font("", Font.TYPE1_FONT, 28))
-                        .setText("Practice"),
+                        .setText("SpeedRun"),
                 new Style.StyleOval(200, 200, new BackgroundType.BackgroundImage(ImageController.getInstance().tryGet("/img/mode/mode_1.png")))
                         .setHaveBorder(true)
                         .setBorderColor(new Color(147, 147, 138))
                         .setBorderThickness(5)
                         .setTextFont(new Font("", Font.TYPE1_FONT, 30))
-                        .setText("Practice")));
+                        .setText("SpeedRun")));
         //5
-        //mode2
+        //mode4
         Theme.add(new Theme(new Style.StyleOval(200, 200, true, new BackgroundType.BackgroundImage(ImageController.getInstance().tryGet("/img/mode/mode_2.png")))
                 .setTextColor(new Color(128, 128, 128))
                 .setHaveBorder(true)
                 .setBorderColor(new Color(147, 147, 138))
                 .setBorderThickness(5)
                 .setTextFont(new Font("", Font.TYPE1_FONT, 30))
-                .setText("SpeedRun"),
+                .setText("Parkour"),
                 new Style.StyleOval(200, 200, true, new BackgroundType.BackgroundImage(ImageController.getInstance().tryGet("/img/mode/mode_2.png")))
                         .setTextColor(new Color(30, 70, 118))
                         .setHaveBorder(true)
                         .setBorderColor(new Color(30, 70, 118))
                         .setBorderThickness(5)
                         .setTextFont(new Font("", Font.TYPE1_FONT, 28))
-                        .setText("SpeedRun"),
+                        .setText("Parkour"),
                 new Style.StyleOval(200, 200, new BackgroundType.BackgroundImage(ImageController.getInstance().tryGet("/img/mode/mode_2.png")))
                         .setHaveBorder(true)
                         .setBorderColor(new Color(147, 147, 138))
                         .setBorderThickness(5)
                         .setTextFont(new Font("", Font.TYPE1_FONT, 30))
-                        .setText("SpeedRun")));
+                        .setText("Parkour")));
         //6
-        //mode3
+        //mode5
         Theme.add(new Theme(new Style.StyleOval(200, 200, true, new BackgroundType.BackgroundImage(ImageController.getInstance().tryGet("/img/mode/mode_3.png")))
                 .setTextColor(new Color(128, 128, 128))
                 .setHaveBorder(true)
                 .setBorderColor(new Color(147, 147, 138))
                 .setBorderThickness(5)
                 .setTextFont(new Font("", Font.TYPE1_FONT, 30))
-                .setText("Parkour"),
+                .setText("Stamina"),
                 new Style.StyleOval(200, 200, true, new BackgroundType.BackgroundImage(ImageController.getInstance().tryGet("/img/mode/mode_3.png")))
                         .setTextColor(new Color(30, 70, 118))
                         .setHaveBorder(true)
                         .setBorderColor(new Color(30, 70, 118))
                         .setBorderThickness(5)
                         .setTextFont(new Font("", Font.TYPE1_FONT, 28))
-                        .setText("Parkour"),
+                        .setText("Stamina"),
                 new Style.StyleOval(200, 200, new BackgroundType.BackgroundImage(ImageController.getInstance().tryGet("/img/mode/mode_3.png")))
                         .setHaveBorder(true)
                         .setBorderColor(Color.WHITE)
                         .setBorderThickness(5)
                         .setTextFont(new Font("", Font.TYPE1_FONT, 30))
-                        .setText("Parkour")));
+                        .setText("Stamina")));
         //7
-        //mode4
+        //mode1
         Theme.add(new Theme(new Style.StyleOval(200, 200, true, new BackgroundType.BackgroundImage(ImageController.getInstance().tryGet("/img/mode/mode_4.png")))
                 .setTextColor(new Color(128, 128, 128))
                 .setHaveBorder(true)
                 .setBorderColor(new Color(147, 147, 138))
                 .setBorderThickness(5)
                 .setTextFont(new Font("", Font.TYPE1_FONT, 30))
-                .setText("Stamina"),
+                .setText("Practice"),
                 new Style.StyleOval(200, 200, true, new BackgroundType.BackgroundImage(ImageController.getInstance().tryGet("/img/mode/mode_4.png")))
                         .setTextColor(new Color(30, 70, 118))
                         .setHaveBorder(true)
                         .setBorderColor(new Color(30, 70, 118))
                         .setBorderThickness(5)
                         .setTextFont(new Font("", Font.TYPE1_FONT, 28))
-                        .setText("Stamina"),
+                        .setText("Practice"),
                 new Style.StyleOval(200, 200, new BackgroundType.BackgroundImage(ImageController.getInstance().tryGet("/img/mode/mode_4.png")))
                         .setHaveBorder(true)
                         .setBorderColor(Color.WHITE)
                         .setBorderThickness(5)
                         .setTextFont(new Font("", Font.TYPE1_FONT, 30))
-                        .setText("Stamina")));
+                        .setText("Practice")));
         //8
-        //mode5
+        //mode2
         Theme.add(new Theme(new Style.StyleOval(200, 200, true, new BackgroundType.BackgroundImage(ImageController.getInstance().tryGet("/img/mode/mode_5.png")))
                 .setTextColor(new Color(128, 128, 128))
                 .setHaveBorder(true)
