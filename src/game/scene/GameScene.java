@@ -23,10 +23,7 @@ import java.util.concurrent.TimeUnit;
 
 
 public abstract class GameScene extends Scene {
-
-
     private int level;
-
     private GameObject background;
     private Actor actor;
     private ArrayList<GameObject> effect;
@@ -195,11 +192,6 @@ public abstract class GameScene extends Scene {
                                     rankPop.show();
                                 }
                                 break;
-                            case Global.VK_SHIFT:
-                                AudioResourceController.getInstance().setMute(
-                                        !AudioResourceController.getInstance().getMute());
-                                System.out.println(AudioResourceController.getInstance().getMute());
-                                break;
                         }
                     }
 
@@ -218,14 +210,51 @@ public abstract class GameScene extends Scene {
                     @Override
                     public void keyTyped(char c, long trigTime) {
                         if (rankPop.isShow()) {
-                            rankPop.getEditText().keyTyped(c);
-                            playerName = rankPop.getEditText().getEditText();
-                            rankPop.setPlayerName(playerName);
+//                            rankPop.getEditText().keyTyped(c);
+//                            playerName = rankPop.getEditText().getEditText();
+//                            rankPop.setPlayerName(playerName);
                         }
-
                     }
                 };
     }
+
+//        public void init ( int level, String mapBmpPath, Actor actor, GameObject background,
+//        int cameraWidth, int cameraHeight, int cameraVelocityX, int cameraVelocityY,
+//        boolean actorTrigCamera, String filePath){
+//            this.level = level;
+//
+//            backgrounds = new ArrayList<>();
+//            gameObjects = new ArrayList<>();
+//            brokenRoads = new ArrayList<>();
+//            savePoint = new ArrayList<>();
+//            effect = new ArrayList<>();
+//
+//            passPoint = new ArrayList<>();
+//            this.mapBmpPath = mapBmpPath;
+//            this.mapTxtPath = "/map/genMap.txt";
+//            mapInit();
+//            delay = new Delay(10);
+//            delay.loop();
+//
+//            this.actor = actor;
+//            frameX_count = savePoint.get(0).collider().left() / cameraWidth;
+//            frameY_count = savePoint.get(0).collider().top() / cameraHeight;
+//            actor.setXY(savePoint.get(0).painter().centerX(), savePoint.get(0).painter().centerY());
+//            actor.setReborn(actor.painter().left(), actor.painter().top(), false);
+//            saveNum = 0;
+//
+//            this.background = background;
+//            int cameraStartX = cameraWidth * frameX_count;
+//            int cameraStartY = cameraHeight * frameY_count;
+//
+//            this.tracker = new Tracker(cameraStartX + (cameraWidth - Global.UNIT) / 2,
+//                    cameraStartY + (cameraHeight - Global.UNIT) / 2, new Velocity(cameraVelocityX, cameraVelocityY, false));
+//            this.actorTrigCamera = actorTrigCamera;
+//            camera = new Camera.Builder(cameraWidth, cameraHeight)
+//                    .setChaseObj(tracker)
+//                    .gen();
+//        }
+
 
     @Override
     public CommandSolver.MouseListener mouseListener() {
@@ -238,7 +267,6 @@ public abstract class GameScene extends Scene {
             }
         };
     }
-
 
     @Override
     public void paint(Graphics g) {
@@ -282,7 +310,6 @@ public abstract class GameScene extends Scene {
             spikesUp.paint(g);
             spikesDown.paint(g);
         }
-
         camera.paint(g);
         camera.end(g);
 
@@ -345,6 +372,22 @@ public abstract class GameScene extends Scene {
                     saveNum = i;
                 }
             }
+//        =======
+//                if (camera.isCollision(this.actor)) {
+//                    this.actor.paint(g);
+//                }
+//                if (!actorTrigCamera) {
+//                    spikesUp.paint(g);
+//                    spikesDown.paint(g);
+//                }
+//                camera.paint(g);
+//                camera.end(g);
+//
+//                midPaint(g);
+//                if (stopPop.isShow()) {
+//                    stopPop.paint(g);
+//        >>>>>>>526d 424e b50ed4412f38906585e4f06b52df39c8
+//                }
             for (int i = 0; i < gameObjects.size(); i++) {
                 GameObject obj = gameObjects.get(i);
                 if (actor.isCollision(obj)) {
@@ -400,6 +443,13 @@ public abstract class GameScene extends Scene {
                 }
                 if (actor.getState() == Actor.State.REBORN) {
                     tracker.setY(actor.painter().bottom()); //
+                    if (passPoint.size() > 0) {
+                        passPoint.get(0).update();
+                        if (actor.isCollision(passPoint.get(0))) {
+                            passPoint.get(0).collisionEffect(actor); //for音效
+                            rankShowed = true;
+                        }
+                    }
                 }
                 if (spikesUp.isCollision(actor)) {
                     spikesUp.collisionEffect(actor);

@@ -6,7 +6,7 @@ import game.utils.Global;
 import java.awt.*;
 
 public class Tile extends GameObject{
-    public static enum Type{
+    public enum Type{
         BROWN, GRAY, COLOR;
     }
     private Type type;

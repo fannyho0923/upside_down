@@ -19,14 +19,10 @@ public class SavePoint extends GameObject{
     private int count;
 
     public SavePoint(int top, int left) {
-        super(top, left, UNIT_X,UNIT_Y);
+        super(top, left, 32,64);
         save = ImageController.getInstance().tryGet("/img/gameObj/savePoint/savePoint1.png");
         toSave = ImageController.getInstance().tryGet("/img/gameObj/savePoint/savePoint2.png");
-
-        painter().offset(-48,-64);
-        collider().offsetY(-32);
-        collider().offsetWidth(-96);
-        collider().offsetHeight(-64);
+        offsetY(-32);
         delay = new Delay(5);
         delay.loop();
         count = 0;
@@ -36,10 +32,10 @@ public class SavePoint extends GameObject{
     public void savePointPaint(Graphics g, boolean get){
         if(get){
             g.drawImage(save, painter().left(),painter().top(), painter().right(),painter().bottom(),
-                    count*UNIT_X,0,count*UNIT_X+UNIT_X,UNIT_Y,null);
+                    count*UNIT_X+48,32,count*UNIT_X+UNIT_X-48,UNIT_Y-32,null);
         }else {
             g.drawImage(toSave,painter().left(),painter().top(), painter().right(),painter().bottom(),
-                    count*UNIT_X,0,count*UNIT_X+UNIT_X,UNIT_Y,null);
+                    count*UNIT_X+48,32,count*UNIT_X+UNIT_X-48,UNIT_Y-32,null);
         }
     }
 
