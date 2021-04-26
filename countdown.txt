@@ -1,9 +1,1 @@
-<<<<<<< HEAD
-<<<<<<< HEAD
-fanny,40929,,42964,fanny,76111,
-=======
 fanny,3320,fanny,36899,fanny,49059,anne,50605,
->>>>>>> 55b5c00b8f33e64b21c2f59bedbc3d393abf8bcc
-=======
-fanny,3320,fanny,36899,fanny,49059,,81264,
->>>>>>> 526d424eb50ed4412f38906585e4f06b52df39c8

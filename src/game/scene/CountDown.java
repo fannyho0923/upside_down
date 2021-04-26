@@ -17,7 +17,7 @@ public class CountDown extends GameScene {
     private Delay shootDelay;
     private int timeCount;
     private int shootPosition;
-    private static int timeMax = 30;
+    private static int timeMax = 3;
     private int rebornTime;
     private int rebornShoot;
     private Image[] passBlood;
