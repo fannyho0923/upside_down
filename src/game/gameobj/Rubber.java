@@ -62,8 +62,6 @@ public class Rubber extends GameObject{
             actor.velocity().stopY();
             actor.velocity().gravityReverse();
         }else if(type.dir == Direction.vertical){
-            // 幫忙翻一次 / 要怎麼分辨是不是同一個?
-            // actor.velocity().gravityReverse();
             actor.setCanReverse(true);
         }
         isTouch=true;

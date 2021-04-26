@@ -59,11 +59,7 @@ public class CountDown extends GameScene {
 
 
         pass = ImageController.getInstance().tryGet("/img/gameObj/pass/pass.png");
-        passBlood = new Image[4];
-        passBlood[0] = ImageController.getInstance().tryGet("/img/gameObj/pass/blood1.png");
-        passBlood[1] = ImageController.getInstance().tryGet("/img/gameObj/pass/blood2.png");
-        passBlood[2] = ImageController.getInstance().tryGet("/img/gameObj/pass/blood3.png");
-        passBlood[3] = ImageController.getInstance().tryGet("/img/gameObj/pass/blood4.png");
+
         passDelay = new Delay(5);
         passCount = 0;
     }
@@ -74,20 +70,6 @@ public class CountDown extends GameScene {
         numFigs[0].paint(g);
         numFigs[1].paint(g);
 
-//        if(timeCount == -1){
-//            // level complete
-//
-//            if(passDelay.count()){
-//                passCount++;
-//                if(passCount == 3){
-//                    passDelay.pause();
-//                }
-//            }
-//            g.drawImage(passBlood[passCount],160,0,null);
-//            g.drawImage(pass,160,80,null );
-//            // 加音效
-//        }
-        //test.paint(g);
     }
 
     @Override
@@ -150,9 +132,6 @@ public class CountDown extends GameScene {
                     rebornTime = timeCount;
                     rebornShoot = shootPosition;
                 }
-//                if (timeCount == -1) { // win
-////                passDelay.loop();
-////                secDelay.pause();
             }
             if (timeCount <= -1) { // win
                 Global.fanny = true;

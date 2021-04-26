@@ -74,3 +74,11 @@ cmoney_I,-65536,D:\newMap\img\Cmoney\I.png,1,1
 Love,-3355648,D:\newMap\img\Cmoney\L.png,1,1
 Cmoney_C,-16711885,D:\newMap\img\Cmoney\C.png,1,1
 Money,-10092391,D:\newMap\img\Cmoney\Money.png,1,1
+dir,-16750849,D:\newMap\img\guide\dir.png,1,1
+Space,-3407821,D:\newMap\img\guide\space.png,1,1
+save,-13434676,D:\newMap\img\guide\save.png,1,1
+ESC,-3407668,D:\newMap\img\guide\ESC.png,1,1
+mons,-6750055,D:\newMap\img\guide\mons.png,1,1
+conv,-6724096,D:\newMap\img\guide\conv.png,1,1
+brokenG,-10092544,C:\Users\Yihan\Desktop\iloveimg-resized\broken.png,1,1
+passG,-16711783,D:\newMap\img\guide\pass.png,1,1

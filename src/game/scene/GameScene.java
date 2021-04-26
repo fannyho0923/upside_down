@@ -23,8 +23,6 @@ import java.util.concurrent.TimeUnit;
 
 
 public abstract class GameScene extends Scene {
-
-
     private int level;
 
     private GameObject background;
@@ -92,7 +90,6 @@ public abstract class GameScene extends Scene {
             gameObjects = new ArrayList<>();
             brokenRoads = new ArrayList<>();
             savePoint = new ArrayList<>();
-
             effect = new ArrayList<>();
 
             passPoint = new ArrayList<>();
@@ -124,9 +121,6 @@ public abstract class GameScene extends Scene {
         public Actor getActor () {
             return actor;
         }
-        public ArrayList<GameObject> getGameObjects () {
-            return gameObjects;
-        }
 
         @Override
         public void sceneBegin () {
@@ -145,7 +139,6 @@ public abstract class GameScene extends Scene {
             backEffect = new BackEffect(10, 200);
             //遊戲開始計時
             startTime = System.nanoTime();
-            //System.out.println(startTime);
         }
 
         @Override
@@ -223,7 +216,6 @@ public abstract class GameScene extends Scene {
                         playerName = rankPop.getEditText().getEditText();
                         rankPop.setPlayerName(playerName);
                     }
-
                 }
             };
         }
@@ -237,7 +229,6 @@ public abstract class GameScene extends Scene {
                 if (rankPop.isShow()) {
                     rankPop.mouseListener().mouseTrig(e, state, trigTime);
                 }
-
             };
         }
 
@@ -274,16 +265,13 @@ public abstract class GameScene extends Scene {
             if (passPoint.size() > 0) {
                 passPoint.get(0).paint(g);
             }
-
             if (camera.isCollision(this.actor)) {
                 this.actor.paint(g);
             }
-
             if (!actorTrigCamera) {
                 spikesUp.paint(g);
                 spikesDown.paint(g);
             }
-
             camera.paint(g);
             camera.end(g);
 
@@ -362,6 +350,7 @@ public abstract class GameScene extends Scene {
                 }
 
                 if (passPoint.size() > 0) {
+                    passPoint.get(0).update();
                     if (actor.isCollision(passPoint.get(0))) {
                         passPoint.get(0).collisionEffect(actor); //for音效
                         rankShowed = true;
@@ -399,14 +388,23 @@ public abstract class GameScene extends Scene {
                         actor.setXY(camera.collider().left() - actor.painter().width() + 1, actor.painter().top());
                         return;
                     }
-                    if (actor.getState() == Actor.State.REBORN) {
-                        tracker.setY(actor.painter().bottom()); //
-                    }
                     if (spikesUp.isCollision(actor)) {
                         spikesUp.collisionEffect(actor);
                     }
                     if (spikesDown.isCollision(actor)) {
                         spikesDown.collisionEffect(actor);
+                    }
+
+                    if (actor.getState() == Actor.State.REBORN) {
+//                        if(saveNum == 0){
+//
+//                        }else {
+                            tracker.setY(actor.painter().bottom());
+                            System.out.println("reborn");
+                            System.out.println(tracker.painter().top());
+                            System.out.println(tracker.collider().top());
+//                        }
+
                     }
                     spikesUp.setXY(camera.painter().left(), camera.painter().top() - 5); // 為什麼會不貼邊??
                     spikesDown.setXY(camera.painter().left(), camera.painter().bottom() - 32);
