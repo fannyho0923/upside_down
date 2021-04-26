@@ -2,6 +2,8 @@ package game.menu.scene;
 
 import java.awt.*;
 import java.awt.event.MouseEvent;
+
+import game.controller.AudioResourceController;
 import game.controller.ImageController;
 import game.controller.SceneController;
 import game.menu.menu.*;
@@ -18,6 +20,12 @@ public class ModeScene extends Scene {
     private Button b4;
     private Button b5;
     private Button back;
+    private boolean isPlayed1;
+    private boolean isPlayed2;
+    private boolean isPlayed3;
+    private boolean isPlayed4;
+    private boolean isPlayed5;
+    private boolean isPlayedBack;
     private Image modeBackground;
 
     public ModeScene(int actorNum){
@@ -26,6 +34,7 @@ public class ModeScene extends Scene {
 
     @Override
     public void sceneBegin() {
+        AudioResourceController.getInstance().loop("/sound/Prologue.wav", 50);
         modeBackground = ImageController.getInstance().tryGet("/img/background/mode.jpg");
         Style style = new Style.StyleRect(60, 114, false, new BackgroundType.BackgroundNull())
                 .setTextFont(new Font("TimesRoman", Font.BOLD, 30))
@@ -51,6 +60,8 @@ public class ModeScene extends Scene {
 
     @Override
     public void sceneEnd() {
+        AudioResourceController.getInstance().stop("/sound/Prologue.wav");
+
         b1=null;
         b2=null;
         b3=null;
@@ -93,6 +104,64 @@ public class ModeScene extends Scene {
             MouseTriggerImpl.mouseTrig(b3, e, state);
             MouseTriggerImpl.mouseTrig(b4, e, state);
             MouseTriggerImpl.mouseTrig(b5, e, state);
+
+            playConfirm(b1);
+            playConfirm(b2);
+            playConfirm(b3);
+            playConfirm(b4);
+            playConfirm(b5);
+            playConfirm(back);
+
+            if ((b1.getIsHover()) && (!isPlayed1)) {
+
+                AudioResourceController.getInstance().shot("/sound/tab.wav");
+                isPlayed1 = true;
+            }
+            if (!b1.getIsHover()) {
+                isPlayed1 = false;
+            }
+
+            if ((b2.getIsHover()) && (!isPlayed2)) {
+
+                AudioResourceController.getInstance().shot("/sound/tab.wav");
+                isPlayed2 = true;
+            }
+            if (!b2.getIsHover()) {
+                isPlayed2 = false;
+            }
+
+            if ((b3.getIsHover()) && (!isPlayed3)) {
+
+                AudioResourceController.getInstance().shot("/sound/tab.wav");
+                isPlayed3 = true;
+            }
+            if (!b3.getIsHover()) {
+                isPlayed3 = false;
+            }
+            if ((b4.getIsHover()) && (!isPlayed4)) {
+
+                AudioResourceController.getInstance().shot("/sound/tab.wav");
+                isPlayed4 = true;
+            }
+            if (!b4.getIsHover()) {
+                isPlayed4 = false;
+            }
+            if ((b5.getIsHover()) && (!isPlayed5)) {
+
+                AudioResourceController.getInstance().shot("/sound/tab.wav");
+                isPlayed5 = true;
+            }
+            if (!b5.getIsHover()) {
+                isPlayed5 = false;
+            }
+            if ((back.getIsHover()) && (!isPlayedBack)) {
+
+                AudioResourceController.getInstance().shot("/sound/tab.wav");
+                isPlayedBack = true;
+            }
+            if (!back.getIsHover()) {
+                isPlayedBack = false;
+            }
         };
     }
 
@@ -105,6 +174,12 @@ public class ModeScene extends Scene {
         b4.paint(g);
         b5.paint(g);
         back.paint(g);
+    }
+
+    public void playConfirm(Button button){
+        if (button.getIsFocus()){
+            AudioResourceController.getInstance().shot("/sound/tab_confirm.wav");
+        }
     }
 
 

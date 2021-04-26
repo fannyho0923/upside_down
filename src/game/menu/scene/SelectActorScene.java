@@ -36,12 +36,16 @@ public class SelectActorScene extends Scene {
     private Image menuBackground;
     private Label label;
     private Image star;
+    private boolean isPlayedStart;
+    private boolean isPlayedBack;
+
 
     private ActionAnimator actionAnimator;
     private ArrayList<Label> arrayList = new ArrayList<>();
 
     @Override
     public void sceneBegin() {
+        AudioResourceController.getInstance().loop("/sound/characterScene-volumeReduce.wav", 50);
         star = ImageController.getInstance().tryGet("/img/starButton.png");
         menuBackground = ImageController.getInstance().tryGet("/img/background/actorbackground.png");
         bk = ImageController.getInstance().tryGet("/img/bk.png");
@@ -92,6 +96,7 @@ public class SelectActorScene extends Scene {
 
     @Override
     public void sceneEnd() {
+        AudioResourceController.getInstance().stop("/sound/characterScene-volumeReduce.wav");
         start = null;
         back = null;
     }
@@ -133,6 +138,27 @@ public class SelectActorScene extends Scene {
             MouseTriggerImpl.mouseTrig(a4, e, state);
             MouseTriggerImpl.mouseTrig(a5, e, state);
             MouseTriggerImpl.mouseTrig(a6, e, state);
+
+            playConfirm(start);
+            playConfirm(back);
+
+            if ((start.getIsHover()) && (!isPlayedStart)) {
+
+                AudioResourceController.getInstance().shot("/sound/tab.wav");
+                isPlayedStart = true;
+            }
+            if (!start.getIsHover()) {
+                isPlayedStart = false;
+            }
+            if ((back.getIsHover()) && (!isPlayedBack)) {
+
+                AudioResourceController.getInstance().shot("/sound/tab.wav");
+                isPlayedBack = true;
+            }
+            if (!back.getIsHover()) {
+                isPlayedBack = false;
+            }
+
         };
     }
 

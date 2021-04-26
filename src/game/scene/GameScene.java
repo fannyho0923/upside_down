@@ -131,7 +131,6 @@ public abstract class GameScene extends Scene {
         @Override
         public void sceneBegin () {
             rankShowed = false;
-            AudioResourceController.getInstance().loop("/sound/Battle-Dawn-crop-reduce.wav", 50);
             brokenRoads.forEach(a -> a.setExist(true));
             MapInformation.getInstance().setMapInfo(this.background);
             if (actorTrigCamera) {
@@ -150,7 +149,6 @@ public abstract class GameScene extends Scene {
 
         @Override
         public void sceneEnd () {
-            AudioResourceController.getInstance().stop("/sound/Battle-Dawn-crop-reduce.wav");
             this.background = null;
             this.actor = null;
             this.gameObjects = null;
