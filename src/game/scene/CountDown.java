@@ -20,8 +20,6 @@ public class CountDown extends GameScene {
     private static int timeMax = 30;
     private int rebornTime;
     private int rebornShoot;
-    private Image[] passBlood;
-    private Image pass;
     private Delay passDelay;
     private int passCount;
 
@@ -59,7 +57,6 @@ public class CountDown extends GameScene {
         rebornShoot = shootPosition;
 
 
-        pass = ImageController.getInstance().tryGet("/img/gameObj/pass/pass.png");
 
         passDelay = new Delay(5);
         passCount = 0;

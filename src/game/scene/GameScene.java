@@ -403,6 +403,8 @@ public abstract class GameScene extends Scene {
                 }
             }
 
+            passPoint.get(0).update();
+
             if (passPoint.size() > 0) {
                 if (actor.isCollision(passPoint.get(0))) {
                     passPoint.get(0).collisionEffect(actor); //for音效
