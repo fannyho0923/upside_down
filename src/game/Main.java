@@ -23,7 +23,7 @@ public class Main {// 資料刷新時間
         initTheme();
         final JFrame jFrame = new JFrame();
         final SceneController sceneController = SceneController.getInstance();
-        sceneController.change(new MenuScene());
+        sceneController.change(new SelectActorScene());
         final GameKernel gameKernel = new GameKernel.Builder()
                 .input(new CommandSolver.BuildStream()
                         .mouseTrack().forceRelease().subscribe(sceneController)
@@ -119,12 +119,12 @@ public class Main {// 資料刷新時間
                         .setHaveBorder(false)
                         .setBorderColor(Color.WHITE)
                         .setBorderThickness(5)
-                        .setText("LOOK")
+                        .setText("VIEW")
                         .setTextColor(Color.WHITE)
                         .setTextFont(new Font("TimesRoman", Font.BOLD, 30)),
                 //FOCUS
                 new Style.StyleRect(200, 50, true, new BackgroundType.BackgroundImage(ImageController.getInstance().tryGet("/img/button.png")))
-                        .setText("LOOK")
+                        .setText("VIEW")
                         .setTextFont(new Font("TimesRoman", Font.BOLD, 35))
                         .setTextColor(new Color(162, 176, 198))
                         .setHaveBorder(false)
@@ -168,20 +168,20 @@ public class Main {// 資料刷新時間
                 .setBorderColor(new Color(147, 147, 138))
                 .setBorderThickness(5)
                 .setTextFont(new Font("", Font.TYPE1_FONT, 30))
-                .setText("practice"),
+                .setText("Practice"),
                 new Style.StyleOval(200, 200, true, new BackgroundType.BackgroundImage(ImageController.getInstance().tryGet("/img/mode/mode_1.png")))
                         .setTextColor(new Color(30, 70, 118))
                         .setHaveBorder(true)
                         .setBorderColor(new Color(30, 70, 118))
                         .setBorderThickness(5)
                         .setTextFont(new Font("", Font.TYPE1_FONT, 28))
-                        .setText("practice"),
+                        .setText("Practice"),
                 new Style.StyleOval(200, 200, new BackgroundType.BackgroundImage(ImageController.getInstance().tryGet("/img/mode/mode_1.png")))
                         .setHaveBorder(true)
                         .setBorderColor(new Color(147, 147, 138))
                         .setBorderThickness(5)
                         .setTextFont(new Font("", Font.TYPE1_FONT, 30))
-                        .setText("practice")));
+                        .setText("Practice")));
         //5
         //mode2
         Theme.add(new Theme(new Style.StyleOval(200, 200, true, new BackgroundType.BackgroundImage(ImageController.getInstance().tryGet("/img/mode/mode_2.png")))
@@ -234,20 +234,20 @@ public class Main {// 資料刷新時間
                 .setBorderColor(new Color(147, 147, 138))
                 .setBorderThickness(5)
                 .setTextFont(new Font("", Font.TYPE1_FONT, 30))
-                .setText("stamina"),
+                .setText("Stamina"),
                 new Style.StyleOval(200, 200, true, new BackgroundType.BackgroundImage(ImageController.getInstance().tryGet("/img/mode/mode_4.png")))
                         .setTextColor(new Color(30, 70, 118))
                         .setHaveBorder(true)
                         .setBorderColor(new Color(30, 70, 118))
                         .setBorderThickness(5)
                         .setTextFont(new Font("", Font.TYPE1_FONT, 28))
-                        .setText("stamina"),
+                        .setText("Stamina"),
                 new Style.StyleOval(200, 200, new BackgroundType.BackgroundImage(ImageController.getInstance().tryGet("/img/mode/mode_4.png")))
                         .setHaveBorder(true)
                         .setBorderColor(Color.WHITE)
                         .setBorderThickness(5)
                         .setTextFont(new Font("", Font.TYPE1_FONT, 30))
-                        .setText("stamina")));
+                        .setText("Stamina")));
         //8
         //mode5
         Theme.add(new Theme(new Style.StyleOval(200, 200, true, new BackgroundType.BackgroundImage(ImageController.getInstance().tryGet("/img/mode/mode_5.png")))
@@ -360,7 +360,7 @@ public class Main {// 資料刷新時間
         Theme.add(new Theme(
                 //normal
                 new Style.StyleRect(100, 50, false, new BackgroundType.BackgroundNull())
-                        .setText("confirm")
+                        .setText("CONFIRM")
                         .setTextFont(new Font("TimesRoman", Font.BOLD, 30))
                         .setTextColor(Color.WHITE)
                         .setHaveBorder(false)
@@ -376,7 +376,7 @@ public class Main {// 資料刷新時間
                         .setTextFont(new Font("TimesRoman", Font.BOLD, 30)),
                 //FOCUS
                 new Style.StyleRect(100, 50, false, new BackgroundType.BackgroundNull())
-                        .setText("confirm")
+                        .setText("CONFIRM")
                         .setTextFont(new Font("TimesRoman", Font.BOLD, 35))
                         .setTextColor(new Color(184, 162, 198))
                         .setHaveBorder(false)

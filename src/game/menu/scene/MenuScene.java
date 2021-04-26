@@ -15,13 +15,16 @@ import game.menu.menu.impl.MouseTriggerImpl;
 import game.scene.Scene;
 import game.utils.CommandSolver;
 import game.utils.CommandSolver.MouseListener;
+import game.utils.Delay;
 import game.utils.Global;
+
 /**
  * @author Fanny
  */
 
 public class MenuScene extends Scene {
-    private Label label;
+    private Label title1;
+    private Label title2;
     private Button button1;
     private Button rankButton;
     private Image image;
@@ -31,6 +34,8 @@ public class MenuScene extends Scene {
     private Image astronaut;
     private Image ast1;
     private Image ast2;
+    private Delay delay;
+
 
     @Override
     public void sceneBegin() {
@@ -41,11 +46,21 @@ public class MenuScene extends Scene {
         astronaut = ImageController.getInstance().tryGet("/img/background/astronaut.png");
         ast1 = ImageController.getInstance().tryGet("/img/background/ast1.png");
         ast2 = ImageController.getInstance().tryGet("/img/background/ast2.png");
-        label = new Label(380, 100, new Style.StyleRect(200, 100, new BackgroundType.BackgroundNull())
+        title1 = new Label(380, 100, new Style.StyleRect(200, 100, new BackgroundType.BackgroundNull())
                 .setTextFont(new Font("TimesRoman", Font.ITALIC, 100))
                 .setText("Upside Down")
-                .setTextColor(new Color(248, 238, 62, 190))
+                .setTextColor(new Color(248, 238, 62, 255))
         );
+        title2 = new Label(380, 100, new Style.StyleRect(200, 100, new BackgroundType.BackgroundNull())
+                .setTextFont(new Font("TimesRoman", Font.ITALIC, 100))
+                .setText("Upside Down")
+                .setTextColor(new Color(248, 62, 99, 131))
+        );
+//        title2 = new Label(380, 100, new Style.StyleRect(200, 100, new BackgroundType.BackgroundNull())
+//                .setTextFont(new Font("TimesRoman", Font.ITALIC, 100))
+//                .setText("Upside Down")
+//                .setTextColor(new Color(248, 238, 62, 190))
+//        );
         button1 = new Button(Global.WINDOW_WIDTH / 2 - 100, 400);
         rankButton = new Button(Global.WINDOW_WIDTH / 2 - 100, 480, Theme.get(2));
 
@@ -56,6 +71,9 @@ public class MenuScene extends Scene {
             SceneController.getInstance().change(new RankScene());
         });
         starObj = new ArrayList<>();
+        delay = new Delay(30);
+        delay.play();
+        delay.loop();
     }
 
     @Override
@@ -66,22 +84,27 @@ public class MenuScene extends Scene {
     @Override
     public void paint(Graphics g) {
         g.drawImage(image, 0, 0, Global.WINDOW_WIDTH + 35, Global.WINDOW_HEIGHT, null);//1024,760
-        g.drawImage(ast1, button1.right() + 20, button1.getY() , null);
-        g.drawImage(ast1, rankButton.right() + 20, rankButton.getY() , null);
+        g.drawImage(ast1, button1.right() + 20, button1.getY(), null);
+        g.drawImage(ast1, rankButton.right() + 20, rankButton.getY(), null);
         if (button1.getIsHover()) {
-            g.drawImage(ast2, button1.right() + 20, button1.getY() , null);
+            g.drawImage(ast2, button1.right() + 20, button1.getY(), null);
         }
         if (rankButton.getIsHover()) {
-            g.drawImage(ast2, rankButton.right() + 20, rankButton.getY() , null);
+            g.drawImage(ast2, rankButton.right() + 20, rankButton.getY(), null);
         }
-        label.paint(g);
+        if (delay.count()) {
+            title1.paint(g);
+        }
+        if (!delay.count()) {
+            title2.paint(g);
+        }
         for (int i = 0; i < starObj.size(); i++) {
             starObj.get(i).paint(g);
         }
         button1.paint(g);
         rankButton.paint(g);
-        if(button1.getIsHover()||rankButton.getIsHover()){
-            g.drawImage(astronaut,Global.WINDOW_WIDTH/2+120,175,null);
+        if (button1.getIsHover() || rankButton.getIsHover()) {
+            g.drawImage(astronaut, Global.WINDOW_WIDTH / 2 + 120, 175, null);
         }
     }
 

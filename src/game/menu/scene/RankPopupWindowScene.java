@@ -91,17 +91,17 @@ public class RankPopupWindowScene extends PopupWindow {
                 .setBorderThickness(5)
                 .setTextColor(Color.BLACK)
                 .setTextFont(new Font("", Font.BOLD, 20))
-                .setText("請點擊");
+                .setText("CLICK");
 
         Style eNormal = new Style.StyleRect(200, 50, true, new BackgroundType.BackgroundColor(new Color(128, 128, 128)))
                 .setHaveBorder(true)
                 .setTextColor(Color.LIGHT_GRAY)
-                .setText("請點擊")
+                .setText("CLICK")
                 .setTextFont(new Font("", Font.BOLD, 20))
                 .setBorderColor(Color.WHITE)
                 .setBorderThickness(5);
 
-        this.editText = new EditText(this.getWidth() / 2 - 100, 300, "請在此輸入");
+        this.editText = new EditText(this.getWidth() / 2 - 100, 300, "Enter Your Name");
         editText.setStyleNormal(eNormal);
         editText.setStyleHover(eHover);
         editText.setStyleFocus(et);
@@ -147,7 +147,6 @@ scoreLabelDescribe.paint(g);
     @Override
     public CommandSolver.MouseListener mouseListener() {
         return (e, state, trigTime) -> {
-//            System.out.println("PopScene mouse");
             MouseTriggerImpl.mouseTrig(editText, e, getX(), getY(), state);
             MouseTriggerImpl.mouseTrig(confirm, e, getX(), getY(), state);
         };
@@ -156,7 +155,6 @@ scoreLabelDescribe.paint(g);
 
     @Override
     public CommandSolver.KeyListener keyListener() {
-        System.out.println("~~~!!!");
         return new CommandSolver.KeyListener() {
             @Override
             public void keyPressed(int commandCode, long trigTime) {
@@ -170,9 +168,8 @@ scoreLabelDescribe.paint(g);
 
             @Override
             public void keyTyped(char c, long trigTime) {
-                System.out.println("~~~");
                 editText.keyTyped(c);
-                player.setName(editText.getEditText());
+                setPlayerName(editText.getEditText());
             }
         };
     }

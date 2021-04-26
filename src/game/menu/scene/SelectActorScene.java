@@ -51,10 +51,9 @@ public class SelectActorScene extends Scene {
         actor4 = ImageController.getInstance().tryGet("/img/actor/actorFront4.png");
         actor5 = ImageController.getInstance().tryGet("/img/actor/actorFront5.png");
         actor6 = ImageController.getInstance().tryGet("/img/actor/actorFront6.png");
-        Style style = new Style.StyleRect(60, 114, false, new BackgroundType.BackgroundNull())
+        Style style = new Style.StyleRect(60, 114, false, new BackgroundType.BackgroundColor(Color.white))
                 .setTextFont(new Font("TimesRoman", Font.BOLD, 30))
-                .setTextColor(Color.WHITE)
-                .setHaveBorder(true)
+                .setHaveBorder(false)
                 .setBorderColor(new Color(162, 176, 198))
                 .setBorderThickness(5);
         a1 = new Label(255, 422, style);
@@ -77,7 +76,7 @@ public class SelectActorScene extends Scene {
         back = new Button(480 - 200, 650 - 105, Theme.get(14));
         start.setClickedActionPerformed((int x, int y) -> {
             for (int i = 1; i <= arrayList.size(); i++) {
-                if (arrayList.get(i-1).getIsFocus()) {
+                if (arrayList.get(i - 1).getIsFocus()) {
 
                     SceneController.getInstance().change(new ModeScene(i));
 //                    SceneController.getInstance().change(new Parkour(i));
@@ -143,6 +142,11 @@ public class SelectActorScene extends Scene {
         label.paint(g);
         start.paint(g);
         back.paint(g);
+        for (int i = 0; i < arrayList.size(); i++) {
+            if (arrayList.get(i).getIsFocus()) {
+                arrayList.get(i).paint(g);
+            }
+        }
         actionAnimator.paintWoman(g, actor1, 255, 422, 255 + Global.UNIT_X64, 472 + Global.UNIT_Y64, (a1.getIsHover() || a1.getIsFocus()));
         actionAnimator.paintWoman(g, actor2, 335, 422, 335 + Global.UNIT_X64, 472 + Global.UNIT_Y64, (a2.getIsHover() || a2.getIsFocus()));
         actionAnimator.paintWoman(g, actor3, 415, 422, 415 + Global.UNIT_X64, 472 + Global.UNIT_Y64, (a3.getIsHover() || a3.getIsFocus()));
@@ -150,28 +154,34 @@ public class SelectActorScene extends Scene {
         actionAnimator.paintMan(g, actor5, 575, 422, 575 + Global.UNIT_X64, 472 + Global.UNIT_Y64, (a5.getIsHover() || a5.getIsFocus()));
         actionAnimator.paintMan(g, actor6, 655, 422, 655 + Global.UNIT_X64, 472 + Global.UNIT_Y64, (a6.getIsHover() || a6.getIsFocus()));
         if (a1.getIsFocus()) {
-            g.drawImage(star, a1.left()+30-14, a1.top()- 32, null);
-        }if (a2.getIsFocus()) {
-            g.drawImage(star, a2.left()+30-15, a2.top()- 32, null);
-        }if (a3.getIsFocus()) {
-            g.drawImage(star, a3.left()+30-15, a3.top()- 32, null);
-        }if (a4.getIsFocus()) {
-            g.drawImage(star, a4.left()+30-15, a4.top()- 32, null);
-        }if (a5.getIsFocus()) {
-            g.drawImage(star, a5.left()+30-15, a5.top()- 32, null);
-        }if (a6.getIsFocus()) {
-            g.drawImage(star, a6.left()+30-16, a6.top()- 32, null);
+            g.drawImage(star, a1.left() + 30 - 14, a1.top() - 32, null);
         }
+        if (a2.getIsFocus()) {
+            g.drawImage(star, a2.left() + 30 - 15, a2.top() - 32, null);
+        }
+        if (a3.getIsFocus()) {
+            g.drawImage(star, a3.left() + 30 - 15, a3.top() - 32, null);
+        }
+        if (a4.getIsFocus()) {
+            g.drawImage(star, a4.left() + 30 - 15, a4.top() - 32, null);
+        }
+        if (a5.getIsFocus()) {
+            g.drawImage(star, a5.left() + 30 - 15, a5.top() - 32, null);
+        }
+        if (a6.getIsFocus()) {
+            g.drawImage(star, a6.left() + 30 - 16, a6.top() - 32, null);
+        }
+
     }
 
-    public void playConfirm(Label label){
-        if (label.getIsFocus()){
+    public void playConfirm(Label label) {
+        if (label.getIsFocus()) {
             AudioResourceController.getInstance().shot("/sound/tab_confirm.wav");
         }
     }
 
-    public void playConfirm(Button button){
-        if (button.getIsFocus()){
+    public void playConfirm(Button button) {
+        if (button.getIsFocus()) {
             AudioResourceController.getInstance().shot("/sound/tab_confirm.wav");
         }
     }
@@ -199,9 +209,9 @@ public class SelectActorScene extends Scene {
                         Global.UNIT_Y64 - 16, null);
             } else {
                 g.drawImage(img, left, top, right, bottom,
-                        4*Global.UNIT_X64 + 22,
+                        4 * Global.UNIT_X64 + 22,
                         14,
-                        4*Global.UNIT_X64 + Global.UNIT_X64 - 22,
+                        4 * Global.UNIT_X64 + Global.UNIT_X64 - 22,
                         Global.UNIT_Y64 - 16, null);
             }
         }

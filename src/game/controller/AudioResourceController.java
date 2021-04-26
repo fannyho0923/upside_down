@@ -20,13 +20,15 @@ import javax.sound.sampled.UnsupportedAudioFileException;
  * @author Fanny
  */
 public class AudioResourceController {
+    public void setMute(boolean isMute) {
+        this.isMute = isMute;
+    }
 
-    public void setMute(boolean isMute){
-        this.isMute=isMute;
-    }public boolean getMute(){
+    public boolean getMute() {
         return isMute;
     }
-    public  boolean isMute = true;
+
+    public boolean isMute = true;
     private static AudioResourceController irc;
     private Map<String, ClipThread> soundMap;
     private final ClipThread.FinishHandler finishHandler = (String fileName, Clip clip) -> {
@@ -52,7 +54,7 @@ public class AudioResourceController {
     }
 
     public void play(final String fileName) {
-        if(isMute){
+        if (isMute) {
             return;
         }
         if (this.soundMap.containsKey(fileName)) {
@@ -72,14 +74,14 @@ public class AudioResourceController {
     }
 
     public void shot(final String fileName, ClipThread.FinishHandler finishHandler) {
-        if(isMute){
+        if (isMute) {
             return;
         }
         new ClipThread(fileName, 1, finishHandler).start();
     }
 
     public void loop(final String fileName, final int count) {
-        if(isMute){
+        if (isMute) {
             return;
         }
         final ClipThread ct = new ClipThread(fileName, count, this.finishHandler);

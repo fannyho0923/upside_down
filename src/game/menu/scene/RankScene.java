@@ -150,23 +150,23 @@ public class RankScene extends Scene {
                 System.out.println("aft" + currentRankPage);
             }
         });
-        label1 = new Label(15, 200, new Style.StyleRect(50, 50, new BackgroundType.BackgroundNull())
+        label1 = new Label(40, 200, new Style.StyleRect(50, 50, new BackgroundType.BackgroundNull())
                 .setTextFont(new Font("TimesRoman", Font.BOLD, 30))
                 .setText("1.")
                 .setTextColor(new Color(241, 18, 18)));
-        label2 = new Label(15, 250, new Style.StyleRect(50, 50, new BackgroundType.BackgroundNull())
+        label2 = new Label(40, 250, new Style.StyleRect(50, 50, new BackgroundType.BackgroundNull())
                 .setTextFont(new Font("TimesRoman", Font.BOLD, 30))
                 .setText("2.")
                 .setTextColor(new Color(234, 75, 16)));
-        label3 = new Label(15, 300, new Style.StyleRect(50, 50, new BackgroundType.BackgroundNull())
+        label3 = new Label(40, 300, new Style.StyleRect(50, 50, new BackgroundType.BackgroundNull())
                 .setTextFont(new Font("TimesRoman", Font.BOLD, 30))
                 .setText("3.")
                 .setTextColor(new Color(246, 224, 16)));
-        label4 = new Label(15, 350, new Style.StyleRect(50, 50, new BackgroundType.BackgroundNull())
+        label4 = new Label(40, 350, new Style.StyleRect(50, 50, new BackgroundType.BackgroundNull())
                 .setTextFont(new Font("TimesRoman", Font.BOLD, 30))
                 .setText("4.")
                 .setTextColor(new Color(77, 241, 18)));
-        label5 = new Label(15, 400, new Style.StyleRect(50, 50, new BackgroundType.BackgroundNull())
+        label5 = new Label(40, 400, new Style.StyleRect(50, 50, new BackgroundType.BackgroundNull())
                 .setTextFont(new Font("TimesRoman", Font.BOLD, 30))
                 .setText("5.")
                 .setTextColor(new Color(34, 53, 220)));
@@ -212,50 +212,49 @@ public class RankScene extends Scene {
                 .setText(describe)
                 .setTextColor(new Color(216, 80, 226)));
 //name
-        label6 = new Label(100, 200, new Style.StyleRect(100, 50, new BackgroundType.BackgroundNull())
+        label6 = new Label(125, 200, new Style.StyleRect(100, 50, new BackgroundType.BackgroundNull())
                 .setTextFont(new Font("TimesRoman", Font.BOLD, 30))
                 .setText(getName(allRank.get(currentRankPage), 0))
                 .setTextColor(new Color(241, 18, 18)));
-        label7 = new Label(100, 250, new Style.StyleRect(100, 50, new BackgroundType.BackgroundNull())
+        label7 = new Label(125, 250, new Style.StyleRect(100, 50, new BackgroundType.BackgroundNull())
                 .setTextFont(new Font("TimesRoman", Font.BOLD, 30))
                 .setText(getName(allRank.get(currentRankPage), 1))
                 .setTextColor(new Color(234, 75, 16)));
-        label8 = new Label(100, 300, new Style.StyleRect(100, 50, new BackgroundType.BackgroundNull())
+        label8 = new Label(125, 300, new Style.StyleRect(100, 50, new BackgroundType.BackgroundNull())
                 .setTextFont(new Font("TimesRoman", Font.BOLD, 30))
                 .setText(getName(allRank.get(currentRankPage), 2))
                 .setTextColor(new Color(246, 224, 16)));
-        label9 = new Label(100, 350, new Style.StyleRect(100, 50, new BackgroundType.BackgroundNull())
+        label9 = new Label(125, 350, new Style.StyleRect(100, 50, new BackgroundType.BackgroundNull())
                 .setTextFont(new Font("TimesRoman", Font.BOLD, 30))
                 .setText(getName(allRank.get(currentRankPage), 3))
                 .setTextColor(new Color(77, 241, 18)));
-        label10 = new Label(100, 400, new Style.StyleRect(100, 50, new BackgroundType.BackgroundNull())
+        label10 = new Label(125, 400, new Style.StyleRect(100, 50, new BackgroundType.BackgroundNull())
                 .setTextFont(new Font("TimesRoman", Font.BOLD, 30))
                 .setText(getName(allRank.get(currentRankPage), 4))
                 .setTextColor(new Color(34, 53, 220)));
 
         //score
-        label11 = new Label(250, 200, new Style.StyleRect(100, 50, new BackgroundType.BackgroundNull())
+        label11 = new Label(275, 200, new Style.StyleRect(100, 50, new BackgroundType.BackgroundNull())
                 .setTextFont(new Font("TimesRoman", Font.BOLD, 30))
                 .setText("" + getTime(allRank.get(currentRankPage), 0))
                 .setTextColor(new Color(241, 18, 18)));
-        label12 = new Label(250, 250, new Style.StyleRect(100, 50, new BackgroundType.BackgroundNull())
+        label12 = new Label(275, 250, new Style.StyleRect(100, 50, new BackgroundType.BackgroundNull())
                 .setTextFont(new Font("TimesRoman", Font.BOLD, 30))
                 .setText("" + getTime(allRank.get(currentRankPage), 1))
                 .setTextColor(new Color(234, 75, 16)));
-        label13 = new Label(250, 300, new Style.StyleRect(100, 50, new BackgroundType.BackgroundNull())
+        label13 = new Label(275, 300, new Style.StyleRect(100, 50, new BackgroundType.BackgroundNull())
                 .setTextFont(new Font("TimesRoman", Font.BOLD, 30))
                 .setText("" + getTime(allRank.get(currentRankPage), 2))
                 .setTextColor(new Color(246, 224, 16)));
-        label14 = new Label(250, 350, new Style.StyleRect(100, 50, new BackgroundType.BackgroundNull())
+        label14 = new Label(275, 350, new Style.StyleRect(100, 50, new BackgroundType.BackgroundNull())
                 .setTextFont(new Font("TimesRoman", Font.BOLD, 30))
                 .setText("" + getTime(allRank.get(currentRankPage), 3))
                 .setTextColor(new Color(77, 241, 18)));
-        label15 = new Label(250, 400, new Style.StyleRect(100, 50, new BackgroundType.BackgroundNull())
+        label15 = new Label(275, 400, new Style.StyleRect(100, 50, new BackgroundType.BackgroundNull())
                 .setTextFont(new Font("TimesRoman", Font.BOLD, 30))
                 .setText("" + getTime(allRank.get(currentRankPage), 4))
                 .setTextColor(new Color(34, 53, 220)));
     }
-
 
     @Override
     public CommandSolver.KeyListener keyListener() {

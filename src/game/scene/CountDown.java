@@ -155,10 +155,8 @@ public class CountDown extends GameScene {
 ////                secDelay.pause();
             }
             if (timeCount <= -1) { // win
-                Global.fanny = true;
-                super.fanny(Global.fanny);
-                Global.fanny = false;
-
+                Global.isGameOver = true;
+                super.gameOver();
             }
 
             if (getActor().getState() == Actor.State.DEAD) {
