@@ -1,5 +1,6 @@
 package game.scene;
 
+import game.controller.AudioResourceController;
 import game.controller.ImageController;
 import game.gameobj.Actor;
 import game.gameobj.Background;
@@ -20,6 +21,18 @@ public class BasicScene extends GameScene {
                 //real 1300,1500 //plat test 150,2000
                 960, 640, 0, 0,
                 true, "basic.txt");
+    }
+
+    @Override
+    public void sceneBegin(){
+        super.sceneBegin();
+        AudioResourceController.getInstance().loop("/sound/Battle-Conflict-volumeReduce.wav", 50);
+    }
+
+    @Override
+    public void sceneEnd(){
+        super.sceneEnd();
+        AudioResourceController.getInstance().stop("/sound/Battle-Conflict-volumeReduce.wav");
     }
 
     @Override

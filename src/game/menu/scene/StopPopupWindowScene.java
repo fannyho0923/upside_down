@@ -40,8 +40,6 @@ public class StopPopupWindowScene extends PopupWindow {
 
         continueGame.setClickedActionPerformed((int x, int y) -> this.hide());
         back.setClickedActionPerformed((int x, int y) -> SceneController.getInstance().change(new MenuScene()));
-
-
     }
 
     @Override

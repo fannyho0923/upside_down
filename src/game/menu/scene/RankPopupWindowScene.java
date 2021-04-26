@@ -5,6 +5,7 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Collections;
 
+import game.controller.AudioResourceController;
 import game.controller.SceneController;
 import game.menu.menu.*;
 import game.menu.menu.Button;
@@ -64,6 +65,7 @@ public class RankPopupWindowScene extends PopupWindow {
 
     @Override
     public void sceneBegin() {
+//        AudioResourceController.getInstance().play("/sound/ranking.wav");
         rankResults = new ArrayList<>();
         try {
             ranking = new Ranking(filePath);
@@ -119,6 +121,7 @@ public class RankPopupWindowScene extends PopupWindow {
 
     @Override
     public void sceneEnd() {
+//        AudioResourceController.getInstance().stop("/sound/ranking.wav");
         rankTitle = null;
         editText = null;
         confirm = null;
@@ -149,6 +152,12 @@ public class RankPopupWindowScene extends PopupWindow {
         return (e, state, trigTime) -> {
             MouseTriggerImpl.mouseTrig(editText, e, getX(), getY(), state);
             MouseTriggerImpl.mouseTrig(confirm, e, getX(), getY(), state);
+
+                if (confirm.getIsFocus()){
+                    AudioResourceController.getInstance().shot("/sound/tab_confirm.wav");
+                }
+
+
         };
 
     }

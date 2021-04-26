@@ -10,6 +10,7 @@ import java.awt.*;
 public class SavePoint extends GameObject{
     private Image save;
     private Image toSave;
+    private boolean isPlayed;
 
     private static final int UNIT_X = 128;
     private static final int UNIT_Y = 128;
@@ -44,7 +45,10 @@ public class SavePoint extends GameObject{
 
     @Override
     public void collisionEffect(Actor actor) {
-//        AudioResourceController.getInstance().shot("/sound/savePoint.wav");
+        if (!isPlayed){
+            AudioResourceController.getInstance().shot("/sound/savePoint.wav");
+            isPlayed=true;
+        }
         actor.setReborn(this.collider().left(),this.collider().bottom()-actor.collider().height(),false);
     }
 

@@ -6,6 +6,7 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.LinkedList;
 
+import game.controller.AudioResourceController;
 import game.controller.ImageController;
 import game.controller.SceneController;
 import game.menu.menu.*;
@@ -47,6 +48,10 @@ public class RankScene extends Scene {
     private int currentRankPage;
     private Label title;
     private String describe;
+    private boolean isPlayedNext;
+    private boolean isPlayedBack;
+    private boolean isConfirmNext;
+    private boolean isConfirmBack;
 
     public RankScene() {
 
@@ -58,6 +63,8 @@ public class RankScene extends Scene {
 
     @Override
     public void sceneBegin() {
+        AudioResourceController.getInstance().play("/sound/ranking.wav");
+
         System.out.println(currentRankPage);
         allRank = new LinkedList<ArrayList<RankResult>>();
         rankResults = new ArrayList<RankResult>();
@@ -189,6 +196,7 @@ public class RankScene extends Scene {
 
     @Override
     public void sceneEnd() {
+        AudioResourceController.getInstance().stop("/sound/ranking.wav");
         title = null;
         label = null;
         back = null;
@@ -286,6 +294,38 @@ public class RankScene extends Scene {
             MouseTriggerImpl.mouseTrig(back, e, state);
             if (currentRankPage <= 3) {
                 MouseTriggerImpl.mouseTrig(next, e, state);
+            }
+
+            if (next.getIsFocus()&&(!isConfirmNext)){
+                AudioResourceController.getInstance().shot("/sound/tab_confirm.wav");
+                isConfirmNext = true;
+            }
+            if (!next.getIsFocus()){
+                isConfirmNext = false;
+            }
+
+            if (back.getIsFocus()&&(!isConfirmBack)){
+                AudioResourceController.getInstance().shot("/sound/tab_confirm.wav");
+                isConfirmBack = true;
+            }
+            if (!back.getIsFocus()){
+                isConfirmBack = false;
+            }
+
+            if ((next.getIsHover()) && (!isPlayedNext)) {
+                AudioResourceController.getInstance().shot("/sound/tab.wav");
+                isPlayedNext = true;
+            }
+            if (!next.getIsHover()) {
+                isPlayedNext = false;
+            }
+
+            if ((back.getIsHover()) && (!isPlayedBack)) {
+                AudioResourceController.getInstance().shot("/sound/tab.wav");
+                isPlayedBack = true;
+            }
+            if (!back.getIsHover()) {
+                isPlayedBack = false;
             }
         };
     }

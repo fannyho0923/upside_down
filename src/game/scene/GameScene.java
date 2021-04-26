@@ -236,9 +236,9 @@ public abstract class GameScene extends Scene {
             if (rankPop.isShow()) {
                 rankPop.mouseListener().mouseTrig(e, state, trigTime);
             }
-
         };
     }
+
 
     @Override
     public void paint(Graphics g) {
@@ -412,7 +412,7 @@ public abstract class GameScene extends Scene {
             }
         }
         if (rankShowed) {
-            Global.isGameOver=true;
+            Global.isGameOver = true;
             gameOver();
         }
         if (stopPop.isShow()) {

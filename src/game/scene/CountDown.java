@@ -1,5 +1,6 @@
 package game.scene;
 
+import game.controller.AudioResourceController;
 import game.controller.ImageController;
 import game.gameobj.*;
 import game.utils.Global;
@@ -66,6 +67,18 @@ public class CountDown extends GameScene {
         passBlood[3] = ImageController.getInstance().tryGet("/img/gameObj/pass/blood4.png");
         passDelay = new Delay(5);
         passCount = 0;
+    }
+
+    @Override
+    public void sceneBegin(){
+        super.sceneBegin();
+        AudioResourceController.getInstance().loop("/sound/Battle-Conflict-volumeReduce.wav", 50);
+    }
+
+    @Override
+    public void sceneEnd(){
+        super.sceneEnd();
+        AudioResourceController.getInstance().stop("/sound/Battle-Conflict-volumeReduce.wav");
     }
 
     @Override
