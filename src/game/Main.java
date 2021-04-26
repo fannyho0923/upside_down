@@ -35,7 +35,6 @@ public class Main {// 資料刷新時間
                         .add(KeyEvent.VK_ESCAPE, Global.VK_ESCAPE)
                         .add(KeyEvent.VK_R, Global.VK_R)
                         .add(KeyEvent.VK_A, Global.VK_A)
-                        .add(KeyEvent.VK_SHIFT, Global.VK_SHIFT)
                         .next().trackChar().keyTypedMode().subscribe(sceneController)
                 )
                 .paint(sceneController)
