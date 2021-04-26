@@ -402,9 +402,7 @@ public abstract class GameScene extends Scene {
                     i--;
                 }
             }
-
             passPoint.get(0).update();
-
             if (passPoint.size() > 0) {
                 if (actor.isCollision(passPoint.get(0))) {
                     passPoint.get(0).collisionEffect(actor); //for音效
@@ -446,7 +444,6 @@ public abstract class GameScene extends Scene {
                 if (actor.getState() == Actor.State.REBORN) {
                     tracker.setY(actor.painter().bottom()); //
                     if (passPoint.size() > 0) {
-                        passPoint.get(0).update();
                         if (actor.isCollision(passPoint.get(0))) {
                             passPoint.get(0).collisionEffect(actor); //for音效
                             rankShowed = true;

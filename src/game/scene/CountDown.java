@@ -20,10 +20,7 @@ public class CountDown extends GameScene {
     private static int timeMax = 30;
     private int rebornTime;
     private int rebornShoot;
-<<<<<<< HEAD
     private Image[] passBlood;
-=======
->>>>>>> e5505c63a63224d1314c77e7b1f008cce6d83af3
     private Delay passDelay;
     private int passCount;
 
@@ -59,12 +56,6 @@ public class CountDown extends GameScene {
 
         rebornTime = timeMax;
         rebornShoot = shootPosition;
-<<<<<<< HEAD
-=======
-
-
-
->>>>>>> e5505c63a63224d1314c77e7b1f008cce6d83af3
         passDelay = new Delay(5);
         passCount = 0;
     }
