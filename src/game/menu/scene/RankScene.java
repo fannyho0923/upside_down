@@ -52,20 +52,21 @@ public class RankScene extends Scene {
     private boolean isPlayedBack;
     private boolean isConfirmNext;
     private boolean isConfirmBack;
+    private boolean isFromGame;
+    private Button backToGame;
 
     public RankScene() {
 
     }
 
-    public RankScene(int currentRankPage) {
+    public RankScene(int currentRankPage, boolean isFromGame) {
         this.currentRankPage = currentRankPage;
+        this.isFromGame = isFromGame;
     }
 
     @Override
     public void sceneBegin() {
         AudioResourceController.getInstance().play("/sound/ranking.wav");
-
-        System.out.println(currentRankPage);
         allRank = new LinkedList<ArrayList<RankResult>>();
         rankResults = new ArrayList<RankResult>();
         try {
@@ -142,19 +143,25 @@ public class RankScene extends Scene {
                 .setText("Rank")
                 .setTextColor(new Color(231, 17, 110, 255)));
         back = new Button(50, 650 - 105, Theme.get(3));
+        backToGame = new Button(50, 650 - 105, Theme.get(15));
         next = new Button(250, 650 - 105, Theme.get(13));
-        back.setClickedActionPerformed((int x, int y) -> {
-            if (currentRankPage == 0) {
-                SceneController.getInstance().change((new MenuScene()));
-            } else {
-                --currentRankPage;
-            }
-        });
+        if (!isFromGame) {
+            back.setClickedActionPerformed((int x, int y) -> {
+                if (currentRankPage == 0) {
+                    SceneController.getInstance().change((new MenuScene()));
+                }else {
+                    --currentRankPage;
+                }
+            });
+        }
+        if (isFromGame) {
+            backToGame.setClickedActionPerformed((int x, int y) -> {
+                SceneController.getInstance().change((new ModeScene(Global.random(0, 5))));
+            });
+        }
         next.setClickedActionPerformed((int x, int y) -> {
-            System.out.println("bef" + currentRankPage);
             if (currentRankPage < allRank.size() - 1) {
                 ++currentRankPage;
-                System.out.println("aft" + currentRankPage);
             }
         });
         label1 = new Label(40, 200, new Style.StyleRect(50, 50, new BackgroundType.BackgroundNull())
@@ -246,31 +253,31 @@ public class RankScene extends Scene {
         int sec = getTime(allRank.get(currentRankPage), 0) / 1000 % 60;
         label11 = new Label(275, 200, new Style.StyleRect(100, 50, new BackgroundType.BackgroundNull())
                 .setTextFont(new Font("TimesRoman", Font.BOLD, 30))
-                .setText(min + ":" + ((sec < 10)?"0" + sec : sec))
+                .setText(min + ":" + ((sec < 10) ? "0" + sec : sec))
                 .setTextColor(new Color(241, 18, 18)));
         min = getTime(allRank.get(currentRankPage), 1) / 1000 / 60;
         sec = getTime(allRank.get(currentRankPage), 1) / 1000 % 60;
         label12 = new Label(275, 250, new Style.StyleRect(100, 50, new BackgroundType.BackgroundNull())
                 .setTextFont(new Font("TimesRoman", Font.BOLD, 30))
-                .setText(min + ":" + ((sec < 10)?"0" + sec : sec))
+                .setText(min + ":" + ((sec < 10) ? "0" + sec : sec))
                 .setTextColor(new Color(234, 75, 16)));
         min = getTime(allRank.get(currentRankPage), 2) / 1000 / 60;
         sec = getTime(allRank.get(currentRankPage), 2) / 1000 % 60;
         label13 = new Label(275, 300, new Style.StyleRect(100, 50, new BackgroundType.BackgroundNull())
                 .setTextFont(new Font("TimesRoman", Font.BOLD, 30))
-                .setText(min + ":" + ((sec < 10)?"0" + sec : sec))
+                .setText(min + ":" + ((sec < 10) ? "0" + sec : sec))
                 .setTextColor(new Color(246, 224, 16)));
         min = getTime(allRank.get(currentRankPage), 3) / 1000 / 60;
         sec = getTime(allRank.get(currentRankPage), 3) / 1000 % 60;
         label14 = new Label(275, 350, new Style.StyleRect(100, 50, new BackgroundType.BackgroundNull())
                 .setTextFont(new Font("TimesRoman", Font.BOLD, 30))
-                .setText(min + ":" + ((sec < 10)?"0" + sec : sec))
+                .setText(min + ":" + ((sec < 10) ? "0" + sec : sec))
                 .setTextColor(new Color(77, 241, 18)));
         min = getTime(allRank.get(currentRankPage), 4) / 1000 / 60;
         sec = getTime(allRank.get(currentRankPage), 4) / 1000 % 60;
         label15 = new Label(275, 400, new Style.StyleRect(100, 50, new BackgroundType.BackgroundNull())
                 .setTextFont(new Font("TimesRoman", Font.BOLD, 30))
-                .setText(min + ":" + ((sec < 10)?"0" + sec : sec))
+                .setText(min + ":" + ((sec < 10) ? "0" + sec : sec))
                 .setTextColor(new Color(34, 53, 220)));
     }
 
@@ -297,23 +304,23 @@ public class RankScene extends Scene {
     public CommandSolver.MouseListener mouseListener() {
         return (MouseEvent e, CommandSolver.MouseState state, long trigTime) -> {
             MouseTriggerImpl.mouseTrig(back, e, state);
+            MouseTriggerImpl.mouseTrig(backToGame, e, state);
             if (currentRankPage <= 3) {
                 MouseTriggerImpl.mouseTrig(next, e, state);
             }
-
-            if (next.getIsFocus()&&(!isConfirmNext)){
+            if (next.getIsFocus() && (!isConfirmNext)) {
                 AudioResourceController.getInstance().shot("/sound/tab_confirm.wav");
                 isConfirmNext = true;
             }
-            if (!next.getIsFocus()){
+            if (!next.getIsFocus()) {
                 isConfirmNext = false;
             }
 
-            if (back.getIsFocus()&&(!isConfirmBack)){
+            if (back.getIsFocus() && (!isConfirmBack)) {
                 AudioResourceController.getInstance().shot("/sound/tab_confirm.wav");
                 isConfirmBack = true;
             }
-            if (!back.getIsFocus()){
+            if (!back.getIsFocus()) {
                 isConfirmBack = false;
             }
 
@@ -354,9 +361,13 @@ public class RankScene extends Scene {
         label13.paint(g);
         label14.paint(g);
         label15.paint(g);
-        back.paint(g);
+        if (!isFromGame) {
+            back.paint(g);
+        } else {
+            backToGame.paint(g);
+        }
         title.paint(g);
-        if (currentRankPage < 3) {
+        if ((currentRankPage < 3) && (!isFromGame)) {
             next.paint(g);
         }
     }

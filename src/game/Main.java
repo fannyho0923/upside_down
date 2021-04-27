@@ -42,7 +42,7 @@ public class Main {// 資料刷新時間
                 .gen();
 
         jFrame.setTitle("Upside Down");
-        jFrame.setSize(Global.WINDOW_WIDTH+12, Global.WINDOW_HEIGHT+32);
+        jFrame.setSize(Global.WINDOW_WIDTH + 12, Global.WINDOW_HEIGHT + 32);
         jFrame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 
         jFrame.add(gameKernel);
@@ -58,20 +58,20 @@ public class Main {// 資料刷新時間
                 .setHaveBorder(false)
                 .setBorderColor(new Color(0, 157, 230))
                 .setBorderThickness(5)
-                .setTextFont(new Font("", Font.TYPE1_FONT, 30))
+                .setTextFont(new Font("TimesRoman", Font.TYPE1_FONT, 30))
                 .setText("Start");
         Style focus = new Style.StyleOval(100, 100, true, new BackgroundType.BackgroundColor(Color.MAGENTA))
                 .setTextColor(Color.WHITE)
                 .setHaveBorder(false)
                 .setBorderColor(new Color(0, 157, 230))
                 .setBorderThickness(5)
-                .setTextFont(new Font("", Font.TYPE1_FONT, 30))
+                .setTextFont(new Font("TimesRoman", Font.TYPE1_FONT, 30))
                 .setText("Start");
         Style normal = new Style.StyleOval(100, 100, false, new BackgroundType.BackgroundNull())
                 .setHaveBorder(false)
                 .setBorderColor(Color.WHITE)
                 .setBorderThickness(15)
-                .setTextFont(new Font("", Font.TYPE1_FONT, 30))
+                .setTextFont(new Font("TimesRoman", Font.TYPE1_FONT, 30))
                 .setText("Ready");
 
         Theme.add(new Theme(normal, hover, focus));
@@ -274,91 +274,92 @@ public class Main {// 資料刷新時間
         //pop back to Menu button
         Theme.add(new Theme(
                 //normal
-                new Style.StyleRect(100, 50, false, new BackgroundType.BackgroundNull())
+                new Style.StyleRect(130, 45, true, new BackgroundType.BackgroundColor(new Color(108, 179, 232)))
                         .setText("Menu")
                         .setTextFont(new Font("TimesRoman", Font.BOLD, 30))
                         .setTextColor(Color.WHITE)
-                        .setHaveBorder(false)
-                        .setBorderColor(new Color(222, 29, 88))
-                        .setBorderThickness(5),
+                        .setHaveBorder(true)
+                        .setBorderColor((new Color(27, 85, 234)))
+                        .setBorderThickness(3),
                 //HOVER
-                new Style.StyleRect(100, 50, false, new BackgroundType.BackgroundNull())
-                        .setHaveBorder(false)
-                        .setBorderColor(Color.WHITE)
+                new Style.StyleRect(130, 45, true, new BackgroundType.BackgroundColor(new Color(108, 179, 232)))
+                        .setHaveBorder(true)
+                        .setBorderColor(new Color(27, 85, 234))
                         .setBorderThickness(5)
                         .setText("Menu")
                         .setTextColor(new Color(220, 46, 106, 238))
                         .setTextFont(new Font("TimesRoman", Font.BOLD, 30)),
                 //FOCUS
-                new Style.StyleRect(100, 50, false, new BackgroundType.BackgroundNull())
+                new Style.StyleRect(130, 45, false, new BackgroundType.BackgroundColor(new Color(108, 179, 232)))
                         .setText("Menu")
                         .setTextFont(new Font("TimesRoman", Font.BOLD, 35))
                         .setTextColor(new Color(162, 176, 198))
-                        .setHaveBorder(false)
-                        .setBorderColor(new Color(231, 8, 37))
+                        .setHaveBorder(true)
+                        .setBorderColor(new Color(27, 85, 234))
                         .setBorderThickness(5)
+
         ));
         //10
         //pop continue button
         Theme.add(new Theme(
                 //normal
-                new Style.StyleRect(100, 50, false, new BackgroundType.BackgroundNull())
+                new Style.StyleRect(130, 45, true, new BackgroundType.BackgroundColor(new Color(236, 194, 120)))
                         .setText("Continue")
                         .setTextFont(new Font("TimesRoman", Font.BOLD, 30))
                         .setTextColor(Color.WHITE)
-                        .setHaveBorder(false)
-                        .setBorderColor(new Color(222, 29, 88))
-                        .setBorderThickness(5),
+                        .setHaveBorder(true)
+                        .setBorderColor(new Color(248, 99, 61))
+                        .setBorderThickness(3),
                 //HOVER
-                new Style.StyleRect(100, 50, false, new BackgroundType.BackgroundNull())
-                        .setHaveBorder(false)
-                        .setBorderColor(Color.WHITE)
+                new Style.StyleRect(130, 45, true, new BackgroundType.BackgroundColor(new Color(236, 194, 120)))
+                        .setHaveBorder(true)
+                        .setBorderColor(new Color(248, 99, 61))
                         .setBorderThickness(5)
                         .setText("Continue")
                         .setTextColor(new Color(220, 46, 106, 238))
                         .setTextFont(new Font("TimesRoman", Font.BOLD, 30)),
                 //FOCUS
-                new Style.StyleRect(100, 50, false, new BackgroundType.BackgroundNull())
+                new Style.StyleRect(130, 45, false, new BackgroundType.BackgroundColor(new Color(236, 194, 120)))
                         .setText("Continue")
                         .setTextFont(new Font("TimesRoman", Font.BOLD, 35))
                         .setTextColor(new Color(162, 176, 198))
                         .setHaveBorder(false)
-                        .setBorderColor(new Color(231, 8, 37))
+                        .setBorderColor(new Color(248, 99, 61))
                         .setBorderThickness(5)
         ));
         //11
         //pop restart button
         Theme.add(new Theme(
                 //normal
-                new Style.StyleRect(100, 50, false, new BackgroundType.BackgroundNull())
+                new Style.StyleRect(130, 45, true, new BackgroundType.BackgroundColor(new Color(120, 236, 186)))
                         .setText("Restart")
                         .setTextFont(new Font("TimesRoman", Font.BOLD, 30))
                         .setTextColor(Color.WHITE)
-                        .setHaveBorder(false)
-                        .setBorderColor(new Color(222, 29, 88))
-                        .setBorderThickness(5),
+                        .setHaveBorder(true)
+                        .setBorderColor(new Color(7, 172, 48, 255))
+                        .setBorderThickness(3),
                 //HOVER
-                new Style.StyleRect(100, 50, false, new BackgroundType.BackgroundNull())
-                        .setHaveBorder(false)
-                        .setBorderColor(Color.WHITE)
+                new Style.StyleRect(130, 45, true, new BackgroundType.BackgroundColor(new Color(120, 236, 186)))
+                        .setHaveBorder(true)
+                        .setBorderColor(new Color(7, 172, 48, 255))
                         .setBorderThickness(5)
                         .setText("Restart")
                         .setTextColor(new Color(220, 46, 106, 238))
                         .setTextFont(new Font("TimesRoman", Font.BOLD, 30)),
                 //FOCUS
-                new Style.StyleRect(100, 50, false, new BackgroundType.BackgroundNull())
+                new Style.StyleRect(130, 45, true, new BackgroundType.BackgroundColor(new Color(120, 236, 186)))
                         .setText("Restart")
                         .setTextFont(new Font("TimesRoman", Font.BOLD, 35))
                         .setTextColor(new Color(162, 176, 198))
-                        .setHaveBorder(false)
-                        .setBorderColor(new Color(231, 8, 37))
+                        .setHaveBorder(true)
+                        .setBorderColor(new Color(7, 172, 48, 255))
                         .setBorderThickness(5)
         ));
         //12
         //confirm button
         Theme.add(new Theme(
                 //normal
-                new Style.StyleRect(100, 50, false, new BackgroundType.BackgroundNull())
+                new Style.StyleRect(100, 50, true, new BackgroundType.BackgroundNull())
                         .setText("CONFIRM")
                         .setTextFont(new Font("TimesRoman", Font.BOLD, 30))
                         .setTextColor(Color.WHITE)
@@ -370,7 +371,7 @@ public class Main {// 資料刷新時間
                         .setHaveBorder(false)
                         .setBorderColor(Color.WHITE)
                         .setBorderThickness(5)
-                        .setText("SEND")
+                        .setText("CONFIRM")
                         .setTextColor(new Color(220, 46, 106, 238))
                         .setTextFont(new Font("TimesRoman", Font.BOLD, 30)),
                 //FOCUS
@@ -432,6 +433,34 @@ public class Main {// 資料刷新時間
                 //FOCUS
                 new Style.StyleRect(50, 50, false, new BackgroundType.BackgroundNull())
                         .setText("Back")
+                        .setTextFont(new Font("TimesRoman", Font.TYPE1_FONT, 30))
+                        .setTextColor(new Color(162, 176, 198))
+                        .setHaveBorder(false)
+                        .setBorderColor(new Color(231, 8, 37))
+                        .setBorderThickness(5)
+        ));
+        //15
+        //return to mode in rank
+        Theme.add(new Theme(
+                //normal
+                new Style.StyleRect(50, 50, false, new BackgroundType.BackgroundNull())
+                        .setText("Exit")
+                        .setTextFont(new Font("TimesRoman", Font.TYPE1_FONT, 30))
+                        .setTextColor(Color.WHITE)
+                        .setHaveBorder(false)
+                        .setBorderColor(new Color(162, 176, 198))
+                        .setBorderThickness(5),
+                //HOVER
+                new Style.StyleRect(50, 50, false, new BackgroundType.BackgroundNull())
+                        .setHaveBorder(false)
+                        .setBorderColor(Color.WHITE)
+                        .setBorderThickness(5)
+                        .setText("Exit")
+                        .setTextColor(new Color(30, 70, 118))
+                        .setTextFont(new Font("TimesRoman", Font.TYPE1_FONT, 30)),
+                //FOCUS
+                new Style.StyleRect(50, 50, false, new BackgroundType.BackgroundNull())
+                        .setText("Exit")
                         .setTextFont(new Font("TimesRoman", Font.TYPE1_FONT, 30))
                         .setTextColor(new Color(162, 176, 198))
                         .setHaveBorder(false)

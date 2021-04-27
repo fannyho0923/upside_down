@@ -3,13 +3,12 @@ package game.menu.scene;
 import java.awt.*;
 import java.awt.event.MouseEvent;
 
+import game.controller.ImageController;
 import game.controller.SceneController;
 import game.menu.menu.*;
 import game.menu.menu.Button;
 import game.menu.menu.Label;
 import game.menu.menu.impl.MouseTriggerImpl;
-import game.scene.BasicScene;
-import game.scene.GameScene;
 import game.utils.CommandSolver;
 
 
@@ -20,6 +19,7 @@ public class StopPopupWindowScene extends PopupWindow {
     private Button restart;
     public Button back;
     private Label.ClickedAction clickedAction;
+    private Image popMenu;
 
     public StopPopupWindowScene(int x, int y, int width, int height) {
         super(x, y, width, height);
@@ -33,11 +33,11 @@ public class StopPopupWindowScene extends PopupWindow {
     public void sceneBegin() {
         stopTitle = new Label(getWidth() / 2 - 150, 30, new Style.StyleRect(300, 100, new BackgroundType.BackgroundNull())
                 .setText("-STOP-").setHaveBorder(false).setBorderColor(Color.black).setTextFont(new Font("TimesRoman", Font.BOLD, 100)));
-        continueGame = new Button(this.getWidth() / 2 - 50, 150, Theme.get(10));
-        restart = new Button(this.getWidth() / 2 - 50, 250, Theme.get(11));
+        continueGame = new Button(this.getWidth() / 2 - 65, 150, Theme.get(10));
+        restart = new Button(this.getWidth() / 2 - 65, 250, Theme.get(11));
         restart.setClickedActionPerformed(clickedAction);
-        back = new Button(this.getWidth() / 2 - 50, 350, Theme.get(9));
-
+        back = new Button(this.getWidth() / 2 - 65, 350, Theme.get(9));
+        popMenu = ImageController.getInstance().tryGet("/img/background/popMenu.png");
         continueGame.setClickedActionPerformed((int x, int y) -> this.hide());
         back.setClickedActionPerformed((int x, int y) -> SceneController.getInstance().change(new MenuScene()));
     }
@@ -52,9 +52,10 @@ public class StopPopupWindowScene extends PopupWindow {
 
     @Override
     public void paintWindow(Graphics g) {
-        g.setColor(Color.GRAY);
-        g.fillRect(0, 0, super.getWidth(), super.getHeight());
-        stopTitle.paint(g);
+//        g.setColor(Color.GRAY);
+//        g.fillRect(0, 0, super.getWidth(), super.getHeight());
+        g.drawImage(popMenu,this.getWidth()/2-200,0,400, 500,null);
+//        stopTitle.paint(g);
         continueGame.paint(g);
         restart.paint(g);
         back.paint(g);

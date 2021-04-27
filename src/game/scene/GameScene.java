@@ -372,22 +372,6 @@ public abstract class GameScene extends Scene {
                     saveNum = i;
                 }
             }
-//        =======
-//                if (camera.isCollision(this.actor)) {
-//                    this.actor.paint(g);
-//                }
-//                if (!actorTrigCamera) {
-//                    spikesUp.paint(g);
-//                    spikesDown.paint(g);
-//                }
-//                camera.paint(g);
-//                camera.end(g);
-//
-//                midPaint(g);
-//                if (stopPop.isShow()) {
-//                    stopPop.paint(g);
-//        >>>>>>>526d 424e b50ed4412f38906585e4f06b52df39c8
-//                }
             for (int i = 0; i < gameObjects.size(); i++) {
                 GameObject obj = gameObjects.get(i);
                 if (actor.isCollision(obj)) {
@@ -402,8 +386,9 @@ public abstract class GameScene extends Scene {
                     i--;
                 }
             }
-            if(!filePath.equals("countdown.txt")){
-            passPoint.get(0).update();}
+            if (!filePath.equals("countdown.txt")) {
+                passPoint.get(0).update();
+            }
             if (passPoint.size() > 0) {
                 if (actor.isCollision(passPoint.get(0))) {
                     passPoint.get(0).collisionEffect(actor); //for音效
@@ -495,13 +480,11 @@ public abstract class GameScene extends Scene {
             if (filePath.equals("countdown.txt")) {
                 this.currentRankPage = 3;
             }
-            if (!rankPop.setPlayer(result, filePath, currentRankPage)) {
-                SceneController.getInstance().change(new RankScene(currentRankPage));
-            } else {
-                rankPop.show();
-                rankShowed = false;
-                Global.isGameOver = false;
-            }
+            //確認可否刪除currentRankPage
+            rankPop.setPlayer(result, filePath, currentRankPage);
+            rankPop.show();
+            rankShowed = false;
+            Global.isGameOver = false;
             isPlayed = true;
         }
     }
