@@ -22,12 +22,9 @@ public class CountDown extends GameScene {
     private static int timeMax = 3;
     private int rebornTime;
     private int rebornShoot;
-    private Image[] passBlood;
     private Delay passDelay;
     private int passCount;
-
     private Delay diedDelay;
-
 
     public CountDown(int num) {
         super(4, "/map/countDown.bmp", new Actor(0, 0, num), new Background(960, 640),
@@ -149,7 +146,6 @@ public class CountDown extends GameScene {
                 }else {
                     SceneController.getInstance().change(new MenuScene());
                 }
-
             }
 
             if (getActor().getState() == Actor.State.DEAD) {

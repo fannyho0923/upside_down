@@ -32,14 +32,15 @@ public abstract class GameScene extends Scene {
     private ArrayList<GameObject> brokenRoads;
     private ArrayList<GameObject> savePoint;
     private ArrayList<GameObject> passPoint;
+    private ArrayList<GameObject> guide;
 
     private Camera camera;
     private Tracker tracker;
     private boolean actorTrigCamera;
     private int saveNum;
 
-    private int frameX_count;
-    private int frameY_count;
+    private static int frameX_count;
+    private static int frameY_count;
 
     private String mapBmpPath;
     private String mapTxtPath;
@@ -91,15 +92,25 @@ public abstract class GameScene extends Scene {
         brokenRoads = new ArrayList<>();
         savePoint = new ArrayList<>();
 
+        if(level == 1 ){
+            guide = new ArrayList<>();
+        }
+
         effect = new ArrayList<>();
 
         passPoint = new ArrayList<>();
         this.mapBmpPath = mapBmpPath;
         this.mapTxtPath = "/map/genMap.txt";
         mapInit();
+        if (level == 1){
+            guide.add(new Guide(guide.get(6).collider().left(),guide.get(6).collider().top(),Guide.Type.rubber));
+            guide.remove(6);
+            guide.get(7).setXY(160,1024);
+            guide.get(7).collider().offsetHeight(96);
+        }
+
         delay = new Delay(10);
         delay.loop();
-
         this.actor = actor;
         frameX_count = savePoint.get(0).collider().left() / cameraWidth;
         frameY_count = savePoint.get(0).collider().top() / cameraHeight;
@@ -125,6 +136,15 @@ public abstract class GameScene extends Scene {
     public static boolean isStory(){
         return isStory;
     }
+
+    public static int getFrameX_count(){
+        return frameX_count;
+    }
+    public static int getFrameY_count(){
+        return frameY_count;
+    }
+
+
 
     public Actor getActor() {
         return actor;
@@ -153,17 +173,27 @@ public abstract class GameScene extends Scene {
         startTime = System.nanoTime();
         //System.out.println(startTime);
     }
-
     @Override
     public void sceneEnd() {
         AudioResourceController.getInstance().stop("/sound/Battle-Dawn-crop-reduce.wav");
-        this.background = null;
         this.actor = null;
+        this.delay = null;
+        this.effect = null;
+        this.background = null;
+        this.backgrounds = null;
+        this.backEffect = null;
         this.gameObjects = null;
+        this.brokenRoads = null;
+        this.savePoint = null;
+        this.spikesUp = null;
+        this.spikesDown = null;
+        this.passPoint = null;
+        this.guide = null;
+
         this.camera = null;
+        this.tracker = null;
+
     }
-
-
 
     @Override
     public CommandSolver.KeyListener keyListener() {
@@ -220,9 +250,9 @@ public abstract class GameScene extends Scene {
                     @Override
                     public void keyTyped(char c, long trigTime) {
                         if (rankPop.isShow()) {
-//                            rankPop.getEditText().keyTyped(c);
-//                            playerName = rankPop.getEditText().getEditText();
-//                            rankPop.setPlayerName(playerName);
+                            rankPop.getEditText().keyTyped(c);
+                            playerName = rankPop.getEditText().getEditText();
+                            rankPop.setPlayerName(playerName);
                         }
                     }
                 };
@@ -257,7 +287,6 @@ public abstract class GameScene extends Scene {
         });
 
         effect.forEach(a -> a.paint(g));
-
         for (int i = 1; i < savePoint.size(); i++) {
             if (camera.isCollision(savePoint.get(i))) {
                 savePoint.get(i).savePointPaint(g, i == saveNum);
@@ -282,10 +311,26 @@ public abstract class GameScene extends Scene {
             spikesUp.paint(g);
             spikesDown.paint(g);
         }
+
+        if(level == 1){
+            for (int i = 0; i < guide.size(); i++){
+                if(guide.get(i).isCollision(actor)){
+                    guide.get(i).paint(g);
+                    System.out.println(i);
+                }
+            }
+//
+//            guide.forEach(a-> {
+//                if (a.isCollision(actor)) {
+//                    a.paint(g);
+//                }
+//            });
+        }
+
         camera.paint(g);
         camera.end(g);
 
-        midPaint(g);
+//        midPaint(g);
         if (stopPop.isShow()) {
             stopPop.paint(g);
         }
@@ -317,9 +362,7 @@ public abstract class GameScene extends Scene {
                     }
                 }
             }
-
             backEffect.update();
-
             if (!backEffect.isExist()) {
                 backEffect.setXY(camera.painter().left() + Global.random(0, Global.WINDOW_WIDTH), camera.painter().top() + Global.random(0, Global.WINDOW_HEIGHT));
                 backEffect.setExist(true);
@@ -711,9 +754,78 @@ public abstract class GameScene extends Scene {
                 return null;
             }));
 
-            if (level == 3) {
-                this.backgrounds.add(
-                        new CameraBackground(2880, 0, CameraBackground.Type.D3));
+            if(level == 1){
+                this.guide.addAll(mapLoader.createObjectArray("dir", Global.UNIT, mapInfoArr, (gameObject, name, mapInfo, size) -> {
+                    final GameObject tmp;
+                    if (gameObject.equals(name)) {
+                        tmp = new Guide(mapInfo.getX() * size, mapInfo.getY() * size, Guide.Type.dirKey);
+                        return tmp;
+                    }
+                    return null;
+                }));
+
+                this.guide.addAll(mapLoader.createObjectArray("Space", Global.UNIT, mapInfoArr, (gameObject, name, mapInfo, size) -> {
+                    final GameObject tmp;
+                    if (gameObject.equals(name)) {
+                        tmp = new Guide(mapInfo.getX() * size, mapInfo.getY() * size, Guide.Type.space);
+                        return tmp;
+                    }
+                    return null;
+                }));
+
+                this.guide.addAll(mapLoader.createObjectArray("save", Global.UNIT, mapInfoArr, (gameObject, name, mapInfo, size) -> {
+                    final GameObject tmp;
+                    if (gameObject.equals(name)) {
+                        tmp = new Guide(mapInfo.getX() * size, mapInfo.getY() * size, Guide.Type.save);
+                        return tmp;
+                    }
+                    return null;
+                }));
+
+                this.guide.addAll(mapLoader.createObjectArray("ESC", Global.UNIT, mapInfoArr, (gameObject, name, mapInfo, size) -> {
+                    final GameObject tmp;
+                    if (gameObject.equals(name)) {
+                        tmp = new Guide(mapInfo.getX() * size, mapInfo.getY() * size, Guide.Type.ESC);
+                        return tmp;
+                    }
+                    return null;
+                }));
+
+                this.guide.addAll(mapLoader.createObjectArray("mons", Global.UNIT, mapInfoArr, (gameObject, name, mapInfo, size) -> {
+                    final GameObject tmp;
+                    if (gameObject.equals(name)) {
+                        tmp = new Guide(mapInfo.getX() * size, mapInfo.getY() * size, Guide.Type.monster);
+                        return tmp;
+                    }
+                    return null;
+                }));
+
+                this.guide.addAll(mapLoader.createObjectArray("conv", Global.UNIT, mapInfoArr, (gameObject, name, mapInfo, size) -> {
+                    final GameObject tmp;
+                    if (gameObject.equals(name)) {
+                        tmp = new Guide(mapInfo.getX() * size, mapInfo.getY() * size, Guide.Type.conveyor);
+                        return tmp;
+                    }
+                    return null;
+                }));
+
+                this.guide.addAll(mapLoader.createObjectArray("brokenG", Global.UNIT, mapInfoArr, (gameObject, name, mapInfo, size) -> {
+                    final GameObject tmp;
+                    if (gameObject.equals(name)) {
+                        tmp = new Guide(mapInfo.getX() * size, mapInfo.getY() * size, Guide.Type.brokenRoad);
+                        return tmp;
+                    }
+                    return null;
+                }));
+
+                this.guide.addAll(mapLoader.createObjectArray("passG", Global.UNIT, mapInfoArr, (gameObject, name, mapInfo, size) -> {
+                    final GameObject tmp;
+                    if (gameObject.equals(name)) {
+                        tmp = new Guide(mapInfo.getX() * size, mapInfo.getY() * size, Guide.Type.pass);
+                        return tmp;
+                    }
+                    return null;
+                }));
             }
 
             if (level == 2) {
@@ -759,6 +871,11 @@ public abstract class GameScene extends Scene {
                     }
                     return null;
                 }));
+            }
+
+            if (level == 3) {
+                this.backgrounds.add(
+                        new CameraBackground(2880, 0, CameraBackground.Type.D3));
             }
 
             Tile.Type type;

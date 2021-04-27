@@ -21,7 +21,8 @@ public class Pass extends GameObject{
     private static final int countMax = 3;
 
     public Pass(int left, int top) {
-        super(left, top, Global.UNIT, Global.UNIT);
+        super(left, top, 64, 70);
+        this.collider().offset(-16,-38);
         isPlayed=false;
         img = ImageController.getInstance().tryGet("/img/gameObj/pass/light_white.png");
         this.delay = new Delay(15);
