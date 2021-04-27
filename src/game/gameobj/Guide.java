@@ -38,17 +38,6 @@ public class Guide extends GameObject{
                 GameScene.getFrameX_count()*960+200,
                 GameScene.getFrameY_count()*640+256,
                 null);
-        g.setColor(Color.green);
-        g.drawRect(this.collider().left(),this.collider().top(),this.collider().width(),this.collider().height());
-    }
-
-    public void paintCollider(Graphics g){
-
-    }
-
-    @Override
-    public void collisionEffect(Actor actor){
-
     }
 
     @Override

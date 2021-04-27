@@ -313,24 +313,18 @@ public abstract class GameScene extends Scene {
         }
 
         if(level == 1){
-            for (int i = 0; i < guide.size(); i++){
-                if(guide.get(i).isCollision(actor)){
-                    guide.get(i).paint(g);
-                    System.out.println(i);
+            guide.forEach(a-> {
+                if (a.isCollision(actor)) {
+                    a.paint(g);
                 }
-            }
-//
-//            guide.forEach(a-> {
-//                if (a.isCollision(actor)) {
-//                    a.paint(g);
-//                }
-//            });
+            });
         }
 
         camera.paint(g);
         camera.end(g);
 
-//        midPaint(g);
+        midPaint(g);
+
         if (stopPop.isShow()) {
             stopPop.paint(g);
         }
@@ -367,6 +361,7 @@ public abstract class GameScene extends Scene {
                 backEffect.setXY(camera.painter().left() + Global.random(0, Global.WINDOW_WIDTH), camera.painter().top() + Global.random(0, Global.WINDOW_HEIGHT));
                 backEffect.setExist(true);
             }
+
             savePoint.forEach(a -> a.update());
             if (actor.getState() == Actor.State.DEAD) {
                 brokenRoads.forEach(a -> a.setExist(true));
@@ -382,7 +377,7 @@ public abstract class GameScene extends Scene {
 
             for (int i = 0; i < savePoint.size(); i++) {
                 GameObject obj = savePoint.get(i);
-                if (actor.isCollision(obj)) {
+                if (actor.isCollision(obj) && actor.getState() == Actor.State.ALIVE) {
                     obj.collisionEffect(actor);
                     saveNum = i;
                 }
@@ -407,7 +402,7 @@ public abstract class GameScene extends Scene {
             }
 
             if (passPoint.size() > 0) {
-                if (actor.isCollision(passPoint.get(0))) {
+                if (actor.isCollision(passPoint.get(0)) && actor.getState() == Actor.State.ALIVE) {
                     if(!isStory){
                         passPoint.get(0).collisionEffect(actor); //for音效
                         rankShowed = true;
