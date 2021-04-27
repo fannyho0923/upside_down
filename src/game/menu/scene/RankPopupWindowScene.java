@@ -135,10 +135,12 @@ public class RankPopupWindowScene extends PopupWindow {
         rankTitle.paint(g);
         editText.paint(g);
         confirm.paint(g);
+        int min = costTime / 1000 / 60;
+        int sec = costTime / 1000 % 60;
         if (costTime > 0) {
             scoreLabel.paint(g);
             scoreLabelDescribe = new Label(this.getWidth() / 2 - 150, 200, new Style.StyleRect(300, 100, new BackgroundType.BackgroundNull())
-                    .setText("" + costTime / 1000 / 60 + ":" + costTime / 1000 % 60).setHaveBorder(false).setBorderColor(Color.black).setTextFont(new Font("TimesRoman", Font.BOLD, 30)));
+                    .setText("" + min + ":" + ((sec < 10)?"0" + sec : sec)).setHaveBorder(false).setBorderColor(Color.black).setTextFont(new Font("TimesRoman", Font.BOLD, 30)));
             scoreLabelDescribe.paint(g);
         }
     }

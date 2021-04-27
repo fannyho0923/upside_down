@@ -27,7 +27,7 @@ public class AudioResourceController {
     public boolean getMute() {
         return isMute;
     }
-    public  boolean isMute = false;
+    public  boolean isMute = true;
     private static AudioResourceController irc;
     private Map<String, ClipThread> soundMap;
     private final ClipThread.FinishHandler finishHandler = (String fileName, Clip clip) -> {

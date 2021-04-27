@@ -242,30 +242,35 @@ public class RankScene extends Scene {
                 .setTextColor(new Color(34, 53, 220)));
 
         //score
+        int min = getTime(allRank.get(currentRankPage), 0) / 1000 / 60;
+        int sec = getTime(allRank.get(currentRankPage), 0) / 1000 % 60;
         label11 = new Label(275, 200, new Style.StyleRect(100, 50, new BackgroundType.BackgroundNull())
                 .setTextFont(new Font("TimesRoman", Font.BOLD, 30))
-                .setText(getTime(allRank.get(currentRankPage), 0) / 1000 / 60 + ":" +
-                        getTime(allRank.get(currentRankPage), 0) / 1000 % 60)
+                .setText(min + ":" + ((sec < 10)?"0" + sec : sec))
                 .setTextColor(new Color(241, 18, 18)));
+        min = getTime(allRank.get(currentRankPage), 1) / 1000 / 60;
+        sec = getTime(allRank.get(currentRankPage), 1) / 1000 % 60;
         label12 = new Label(275, 250, new Style.StyleRect(100, 50, new BackgroundType.BackgroundNull())
                 .setTextFont(new Font("TimesRoman", Font.BOLD, 30))
-                .setText(getTime(allRank.get(currentRankPage), 1) / 1000 / 60 + ":" +
-                        getTime(allRank.get(currentRankPage), 1) / 1000 % 60)
+                .setText(min + ":" + ((sec < 10)?"0" + sec : sec))
                 .setTextColor(new Color(234, 75, 16)));
+        min = getTime(allRank.get(currentRankPage), 2) / 1000 / 60;
+        sec = getTime(allRank.get(currentRankPage), 2) / 1000 % 60;
         label13 = new Label(275, 300, new Style.StyleRect(100, 50, new BackgroundType.BackgroundNull())
                 .setTextFont(new Font("TimesRoman", Font.BOLD, 30))
-                .setText(getTime(allRank.get(currentRankPage), 2) / 1000 / 60 + ":" +
-                        getTime(allRank.get(currentRankPage), 2) / 1000 % 60)
+                .setText(min + ":" + ((sec < 10)?"0" + sec : sec))
                 .setTextColor(new Color(246, 224, 16)));
+        min = getTime(allRank.get(currentRankPage), 3) / 1000 / 60;
+        sec = getTime(allRank.get(currentRankPage), 3) / 1000 % 60;
         label14 = new Label(275, 350, new Style.StyleRect(100, 50, new BackgroundType.BackgroundNull())
                 .setTextFont(new Font("TimesRoman", Font.BOLD, 30))
-                .setText(getTime(allRank.get(currentRankPage), 3) / 1000 / 60 + ":" +
-                        getTime(allRank.get(currentRankPage), 3) / 1000 % 60)
+                .setText(min + ":" + ((sec < 10)?"0" + sec : sec))
                 .setTextColor(new Color(77, 241, 18)));
+        min = getTime(allRank.get(currentRankPage), 4) / 1000 / 60;
+        sec = getTime(allRank.get(currentRankPage), 4) / 1000 % 60;
         label15 = new Label(275, 400, new Style.StyleRect(100, 50, new BackgroundType.BackgroundNull())
                 .setTextFont(new Font("TimesRoman", Font.BOLD, 30))
-                .setText(getTime(allRank.get(currentRankPage), 4) / 1000 / 60 + ":" +
-                        getTime(allRank.get(currentRankPage), 4) / 1000 % 60)
+                .setText(min + ":" + ((sec < 10)?"0" + sec : sec))
                 .setTextColor(new Color(34, 53, 220)));
     }
 
