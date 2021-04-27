@@ -49,11 +49,31 @@ public class ModeScene extends Scene {
         b4 = new Button(380 , 280, Theme.get(5));
         b5 = new Button(670 , 280, Theme.get(6));
         back = new Button(800, 650 - 105, Theme.get(14));
-        b1.setClickedActionPerformed((int x, int y) -> SceneController.getInstance().change(new BasicScene(actorNum)));
-        b2.setClickedActionPerformed((int x, int y) -> SceneController.getInstance().change(new SpeedRun(actorNum)));
-        b3.setClickedActionPerformed((int x, int y) -> SceneController.getInstance().change(new SpeedRun(actorNum)));
-        b4.setClickedActionPerformed((int x, int y) -> SceneController.getInstance().change(new Parkour(actorNum)));
-        b5.setClickedActionPerformed((int x, int y) -> SceneController.getInstance().change(new CountDown(actorNum)));
+        b1.setClickedActionPerformed((int x, int y) -> {
+                SceneController.getInstance().change(new BasicScene(actorNum));
+                GameScene.setIsStory(false);
+                });
+        b2.setClickedActionPerformed((int x, int y) -> {
+                    SceneController.getInstance().change(new BasicScene(actorNum));
+                    GameScene.setIsStory(true);
+                    System.out.println("Story");
+                });
+        b3.setClickedActionPerformed((int x, int y) -> {
+                SceneController.getInstance().change(new SpeedRun(actorNum));
+                GameScene.setIsStory(false);
+                    System.out.println("SpeedRun");
+                });
+        b4.setClickedActionPerformed((int x, int y) -> {
+                SceneController.getInstance().change(new Parkour(actorNum));
+                GameScene.setIsStory(false);
+                System.out.println("Parkour");
+                });
+        b5.setClickedActionPerformed((int x, int y) -> {
+                SceneController.getInstance().change(new CountDown(actorNum));
+                GameScene.setIsStory(false);
+                System.out.println("CountDown");
+                });
+
         back.setClickedActionPerformed((int x, int y) -> SceneController.getInstance().change((new SelectActorScene())));
 
     }

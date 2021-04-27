@@ -2,7 +2,9 @@ package game.scene;
 
 import game.controller.AudioResourceController;
 import game.controller.ImageController;
+import game.controller.SceneController;
 import game.gameobj.*;
+import game.menu.scene.MenuScene;
 import game.utils.Global;
 import game.utils.NumberFig;
 import game.utils.Delay;
@@ -77,7 +79,6 @@ public class CountDown extends GameScene {
         bullets.forEach(bullet -> bullet.paint(g));
         numFigs[0].paint(g);
         numFigs[1].paint(g);
-
     }
 
     @Override
@@ -142,8 +143,13 @@ public class CountDown extends GameScene {
                 }
             }
             if (timeCount <= -1) { // win
-                Global.isGameOver = true;
-                super.gameOver();
+                if(!GameScene.isStory()){
+                    Global.isGameOver = true;
+                    super.gameOver();
+                }else {
+                    SceneController.getInstance().change(new MenuScene());
+                }
+
             }
 
             if (getActor().getState() == Actor.State.DEAD) {

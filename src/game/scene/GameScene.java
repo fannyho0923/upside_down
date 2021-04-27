@@ -59,6 +59,7 @@ public abstract class GameScene extends Scene {
     private String playerName;
     private int currentRankPage;
 
+    private static boolean isStory;
 
     public GameScene(int level, String mapBmpPath, Actor actor, GameObject background,
                      int cameraWidth, int cameraHeight, int cameraVelocityX, int cameraVelocityY,
@@ -118,6 +119,13 @@ public abstract class GameScene extends Scene {
                 .gen();
     }
 
+    public static void setIsStory(boolean isStory){
+        GameScene.isStory = isStory;
+    }
+    public static boolean isStory(){
+        return isStory;
+    }
+
     public Actor getActor() {
         return actor;
     }
@@ -154,6 +162,8 @@ public abstract class GameScene extends Scene {
         this.gameObjects = null;
         this.camera = null;
     }
+
+
 
     @Override
     public CommandSolver.KeyListener keyListener() {
@@ -217,44 +227,6 @@ public abstract class GameScene extends Scene {
                     }
                 };
     }
-
-//        public void init ( int level, String mapBmpPath, Actor actor, GameObject background,
-//        int cameraWidth, int cameraHeight, int cameraVelocityX, int cameraVelocityY,
-//        boolean actorTrigCamera, String filePath){
-//            this.level = level;
-//
-//            backgrounds = new ArrayList<>();
-//            gameObjects = new ArrayList<>();
-//            brokenRoads = new ArrayList<>();
-//            savePoint = new ArrayList<>();
-//            effect = new ArrayList<>();
-//
-//            passPoint = new ArrayList<>();
-//            this.mapBmpPath = mapBmpPath;
-//            this.mapTxtPath = "/map/genMap.txt";
-//            mapInit();
-//            delay = new Delay(10);
-//            delay.loop();
-//
-//            this.actor = actor;
-//            frameX_count = savePoint.get(0).collider().left() / cameraWidth;
-//            frameY_count = savePoint.get(0).collider().top() / cameraHeight;
-//            actor.setXY(savePoint.get(0).painter().centerX(), savePoint.get(0).painter().centerY());
-//            actor.setReborn(actor.painter().left(), actor.painter().top(), false);
-//            saveNum = 0;
-//
-//            this.background = background;
-//            int cameraStartX = cameraWidth * frameX_count;
-//            int cameraStartY = cameraHeight * frameY_count;
-//
-//            this.tracker = new Tracker(cameraStartX + (cameraWidth - Global.UNIT) / 2,
-//                    cameraStartY + (cameraHeight - Global.UNIT) / 2, new Velocity(cameraVelocityX, cameraVelocityY, false));
-//            this.actorTrigCamera = actorTrigCamera;
-//            camera = new Camera.Builder(cameraWidth, cameraHeight)
-//                    .setChaseObj(tracker)
-//                    .gen();
-//        }
-
 
     @Override
     public CommandSolver.MouseListener mouseListener() {
@@ -372,22 +344,7 @@ public abstract class GameScene extends Scene {
                     saveNum = i;
                 }
             }
-//        =======
-//                if (camera.isCollision(this.actor)) {
-//                    this.actor.paint(g);
-//                }
-//                if (!actorTrigCamera) {
-//                    spikesUp.paint(g);
-//                    spikesDown.paint(g);
-//                }
-//                camera.paint(g);
-//                camera.end(g);
-//
-//                midPaint(g);
-//                if (stopPop.isShow()) {
-//                    stopPop.paint(g);
-//        >>>>>>>526d 424e b50ed4412f38906585e4f06b52df39c8
-//                }
+
             for (int i = 0; i < gameObjects.size(); i++) {
                 GameObject obj = gameObjects.get(i);
                 if (actor.isCollision(obj)) {
@@ -403,11 +360,27 @@ public abstract class GameScene extends Scene {
                 }
             }
             if(!filePath.equals("countdown.txt")){
-            passPoint.get(0).update();}
+                passPoint.get(0).update();
+            }
+
             if (passPoint.size() > 0) {
                 if (actor.isCollision(passPoint.get(0))) {
-                    passPoint.get(0).collisionEffect(actor); //for音效
-                    rankShowed = true;
+                    if(!isStory){
+                        passPoint.get(0).collisionEffect(actor); //for音效
+                        rankShowed = true;
+                    }else {
+                        switch (level){
+                            case 1:
+                                SceneController.getInstance().change(new SpeedRun(1));
+                                break;
+                            case 2:
+                                SceneController.getInstance().change(new Parkour(2));
+                                break;
+                            case 3:
+                                SceneController.getInstance().change(new CountDown(3));
+                                break;
+                        }
+                    }
                 }
             }
             camera.update();
