@@ -97,7 +97,6 @@ public abstract class GameScene extends Scene {
         }
 
         effect = new ArrayList<>();
-
         passPoint = new ArrayList<>();
         this.mapBmpPath = mapBmpPath;
         this.mapTxtPath = "/map/genMap.txt";
@@ -112,6 +111,9 @@ public abstract class GameScene extends Scene {
         delay = new Delay(10);
         delay.loop();
         this.actor = actor;
+        actor.velocity().setGravityReverse(false);
+        actor.velocity().stop();
+        System.out.println("reset");
         frameX_count = savePoint.get(0).collider().left() / cameraWidth;
         frameY_count = savePoint.get(0).collider().top() / cameraHeight;
         actor.setXY(savePoint.get(0).painter().centerX(), savePoint.get(0).painter().centerY());
