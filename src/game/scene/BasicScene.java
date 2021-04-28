@@ -1,24 +1,10 @@
 package game.scene;
 
 import game.controller.AudioResourceController;
-import game.controller.ImageController;
 import game.gameobj.Actor;
 import game.gameobj.Background;
-import game.gameobj.Conveyor;
-import game.gameobj.GameObject;
-import game.menu.menu.BackgroundType;
-import game.menu.menu.Label;
-import game.menu.menu.Style;
-import game.utils.Global;
-
-import java.awt.*;
-import java.util.ArrayList;
-
 
 public class BasicScene extends GameScene {
-    private Label labelBorn, labelDir, labelDirImg, labelSpace, labelSpaceImg, labelOK, labelMon1, labelMon2, labelBR,
-            labelConveyor, labelRubber, labelDone, labelEnd, labelIns;
-
 
     public BasicScene(int num) {
         super(1, "/map/genMap.bmp",

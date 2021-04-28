@@ -112,9 +112,9 @@ public abstract class GameScene extends Scene {
         delay = new Delay(10);
         delay.loop();
         this.actor = actor;
-        frameX_count = savePoint.get(0).collider().left() / cameraWidth;
-        frameY_count = savePoint.get(0).collider().top() / cameraHeight;
-        actor.setXY(savePoint.get(0).painter().centerX(), savePoint.get(0).painter().centerY());
+        frameX_count = savePoint.get(5).collider().left() / cameraWidth;
+        frameY_count = savePoint.get(5).collider().top() / cameraHeight;
+        actor.setXY(savePoint.get(5).painter().centerX(), savePoint.get(5).painter().centerY());
         actor.setReborn(actor.painter().left(), actor.painter().top(), false);
         saveNum = 0;
 
@@ -395,7 +395,7 @@ public abstract class GameScene extends Scene {
                 }
             }
 
-            if(!filePath.equals("countdown.txt")){
+            if(!filePath.equals("countdown.txt")&&!filePath.equals("end.txt")){
                 passPoint.get(0).update();
             }
 
@@ -537,6 +537,42 @@ public abstract class GameScene extends Scene {
                 return null;
             }));
 
+            this.brokenRoads.addAll(mapLoader.createObjectArray("crate27", Global.UNIT, mapInfoArr, (gameObject, name, mapInfo, size) -> {
+                final GameObject tmp;
+                if (gameObject.equals(name)) {
+                    tmp = new BrokenRoad(mapInfo.getX() * size, mapInfo.getY() * size, BrokenRoad.Type.A);
+                    return tmp;
+                }
+                return null;
+            }));
+
+            this.brokenRoads.addAll(mapLoader.createObjectArray("crate28", Global.UNIT, mapInfoArr, (gameObject, name, mapInfo, size) -> {
+                final GameObject tmp;
+                if (gameObject.equals(name)) {
+                    tmp = new BrokenRoad(mapInfo.getX() * size, mapInfo.getY() * size, BrokenRoad.Type.C);
+                    return tmp;
+                }
+                return null;
+            }));
+
+            this.brokenRoads.addAll(mapLoader.createObjectArray("crate29", Global.UNIT, mapInfoArr, (gameObject, name, mapInfo, size) -> {
+                final GameObject tmp;
+                if (gameObject.equals(name)) {
+                    tmp = new BrokenRoad(mapInfo.getX() * size, mapInfo.getY() * size, BrokenRoad.Type.D);
+                    return tmp;
+                }
+                return null;
+            }));
+
+            this.brokenRoads.addAll(mapLoader.createObjectArray("crate30", Global.UNIT, mapInfoArr, (gameObject, name, mapInfo, size) -> {
+                final GameObject tmp;
+                if (gameObject.equals(name)) {
+                    tmp = new BrokenRoad(mapInfo.getX() * size, mapInfo.getY() * size, BrokenRoad.Type.E);
+                    return tmp;
+                }
+                return null;
+            }));
+
             // 出生點，存第一個
             this.savePoint.addAll(mapLoader.createObjectArray("born", Global.UNIT, mapInfoArr, (gameObject, name, mapInfo, size) -> {
                 final GameObject tmp;
@@ -556,6 +592,24 @@ public abstract class GameScene extends Scene {
                 return null;
             }));
             //background
+            this.backgrounds.addAll(mapLoader.createObjectArray("city", Global.UNIT, mapInfoArr, (gameObject, name, mapInfo, size) -> {
+                final GameObject tmp;
+                if (gameObject.equals(name)) {
+                    tmp = new CameraBackground(mapInfo.getX() * size, mapInfo.getY() * size, CameraBackground.Type.End);
+                    return tmp;
+                }
+                return null;
+            }));
+
+            this.backgrounds.addAll(mapLoader.createObjectArray("complete", Global.UNIT, mapInfoArr, (gameObject, name, mapInfo, size) -> {
+                final GameObject tmp;
+                if (gameObject.equals(name)) {
+                    tmp = new CameraBackground(mapInfo.getX() * size, mapInfo.getY() * size, CameraBackground.Type.Complete);
+                    return tmp;
+                }
+                return null;
+            }));
+
             this.backgrounds.addAll(mapLoader.createObjectArray("back1", Global.UNIT, mapInfoArr, (gameObject, name, mapInfo, size) -> {
                 final GameObject tmp;
                 if (gameObject.equals(name)) {
@@ -867,6 +921,10 @@ public abstract class GameScene extends Scene {
             if (level == 3) {
                 this.backgrounds.add(
                         new CameraBackground(2880, 0, CameraBackground.Type.D3));
+            }
+            if (level == 5) {
+                this.backgrounds.add(
+                        new CameraBackground(2880, 0, CameraBackground.Type.End));
             }
 
             Tile.Type type;

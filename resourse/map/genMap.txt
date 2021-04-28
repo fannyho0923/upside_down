@@ -82,3 +82,9 @@ mons,-6750055,D:\newMap\img\guide\monster.png,1,1
 conv,-6724096,D:\newMap\img\guide\conv.png,1,1
 brokenG,-10092544,D:\newMap\img\guide\brokenRoad.png.png,1,1
 passG,-16711783,D:\newMap\img\guide\pass.png,1,1
+city,-16764109,C:\Users\anne\Desktop\遊戲素材\story終關\city.png,30,20
+complete,-13421824,C:\Users\anne\Desktop\遊戲素材\story終關\complete.png,16,4
+crate27,-16751002,C:\Users\anne\Desktop\遊戲素材\story終關\kenney_sokobanpack\PNG\Default size\Crates\crate_27.png,1,1
+crate28,-16751053,C:\Users\anne\Desktop\遊戲素材\story終關\kenney_sokobanpack\PNG\Default size\Crates\crate_28.png,1,1
+crate29,-16724788,C:\Users\anne\Desktop\遊戲素材\story終關\kenney_sokobanpack\PNG\Default size\Crates\crate_29.png,1,1
+crate30,-16737946,C:\Users\anne\Desktop\遊戲素材\story終關\kenney_sokobanpack\PNG\Default size\Crates\crate_30.png,1,1

@@ -8,6 +8,7 @@ import game.menu.menu.BackgroundType;
 import game.menu.menu.Style;
 import game.menu.menu.Theme;
 import game.menu.scene.*;
+import game.scene.EndScene;
 import game.utils.CommandSolver;
 import game.utils.GameKernel;
 import game.utils.Global;

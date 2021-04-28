@@ -28,7 +28,9 @@ public class CameraBackground extends GameObject{
         Fanny16("/img/gameObj/background/back16.jpg"),
         Fanny17("/img/gameObj/background/back17.jpg"),
         Fanny18("/img/gameObj/background/back18.jpg"),
-        Fanny19("/img/gameObj/background/back19.jpg");
+        Fanny19("/img/gameObj/background/back19.jpg"),
+        End("/img/gameObj/background/city.png"),
+        Complete("/img/gameObj/background/complete.png");
         private Image img;
         Type(String path){
             img = ImageController.getInstance().tryGet(path);

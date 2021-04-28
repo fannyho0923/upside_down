@@ -15,7 +15,10 @@ public class BrokenRoad extends GameObject{
 
     public enum Type{
         A("/img/gameObj/broken/crate_13.png"),
-        B("/img/gameObj/broken/crate_14.png");
+        B("/img/gameObj/broken/crate_14.png"),
+        C("/img/gameObj/broken/crate_15.png"),
+        D("/img/gameObj/broken/crate_16.png"),
+        E("/img/gameObj/broken/crate_blue.png");
 
         private Image img;
         Type(String path){
