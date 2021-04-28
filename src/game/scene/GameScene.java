@@ -129,7 +129,6 @@ public abstract class GameScene extends Scene {
     @Override
     public void sceneBegin() {
         rankShowed = false;
-        AudioResourceController.getInstance().loop("/sound/Battle-Dawn-crop-reduce.wav", 50);
         brokenRoads.forEach(a -> a.setExist(true));
         MapInformation.getInstance().setMapInfo(this.background);
         if (actorTrigCamera) {
@@ -148,7 +147,6 @@ public abstract class GameScene extends Scene {
 
     @Override
     public void sceneEnd() {
-        AudioResourceController.getInstance().stop("/sound/Battle-Dawn-crop-reduce.wav");
         this.background = null;
         this.actor = null;
         this.gameObjects = null;
@@ -392,7 +390,9 @@ public abstract class GameScene extends Scene {
             if (passPoint.size() > 0) {
                 if (actor.isCollision(passPoint.get(0))) {
                     passPoint.get(0).collisionEffect(actor); //for音效
-                    rankShowed = true;
+                    AudioResourceController.getInstance().shot("/sound/victory1.wav", (fileName, clip) -> {
+                        rankShowed = true;
+                    });
                 }
             }
             camera.update();
