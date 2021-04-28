@@ -7,10 +7,9 @@ import game.gameobj.Background;
 public class EndScene extends GameScene{
     public EndScene(int num) {
         super(5, "/map/finalMap.bmp",
-                new Actor(0, 0, num), new Background(1920, 1920),
-                //real 1300,1500 //plat test 150,2000
+                new Actor(0, 0, num), new Background(960, 640),
                 960, 640, 0, 0,
-                true, "end.txt");
+                false, "end.txt");
     }
 
     @Override
@@ -24,5 +23,4 @@ public class EndScene extends GameScene{
         super.sceneEnd();
         AudioResourceController.getInstance().stop("/sound/end.wav");
     }
-
 }

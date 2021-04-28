@@ -22,8 +22,6 @@ public class CountDown extends GameScene {
     private static int timeMax = 30;
     private int rebornTime;
     private int rebornShoot;
-    private Delay passDelay;
-    private int passCount;
     private Delay diedDelay;
 
     public CountDown(int num) {
@@ -55,8 +53,6 @@ public class CountDown extends GameScene {
 
         rebornTime = timeMax;
         rebornShoot = shootPosition;
-        passDelay = new Delay(5);
-        passCount = 0;
     }
 
     @Override

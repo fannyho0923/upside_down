@@ -75,11 +75,7 @@ public class Actor extends GameObject {
                 velocity.update();
                 moveY();
                 if(deadDelay.count()){
-                    this.setXY(rebornX, rebornY);
-                    velocity.setGravityReverse(rebornState);
-                    velocity().stop();
-                    state = State.REBORN;
-                    rebornDelay.play();
+                    reborn();
                 }
                 break;
             case REBORN:
@@ -210,6 +206,14 @@ public class Actor extends GameObject {
             state = State.DEAD;
             //AudioResourceController.getInstance().play("/sound/dead.wav");
         }
+    }
+
+    public void reborn(){
+        this.setXY(rebornX, rebornY);
+        velocity.setGravityReverse(rebornState);
+        velocity().stop();
+        state = State.REBORN;
+        rebornDelay.play();
     }
 
     public void setReborn(int rebornX, int rebornY, boolean rebornState) {
