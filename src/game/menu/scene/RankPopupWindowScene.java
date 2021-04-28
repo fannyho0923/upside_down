@@ -247,13 +247,6 @@ public class RankPopupWindowScene extends PopupWindow {
             }
         }
 
-        //如果目前榜上資料超過5筆，要進行比對，有進榜單資格的話，就add，排序後取前5輸出
-        //不超過9筆就直接加入榜單後，排序輸出
-        if (rankResults.size() >= 5) {
-            if (!(rankResults.get(rankResults.size() - 1).compareTo(player))) {
-                return false;//資料已有五筆且輸給最後一名->未挑戰成功
-            }
-        }
         if (rankResults.size() >= 1) {
             no1 = new Label(this.getWidth() / 2 - 20, 130, new Style.StyleRect(50, 20, new BackgroundType.BackgroundNull())
                     .setText(rankResults.get(0).getName()).setHaveBorder(false).setBorderColor(Color.black).setTextFont(new Font("TimesRoman", Font.BOLD, 20)));
@@ -265,6 +258,14 @@ public class RankPopupWindowScene extends PopupWindow {
         if (rankResults.size() >= 3) {
             no3 = new Label(this.getWidth() / 2 + 100, 205, new Style.StyleRect(50, 20, new BackgroundType.BackgroundNull())
                     .setText(rankResults.get(2).getName()).setHaveBorder(false).setBorderColor(Color.black).setTextFont(new Font("TimesRoman", Font.BOLD, 20)));
+        }
+
+        //如果目前榜上資料超過5筆，要進行比對，有進榜單資格的話，就add，排序後取前5輸出
+        //不超過9筆就直接加入榜單後，排序輸出
+        if (rankResults.size() >= 5) {
+            if (!(rankResults.get(rankResults.size() - 1).compareTo(player))) {
+                return false;//資料已有五筆且輸給最後一名->未挑戰成功
+            }
         }
         return true;//擁有可寫入排行榜資格
     }
