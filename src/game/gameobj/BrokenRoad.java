@@ -13,16 +13,22 @@ public class BrokenRoad extends GameObject{
     private Delay delay;
     private Type type;
 
+    private Delay glowDelay;
+    private int glowCount;
+
     public enum Type{
-        A("/img/gameObj/broken/crate_13.png"),
-        B("/img/gameObj/broken/crate_14.png"),
-        C("/img/gameObj/broken/crate_15.png"),
-        D("/img/gameObj/broken/crate_16.png"),
-        E("/img/gameObj/broken/crate_blue.png");
+        A("/img/gameObj/broken/crate_13.png", "/img/gameObj/bullet/a.png"),
+        B("/img/gameObj/broken/crate_14.png", "/img/gameObj/bullet/b.png"),
+        C("/img/gameObj/broken/crate_15.png", "/img/gameObj/bullet/e.png"),
+        D("/img/gameObj/broken/crate_16.png", "/img/gameObj/bullet/c.png"),
+        E("/img/gameObj/broken/crate_blue.png", "/img/gameObj/bullet/a.png");
 
         private Image img;
-        Type(String path){
+        private Image img2;
+
+        Type(String path, String path2){
             img = ImageController.getInstance().tryGet(path);
+            img2 = ImageController.getInstance().tryGet(path2);
         }
     }
 
@@ -30,6 +36,9 @@ public class BrokenRoad extends GameObject{
         super(left, top, Global.UNIT,Global.UNIT);
         this.type = type;
         delay = new Delay(15);
+        glowDelay = new Delay(10);
+        glowCount = 0;
+        glowDelay.loop();
     }
 
     @Override
@@ -45,6 +54,18 @@ public class BrokenRoad extends GameObject{
 //            g.drawImage(type.img,painter().left(),painter().top(),painter().right(),painter().bottom(),
 //                    0,0,Global.UNIT,Global.UNIT-delay.getCount()*2,null);
             g.drawImage(type.img, painter().left(), painter().top(), null);
+    }
+
+    public void paintAppear(Graphics g){
+//        g.drawImage(Type.F.img, painter().left(), painter().top(), null);
+//        int r = Global.random(0,5);
+
+        g.drawImage(type.img2,painter().left()-32, painter().top()-32,painter().left()+96-32,painter().top()+96-32,
+                            glowCount*96,glowCount*96,glowCount*96+96,glowCount*96+96,null);
+
+//
+//        g.drawImage(Type.F.img,painter().left(), painter().top(),painter().left()+ 192,painter().top()+192,
+//                glowCount*192,glowCount*192,glowCount*192+192,glowCount*192+192,null);
 
     }
 
@@ -52,6 +73,9 @@ public class BrokenRoad extends GameObject{
     public void update() {
         if(delay.count()){
             setExist(false);
+        }
+        if(glowDelay.count()){
+            glowCount = ++glowCount % 5;
         }
     }
 }

@@ -136,4 +136,6 @@ public abstract class GameObject implements GameKernel.UpdateInterface, GameKern
 
     public void savePointPaint(Graphics g, boolean get){}
 
+    public void paintAppear(Graphics g){}
+
 }

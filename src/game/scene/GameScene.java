@@ -293,6 +293,9 @@ public abstract class GameScene extends Scene {
         brokenRoads.forEach(a -> {
             if (camera.isCollision(a) && a.isExist()) {
                 a.paint(g);
+            } else {
+                if(level == 5)
+                    a.paintAppear(g);
             }
         });
 
@@ -592,24 +595,6 @@ public abstract class GameScene extends Scene {
                 return null;
             }));
             //background
-            this.backgrounds.addAll(mapLoader.createObjectArray("city", Global.UNIT, mapInfoArr, (gameObject, name, mapInfo, size) -> {
-                final GameObject tmp;
-                if (gameObject.equals(name)) {
-                    tmp = new CameraBackground(mapInfo.getX() * size, mapInfo.getY() * size, CameraBackground.Type.End);
-                    return tmp;
-                }
-                return null;
-            }));
-
-            this.backgrounds.addAll(mapLoader.createObjectArray("complete", Global.UNIT, mapInfoArr, (gameObject, name, mapInfo, size) -> {
-                final GameObject tmp;
-                if (gameObject.equals(name)) {
-                    tmp = new CameraBackground(mapInfo.getX() * size, mapInfo.getY() * size, CameraBackground.Type.Complete);
-                    return tmp;
-                }
-                return null;
-            }));
-
             this.backgrounds.addAll(mapLoader.createObjectArray("back1", Global.UNIT, mapInfoArr, (gameObject, name, mapInfo, size) -> {
                 final GameObject tmp;
                 if (gameObject.equals(name)) {
@@ -646,14 +631,16 @@ public abstract class GameScene extends Scene {
                 return null;
             }));
 
-            this.backgrounds.addAll(mapLoader.createObjectArray("back3-3", Global.UNIT, mapInfoArr, (gameObject, name, mapInfo, size) -> {
-                final GameObject tmp;
-                if (gameObject.equals(name)) {
-                    tmp = new CameraBackground(mapInfo.getX() * size, mapInfo.getY() * size, CameraBackground.Type.C3);
-                    return tmp;
-                }
-                return null;
-            }));
+            if (level!=5) {
+                this.backgrounds.addAll(mapLoader.createObjectArray("back3-3", Global.UNIT, mapInfoArr, (gameObject, name, mapInfo, size) -> {
+                    final GameObject tmp;
+                    if (gameObject.equals(name)) {
+                        tmp = new CameraBackground(mapInfo.getX() * size, mapInfo.getY() * size, CameraBackground.Type.C3);
+                        return tmp;
+                    }
+                    return null;
+                }));
+            }
 
             this.backgrounds.addAll(mapLoader.createObjectArray("back3-4", Global.UNIT, mapInfoArr, (gameObject, name, mapInfo, size) -> {
                 final GameObject tmp;
@@ -922,10 +909,7 @@ public abstract class GameScene extends Scene {
                 this.backgrounds.add(
                         new CameraBackground(2880, 0, CameraBackground.Type.D3));
             }
-            if (level == 5) {
-                this.backgrounds.add(
-                        new CameraBackground(2880, 0, CameraBackground.Type.End));
-            }
+
 
             Tile.Type type;
             if (level == 1) {
@@ -1169,6 +1153,39 @@ public abstract class GameScene extends Scene {
                 }
                 return null;
             }));
+
+            if (level == 5) {
+                this.backgrounds.addAll(mapLoader.createObjectArray("city", Global.UNIT, mapInfoArr, (gameObject, name, mapInfo, size) -> {
+                    final GameObject tmp;
+                    if (gameObject.equals(name)) {
+                        tmp = new CameraBackground(mapInfo.getX() * size, mapInfo.getY() * size, CameraBackground.Type.End);
+                        return tmp;
+                    }
+                    return null;
+                }));
+                this.backgrounds.addAll(mapLoader.createObjectArray("complete", Global.UNIT, mapInfoArr, (gameObject, name, mapInfo, size) -> {
+                    final GameObject tmp;
+                    if (gameObject.equals(name)) {
+                        tmp = new CameraBackground(mapInfo.getX() * size, mapInfo.getY() * size, CameraBackground.Type.Complete);
+                        return tmp;
+                    }
+                    return null;
+                }));
+                this.savePoint.add(this.savePoint.get(0));
+                int temp = 0;
+                for(int i = 0; i< gameObjects.size(); i++){
+                    GameObject obj = gameObjects.get(i);
+
+                    if(obj instanceof Monster){
+
+                        if(temp >1){
+                            obj.offset(-96,-64);
+                        }
+                        temp++;
+                    }
+                }
+
+            }
 
 
             // rubber

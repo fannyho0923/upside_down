@@ -30,7 +30,7 @@ public class CameraBackground extends GameObject{
         Fanny18("/img/gameObj/background/back18.jpg"),
         Fanny19("/img/gameObj/background/back19.jpg"),
         End("/img/gameObj/background/city.png"),
-        Complete("/img/gameObj/background/complete.png");
+        Complete("/img/gameObj/background/complete_word.png");
         private Image img;
         Type(String path){
             img = ImageController.getInstance().tryGet(path);

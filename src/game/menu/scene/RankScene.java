@@ -326,6 +326,7 @@ public class RankScene extends Scene {
 
             if ((next.getIsHover()) && (!isPlayedNext)) {
                 AudioResourceController.getInstance().shot("/sound/tab.wav");
+
                 isPlayedNext = true;
             }
             if (!next.getIsHover()) {

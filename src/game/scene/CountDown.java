@@ -144,7 +144,7 @@ public class CountDown extends GameScene {
                     Global.isGameOver = true;
                     super.gameOver();
                 }else {
-                    SceneController.getInstance().change(new MenuScene());
+                    SceneController.getInstance().change(new EndScene(4));
                 }
             }
 

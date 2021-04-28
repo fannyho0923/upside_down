@@ -42,6 +42,7 @@ public class Monster extends GameObject{
     private int diedCount;
 
 
+
     public Monster(int top, int left, int width, int height, Type type) {
         super(top, left, width, height);
         this.type = type;
@@ -82,6 +83,7 @@ public class Monster extends GameObject{
         diedCount = 0;
 
     }
+
 
     @Override
     public void collisionEffect(Actor actor) {
