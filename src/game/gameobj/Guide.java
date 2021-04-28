@@ -30,8 +30,6 @@ public class Guide extends GameObject{
         this.type = type;
     }
 
-
-
     @Override
     public void paint(Graphics g) {
         g.drawImage(type.img,

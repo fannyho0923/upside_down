@@ -15,7 +15,6 @@ public class Background extends GameObject{
 
     @Override
     public void update() {
-
     }
 
     @Override

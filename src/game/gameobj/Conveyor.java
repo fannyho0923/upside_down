@@ -8,13 +8,9 @@ import game.utils.Global;
 import java.awt.*;
 
 public class Conveyor extends GameObject{
-    // 另外載入, 不要放在GameObj Arr, 鏡頭轉換時要重新創建
-
     private static final int SHIFT = 1;
     private Type type;
-
     public enum Type{
-
         TopL("/img/gameObj/conveyor/up.png","/img/gameObj/conveyor/up2.png",Global.Direction.LEFT),
         DownL("/img/gameObj/conveyor/down.png","/img/gameObj/conveyor/down2.png",Global.Direction.LEFT),
         TopR("/img/gameObj/conveyor/up.png","/img/gameObj/conveyor/up2.png",Global.Direction.RIGHT),
@@ -58,7 +54,6 @@ public class Conveyor extends GameObject{
         }else {
             g.drawImage(type.imgs[1], painter().left(), painter().top(), null);
         }
-
     }
 
     @Override
@@ -67,4 +62,5 @@ public class Conveyor extends GameObject{
             flag = !flag;
         }
     }
+
 }

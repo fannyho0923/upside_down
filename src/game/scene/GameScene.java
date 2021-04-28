@@ -15,7 +15,6 @@ import game.gameobj.*;
 
 import game.utils.Delay;
 import game.utils.Global;
-import game.utils.Velocity;
 import game.utils.*;
 
 import java.awt.*;
@@ -32,6 +31,9 @@ public abstract class GameScene extends Scene {
     private String mapTxtPath;
     private GameObject background;
     private Actor actor;
+
+    private static int actorNum;
+
     private ArrayList<GameObject> effect;
     private ArrayList<GameObject> backgrounds;
     private Delay delay;
@@ -59,7 +61,7 @@ public abstract class GameScene extends Scene {
     private RankResult result;
     private String playerName;
     private boolean isPlayed;
-    private Boolean rankShowed;
+    private boolean rankShowed;
 
     public GameScene(int level, String mapBmpPath, Actor actor, GameObject background,
                      boolean actorTrigCamera, String filePath) {
@@ -80,7 +82,7 @@ public abstract class GameScene extends Scene {
                 actorTrigCamera, filePath);
     }
 
-    public void init(int level, String mapBmpPath, Actor actor, GameObject background,
+    public void init(int level, String mapBmpPath,Actor actor, GameObject background,
                      boolean actorTrigCamera, String filePath) {
         this.level = level;
         backgrounds = new ArrayList<>();
@@ -107,15 +109,19 @@ public abstract class GameScene extends Scene {
         setFrame();
         this.background = background;
 
-
         int cameraWidth = 960;
         int cameraHeight = 640;
         int cameraStartX = cameraWidth * frameX_count;
         int cameraStartY = cameraHeight * frameY_count;
 
-        this.tracker = new Tracker(cameraStartX + (cameraWidth - Global.UNIT) / 2,
-                cameraStartY + (cameraHeight - Global.UNIT) / 2, new Velocity(0, -1, false));
         this.actorTrigCamera = actorTrigCamera;
+        if(actorTrigCamera){
+            this.tracker = new Tracker(cameraStartX + (cameraWidth - Global.UNIT) / 2,
+                    cameraStartY + (cameraHeight - Global.UNIT) / 2, new Vector(0, 0));
+        }else {
+            this.tracker = new Tracker(cameraStartX + (cameraWidth - Global.UNIT) / 2,
+                    cameraStartY + (cameraHeight - Global.UNIT) / 2, new Vector(0, -1));
+        }
         camera = new Camera.Builder(cameraWidth, cameraHeight)
                 .setChaseObj(tracker)
                 .gen();
@@ -156,7 +162,7 @@ public abstract class GameScene extends Scene {
         brokenRoads.forEach(a -> a.setExist(true));
         MapInformation.getInstance().setMapInfo(this.background);
         if (actorTrigCamera) {
-            tracker.velocity().stop();
+            tracker.velocity().zero();
         } else {
             tracker.offsetY(320);
             spikesUp = new Spikes(camera.painter().left(), camera.painter().top(), camera.painter().width(), Spikes.Type.topSpikes);
@@ -327,6 +333,10 @@ public abstract class GameScene extends Scene {
     }
 
     public void midPaint(Graphics g) {
+    }
+
+    public StopPopupWindowScene getStopPop() {
+        return stopPop;
     }
 
     @Override

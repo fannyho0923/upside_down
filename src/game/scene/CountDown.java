@@ -72,85 +72,89 @@ public class CountDown extends GameScene {
         numFigs[1].paint(g);
     }
 
+    public static int[] position =
+            {0,1,2,3,4,5,6,7,7,6,
+             5,4,3,2,1,0,0,1,2,3,
+             4,5,6,7,7,6,6,5,4,3};
+
     @Override
     public void update() {
         if (timeCount >= 0) {
             super.update();
-
-            if (shootDelay.count()) {
-                if (timeCount > timeMax - 8) {
-                    if (shootPosition % 2 == 0) {
-                        bullets.add(new Bullet(shootPosition, Bullet.Type.A, Bullet.Dir.left));
-                    } else {
-                        bullets.add(new Bullet(shootPosition, Bullet.Type.B, Bullet.Dir.left));
-                    }
-                    shootPosition++;
-                } else if (timeCount > timeMax - 16) {
-                    shootPosition--;
-                    if (shootPosition % 2 == 0) {
-                        bullets.add(new Bullet(shootPosition, Bullet.Type.C, Bullet.Dir.right));
-                    } else {
-                        bullets.add(new Bullet(shootPosition, Bullet.Type.D, Bullet.Dir.right));
-                    }
-                } else if (timeCount > timeMax - 24) {
-                    if (shootPosition % 2 == 0) {
-                        bullets.add(new Bullet(shootPosition, Bullet.Type.A, Bullet.Dir.left));
-                    } else {
-                        bullets.add(new Bullet(7 - shootPosition, Bullet.Type.E, Bullet.Dir.left));
-                    }
-                    shootPosition++;
-                } else if (timeCount > 0) {
-                    shootPosition--;
-                    if (shootPosition % 2 == 0) {
-                        bullets.add(new Bullet(shootPosition, Bullet.Type.D, Bullet.Dir.right));
-                    } else {
-                        bullets.add(new Bullet(7 - shootPosition, Bullet.Type.F, Bullet.Dir.right));
+            if(!getStopPop().isShow()){
+                if (shootDelay.count()) {
+                    shootPosition = position[30-timeCount];
+                    if (timeCount > timeMax - 8) {
+                        if (shootPosition % 2 == 0) {
+                            bullets.add(new Bullet(shootPosition, Bullet.Type.A, Bullet.Dir.left));
+                        } else {
+                            bullets.add(new Bullet(shootPosition, Bullet.Type.B, Bullet.Dir.left));
+                        }
+                    } else if (timeCount > timeMax - 16) {
+                        if (shootPosition % 2 == 0) {
+                            bullets.add(new Bullet(shootPosition, Bullet.Type.C, Bullet.Dir.right));
+                        } else {
+                            bullets.add(new Bullet(shootPosition, Bullet.Type.D, Bullet.Dir.right));
+                        }
+                    } else if (timeCount > timeMax - 24) {
+                        if (shootPosition % 2 == 0) {
+                            bullets.add(new Bullet(shootPosition, Bullet.Type.A, Bullet.Dir.left));
+                        } else {
+                            bullets.add(new Bullet(7 - shootPosition, Bullet.Type.E, Bullet.Dir.left));
+                        }
+                    } else if (timeCount > 0) {
+                        if (shootPosition % 2 == 0) {
+                            bullets.add(new Bullet(shootPosition, Bullet.Type.D, Bullet.Dir.right));
+                        } else {
+                            bullets.add(new Bullet(7 - shootPosition, Bullet.Type.F, Bullet.Dir.right));
+                        }
                     }
                 }
+
+                for (int i = 0; i < bullets.size(); i++) {
+                    Bullet bullet = bullets.get(i);
+                    bullet.update();
+                    if (bullet.isCollision(getActor())) {
+                        bullet.collisionEffect(getActor());
+                        diedDelay.play();
+                    }
+                    if (!bullet.isCollision(getCamera())) {
+                        bullets.remove(i);
+                        i--;
+                    }
+                }
+
+                if (secDelay.count()) {
+                    timeCount--;
+                    numFigs[0].setNum(timeCount / 10);
+                    numFigs[1].setNum(timeCount % 10);
+
+                    if (timeCount % 5 == 0) {
+                        System.out.println(timeCount);
+                        rebornTime = timeCount;
+                        rebornShoot = shootPosition;
+                    }
+                }
+                if (timeCount <= -1) { // win
+                    if(!GameScene.isStory()){
+                        Global.isGameOver = true;
+                        super.gameOver();
+                    }else {
+                        SceneController.getInstance().change(new EndScene(4));
+                    }
+                }
+
+                if (getActor().getState() == Actor.State.DEAD) {
+                    shootDelay.stop();
+                    if (diedDelay.count()) {
+                        bullets = new ArrayList<>();
+                        shootPosition = rebornShoot;
+                        timeCount = rebornTime+1;
+                        shootDelay.loop();
+                    }
+                }
             }
 
-            for (int i = 0; i < bullets.size(); i++) {
-                Bullet bullet = bullets.get(i);
-                bullet.update();
-                if (bullet.isCollision(getActor())) {
-                    bullet.collisionEffect(getActor());
-                    diedDelay.play();
-                }
-                if (!bullet.isCollision(getCamera())) {
-                    bullets.remove(i);
-                    i--;
-                }
-            }
-
-            if (secDelay.count()) {
-                timeCount--;
-                numFigs[0].setNum(timeCount / 10);
-                numFigs[1].setNum(timeCount % 10);
-
-                if (timeCount % 5 == 0) {
-                    System.out.println(timeCount);
-                    rebornTime = timeCount;
-                    rebornShoot = shootPosition;
-                }
-            }
-            if (timeCount <= -1) { // win
-                if(!GameScene.isStory()){
-                    Global.isGameOver = true;
-                    super.gameOver();
-                }else {
-                    SceneController.getInstance().change(new EndScene(4));
-                }
-            }
-
-            if (getActor().getState() == Actor.State.DEAD) {
-                shootDelay.stop();
-                if (diedDelay.count()) {
-                    bullets = new ArrayList<>();
-                    shootPosition = rebornShoot;
-                    timeCount = rebornTime;
-                    shootDelay.loop();
-                }
-            }
         }
         if (getActor().getState() == Actor.State.REBORN) {
 

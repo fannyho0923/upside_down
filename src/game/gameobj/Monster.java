@@ -2,7 +2,6 @@ package game.gameobj;
 
 import game.controller.AudioResourceController;
 import game.controller.ImageController;
-import game.utils.Global;
 import game.utils.Delay;
 import game.utils.Tour;
 
@@ -81,9 +80,7 @@ public class Monster extends GameObject{
         this.imgDied = ImageController.getInstance().tryGet("/img/gameObj/monster/actorDied.png");
         diedDelay = new Delay(3);
         diedCount = 0;
-
     }
-
 
     @Override
     public void collisionEffect(Actor actor) {

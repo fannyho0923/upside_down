@@ -54,8 +54,8 @@ public class ModeScene extends Scene {
                 GameScene.setIsStory(false);
                 });
         b2.setClickedActionPerformed((int x, int y) -> {
-                    SceneController.getInstance().change(new BasicScene(actorNum));
-                    GameScene.setIsStory(true);
+                SceneController.getInstance().change(new BasicScene(actorNum));
+                GameScene.setIsStory(true);
                 });
         b3.setClickedActionPerformed((int x, int y) -> {
                 SceneController.getInstance().change(new SpeedRun(actorNum));
@@ -69,9 +69,7 @@ public class ModeScene extends Scene {
                 SceneController.getInstance().change(new CountDown(actorNum));
                 GameScene.setIsStory(false);
                 });
-
         back.setClickedActionPerformed((int x, int y) -> SceneController.getInstance().change((new SelectActorScene())));
-
     }
 
     @Override

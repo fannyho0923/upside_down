@@ -97,12 +97,10 @@ public class SelectActorScene extends Scene {
         back = null;
     }
 
-
     @Override
     public void update() {
 
     }
-
 
     @Override
     public CommandSolver.KeyListener keyListener() {
@@ -122,7 +120,6 @@ public class SelectActorScene extends Scene {
         };
     }
 
-
     @Override
     public CommandSolver.MouseListener mouseListener() {
         return (MouseEvent e, CommandSolver.MouseState state, long trigTime) -> {
@@ -139,7 +136,6 @@ public class SelectActorScene extends Scene {
             playConfirm(back);
 
             if ((start.getIsHover()) && (!isPlayedStart)) {
-
                 AudioResourceController.getInstance().shot("/sound/tab.wav");
                 isPlayedStart = true;
             }
@@ -147,21 +143,18 @@ public class SelectActorScene extends Scene {
                 isPlayedStart = false;
             }
             if ((back.getIsHover()) && (!isPlayedBack)) {
-
                 AudioResourceController.getInstance().shot("/sound/tab.wav");
                 isPlayedBack = true;
             }
             if (!back.getIsHover()) {
                 isPlayedBack = false;
             }
-
         };
     }
 
     @Override
     public void paint(Graphics g) {//90, 100, 650, 450
-        g.drawImage(menuBackground, 0, 0, 1024, 760, null);//1024,760
-//        g.drawImage(bk, 200, 280, 570, 350, null);//bk, 90, 100, 650, 450, null
+        g.drawImage(menuBackground, 0, 0, 1024, 760, null);
         label.paint(g);
         start.paint(g);
         back.paint(g);
@@ -177,22 +170,22 @@ public class SelectActorScene extends Scene {
         actionAnimator.paintMan(g, actor5, 575, 422, 575 + Global.UNIT_X64, 472 + Global.UNIT_Y64, (a5.getIsHover() || a5.getIsFocus()));
         actionAnimator.paintMan(g, actor6, 655, 422, 655 + Global.UNIT_X64, 472 + Global.UNIT_Y64, (a6.getIsHover() || a6.getIsFocus()));
         if (a1.getIsFocus()) {
-            g.drawImage(star, a1.left() + 30 - 14, a1.top() - 32, null);
+            g.drawImage(star, a1.left() +15, a1.top() - 32, null);
         }
         if (a2.getIsFocus()) {
-            g.drawImage(star, a2.left() + 30 - 15, a2.top() - 32, null);
+            g.drawImage(star, a2.left() +15, a2.top() - 32, null);
         }
         if (a3.getIsFocus()) {
-            g.drawImage(star, a3.left() + 30 - 15, a3.top() - 32, null);
+            g.drawImage(star, a3.left() +15, a3.top() - 32, null);
         }
         if (a4.getIsFocus()) {
-            g.drawImage(star, a4.left() + 30 - 15, a4.top() - 32, null);
+            g.drawImage(star, a4.left() +15, a4.top() - 32, null);
         }
         if (a5.getIsFocus()) {
-            g.drawImage(star, a5.left() + 30 - 15, a5.top() - 32, null);
+            g.drawImage(star, a5.left() +15, a5.top() - 32, null);
         }
         if (a6.getIsFocus()) {
-            g.drawImage(star, a6.left() + 30 - 16, a6.top() - 32, null);
+            g.drawImage(star, a6.left() +15, a6.top() - 32, null);
         }
 
     }
@@ -212,13 +205,10 @@ public class SelectActorScene extends Scene {
     private static class ActionAnimator {
         private int count;
         private Delay delay;
-
         public ActionAnimator() {
-            count = 0;
             delay = new Delay(10);
             delay.loop();
         }
-
 
         public void paintWoman(Graphics g, Image img, int left, int top, int right, int bottom, boolean isChoose) {
             if (isChoose) {
@@ -244,7 +234,6 @@ public class SelectActorScene extends Scene {
                 if (delay.count()) {
                     count = ++count % 6;
                 }
-
                 g.drawImage(img, left, top, right, bottom,
                         count * Global.UNIT_X64 + 22,
                         14,

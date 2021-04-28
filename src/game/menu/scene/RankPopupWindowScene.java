@@ -53,7 +53,6 @@ public class RankPopupWindowScene extends PopupWindow {
         } else {
             isPassScore = false;
         }
-
     }
 
     public EditText getEditText() {
@@ -127,8 +126,6 @@ public class RankPopupWindowScene extends PopupWindow {
                 }
             }
         });
-
-
     }
 
 
@@ -183,10 +180,7 @@ public class RankPopupWindowScene extends PopupWindow {
             if (confirm.getIsFocus()) {
                 AudioResourceController.getInstance().shot("/sound/tab_confirm.wav");
             }
-
-
         };
-
     }
 
     @Override

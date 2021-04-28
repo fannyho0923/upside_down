@@ -51,13 +51,10 @@ public class BrokenRoad extends GameObject{
 //         很耗效能但效果不錯, 要做圖
 //            g.drawImage(type.img,painter().left(),painter().top(),painter().right(),painter().bottom(),
 //                    0,0,Global.UNIT,Global.UNIT-delay.getCount()*2,null);
-
             g.drawImage(type.img, painter().left(), painter().top(), null);
     }
 
     public void paintAppear(Graphics g){
-//        g.drawImage(type.img2,painter().left()-32, painter().top()-32,painter().left()+96-32,painter().top()+96-32,
-//                            glowCount*96,glowCount*96,glowCount*96+96,glowCount*96+96,null);
         g.drawImage(type.img2,painter().left(), painter().top(),painter().left()+32,painter().top()+32,
                 glowCount*96+32,glowCount*96+32,glowCount*96+64,glowCount*96+64,null);
     }

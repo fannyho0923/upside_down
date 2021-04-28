@@ -44,9 +44,6 @@ public class Vector {
         return new Vector(vector.x() * multiplier, vector.y * multiplier);
     }
 
-    public double dot(Vector vector){
-        return this.x * vector.x() + this.y * vector.y();
-    }
 
     public double length(){
         return Math.sqrt(this.x * this.x + this.y * this.y);
@@ -84,6 +81,11 @@ public class Vector {
 
     public static Vector reverse(Vector vector){
         return new Vector(-vector.x(),-vector.y());
+    }
+
+    public void zero(){
+        this.x = 0;
+        this.y = 0;
     }
 
 

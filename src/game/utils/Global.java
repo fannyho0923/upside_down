@@ -20,10 +20,6 @@ public class Global {
     public static int UNIT_Y = 32;
 
     public static int UNIT = 32;
-    // 重力係數
-    public static final float GRAVITY = 0.5f;
-    // 連跳次數, 寫好玩的, 不會用到
-    public static final int continueJump = 2;
 
     public static final int VK_ENTER = 100;//100是極限
     public static final int VK_LEFT = 1;
@@ -32,7 +28,6 @@ public class Global {
     public static final int VK_A = 4;
     public static final int VK_R = 9;
     public static final int VK_ESCAPE = 20;
-    public static final int VK_SHIFT = 99;
 
     //人物大小單位
     public static int UNIT_X32=32;

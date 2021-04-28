@@ -1,25 +1,21 @@
 package game.gameobj;
 
 import game.utils.Global;
-import game.utils.Velocity;
+import game.utils.Vector;
 
 import java.awt.*;
 
 public class Tracker extends GameObject{
 
-    private Velocity velocity;
+    private Vector velocity;
 
-    public Tracker(int x, int y, Velocity velocity){
+    public Tracker(int x, int y, Vector velocity){
         super(x, y, Global.UNIT_X, Global.UNIT_Y);
         this.velocity = velocity;
     }
 
-    public Velocity velocity() {
+    public Vector velocity() {
         return velocity;
-    }
-
-    public void setVelocity(Velocity velocity) {
-        this.velocity = velocity;
     }
 
     @Override
@@ -29,7 +25,7 @@ public class Tracker extends GameObject{
 
     @Override
     public void update() {
-        offset(velocity.x(), velocity.y());
+        offset((int)velocity.x(), (int)velocity.y());
     }
 
     @Override

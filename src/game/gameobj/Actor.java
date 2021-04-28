@@ -43,7 +43,6 @@ public class Actor extends GameObject {
     public Actor(int x, int y, int num) {
         super(x, y, 40, 40);
         velocity = new Velocity(0,0, false);
-
         actionAnimator = new ActionAnimator();
         setImage(num);
         img = imgRight;
@@ -52,7 +51,6 @@ public class Actor extends GameObject {
 
         setReborn(x,y,velocity.isReverse());
         canReverse = false;
-
         splashDelay = new Delay(3);
         rebornDelay = new Delay(90);
         deadDelay = new Delay(50);
@@ -204,7 +202,6 @@ public class Actor extends GameObject {
         if (state == State.ALIVE) {
             deadDelay.play();
             state = State.DEAD;
-            //AudioResourceController.getInstance().play("/sound/dead.wav");
         }
     }
 

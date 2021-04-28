@@ -11,10 +11,7 @@ public class NumberFig implements GameKernel.PaintInterface{
     private int x;
     private int y;
     private static Image img = ImageController.getInstance().tryGet("/img/num128.png");
-    public NumberFig(int x, int y){
-        this.x = x;
-        this.y = y;
-    }
+
     public NumberFig(int x, int y, int num){
         this.x = x;
         this.y = y;

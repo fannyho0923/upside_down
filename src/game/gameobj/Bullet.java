@@ -42,7 +42,6 @@ public class Bullet extends GameObject{
         }
     }
     public Bullet(int i, Type type, Dir dir){
-
         super(0,192+i* Global.UNIT, 32,32);
         this.dir = dir;
         this.type = type;

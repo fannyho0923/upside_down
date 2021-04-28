@@ -80,9 +80,7 @@ public class Tile extends GameObject{
                 break;
         }
     }
-
     @Override
     public void update() {
-
     }
 }

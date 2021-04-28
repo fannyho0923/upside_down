@@ -4,15 +4,7 @@ import java.security.KeyPair;
 import java.util.*;
 
 public class Ranking {
-//    public static void main(String[] args){
-//        try {
-//            Ranking ranking = new Ranking("test1.txt");
-//            ranking.writeOut("testtest");
-//            ranking.readL();
-//        } catch (IOException e) {
-//            e.printStackTrace();
-//        }
-//    }
+
         String filePath;
 
     public Ranking(String filePath) throws IOException {
@@ -24,10 +16,7 @@ public class Ranking {
             FileWriter fileWriter = new FileWriter(filePath);
             BufferedWriter bufferedWriter = new BufferedWriter(fileWriter);
             bufferedWriter.write(output); //寫入字串
-//            bufferedWriter.write(Name);
-//            bufferedWriter.newLine(); //換行
-//            bufferedWriter.write(time);
-//            bufferedWriter.newLine();
+
             bufferedWriter.flush(); //將緩衝數據寫到文件去
             bufferedWriter.close(); //關閉使用BufferedWriter
         }catch (IOException e){

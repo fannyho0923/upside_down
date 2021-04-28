@@ -210,7 +210,6 @@ public class RankScene extends Scene {
         next = null;
     }
 
-
     @Override
     public void update() {
         if (currentRankPage == 1) {
@@ -372,6 +371,4 @@ public class RankScene extends Scene {
             next.paint(g);
         }
     }
-
-
 }
