@@ -8,7 +8,6 @@ public class EndScene extends GameScene{
     public EndScene(int num) {
         super(5, "/map/finalMap.bmp",
                 new Actor(0, 0, num), new Background(960, 640),
-                960, 640, 0, 0,
                 false, "end.txt");
     }
 

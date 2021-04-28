@@ -9,8 +9,6 @@ public class BasicScene extends GameScene {
     public BasicScene(int num) {
         super(1, "/map/genMap.bmp",
                 new Actor(0, 0, num), new Background(1920, 1920),
-                //real 1300,1500 //plat test 150,2000
-                960, 640, 0, 0,
                 true, "basic.txt");
     }
 

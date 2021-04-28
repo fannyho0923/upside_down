@@ -62,12 +62,11 @@ public abstract class GameScene extends Scene {
     private Boolean rankShowed;
 
     public GameScene(int level, String mapBmpPath, Actor actor, GameObject background,
-                     int cameraWidth, int cameraHeight, int cameraVelocityX, int cameraVelocityY,
                      boolean actorTrigCamera, String filePath) {
         stopPop = new StopPopupWindowScene(Global.WINDOW_WIDTH / 2 - 325, Global.WINDOW_HEIGHT / 2 - 225,
                 650, 450);
         stopPop.setRestartClicked((int x, int y) -> {
-            init(level, mapBmpPath, actor, background, cameraWidth, cameraHeight, cameraVelocityX, cameraVelocityY,
+            init(level, mapBmpPath, actor, background,
                     actorTrigCamera, filePath);
             this.stopPop.hide();
         });
@@ -77,12 +76,11 @@ public abstract class GameScene extends Scene {
         rankPop.setCancelable();
         stopPop.setCancelable();
 
-        init(level, mapBmpPath, actor, background, cameraWidth, cameraHeight, cameraVelocityX, cameraVelocityY,
+        init(level, mapBmpPath, actor, background,
                 actorTrigCamera, filePath);
     }
 
     public void init(int level, String mapBmpPath, Actor actor, GameObject background,
-                     int cameraWidth, int cameraHeight, int cameraVelocityX, int cameraVelocityY,
                      boolean actorTrigCamera, String filePath) {
         this.level = level;
         backgrounds = new ArrayList<>();
@@ -107,13 +105,16 @@ public abstract class GameScene extends Scene {
         actor.setReborn(actor.painter().left(), actor.painter().top(), false);
         actor.reborn();
         setFrame();
-
         this.background = background;
+
+
+        int cameraWidth = 960;
+        int cameraHeight = 640;
         int cameraStartX = cameraWidth * frameX_count;
         int cameraStartY = cameraHeight * frameY_count;
 
         this.tracker = new Tracker(cameraStartX + (cameraWidth - Global.UNIT) / 2,
-                cameraStartY + (cameraHeight - Global.UNIT) / 2, new Velocity(cameraVelocityX, cameraVelocityY, false));
+                cameraStartY + (cameraHeight - Global.UNIT) / 2, new Velocity(0, -1, false));
         this.actorTrigCamera = actorTrigCamera;
         camera = new Camera.Builder(cameraWidth, cameraHeight)
                 .setChaseObj(tracker)
