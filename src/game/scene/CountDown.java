@@ -2,7 +2,9 @@ package game.scene;
 
 import game.controller.AudioResourceController;
 import game.controller.ImageController;
+import game.controller.SceneController;
 import game.gameobj.*;
+import game.menu.scene.MenuScene;
 import game.utils.Global;
 import game.utils.NumberFig;
 import game.utils.Delay;
@@ -20,12 +22,9 @@ public class CountDown extends GameScene {
     private static int timeMax = 30;
     private int rebornTime;
     private int rebornShoot;
-    private Image[] passBlood;
     private Delay passDelay;
     private int passCount;
-
     private Delay diedDelay;
-
 
     public CountDown(int num) {
         super(4, "/map/countDown.bmp", new Actor(0, 0, num), new Background(960, 640),
@@ -77,7 +76,6 @@ public class CountDown extends GameScene {
         bullets.forEach(bullet -> bullet.paint(g));
         numFigs[0].paint(g);
         numFigs[1].paint(g);
-
     }
 
     @Override
@@ -142,8 +140,12 @@ public class CountDown extends GameScene {
                 }
             }
             if (timeCount <= -1) { // win
-                Global.isGameOver = true;
-                super.gameOver();
+                if(!GameScene.isStory()){
+                    Global.isGameOver = true;
+                    super.gameOver();
+                }else {
+                    SceneController.getInstance().change(new MenuScene());
+                }
             }
 
             if (getActor().getState() == Actor.State.DEAD) {
