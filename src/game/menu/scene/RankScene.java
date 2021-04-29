@@ -131,7 +131,8 @@ public class RankScene extends Scene {
             }
         }
         allRank.add(rankResults3);
-        rankBackground = ImageController.getInstance().tryGet("/img/background/rankBackground.png");
+//        rankBackground = ImageController.getInstance().tryGet("/img/background/rankBackground.png");
+        rankBackground = ImageController.getInstance().tryGet("/img/background/test.png");
         Style style = new Style.StyleRect(60, 114, false, new BackgroundType.BackgroundNull())
                 .setTextFont(new Font("TimesRoman", Font.BOLD, 30))
                 .setTextColor(Color.WHITE)

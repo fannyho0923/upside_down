@@ -135,7 +135,7 @@ public class CountDown extends GameScene {
                         rebornShoot = shootPosition;
                     }
                 }
-                if (timeCount <= -1) { // win
+                if (timeCount <= 0) { // win
                     if(!GameScene.isStory()){
                         Global.isGameOver = true;
                         super.gameOver();
@@ -150,6 +150,7 @@ public class CountDown extends GameScene {
                         bullets = new ArrayList<>();
                         shootPosition = rebornShoot;
                         timeCount = rebornTime+1;
+
                         shootDelay.loop();
                     }
                 }
